@@ -63,6 +63,7 @@ export type AppStackParamList = {
     groupId: string;
   };
   CreateGroup: undefined;
+  CreateAd: undefined;
   StoryViewer: {
     storyId: string;
     stories: Array<{

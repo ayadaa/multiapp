@@ -3,10 +3,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, Platform } from 'react-native';
 import { ChatScreen } from '../screens/chat/ChatScreen';
 import { CameraStackNavigator } from './CameraStackNavigator';
-// import { AdsScreen } from '../screens/ads/AdsScreen';
+import { AdsScreen } from '../screens/ads/AdsScreen';
 // import CreateAdScreen from '../screens/ads/CreateAdScreen';
 // import { MathStackNavigator } from './MathStackNavigator';
-import { AdsStackNavigator } from './AdsStackNavigator';
+// import { AdsStackNavigator } from './AdsStackNavigator';
 import { FriendsStackNavigator } from './FriendsStackNavigator';
 import StoriesScreen from '../screens/stories/StoriesScreen';
 import { ProfileScreen } from '../screens/profile/ProfileScreen';
@@ -75,7 +75,7 @@ export function MainTabNavigator() {
           }}
         />
 
-        {/* <Tab.Screen
+        <Tab.Screen
           name="Ads"
           component={AdsScreen}
           options={{
@@ -89,7 +89,7 @@ export function MainTabNavigator() {
             ),
             tabBarLabel: 'Ads',
           }}
-        /> */}
+        />
 
         {/* <Tab.Screen
           name="CreateAdScreen"
@@ -123,7 +123,7 @@ export function MainTabNavigator() {
           }}
         /> */}
 
-        <Tab.Screen
+        {/* <Tab.Screen
           name="Ads"
           component={AdsStackNavigator}
           options={{
@@ -137,7 +137,7 @@ export function MainTabNavigator() {
             ),
             tabBarLabel: 'Ads',
           }}
-        />
+        /> */}
 
         <Tab.Screen
           name="Friends"
