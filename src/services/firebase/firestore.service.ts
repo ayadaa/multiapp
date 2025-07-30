@@ -154,6 +154,18 @@ export interface GroupMessage {
   };
 }
 
+export interface Ad {
+  id: string;
+  title: string;
+  description?: string;
+  createdBy: string;
+  createdAt: Timestamp;
+  typeName: "sale" | "buy";
+  className: string;
+  country: string;
+  city: string;
+}
+
 /**
  * Check if a username is available
  */
@@ -1460,3 +1472,132 @@ export async function getSentChallengeSnaps(userId: string): Promise<ChallengeSn
     throw new Error('Failed to get sent challenge snaps');
   }
 } 
+
+/**
+ * Create a new ad
+ */
+// id: string;
+// title: string;
+// description?: string;
+// createdBy: string;
+// createdAt: Timestamp;
+// typeName: "sale" | "buy";
+// className: string;
+// country: string;
+// city: string;
+export async function createAd(
+  AdData: {
+    title: string;
+    description: string;
+    createdBy: string;
+    typeName: "sale" | "buy";
+    className: string;
+    country: string;
+    city: string;
+  }
+): Promise<string> {
+  try {
+    const adRef = doc(collection(db, 'ads'));
+    
+    const ad: Omit<Ad, 'id'> = {
+      title: AdData.title,
+      description: AdData.description,
+      createdBy: AdData.description,
+      createdAt: serverTimestamp() as Timestamp,
+      typeName: AdData.typeName,
+      className: AdData.className,
+      country: AdData.country,
+      city: AdData.city
+    };
+    
+    await setDoc(adRef, ad);
+    
+    return adRef.id;
+  } catch (error) {
+    console.error('Create ad error:', error);
+    throw new Error('Failed to create ad');
+  }
+}
+
+/**
+ * Get ads by class
+ */
+export async function getAdsByClass(className: string): Promise<Ad[]> {
+  try {
+    const adsQuery = query(
+      collection(db, 'ads'),
+      where('className', '==', className)
+    );
+    
+    const ads = await getDocs(adsQuery);
+
+    return ads.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    })) as Ad[];
+  } catch (error) {
+    console.error('Get ads error:', error);
+    throw new Error('Failed to get ads');
+  }
+}
+
+/**
+ * Get ad by ID
+ */
+export async function getAdById(adId: string): Promise<Ad | null> {
+  try {
+    const adDoc = await getDoc(doc(db, 'ads', adId));
+    
+    if (adDoc.exists()) {
+      return { id: adDoc.id, ...adDoc.data() } as Ad;
+    }
+    
+    return null;
+  } catch (error) {
+    console.error('Get ad error:', error);
+    throw new Error('Failed to get ad');
+  }
+}
+
+/**
+ * Update ad title
+ */
+export async function updateAdTitle(adId: string, title: string): Promise<void> {
+  try {
+    await updateDoc(doc(db, 'ads', adId), {
+      title,
+    });
+  } catch (error) {
+    console.error('Update ad name error:', error);
+    throw new Error('Failed to update ad name');
+  }
+}
+
+/**
+ * Update ad description
+ */
+export async function updateAdDiscription(adId: string, description: string): Promise<void> {
+  try {
+    await updateDoc(doc(db, 'ads', adId), {
+      description,
+    });
+  } catch (error) {
+    console.error('Update ad description error:', error);
+    throw new Error('Failed to update ad description');
+  }
+}
+
+/**
+ * Update ad
+ */
+export async function updateAd(adId: string, title: string, description: string): Promise<void> {
+  try {
+    await updateDoc(doc(db, 'ads', adId), {
+      title,
+      description,
+    });
+  } catch (error) {
+    console.error('Update ad error:', error);
+    throw new Error('Failed to update ad');
+  }
+}

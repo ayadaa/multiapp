@@ -59,7 +59,8 @@ export function AdsScreen() {
    * Navigate to Add Friends screen
    */
   const handleAddFriendsPress = () => {
-    navigation.navigate('AddFriends' as never);
+    // navigation.navigate('AddFriends' as never);
+    navigation.navigate('CreateAd' as never); //ayad
   };
 
   /**

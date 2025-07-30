@@ -38,6 +38,7 @@ export type MainTabParamList = {
   Chat: undefined;
   Camera: undefined;
   Ads: undefined;
+  CreateAdScreen: undefined;
   // Math: undefined;
   Friends: undefined;
   Stories: undefined;
