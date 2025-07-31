@@ -5,11 +5,9 @@ import {
   getAdById,
   updateAdTitle,
   updateAdDiscription,
-  updateAd,
-  type Ad,
+  updateAd
 } from '../../services/firebase/firestore.service';
-import { doc, updateDoc, Timestamp } from 'firebase/firestore';
-import { db } from '../../config/firebase';
+import type { Ad } from '../../types/ads';
 
 /**
  * Custom hook for managing ad functionality.
@@ -21,16 +19,17 @@ export function useAds(currentUserId: string) {
    * Create a new ad
    */
   const createNewAd = useCallback(async (
-    adData: {
-      title: string;
-      description: string;
-      createdBy: string;
-      className: string;
-      // typeName: "sale" | "buy";
-      typeName: string;
-      country: string;
-      city: string;
-    }
+    // adData: {
+    //   title: string;
+    //   description: string;
+    //   createdBy: string;
+    //   className: string;
+    //   // typeName: "sale" | "buy";
+    //   typeName: string;
+    //   country: string;
+    //   city: string;
+    // }
+    adData: Ad
   ): Promise<string> => {
     try {
       setError(null);

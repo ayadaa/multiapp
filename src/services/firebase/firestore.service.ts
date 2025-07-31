@@ -19,6 +19,7 @@ import {
   increment
 } from 'firebase/firestore';
 import { db } from '../../config/firebase';
+import type { Ad } from '../../types/ads';
 
 /**
  * Firestore Service for database operations.
@@ -154,18 +155,18 @@ export interface GroupMessage {
   };
 }
 
-export interface Ad {
-  id: string;
-  title: string;
-  description?: string;
-  createdBy: string;
-  createdAt: Timestamp;
-  className: string;
-  // typeName: "sale" | "buy";
-  typeName: string;
-  country: string;
-  city: string;
-}
+// export interface Ad {
+//   id?: string;
+//   title: string;
+//   description?: string;
+//   createdBy: string;
+//   createdAt: Timestamp;
+//   className: string;
+//   // typeName: "sale" | "buy";
+//   typeName: string;
+//   country: string;
+//   city: string;
+// }
 
 /**
  * Check if a username is available
@@ -1487,15 +1488,17 @@ export async function getSentChallengeSnaps(userId: string): Promise<ChallengeSn
 // country: string;
 // city: string;
 export async function createAd(
-  AdData: {
-    title: string;
-    description: string;
-    createdBy: string;
-    typeName: "sale" | "buy";
-    className: string;
-    country: string;
-    city: string;
-  }
+  // AdData: {
+  //   title: string;
+  //   description: string;
+  //   createdBy: string;
+  //   // typeName: "sale" | "buy";
+  //   typeName: string,
+  //   className: string;
+  //   country: string;
+  //   city: string;
+  // }
+  AdData: Ad
 ): Promise<string> {
   try {
     const adRef = doc(collection(db, 'ads'));
@@ -1503,7 +1506,7 @@ export async function createAd(
     const ad: Omit<Ad, 'id'> = {
       title: AdData.title,
       description: AdData.description,
-      createdBy: AdData.description,
+      createdBy: AdData.createdBy,
       createdAt: serverTimestamp() as Timestamp,
       typeName: AdData.typeName,
       className: AdData.className,

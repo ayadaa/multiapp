@@ -27,22 +27,21 @@ import { type UserProfile } from '../../services/firebase/firestore.service';
 import type { RootState } from '../../store';
 import type { NavigationProp } from '../../types/navigation';
 import { SelectList } from 'react-native-dropdown-select-list' //ayad
-import { classNameList, cityNameList } from '../../types/lists';
+import { classNameList, cityNameList } from '../../types/ads';
 import { addToFavorites } from '../../store/slices/rag.slice';
 
 export default function CreateAdScreen() {
   const navigation = useNavigation<NavigationProp>();
   const user = useSelector((state: RootState) => state.auth.user);
   
-  const { createNewGroup } = useGroups(user?.uid || '');
   const { createNewAd } = useAds(user?.uid || '');
   
-  const [groupName, setGroupName] = useState('');
   const [adTitle, setAdTitle] = useState('');
   const [adDescription, setAdDescription] = useState('');
   const [className, setClassName] = useState('');
   const [typeName, setTypeName] = useState('');
   const [cityName, setCityName] = useState('');
+  
   const [isCreating, setIsCreating] = useState(false);
 
   const classNameData = [
@@ -66,6 +65,10 @@ export default function CreateAdScreen() {
   const handleCreateAd = useCallback(async () => {
     if (!adTitle.trim() || !adDescription.trim() || !typeName.trim() || !className.trim() || !cityName.trim() ) {
       Alert.alert('Ad Data Required', 'Please enter all data for your ad.');
+      console.log('All ad data required!')
+      console.log(`data: ${adTitle.trim(), adDescription.trim(), typeName.trim(), className.trim(), cityName.trim()}`)
+      console.log(`adTitle: ${adTitle}`)
+      console.log(`cityName: ${cityName}`)
       return;
     }
 
@@ -83,6 +86,7 @@ export default function CreateAdScreen() {
         country: 'Iraq',
         city: cityName.trim()
       });
+      console.log(`adId: ${adId}`)
 
       // Alert.alert(
       //   'Ad Created!',
@@ -111,7 +115,7 @@ export default function CreateAdScreen() {
     } finally {
       setIsCreating(false);
     }
-  }, [user, createNewAd, navigation]);
+  }, [adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
 
   return (
     <Screen style={styles.container}>
@@ -189,10 +193,7 @@ export default function CreateAdScreen() {
               inputStyles={{color: '#FFFFFF',}}
               dropdownTextStyles={{color: '#FFFFFF',}}
           />
-        </View>
-
-        {/* Create Ad Button */}
-        <View style={styles.buttonContainer}>
+          {/* Create Ad Button */}
           <Button
             title={isCreating ? 'Creating...' : 'Create Ad'}
             onPress={handleCreateAd}
@@ -200,6 +201,16 @@ export default function CreateAdScreen() {
             style={styles.createButton}
           />
         </View>
+
+        {/* Create Ad Button */}
+        {/* <View style={styles.buttonContainer}>
+          <Button
+            title={isCreating ? 'Creating...' : 'Create Ad'}
+            onPress={handleCreateAd}
+            disabled={isCreating || !adTitle.trim() || !adDescription.trim() || !typeName.trim() || !className.trim() || !cityName.trim() }
+            style={styles.createButton}
+          />
+        </View> */}
       </ScrollView>
     </Screen>
   );
