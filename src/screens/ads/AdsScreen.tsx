@@ -66,7 +66,6 @@ export function AdsScreen() {
     // });
   };
 
-
   return (
     <Screen backgroundColor="#000000" statusBarStyle="light-content">
       <View style={styles.container}>
@@ -184,7 +183,7 @@ export function AdsScreen() {
                         fontSize: 14,
                         flex: 1,
                       }} numberOfLines={1}>
-                        {ad.description}
+                        {ad.description.slice(0, 40)} //40 characters
                       </Text>
                     </View>
                   </View>
