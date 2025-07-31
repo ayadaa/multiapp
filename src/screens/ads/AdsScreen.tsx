@@ -16,6 +16,7 @@ import { useFriends } from '../../hooks/friends/use-friends';
 import { useAds } from '../../hooks/ad/use-ads';
 import { useChats } from '../../hooks/chat/use-chats';
 import { useAuth } from '../../hooks/auth/use-auth';
+import type { Ad } from '../../types/ads';
 
 /**
  * Friends List screen displaying all accepted friends with their online status.
@@ -39,6 +40,7 @@ export function AdsScreen() {
     isLoadingAds,
     adsError,
     refreshAds,
+    formatTimestamp
   } = useAds(user?.uid || '');
 
   // const { createChat } = useChats(user?.uid || '');
@@ -57,6 +59,13 @@ export function AdsScreen() {
       console.error('Error refreshing ads:', error);
     }
   };
+
+  const handleAdPress = (ad: Ad) => {
+    // navigation.navigate('adDetails', {
+    //   adId: ad.id,
+    // });
+  };
+
 
   return (
     <Screen backgroundColor="#000000" statusBarStyle="light-content">
@@ -113,10 +122,74 @@ export function AdsScreen() {
                 //   actionType="friendStatus"
                 //   onPress={() => handleFriendPress(friend.uid, friend.username)}
                 // />
-                <View key={ad.id}>
-                  <Text style={{color: 'white', fontSize: 14}}>{ad.title}</Text>
-                  <Text style={{color: 'white', fontSize: 14}}>{ad.description}</Text>
-                </View>
+
+                // <View key={ad.id}>
+                //   <Text style={{color: 'white', fontSize: 14}}>{ad.title}</Text>
+                //   <Text style={{color: 'white', fontSize: 14}}>{ad.description}</Text>
+                // </View>
+
+                
+                <TouchableOpacity
+                  onPress={() => handleAdPress(ad)}
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    paddingHorizontal: 20,
+                    paddingVertical: 16,
+                    borderBottomWidth: 1,
+                    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+                  }}
+                >
+                  <View style={{
+                    width: 50,
+                    height: 50,
+                    borderRadius: 25,
+                    backgroundColor: 'rgba(0, 200, 100, 0.8)',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginRight: 16,
+                  }}>
+                    <Ionicons name="people" size={24} color="#FFFFFF" />
+                  </View>
+
+                  <View style={{ flex: 1 }}>
+                    <View style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      marginBottom: 4,
+                    }}>
+                      <Text style={{
+                        color: '#FFFFFF',
+                        fontSize: 16,
+                        fontWeight: 'bold',
+                      }}>
+                        {ad.title}
+                      </Text>
+                      <Text style={{
+                        color: 'rgba(255, 255, 255, 0.6)',
+                        fontSize: 12,
+                      }}>
+                        {ad.createdAt? formatTimestamp(ad.createdAt): ''}
+                      </Text>
+                    </View>
+
+                    <View style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}>
+                      <Text style={{
+                        color: 'rgba(255, 255, 255, 0.8)',
+                        fontSize: 14,
+                        flex: 1,
+                      }} numberOfLines={1}>
+                        {ad.description}
+                      </Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+
               ))}
             </View>
           ) : (
