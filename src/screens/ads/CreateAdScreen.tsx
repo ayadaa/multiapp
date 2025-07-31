@@ -1,13 +1,11 @@
 /**
- * Create Group Screen
- * Allows users to create new group chats by selecting friends and setting group name
+ * Create Ad Screen
+ * Allows users to create new ads
  */
-
 import React, { useState, useCallback } from 'react';
 import {
   View,
   Text,
-  FlatList,
   TouchableOpacity,
   Alert,
   TextInput,
@@ -19,16 +17,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import { Screen } from '../../components/common/Screen';
 import { Button } from '../../components/common/Button';
-import { UserCard } from '../../components/friends/UserCard';
-import { useFriends } from '../../hooks/friends/use-friends';
-import { useGroups } from '../../hooks/chat/use-groups';
 import { useAds } from '../../hooks/ad/use-ads'; //ayad
-import { type UserProfile } from '../../services/firebase/firestore.service';
 import type { RootState } from '../../store';
 import type { NavigationProp } from '../../types/navigation';
 import { SelectList } from 'react-native-dropdown-select-list' //ayad
 import { classNameList, cityNameList } from '../../types/ads';
-import { addToFavorites } from '../../store/slices/rag.slice';
 
 export default function CreateAdScreen() {
   const navigation = useNavigation<NavigationProp>();
@@ -88,19 +81,20 @@ export default function CreateAdScreen() {
       });
       console.log(`adId: ${adId}`)
 
-      // Alert.alert(
-      //   'Ad Created!',
-      //   `"Ad has been created successfully.`,
-      //   [
-      //     {
-      //       text: 'OK',
-      //       onPress: () => {
-      //         // Navigate to the ads tab
-      //         navigation.navigate('Ads');
-      //       }
-      //     }
-      //   ]
-      // );
+      Alert.alert(
+        'Ad Created!',
+        `"Ad has been created successfully.`,
+        [
+          {
+            text: 'OK',
+            onPress: () => {
+              // Navigate to the ads tab
+              // navigation.navigate('Ads');
+              navigation.goBack(); //ayad
+            }
+          }
+        ]
+      );
       Alert.alert(
         'Ad Created',
         'Ad has been created.',
@@ -194,6 +188,16 @@ export default function CreateAdScreen() {
               dropdownTextStyles={{color: '#FFFFFF',}}
           />
           {/* Create Ad Button */}
+          {/* <Button
+            title={isCreating ? 'Creating...' : 'Create Ad'}
+            onPress={handleCreateAd}
+            disabled={isCreating || !adTitle.trim() || !adDescription.trim() || !typeName.trim() || !className.trim() || !cityName.trim() }
+            style={styles.createButton}
+          /> */}
+        </View>
+
+        {/* Create Ad Button */}
+        <View style={{ marginTop: 16, paddingHorizontal: 16, paddingVertical: 12 }}>
           <Button
             title={isCreating ? 'Creating...' : 'Create Ad'}
             onPress={handleCreateAd}

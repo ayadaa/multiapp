@@ -1524,6 +1524,28 @@ export async function createAd(
 }
 
 /**
+ * Get ads
+ */
+export async function getAds(): Promise<Ad[]> {
+  try {
+    const adsQuery = query(
+      collection(db, 'ads'),
+      orderBy('createdAt', 'desc')
+    );
+    
+    const ads = await getDocs(adsQuery);
+    // console.log('ads', ads)
+    return ads.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    })) as Ad[];
+  } catch (error) {
+    console.error('Get ads error:', error);
+    throw new Error('Failed to get ads');
+  }
+}
+
+/**
  * Get ads by class
  */
 export async function getAdsByClass(className: string): Promise<Ad[]> {

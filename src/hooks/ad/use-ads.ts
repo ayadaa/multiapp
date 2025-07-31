@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import {
   createAd,
+  getAds,
   getAdsByClass,
   getAdById,
   updateAdTitle,
@@ -8,13 +9,24 @@ import {
   updateAd
 } from '../../services/firebase/firestore.service';
 import type { Ad } from '../../types/ads';
+import { useAuth } from '../auth/use-auth';
 
 /**
  * Custom hook for managing ad functionality.
  * Handles ad creation, editing, and deleting.
  */
 export function useAds(currentUserId: string) {
+  // const { user } = useAuth();
+
+  // Data state
+  const [ads, setAds] = useState<Ad[]>([]);
+  // const [ad, setAd] = useState<Ad | null>(null);
+  const [isLoadingAds, setIsLoadingAds] = useState(false);
+
+  // Error states
+  const [adsError, setAdsError] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
   /**
    * Create a new ad
    */
@@ -42,8 +54,45 @@ export function useAds(currentUserId: string) {
     }
   }, [currentUserId]);
 
+  /**
+   * Load ads list
+   */
+  const refreshAds = useCallback(async () => {
+    // if (!user?.uid) return;
+    console.log('start getting ads')
+    setIsLoadingAds(true);
+    setAdsError(null);
+    
+    try {
+      const adsList = await getAds();
+      setAds(adsList);
+    } catch (error) {
+      console.error('Error loading ads:', error);
+      setAdsError('Failed to load ads');
+    } finally {
+      setIsLoadingAds(false);
+    }
+  }, []);
+
+  // Load initial data
+  useEffect(() => {
+    refreshAds();
+  }, [refreshAds]);
+
   return {
+    // Data
+    ads,
+    // ad,
+
+    // Loading states
+    isLoadingAds,
+
+    // Error states
     error,
+    adsError,
+
+    // Actions
     createNewAd,
+    refreshAds
   };
 } 

@@ -13,6 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Screen } from '../../components/common/Screen';
 import { UserCard } from '../../components/friends/UserCard';
 import { useFriends } from '../../hooks/friends/use-friends';
+import { useAds } from '../../hooks/ad/use-ads';
 import { useChats } from '../../hooks/chat/use-chats';
 import { useAuth } from '../../hooks/auth/use-auth';
 
@@ -26,40 +27,23 @@ export function AdsScreen() {
   const navigation = useNavigation();
   const { user } = useAuth();
   
+  // const {
+  //   friends,
+  //   isLoadingFriends,
+  //   friendsError,
+  //   refreshFriends,
+  // } = useFriends();
+
   const {
-    friends,
-    isLoadingFriends,
-    friendsError,
-    refreshFriends,
-  } = useFriends();
+    ads,
+    isLoadingAds,
+    adsError,
+    refreshAds,
+  } = useAds(user?.uid || '');
 
-  const { createChat } = useChats(user?.uid || '');
+  // const { createChat } = useChats(user?.uid || '');
 
-  /**
-   * Handle friend card press - navigate to chat
-   */
-  const handleFriendPress = async (friendId: string, username: string) => {
-    try {
-      const chatId = await createChat(friendId);
-      const friend = friends.find(f => f.uid === friendId);
-      
-      if (friend) {
-        (navigation as any).navigate('IndividualChat', {
-          chatId,
-          otherUser: friend,
-        });
-      }
-    } catch (error) {
-      Alert.alert('Error', 'Failed to start chat. Please try again.');
-      console.error('Error creating chat:', error);
-    }
-  };
-
-  /**
-   * Navigate to Add Friends screen
-   */
-  const handleAddFriendsPress = () => {
-    // navigation.navigate('AddFriends' as never);
+  const handleCreateAdPress = () => {
     navigation.navigate('CreateAd' as never); //ayad
   };
 
@@ -68,9 +52,9 @@ export function AdsScreen() {
    */
   const handleRefresh = async () => {
     try {
-      await refreshFriends();
+      await refreshAds();
     } catch (error) {
-      console.error('Error refreshing friends:', error);
+      console.error('Error refreshing ads:', error);
     }
   };
 
@@ -80,25 +64,25 @@ export function AdsScreen() {
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Friends</Text>
+            <Text style={styles.title}>Ads</Text>
             <Text style={styles.subtitle}>
-              {friends.length} {friends.length === 1 ? 'friend' : 'friends'}
+              {ads.length} {ads.length === 1 ? 'ad' : 'ads'}
             </Text>
           </View>
           
           <TouchableOpacity
             style={styles.addButton}
-            onPress={handleAddFriendsPress}
+            onPress={handleCreateAdPress}
           >
             <Ionicons name="person-add" size={24} color="white" />
           </TouchableOpacity>
         </View>
 
         {/* Error State */}
-        {friendsError && (
+        {adsError && (
           <View style={styles.errorContainer}>
             <Ionicons name="alert-circle" size={24} color="#FF3B30" />
-            <Text style={styles.errorText}>{friendsError}</Text>
+            <Text style={styles.errorText}>{adsError}</Text>
             <TouchableOpacity
               style={styles.retryButton}
               onPress={handleRefresh}
@@ -108,78 +92,48 @@ export function AdsScreen() {
           </View>
         )}
 
-        {/* Friends List */}
+        {/* Ads List */}
         <ScrollView
           style={styles.scrollView}
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl
-              refreshing={isLoadingFriends}
+              refreshing={isLoadingAds}
               onRefresh={handleRefresh}
               tintColor="white"
             />
           }
         >
-          {friends.length > 0 ? (
+          {ads.length > 0 ? (
             <View style={styles.friendsList}>
-              {friends.map((friend) => (
-                <UserCard
-                  key={friend.uid}
-                  user={friend}
-                  actionType="friendStatus"
-                  onPress={() => handleFriendPress(friend.uid, friend.username)}
-                />
+              {ads.map((ad) => (
+                // <UserCard
+                //   key={friend.uid}
+                //   user={friend}
+                //   actionType="friendStatus"
+                //   onPress={() => handleFriendPress(friend.uid, friend.username)}
+                // />
+                <View key={ad.id}>
+                  <Text style={{color: 'white', fontSize: 14}}>{ad.title}</Text>
+                  <Text style={{color: 'white', fontSize: 14}}>{ad.description}</Text>
+                </View>
               ))}
             </View>
           ) : (
             /* Empty State */
             <View style={styles.emptyStateContainer}>
               <Ionicons name="people-outline" size={80} color="rgba(255, 255, 255, 0.3)" />
-              <Text style={styles.emptyStateTitle}>No Friends Yet</Text>
+              <Text style={styles.emptyStateTitle}>No Ads Yet</Text>
               <Text style={styles.emptyStateText}>
-                Start by adding some friends to chat and share snaps with them
+                Start by adding some ads.
               </Text>
               <TouchableOpacity
                 style={styles.addFriendsButton}
-                onPress={handleAddFriendsPress}
+                onPress={handleCreateAdPress}
               >
                 <Ionicons name="person-add" size={20} color="white" />
-                <Text style={styles.addFriendsButtonText}>Add Friends</Text>
+                <Text style={styles.addFriendsButtonText}>Add Ads</Text>
               </TouchableOpacity>
-            </View>
-          )}
-
-          {/* Online Friends Section */}
-          {friends.filter(f => f.isOnline).length > 0 && (
-            <View style={styles.onlineSection}>
-              <Text style={styles.sectionTitle}>
-                Online Now ({friends.filter(f => f.isOnline).length})
-              </Text>
-              <ScrollView 
-                horizontal 
-                showsHorizontalScrollIndicator={false}
-                style={styles.onlineScrollView}
-              >
-                {friends
-                  .filter(friend => friend.isOnline)
-                  .map((friend) => (
-                    <TouchableOpacity
-                      key={`online-${friend.uid}`}
-                      style={styles.onlineFriendCard}
-                      onPress={() => handleFriendPress(friend.uid, friend.username)}
-                    >
-                      <View style={styles.onlineAvatar}>
-                        <Text style={styles.onlineAvatarText}>
-                          {friend.username.charAt(0).toUpperCase()}
-                        </Text>
-                        <View style={styles.onlineIndicator} />
-                      </View>
-                      <Text style={styles.onlineUsername} numberOfLines={1}>
-                        {friend.username}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-              </ScrollView>
             </View>
           )}
         </ScrollView>
