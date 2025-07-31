@@ -160,8 +160,9 @@ export interface Ad {
   description?: string;
   createdBy: string;
   createdAt: Timestamp;
-  typeName: "sale" | "buy";
   className: string;
+  // typeName: "sale" | "buy";
+  typeName: string;
   country: string;
   city: string;
 }

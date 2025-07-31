@@ -12,6 +12,7 @@ import {
   Alert,
   TextInput,
   StyleSheet,
+  ScrollView
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
@@ -21,58 +22,50 @@ import { Button } from '../../components/common/Button';
 import { UserCard } from '../../components/friends/UserCard';
 import { useFriends } from '../../hooks/friends/use-friends';
 import { useGroups } from '../../hooks/chat/use-groups';
+import { useAds } from '../../hooks/ad/use-ads'; //ayad
 import { type UserProfile } from '../../services/firebase/firestore.service';
 import type { RootState } from '../../store';
 import type { NavigationProp } from '../../types/navigation';
-
-interface SelectedFriend {
-  uid: string;
-  username: string;
-}
+import { SelectList } from 'react-native-dropdown-select-list' //ayad
+import { classNameList, cityNameList } from '../../types/lists';
+import { addToFavorites } from '../../store/slices/rag.slice';
 
 export default function CreateAdScreen() {
   const navigation = useNavigation<NavigationProp>();
   const user = useSelector((state: RootState) => state.auth.user);
   
-  const { friends, isLoadingFriends } = useFriends();
   const { createNewGroup } = useGroups(user?.uid || '');
+  const { createNewAd } = useAds(user?.uid || '');
   
   const [groupName, setGroupName] = useState('');
-  const [selectedFriends, setSelectedFriends] = useState<SelectedFriend[]>([]);
+  const [adTitle, setAdTitle] = useState('');
+  const [adDescription, setAdDescription] = useState('');
+  const [className, setClassName] = useState('');
+  const [typeName, setTypeName] = useState('');
+  const [cityName, setCityName] = useState('');
   const [isCreating, setIsCreating] = useState(false);
 
-  /**
-   * Toggle friend selection
-   */
-  const toggleFriendSelection = useCallback((friend: { uid: string; username: string }) => {
-    setSelectedFriends(prev => {
-      const isSelected = prev.some(f => f.uid === friend.uid);
-      if (isSelected) {
-        return prev.filter(f => f.uid !== friend.uid);
-      } else {
-        return [...prev, friend];
-      }
-    });
-  }, []);
+  const classNameData = [
+    {key:'1', value:`${classNameList.RealEstate}`},
+    {key:'2', value:`${classNameList.WorkAndBusiness}`},
+    {key:'3', value:`${classNameList.MobileAndComputer}`},
+  ]
+  const typeNameData = [
+    {key:'1', value:`sale`},
+    {key:'2', value:`buy`},
+  ]
+  const cityNameData = [
+    {key:'1', value:`${cityNameList.Bagdad}`},
+    {key:'2', value:`${cityNameList.Babylon}`},
+    {key:'3', value:`${cityNameList.Karbala}`}
+  ]
 
   /**
-   * Check if a friend is selected
+   * Handle ad creation
    */
-  const isFriendSelected = useCallback((friendId: string): boolean => {
-    return selectedFriends.some(f => f.uid === friendId);
-  }, [selectedFriends]);
-
-  /**
-   * Handle group creation
-   */
-  const handleCreateGroup = useCallback(async () => {
-    if (!groupName.trim()) {
-      Alert.alert('Group Name Required', 'Please enter a name for your group.');
-      return;
-    }
-
-    if (selectedFriends.length === 0) {
-      Alert.alert('Select Friends', 'Please select at least one friend to add to the group.');
+  const handleCreateAd = useCallback(async () => {
+    if (!adTitle.trim() || !adDescription.trim() || !typeName.trim() || !className.trim() || !cityName.trim() ) {
+      Alert.alert('Ad Data Required', 'Please enter all data for your ad.');
       return;
     }
 
@@ -81,75 +74,48 @@ export default function CreateAdScreen() {
     setIsCreating(true);
 
     try {
-      const groupId = await createNewGroup({
-        name: groupName.trim(),
-        participants: selectedFriends.map(f => f.uid),
+      const adId = await createNewAd({
+        title: adTitle.trim(),
+        description: adDescription.trim(),
+        createdBy: user.uid,
+        className: className.trim(),
+        typeName: typeName.trim(),
+        country: 'Iraq',
+        city: cityName.trim()
       });
 
+      // Alert.alert(
+      //   'Ad Created!',
+      //   `"Ad has been created successfully.`,
+      //   [
+      //     {
+      //       text: 'OK',
+      //       onPress: () => {
+      //         // Navigate to the ads tab
+      //         navigation.navigate('Ads');
+      //       }
+      //     }
+      //   ]
+      // );
       Alert.alert(
-        'Group Created!',
-        `"${groupName}" has been created successfully.`,
-        [
-          {
-            text: 'OK',
-            onPress: () => {
-              // Navigate to the new group chat
-              navigation.navigate('GroupChat', { groupId });
-            }
-          }
-        ]
+        'Ad Created',
+        'Ad has been created.',
+        [{ text: 'OK' }]
       );
     } catch (error) {
       Alert.alert(
         'Error',
-        'Failed to create group. Please try again.',
+        'Failed to create ad. Please try again.',
         [{ text: 'OK' }]
       );
     } finally {
       setIsCreating(false);
     }
-  }, [groupName, selectedFriends, user, createNewGroup, navigation]);
-
-  /**
-   * Render friend item with selection checkbox
-   */
-  const renderFriendItem = useCallback(({ item }: { item: UserProfile }) => {
-    const isSelected = isFriendSelected(item.uid);
-    
-    return (
-      <TouchableOpacity
-        style={styles.friendItem}
-        onPress={() => toggleFriendSelection(item)}
-      >
-        <View style={styles.friendInfo}>
-          <UserCard user={item} />
-        </View>
-        <View style={[styles.checkbox, isSelected && styles.checkboxSelected]}>
-          {isSelected && (
-            <Ionicons name="checkmark" size={16} color="#FFFFFF" />
-          )}
-        </View>
-      </TouchableOpacity>
-    );
-  }, [isFriendSelected, toggleFriendSelection]);
-
-  /**
-   * Render selected friends count
-   */
-  const renderSelectedCount = () => {
-    if (selectedFriends.length === 0) return null;
-    
-    return (
-      <View style={styles.selectedContainer}>
-        <Text style={styles.selectedText}>
-          {selectedFriends.length} friend{selectedFriends.length !== 1 ? 's' : ''} selected
-        </Text>
-      </View>
-    );
-  };
+  }, [user, createNewAd, navigation]);
 
   return (
     <Screen style={styles.container}>
+      {/* <ScrollView showsVerticalScrollIndicator={false}> */}
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity
@@ -158,61 +124,83 @@ export default function CreateAdScreen() {
         >
           <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Create Group</Text>
+        <Text style={styles.headerTitle}>Create Ad</Text>
         <View style={styles.headerSpacer} />
       </View>
 
-      {/* Group Name Input */}
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>Group Name</Text>
-        <TextInput
-          style={styles.textInput}
-          value={groupName}
-          onChangeText={setGroupName}
-          placeholder="Enter group name..."
-          placeholderTextColor="#AAAAAA"
-          maxLength={50}
-        />
-      </View>
-
-      {/* Selected Friends Count */}
-      {renderSelectedCount()}
-
-      {/* Friends List */}
-      <View style={styles.friendsContainer}>
-        <Text style={styles.sectionTitle}>Select Friends</Text>
-        
-        {isLoadingFriends ? (
-          <View style={styles.loadingContainer}>
-            <Text style={styles.loadingText}>Loading friends...</Text>
-          </View>
-        ) : friends.length === 0 ? (
-          <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>No friends found</Text>
-            <Text style={styles.emptySubtext}>
-              Add friends to create group chats
-            </Text>
-          </View>
-        ) : (
-          <FlatList
-            data={friends}
-            renderItem={renderFriendItem}
-            keyExtractor={(item) => item.uid}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.friendsList}
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/* Group Name Input */}
+        {/* <View style={styles.inputContainer}>
+          <Text style={styles.inputLabel}>Group Name</Text>
+          <TextInput
+            style={styles.textInput}
+            value={groupName}
+            onChangeText={setGroupName}
+            placeholder="Enter group name..."
+            placeholderTextColor="#AAAAAA"
+            maxLength={50}
           />
-        )}
-      </View>
+        </View> */}
 
-      {/* Create Button */}
-      <View style={styles.buttonContainer}>
-        <Button
-          title={isCreating ? 'Creating...' : 'Create Group'}
-          onPress={handleCreateGroup}
-          disabled={isCreating || !groupName.trim() || selectedFriends.length === 0}
-          style={styles.createButton}
-        />
-      </View>
+        {/* Ad Inputs */}
+        <View style={styles.inputContainer}>
+          <Text style={styles.inputLabel}>Title</Text>
+          <TextInput
+            style={styles.textInput}
+            value={adTitle}
+            onChangeText={setAdTitle}
+            placeholder="Enter ad title..."
+            placeholderTextColor="#AAAAAA"
+            maxLength={50}
+          />
+          <Text style={styles.inputLabel}>Description</Text>
+          <TextInput
+            style={styles.textInput}
+            value={adDescription}
+            onChangeText={setAdDescription}
+            placeholder="Enter ad title..."
+            placeholderTextColor="#AAAAAA"
+            maxLength={500}
+          />
+          <Text style={styles.inputLabel}>Category</Text>
+          <SelectList 
+              setSelected={(val: string) => setClassName(val)} 
+              data={classNameData} 
+              save="value"
+              boxStyles={styles.textInput} //تحتاج تعديل
+              inputStyles={{color: '#FFFFFF',}}
+              dropdownTextStyles={{color: '#FFFFFF',}}
+          />
+          <Text style={styles.inputLabel}>Type</Text>
+          <SelectList 
+              setSelected={(val: string) => setTypeName(val)} 
+              data={typeNameData} 
+              save="value"
+              boxStyles={styles.textInput} //تحتاج تعديل
+              inputStyles={{color: '#FFFFFF',}}
+              dropdownTextStyles={{color: '#FFFFFF',}}
+          />
+          <Text style={styles.inputLabel}>City</Text>
+          <SelectList 
+              setSelected={(val: string) => setCityName(val)} 
+              data={cityNameData} 
+              save="value"
+              boxStyles={styles.textInput} //تحتاج تعديل
+              inputStyles={{color: '#FFFFFF',}}
+              dropdownTextStyles={{color: '#FFFFFF',}}
+          />
+        </View>
+
+        {/* Create Ad Button */}
+        <View style={styles.buttonContainer}>
+          <Button
+            title={isCreating ? 'Creating...' : 'Create Ad'}
+            onPress={handleCreateAd}
+            disabled={isCreating || !adTitle.trim() || !adDescription.trim() || !typeName.trim() || !className.trim() || !cityName.trim() }
+            style={styles.createButton}
+          />
+        </View>
+      </ScrollView>
     </Screen>
   );
 }
