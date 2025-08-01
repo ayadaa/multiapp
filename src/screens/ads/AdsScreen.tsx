@@ -60,9 +60,9 @@ export function AdsScreen() {
   };
 
   const handleAdPress = (ad: Ad) => {
-    // navigation.navigate('AdDetails', ad);
+    navigation.navigate('AdDetails', ad);
     // (navigation as any).navigate('AdDetails', ad);
-    navigation.navigate('AdDetails' as never);
+    // navigation.navigate('AdDetails' as never);
   };
 
   return (
