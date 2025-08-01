@@ -7,7 +7,9 @@ import { Ionicons } from '@expo/vector-icons';
 import Colors from './AdDetailsColors';
 import { defaultStyles } from './AdDetailsStyle';
 import type { AppStackParamList, NavigationProp } from '../../types/navigation';
-import { formatTimestamp } from '../../functions/formatTimestamp';
+// import { formatTimestamp } from '../../functions/formatTimestamp';
+import { useAds } from '../../hooks/ad/use-ads';
+import { useAuth } from '../../hooks/auth/use-auth';
 
 type AdDetailsScreenRouteProp = RouteProp<AppStackParamList, 'AdDetails'>;
 type AdDetailsScreenNavigationProp = StackNavigationProp<AppStackParamList, 'AdDetails'>;
@@ -15,15 +17,25 @@ type AdDetailsScreenNavigationProp = StackNavigationProp<AppStackParamList, 'AdD
 const { width } = Dimensions.get('window');
 const IMG_HEIGHT = 300;
 
+
+
 export default function AdDetails() {
   const route = useRoute<AdDetailsScreenRouteProp>();
   const navigation = useNavigation<AdDetailsScreenNavigationProp>();
   const ad = route.params;
+  const { user } = useAuth();
+  const {
+    formatTimestamp
+  } = useAds(user?.uid || '');
 
   // const { id } = useLocalSearchParams();
   const id = "9689519"
   const listing = (listingsData as any[]).find((item) => item.id === id);
   // const listing = (listingsData as any[])[0]
+
+  // const handleFormatTimestamp = (tx: any) => {
+  //   return formatTimestamp(tx)
+  // }
 
   return (
     <View style={styles.container}>

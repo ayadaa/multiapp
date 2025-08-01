@@ -15,7 +15,7 @@ import { useAds } from '../../hooks/ad/use-ads';
 import { useAuth } from '../../hooks/auth/use-auth';
 import type { Ad } from '../../types/ads';
 import type { NavigationProp } from '../../types/navigation';
-import { formatTimestamp } from '../../functions/formatTimestamp';
+// import { formatTimestamp } from '../../functions/formatTimestamp';
 
 /**
  * Ads List screen displaying all ads.
@@ -40,7 +40,7 @@ export function AdsScreen() {
     isLoadingAds,
     adsError,
     refreshAds,
-    // formatTimestamp
+    formatTimestamp
   } = useAds(user?.uid || '');
 
   // const { createChat } = useChats(user?.uid || '');
@@ -65,6 +65,10 @@ export function AdsScreen() {
     // (navigation as any).navigate('AdDetails', ad);
     // navigation.navigate('AdDetails' as never);
   };
+
+  // const handleFormatTimestamp = (tx: any) => {
+  //   return formatTimestamp(tx)
+  // }
 
   return (
     <Screen backgroundColor="#000000" statusBarStyle="light-content">
