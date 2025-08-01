@@ -14,6 +14,7 @@ import { Screen } from '../../components/common/Screen';
 import { useAds } from '../../hooks/ad/use-ads';
 import { useAuth } from '../../hooks/auth/use-auth';
 import type { Ad } from '../../types/ads';
+import type { NavigationProp } from '../../types/navigation';
 
 /**
  * Ads List screen displaying all ads.
@@ -22,7 +23,8 @@ import type { Ad } from '../../types/ads';
  */
 
 export function AdsScreen() {
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
   const { user } = useAuth();
   
   // const {
@@ -59,7 +61,8 @@ export function AdsScreen() {
 
   const handleAdPress = (ad: Ad) => {
     // navigation.navigate('AdDetails', ad);
-    (navigation as any).navigate('AdDetails', ad);
+    // (navigation as any).navigate('AdDetails', ad);
+    navigation.navigate('AdDetails' as never);
   };
 
   return (

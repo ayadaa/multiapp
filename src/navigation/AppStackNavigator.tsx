@@ -87,6 +87,7 @@ export default function AppStackNavigator() {
       <Stack.Screen 
         name="AdDetails" 
         component={AdDetails}
+        // component={CreateAdScreen}
         options={{
           headerShown: false,
         }}
