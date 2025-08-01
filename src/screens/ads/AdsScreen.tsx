@@ -11,15 +11,12 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Screen } from '../../components/common/Screen';
-import { UserCard } from '../../components/friends/UserCard';
-import { useFriends } from '../../hooks/friends/use-friends';
 import { useAds } from '../../hooks/ad/use-ads';
-import { useChats } from '../../hooks/chat/use-chats';
 import { useAuth } from '../../hooks/auth/use-auth';
 import type { Ad } from '../../types/ads';
 
 /**
- * Friends List screen displaying all accepted friends with their online status.
+ * Ads List screen displaying all ads.
  * Provides navigation to individual chats and friend management options.
  * Features pull-to-refresh and real-time status indicators.
  */
@@ -61,9 +58,8 @@ export function AdsScreen() {
   };
 
   const handleAdPress = (ad: Ad) => {
-    // navigation.navigate('adDetails', {
-    //   adId: ad.id,
-    // });
+    // navigation.navigate('AdDetails', ad);
+    (navigation as any).navigate('AdDetails', ad);
   };
 
   return (
@@ -183,7 +179,7 @@ export function AdsScreen() {
                         fontSize: 14,
                         flex: 1,
                       }} numberOfLines={1}>
-                        {ad.description.slice(0, 40)} //40 characters
+                        {ad.description.slice(0, 50)} {/* 50 characters */}
                       </Text>
                     </View>
                   </View>

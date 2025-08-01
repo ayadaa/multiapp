@@ -1,4 +1,5 @@
 import type { NavigationProp as RNNavigationProp } from '@react-navigation/native';
+import type { Ad } from './ads';
 
 /**
  * Navigation parameter types for React Navigation.
@@ -64,6 +65,7 @@ export type AppStackParamList = {
   };
   CreateGroup: undefined;
   CreateAd: undefined;
+  AdDetails: Ad;
   StoryViewer: {
     storyId: string;
     stories: Array<{

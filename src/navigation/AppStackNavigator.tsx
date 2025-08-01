@@ -11,6 +11,7 @@ import { IndividualChatScreen } from '../screens/chat/IndividualChatScreen';
 import StoryViewerScreen from '../screens/stories/StoryViewerScreen';
 import CreateGroupScreen from '../screens/chat/CreateGroupScreen';
 import CreateAdScreen from '../screens/ads/CreateAdScreen';
+import AdDetails from '../screens/ads/AdDetails';
 import GroupChatScreen from '../screens/chat/GroupChatScreen';
 import GroupSettingsScreen from '../screens/chat/GroupSettingsScreen';
 import { ChallengeViewerScreen } from '../components/rag/ChallengeViewerScreen';
@@ -83,6 +84,14 @@ export default function AppStackNavigator() {
         }}
       />
       
+      <Stack.Screen 
+        name="AdDetails" 
+        component={AdDetails}
+        options={{
+          headerShown: false,
+        }}
+      />
+
       <Stack.Screen 
         name="StoryViewer" 
         component={StoryViewerScreen}

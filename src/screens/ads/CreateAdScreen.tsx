@@ -27,7 +27,7 @@ export default function CreateAdScreen() {
   const navigation = useNavigation<NavigationProp>();
   const user = useSelector((state: RootState) => state.auth.user);
   
-  const { createNewAd } = useAds(user?.uid || '');
+  const { createNewAd, refreshAds } = useAds(user?.uid || '');
   
   const [adTitle, setAdTitle] = useState('');
   const [adDescription, setAdDescription] = useState('');
@@ -79,7 +79,9 @@ export default function CreateAdScreen() {
         country: 'Iraq',
         city: cityName.trim()
       });
+
       console.log(`adId: ${adId}`)
+      // handleRefresh; // Refresh ads list
 
       Alert.alert(
         'Ad Created!',
@@ -110,6 +112,17 @@ export default function CreateAdScreen() {
       setIsCreating(false);
     }
   }, [adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
+
+  /**
+   * Handle refresh
+   */
+  // const handleRefresh = async () => {
+  //   try {
+  //     await refreshAds();
+  //   } catch (error) {
+  //     console.error('Error refreshing ads:', error);
+  //   }
+  // };
 
   return (
     <Screen style={styles.container}>
