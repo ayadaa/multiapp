@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Colors from './AdDetailsColors';
 import { defaultStyles } from './AdDetailsStyle';
 import type { AppStackParamList, NavigationProp } from '../../types/navigation';
+import { formatTimestamp } from '../../functions/formatTimestamp';
 
 type AdDetailsScreenRouteProp = RouteProp<AppStackParamList, 'AdDetails'>;
 type AdDetailsScreenNavigationProp = StackNavigationProp<AppStackParamList, 'AdDetails'>;
@@ -34,14 +35,9 @@ export default function AdDetails() {
         />
 
         <View style={styles.infoContainer}>
-          <Text style={styles.name}>{listing.name}</Text>
-          <Text style={styles.location}>
-            {listing.room_type} in {listing.smart_location}
-          </Text>
-          <Text style={styles.rooms}>
-            {listing.guests_included} guests · {listing.bedrooms} bedrooms · {listing.beds} bed ·{' '}
-            {listing.bathrooms} bathrooms
-          </Text>
+          <Text style={styles.name}>{ad.title}</Text>
+          <Text style={styles.location}>{ad.className}</Text>
+          <Text style={styles.rooms}>{ad.typeName}</Text>
           <View style={{ flexDirection: 'row', gap: 4 }}>
             <Ionicons name="star" size={16} />
             <Text style={styles.ratings}>
@@ -57,7 +53,7 @@ export default function AdDetails() {
 
             <View>
               <Text style={{ fontWeight: '500', fontSize: 16 }}>Hosted by {listing.host_name}</Text>
-              <Text>Host since {listing.host_since}</Text>
+              <Text>{ad.createdAt? formatTimestamp(ad.createdAt): ''}</Text>
             </View>
 
             <TouchableOpacity style={[defaultStyles.btn, { paddingRight: 20, paddingLeft: 20 }]}>
@@ -67,7 +63,7 @@ export default function AdDetails() {
 
           <View style={styles.divider} />
 
-          <Text style={styles.description}>{listing.description}</Text>
+          <Text style={styles.description}>{ad.description}</Text>
         </View>
       </ScrollView>
     </View>
