@@ -11,7 +11,8 @@ import {
   TextInput,
   StyleSheet,
   ScrollView,
-  Image
+  Image,
+  Platform 
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
@@ -25,13 +26,71 @@ import { SelectList } from 'react-native-dropdown-select-list' //ayad
 import { classNameList, cityNameList } from '../../types/ads';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Or
 // import { useImage } from '../../hooks/imageH/use-image';
 import { uploadImageToStorage } from '../../services/firebase/storage.service';
 import { setImageAsync } from 'expo-clipboard';
- 
+// import { launchImageLibrary } from 'react-native-image-picker';
+// import ImageCropPicker from 'react-native-image-crop-picker'
+
 export default function CreateAdScreen() {
   const [image, setImage] = useState<any>(null);
   const [uploading, setUploading] = useState(false);
+  const [imageUri, setImageUri] = useState<string>('');
+  const [imageUrl, setImageUrl] = useState<string>('');
+
+  // const [img, setImg] = useState<any>(null);
+  // const [loading, setLoading] = useState<bool>(false);
+  // const [selectedRegion, setSelectedRegion] = useState<any>(null)
+
+  // const openGallery = () => {
+  //   const options = { mediaTypes: 'photo', includeBase64: true, maxHeight: 2000, maxWidth: 2000 };
+  //   launchImageLibrary(options, (response) => {
+  //     if (response.assets && response.assets.length > 0) {
+  //       const imgUri = response.assets[0].uri;
+  //       setImg(imgUri);
+
+  //       ImageCropPicker.openCropper({ path: imgUri, width: 300, height: 400 }).then(image => {
+  //         setSelectedRegion(image);
+  //       }).catch(e => console.log(e))
+  //     }
+  //   })
+  // }
+
+  // const handleSave = useCallback(async () => {
+  //   if(!img) {
+  //     Alert.alert('Error', 'Please provide an image.');
+  //     console.log('Error, please provide an image.')
+  //     return;
+  //   }
+  //   setLoading(true);
+  //   try {
+  //     const blob = await new Promise((resolve, reject) => {
+  //       const xhr = new XMLHttpRequest();
+  //       xhr.onload = function () {
+  //         resolve(xhr.response);
+  //       };
+  //       xhr.onerror = function (e) {
+  //         console.log(e);
+  //         reject(new TypeError('Network request failed'));
+  //       };
+  //       xhr.responseType = 'blob';
+  //       xhr.open('GET', img, true);
+  //       xhr.send(null); 
+  //     });
+
+  //     const fileName = img.substring(image.lastIndexOf('/') + 1);
+  //     const url = await uploadImageToStorage(fileName, blob as string);
+  //     setLoading(false);
+  //     Alert.alert('Image uploaded successfully', url);
+  //     console.log('image url', url)
+  //     setImg(null)
+  //   } catch (error) {
+  //     console.log(error);
+  //     setLoading(false);
+  //   }      
+  // }, [img]);
+
   //pick an image
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -46,11 +105,25 @@ export default function CreateAdScreen() {
     }
   }
   //upload media files
-  const uploadMedia = async () => {
+  const uploadMedia = useCallback(async () => {
     setUploading(true);
     try {
       // if (!image) return;
       const { uri } = await FileSystem.getInfoAsync(image);
+
+      // if (Platform.OS === 'web') {
+      //   // Use web-compatible storage like AsyncStorage or localStorage
+      //   const uri = await AsyncStorage.getItem(image);
+      //   setImageUri(uri || '')
+      // } else {
+      //   const { uri } = await FileSystem.getInfoAsync(image);
+      //   setImageUri(uri || '')
+      // }
+      // Use web-compatible storage like AsyncStorage or localStorage
+      // const uri = await AsyncStorage.getItem(image);
+      // const uri = image; //ayad
+      console.log('uri', uri)
+      if (!uri) return;
       const blob = await new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.onload = function () {
@@ -67,6 +140,7 @@ export default function CreateAdScreen() {
 
       const fileName = image.substring(image.lastIndexOf('/') + 1);
       const url = await uploadImageToStorage(fileName, blob as string);
+      setImageUrl(url)
       setUploading(false);
       Alert.alert('Image uploaded successfully', url);
       console.log('image url', url)
@@ -75,7 +149,7 @@ export default function CreateAdScreen() {
       console.log(error);
       setUploading(false);
     }
-  }
+  }, [image, imageUri])
   
   // delete image
   // const deleteImage = async () => {
@@ -137,6 +211,7 @@ export default function CreateAdScreen() {
       const adId = await createNewAd({
         title: adTitle.trim(),
         description: adDescription.trim(),
+        adPicture: imageUrl,
         createdBy: user.uid,
         className: className.trim(),
         typeName: typeName.trim(),
@@ -222,6 +297,7 @@ export default function CreateAdScreen() {
           {/* image picker */}
           <Text style={styles.inputLabel}>Image</Text>
           <TouchableOpacity style={styles.textInput} onPress={pickImage}>
+          {/* <TouchableOpacity style={styles.textInput} onPress={openGallery}> */}
             <Text style={styles.textInput}>Pick an image</Text>
           </TouchableOpacity>
           {image && (
@@ -231,6 +307,7 @@ export default function CreateAdScreen() {
             />
           )}
           <TouchableOpacity style={styles.textInput} onPress={uploadMedia}>
+          {/* <TouchableOpacity style={styles.textInput} onPress={handleSave}> */}
             <Text style={styles.textInput}>Upload Media</Text>
           </TouchableOpacity>
 

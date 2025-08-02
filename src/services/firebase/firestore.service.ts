@@ -1491,6 +1491,7 @@ export async function createAd(
   // AdData: {
   //   title: string;
   //   description: string;
+  // profilePicture?: string;
   //   createdBy: string;
   //   // typeName: "sale" | "buy";
   //   typeName: string,
@@ -1506,6 +1507,7 @@ export async function createAd(
     const ad: Omit<Ad, 'id'> = {
       title: AdData.title,
       description: AdData.description,
+      adPicture: AdData.adPicture,
       createdBy: AdData.createdBy,
       createdAt: serverTimestamp() as Timestamp,
       typeName: AdData.typeName,

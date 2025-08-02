@@ -43,14 +43,16 @@
       "expo-camera",
       "expo-av",
       "expo-media-library",
-      "expo-image-picker",
-      {
-        "photosPermission": "The app accesses your photos to let you share them with your friends."
-      }
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ]
     ],
     "extra": {
       "eas": {
-        "projectId": "47d3e09e-62ef-4f56-b9ca-a01a3843b639"
+        "projectId": "26d8e696-071a-4507-beb4-1837755c100e"
       }
     }
   }

@@ -4,6 +4,7 @@ export interface Ad {
     id?: string;
     title: string;
     description: string;
+    adPicture?: string;
     createdBy: string;
     createdAt?: Timestamp;
     className: string;
