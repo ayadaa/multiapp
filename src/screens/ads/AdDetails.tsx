@@ -10,6 +10,8 @@ import type { AppStackParamList, NavigationProp } from '../../types/navigation';
 // import { formatTimestamp } from '../../functions/formatTimestamp';
 import { useAds } from '../../hooks/ad/use-ads';
 import { useAuth } from '../../hooks/auth/use-auth';
+import { useUser } from '../../hooks/user/use-user';
+
 
 type AdDetailsScreenRouteProp = RouteProp<AppStackParamList, 'AdDetails'>;
 type AdDetailsScreenNavigationProp = StackNavigationProp<AppStackParamList, 'AdDetails'>;
@@ -27,6 +29,12 @@ export default function AdDetails() {
   const {
     formatTimestamp
   } = useAds(user?.uid || '');
+  const {
+    User,
+    isLoadingUser,
+    userError,
+    refreshUser,
+  } = useUser(ad.createdBy || '');
 
   // const { id } = useLocalSearchParams();
   const id = "9689519"
@@ -64,7 +72,7 @@ export default function AdDetails() {
             <Image source={{ uri: listing.host_picture_url }} style={styles.host} />
 
             <View>
-              <Text style={{ fontWeight: '500', fontSize: 16 }}>Hosted by {listing.host_name}</Text>
+              <Text style={{ fontWeight: '500', fontSize: 16 }}>{User.displayName as string}</Text>
               <Text>{ad.createdAt? formatTimestamp(ad.createdAt): ''}</Text>
             </View>
 
