@@ -59,13 +59,14 @@ export function useAds(currentUserId: string) {
    */
   const refreshAds = useCallback(async () => {
     // if (!user?.uid) return;
-    console.log('start getting ads')
+    // console.log('start getting ads')
     setIsLoadingAds(true);
     setAdsError(null);
     
     try {
       const adsList = await getAds();
       setAds(adsList);
+      // console.log('ads', ads)
     } catch (error) {
       console.error('Error loading ads:', error);
       setAdsError('Failed to load ads');
@@ -73,11 +74,6 @@ export function useAds(currentUserId: string) {
       setIsLoadingAds(false);
     }
   }, []);
-
-  // Load initial data
-  useEffect(() => {
-    refreshAds();
-  }, [refreshAds]);
 
   /**
    * Format timestamp
@@ -101,6 +97,11 @@ export function useAds(currentUserId: string) {
     return date.toLocaleDateString();
   }, []);
 
+  // Load initial data
+  useEffect(() => {
+    refreshAds();
+  }, [refreshAds]);
+
   return {
     // Data
     ads,
@@ -119,4 +120,4 @@ export function useAds(currentUserId: string) {
 
     formatTimestamp
   };
-} 
+}

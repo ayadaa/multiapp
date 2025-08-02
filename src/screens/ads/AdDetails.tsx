@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity, Share, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity, Share, ScrollView, Alert } from 'react-native';
 import { useRoute, useNavigation, type RouteProp } from '@react-navigation/native';
 import { type StackNavigationProp } from '@react-navigation/stack';
 import listingsData from './airbnb-listings.json';
@@ -11,7 +11,7 @@ import type { AppStackParamList, NavigationProp } from '../../types/navigation';
 import { useAds } from '../../hooks/ad/use-ads';
 import { useAuth } from '../../hooks/auth/use-auth';
 import { useUser } from '../../hooks/user/use-user';
-
+import { useChats } from '../../hooks/chat/use-chats';
 
 type AdDetailsScreenRouteProp = RouteProp<AppStackParamList, 'AdDetails'>;
 type AdDetailsScreenNavigationProp = StackNavigationProp<AppStackParamList, 'AdDetails'>;
@@ -45,6 +45,28 @@ export default function AdDetails() {
   //   return formatTimestamp(tx)
   // }
 
+  const { createChat } = useChats(user?.uid || '');
+  
+  /**
+   * Handle send message button press - navigate to chat
+   */
+  const handleSendMessagePress = async () => {
+    try {
+      // const { createChat } = useChats(user?.uid || '');
+      const chatId = await createChat(User?.uid || '');
+
+      if (User) {
+        (navigation as any).navigate('IndividualChat', {
+          chatId,
+          otherUser: User,
+        });
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Failed to start chat. Please try again.');
+      console.error('Error creating chat:', error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -68,18 +90,28 @@ export default function AdDetails() {
 
           <View style={styles.divider} />
 
-          <View style={styles.hostView}>
-            <Image source={{ uri: listing.host_picture_url }} style={styles.host} />
+          {/* User profile details */}
+          {User == null ?
+          (
+          <View><Text> . . . </Text></View>
+          )
+          :(
+            <View style={styles.hostView}>
+              <Image source={{ uri: listing.host_picture_url }} style={styles.host} />
 
-            <View>
-              <Text style={{ fontWeight: '500', fontSize: 16 }}>{User.displayName as string}</Text>
-              <Text>{ad.createdAt? formatTimestamp(ad.createdAt): ''}</Text>
+              <View>
+                <Text style={{ fontWeight: '500', fontSize: 16 }}>{User.username}</Text>
+                <Text>{ad.createdAt? formatTimestamp(ad.createdAt): ''}</Text>
+              </View>
+
+              <TouchableOpacity 
+                onPress={handleSendMessagePress}
+                style={[defaultStyles.btn, { paddingRight: 20, paddingLeft: 20 }]}
+              >
+                <Text style={defaultStyles.btnText}>Send Message</Text>
+              </TouchableOpacity>
             </View>
-
-            <TouchableOpacity style={[defaultStyles.btn, { paddingRight: 20, paddingLeft: 20 }]}>
-              <Text style={defaultStyles.btnText}>Reserve</Text>
-            </TouchableOpacity>
-          </View>
+          )}
 
           <View style={styles.divider} />
 

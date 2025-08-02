@@ -35,7 +35,7 @@ export interface UserProfile {
   profilePicture?: string;
   createdAt: Timestamp;
   lastSeen: Timestamp;
-  isOnline: boolean;
+  isOnline?: boolean;
 }
 
 export interface Friendship {
