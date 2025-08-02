@@ -10,7 +10,8 @@ import {
   Alert,
   TextInput,
   StyleSheet,
-  ScrollView
+  ScrollView,
+  Image
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
@@ -22,8 +23,71 @@ import type { RootState } from '../../store';
 import type { NavigationProp } from '../../types/navigation';
 import { SelectList } from 'react-native-dropdown-select-list' //ayad
 import { classNameList, cityNameList } from '../../types/ads';
-
+import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
+// import { useImage } from '../../hooks/imageH/use-image';
+import { uploadImageToStorage } from '../../services/firebase/storage.service';
+import { setImageAsync } from 'expo-clipboard';
+ 
 export default function CreateAdScreen() {
+  const [image, setImage] = useState<any>(null);
+  const [uploading, setUploading] = useState(false);
+  //pick an image
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All, // all images and vides
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri)
+    }
+  }
+  //upload media files
+  const uploadMedia = async () => {
+    setUploading(true);
+    try {
+      // if (!image) return;
+      const { uri } = await FileSystem.getInfoAsync(image);
+      const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+          resolve(xhr.response);
+        };
+        xhr.onerror = function (e) {
+          console.log(e);
+          reject(new TypeError('Network request failed'));
+        };
+        xhr.responseType = 'blob';
+        xhr.open('GET', uri, true);
+        xhr.send(null); 
+      });
+
+      const fileName = image.substring(image.lastIndexOf('/') + 1);
+      const url = await uploadImageToStorage(fileName, blob as string);
+      setUploading(false);
+      Alert.alert('Image uploaded successfully', url);
+      console.log('image url', url)
+      setImage(null)
+    } catch (error) {
+      console.log(error);
+      setUploading(false);
+    }
+  }
+  
+  // delete image
+  // const deleteImage = async () => {
+  //   setUploading(true);
+  //   try {
+  //     setImage(null)
+  //   } catch (error) {
+  //     console.log(error);
+  //     setUploading(false);
+  //   }
+  // }
+
   const navigation = useNavigation<NavigationProp>();
   const user = useSelector((state: RootState) => state.auth.user);
   
@@ -155,6 +219,21 @@ export default function CreateAdScreen() {
 
         {/* Ad Inputs */}
         <View style={styles.inputContainer}>
+          {/* image picker */}
+          <Text style={styles.inputLabel}>Image</Text>
+          <TouchableOpacity style={styles.textInput} onPress={pickImage}>
+            <Text style={styles.textInput}>Pick an image</Text>
+          </TouchableOpacity>
+          {image && (
+            <Image
+              source={{ uri: image }}
+              style={{ width: 200, height: 200 }}
+            />
+          )}
+          <TouchableOpacity style={styles.textInput} onPress={uploadMedia}>
+            <Text style={styles.textInput}>Upload Media</Text>
+          </TouchableOpacity>
+
           <Text style={styles.inputLabel}>Title</Text>
           <TextInput
             style={styles.textInput}
