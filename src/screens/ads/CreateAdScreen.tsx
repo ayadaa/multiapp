@@ -61,13 +61,18 @@ import type { NavigationProp } from '../../types/navigation';
 import { Picker } from '@react-native-picker/picker'; //ayad
 import { classNameList, cityNameList } from '../../types/ads';
 import * as ImagePicker from 'expo-image-picker';
-import * as FileSystem from 'expo-file-system';
+// import * as FileSystem from 'expo-file-system';
+import { fetch } from 'expo/fetch';
+
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Or
 // import { useImage } from '../../hooks/imageH/use-image';
 import { uploadImageToStorage } from '../../services/firebase/storage.service';
 import { setImageAsync } from 'expo-clipboard';
 // import { launchImageLibrary } from 'react-native-image-picker';
 // import ImageCropPicker from 'react-native-image-crop-picker'
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { storage } from '../../config/firebase'; // Assuming your Firebase config is in firebaseConfig.js
+  
 
 export default function CreateAdScreen() {
   const [image, setImage] = useState<any>(null);
@@ -129,8 +134,17 @@ export default function CreateAdScreen() {
 
   //pick an image
   const pickImage = async () => {
+    // Request permissions
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Permission to access media library is required!');
+      return;
+    }
+
+    // Pick image
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All, // all images and vides
+      // mediaTypes: ImagePicker.MediaTypeOptions.All, // all images and vides
+      mediaTypes: ImagePicker.MediaTypeOptions.Images, // all images and vides
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
@@ -140,52 +154,120 @@ export default function CreateAdScreen() {
       setImage(result.assets[0].uri)
     }
   }
+
   //upload media files
-  const uploadMedia = useCallback(async () => {
-    setUploading(true);
-    try {
-      // if (!image) return;
-      const { uri } = await FileSystem.getInfoAsync(image);
+  // const uploadMedia = useCallback(async () => {
+  //   setUploading(true);
+  //   try {
+  //     // if (!image) return;
+  //     const { uri } = await FileSystem.getInfoAsync(image);
 
-      // if (Platform.OS === 'web') {
-      //   // Use web-compatible storage like AsyncStorage or localStorage
-      //   const uri = await AsyncStorage.getItem(image);
-      //   setImageUri(uri || '')
-      // } else {
-      //   const { uri } = await FileSystem.getInfoAsync(image);
-      //   setImageUri(uri || '')
-      // }
-      // Use web-compatible storage like AsyncStorage or localStorage
-      // const uri = await AsyncStorage.getItem(image);
-      // const uri = image; //ayad
-      console.log('uri', uri)
-      if (!uri) return;
-      const blob = await new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.onload = function () {
-          resolve(xhr.response);
-        };
-        xhr.onerror = function (e) {
-          console.log(e);
-          reject(new TypeError('Network request failed'));
-        };
-        xhr.responseType = 'blob';
-        xhr.open('GET', uri, true);
-        xhr.send(null); 
-      });
+  //     // if (Platform.OS === 'web') {
+  //     //   // Use web-compatible storage like AsyncStorage or localStorage
+  //     //   const uri = await AsyncStorage.getItem(image);
+  //     //   setImageUri(uri || '')
+  //     // } else {
+  //     //   const { uri } = await FileSystem.getInfoAsync(image);
+  //     //   setImageUri(uri || '')
+  //     // }
+  //     // Use web-compatible storage like AsyncStorage or localStorage
+  //     // const uri = await AsyncStorage.getItem(image);
+  //     // const uri = image; //ayad
+  //     console.log('uri', uri)
+  //     if (!uri) return Alert.alert('Error', 'Image not found');
+  //     const blob = await new Promise((resolve, reject) => {
+  //       const xhr = new XMLHttpRequest();
+  //       xhr.onload = function () {
+  //         resolve(xhr.response);
+  //       };
+  //       xhr.onerror = function (e) {
+  //         console.log(e);
+  //         reject(new TypeError('Network request failed'));
+  //       };
+  //       xhr.responseType = 'blob';
+  //       xhr.open('GET', uri, true);
+  //       xhr.send(null); 
+  //     });
 
-      const fileName = image.substring(image.lastIndexOf('/') + 1);
-      const url = await uploadImageToStorage(fileName, blob as string);
-      setImageUrl(url)
-      setUploading(false);
-      Alert.alert('Image uploaded successfully', url);
-      console.log('image url', url)
+  //     const fileName = image.substring(image.lastIndexOf('/') + 1);
+  //     const url = await uploadImageToStorage(fileName, blob as string);
+  //     setImageUrl(url)
+  //     setUploading(false);
+  //     Alert.alert('Image uploaded successfully', url);
+  //     console.log('image url', url)
+  //     setImage(null)
+  //   } catch (error) {
+  //     console.log(error);
+  //     setUploading(false);
+  //   }
+  // }, [image, imageUri])
+
+  
+  // const pickAndUploadImage = async () => {
+  async function uploadImage() {
+    // Request permissions
+    // const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    // if (status !== 'granted') {
+    //   alert('Permission to access media library is required!');
+    //   return;
+    // }
+  
+    // Pick an image
+    // const result = await ImagePicker.launchImageLibraryAsync({
+    //   mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    //   allowsEditing: true,
+    //   aspect: [4, 3],
+    //   quality: 1,
+    // });
+  
+    // if (!result.canceled) {
+    let url
+    if (image) {
+      // setImage(result.assets[0].uri)
+      // const uri = result.assets[0].uri;
+      const uri = image;
+      const fileName = uri.substring(uri.lastIndexOf('/') + 1); // Extract file name
+  
+      try {
+        const response = await fetch(uri);
+        const blob = await response.blob();
+  
+        const storageRef = ref(storage, `images/${fileName}`);
+        const uploadTask = uploadBytesResumable(storageRef, blob);
+  
+        uploadTask.on('state_changed',
+          (snapshot) => {
+            // Track upload progress if needed
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+          },
+          (error) => {
+            console.error("Upload error:", error);
+          },
+          async () => {
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            setImageUrl(downloadURL);
+            console.log("Image uploaded, download URL:", downloadURL);
+            // You can now use this downloadURL, e.g., save it to a database
+            setImage(null)
+            // return downloadURL;
+            url = downloadURL;
+            return url;
+          }
+        );
+      } catch (e) {
+        console.error("Error uploading image:", e);
+        // const downloadURL = '';
+        // return downloadURL
+      }
       setImage(null)
-    } catch (error) {
-      console.log(error);
-      setUploading(false);
+    } else {
+      console.log('!image')
+      // const downloadURL = '';
+      // return downloadURL
     }
-  }, [image, imageUri])
+    return url
+  };
   
   // delete image
   // const deleteImage = async () => {
@@ -229,6 +311,65 @@ export default function CreateAdScreen() {
   /**
    * Handle ad creation
    */
+  // const handleCreateAd = useCallback(async () => {
+  //   if (!adTitle.trim() || !adDescription.trim() || !typeName.trim() || !className.trim() || !cityName.trim() ) {
+  //     Alert.alert('Ad Data Required', 'Please enter all data for your ad.');
+  //     console.log('All ad data required!')
+  //     console.log(`data: ${adTitle.trim(), adDescription.trim(), typeName.trim(), className.trim(), cityName.trim()}`)
+  //     console.log(`adTitle: ${adTitle}`)
+  //     console.log(`cityName: ${cityName}`)
+  //     return;
+  //   }
+
+  //   if (!user) return;
+  //   setIsCreating(true);
+  //   await uploadImage().then(async (url) => {
+  //     try {
+  //       const adId = await createNewAd({
+  //         title: adTitle.trim(),
+  //         description: adDescription.trim(),
+  //         adPicture: imageUrl,
+  //         // adPicture: url,
+  //         createdBy: user.uid,
+  //         className: className.trim(),
+  //         typeName: typeName.trim(),
+  //         country: 'Iraq',
+  //         city: cityName.trim()
+  //       });
+
+  //       console.log(`adId: ${adId}`)
+  //       // handleRefresh; // Refresh ads list
+
+  //       Alert.alert(
+  //         'Ad Created!',
+  //         `"Ad has been created successfully.`,
+  //         [
+  //           {
+  //             text: 'OK',
+  //             onPress: () => {
+  //               // Navigate to the ads tab
+  //               // navigation.navigate('Ads');
+  //               navigation.goBack(); //ayad
+  //             }
+  //           }
+  //         ]
+  //       );
+  //       Alert.alert(
+  //         'Ad Created',
+  //         'Ad has been created.',
+  //         [{ text: 'OK' }]
+  //       );
+  //     } catch (error) {
+  //       Alert.alert(
+  //         'Error',
+  //         'Failed to create ad. Please try again.',
+  //         [{ text: 'OK' }]
+  //       );
+  //     } finally {
+  //       setIsCreating(false);
+  //     }
+  //   })
+  // }, [image, imageUrl, adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
   const handleCreateAd = useCallback(async () => {
     if (!adTitle.trim() || !adDescription.trim() || !typeName.trim() || !className.trim() || !cityName.trim() ) {
       Alert.alert('Ad Data Required', 'Please enter all data for your ad.');
@@ -240,53 +381,105 @@ export default function CreateAdScreen() {
     }
 
     if (!user) return;
-
     setIsCreating(true);
 
-    try {
-      const adId = await createNewAd({
-        title: adTitle.trim(),
-        description: adDescription.trim(),
-        adPicture: imageUrl,
-        createdBy: user.uid,
-        className: className.trim(),
-        typeName: typeName.trim(),
-        country: 'Iraq',
-        city: cityName.trim()
-      });
+    if (image) {
+      // setImage(result.assets[0].uri)
+      // const uri = result.assets[0].uri;
+      const uri = image;
+      const fileName = uri.substring(uri.lastIndexOf('/') + 1); // Extract file name
+  
+      try {
+        const response = await fetch(uri);
+        const blob = await response.blob();
+  
+        const storageRef = ref(storage, `images/${fileName}`);
+        const uploadTask = uploadBytesResumable(storageRef, blob);
+  
+        uploadTask.on('state_changed',
+          (snapshot) => {
+            // Track upload progress if needed
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+          },
+          (error) => {
+            console.error("Upload error:", error);
+          },
+          async () => {
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            // setImageUrl(downloadURL);
+            console.log("Image uploaded, download URL:", downloadURL);
+            // You can now use this downloadURL, e.g., save it to a database
+            setImage(null)
+            // return downloadURL;
+            // url = downloadURL;
+            // return url;
 
-      console.log(`adId: ${adId}`)
-      // handleRefresh; // Refresh ads list
 
-      Alert.alert(
-        'Ad Created!',
-        `"Ad has been created successfully.`,
-        [
-          {
-            text: 'OK',
-            onPress: () => {
-              // Navigate to the ads tab
-              // navigation.navigate('Ads');
-              navigation.goBack(); //ayad
+            try {
+              const adId = await createNewAd({
+                title: adTitle.trim(),
+                description: adDescription.trim(),
+                // adPicture: imageUrl,
+                adPicture: downloadURL,
+                createdBy: user.uid,
+                className: className.trim(),
+                typeName: typeName.trim(),
+                country: 'Iraq',
+                city: cityName.trim()
+              });
+      
+              console.log(`adId: ${adId}`)
+              // handleRefresh; // Refresh ads list
+      
+              Alert.alert(
+                'Ad Created!',
+                `"Ad has been created successfully.`,
+                [
+                  {
+                    text: 'OK',
+                    onPress: () => {
+                      // Navigate to the ads tab
+                      // navigation.navigate('Ads');
+                      navigation.goBack(); //ayad
+                    }
+                  }
+                ]
+              );
+              Alert.alert(
+                'Ad Created',
+                'Ad has been created.',
+                [{ text: 'OK' }]
+              );
+            } catch (error) {
+              Alert.alert(
+                'Error',
+                'Failed to create ad. Please try again.',
+                [{ text: 'OK' }]
+              );
+            } finally {
+              setIsCreating(false);
             }
+
+
           }
-        ]
-      );
-      Alert.alert(
-        'Ad Created',
-        'Ad has been created.',
-        [{ text: 'OK' }]
-      );
-    } catch (error) {
-      Alert.alert(
-        'Error',
-        'Failed to create ad. Please try again.',
-        [{ text: 'OK' }]
-      );
-    } finally {
-      setIsCreating(false);
+        );
+      } catch (e) {
+        console.error("Error uploading image:", e);
+        // const downloadURL = '';
+        // return downloadURL
+      }
+      setImage(null)
+    } else {
+      console.log('!image')
+      // const downloadURL = '';
+      // return downloadURL
     }
-  }, [adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
+
+    // await uploadImage().then(async (url) => {
+      
+    // })
+  }, [image, adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
 
   /**
    * Handle refresh
@@ -320,6 +513,7 @@ export default function CreateAdScreen() {
           {/* image picker */}
           <Text style={styles.inputLabel}>Image</Text>
           <TouchableOpacity style={styles.textInput} onPress={pickImage}>
+          {/* <TouchableOpacity style={styles.textInput} onPress={pickAndUploadImage}> */}
           {/* <TouchableOpacity style={styles.textInput} onPress={openGallery}> */}
             <Text style={styles.textInput}>Pick an image</Text>
           </TouchableOpacity>
@@ -329,10 +523,11 @@ export default function CreateAdScreen() {
               style={{ width: 200, height: 200 }}
             />
           )}
-          <TouchableOpacity style={styles.textInput} onPress={uploadMedia}>
+          {/* <TouchableOpacity style={styles.textInput} onPress={uploadMedia}> */}
           {/* <TouchableOpacity style={styles.textInput} onPress={handleSave}> */}
-            <Text style={styles.textInput}>Upload Media</Text>
-          </TouchableOpacity>
+          {/* <TouchableOpacity style={styles.textInput} onPress={pickAndUploadImage}> */}
+            {/* <Text style={styles.textInput}>Upload Media</Text> */}
+          {/* </TouchableOpacity> */}
 
           <Text style={styles.inputLabel}>Title</Text>
           <TextInput

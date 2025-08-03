@@ -71,7 +71,7 @@ export default function AdDetails() {
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Image
-          source={{ uri: listing.xl_picture_url }}
+          source={{ uri: ad.adPicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
           style={styles.image}
           resizeMode="cover"
         />
