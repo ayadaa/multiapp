@@ -1,3 +1,37 @@
+// import React from 'react';
+// import { View, Text, StyleSheet } from 'react-native';
+
+// const CreateAdScreen = () => {
+//   return (
+//     <View style={styles.container}>
+//       <Text style={styles.title}>Welcome to My App!</Text>
+//       <Text style={styles.subtitle}>This is a basic home page.</Text>
+//     </View>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: '#f0f0f0', // Light gray background
+//   },
+//   title: {
+//     fontSize: 24,
+//     fontWeight: 'bold',
+//     marginBottom: 10,
+//     color: '#333', // Dark gray text
+//   },
+//   subtitle: {
+//     fontSize: 16,
+//     color: '#666', // Medium gray text
+//   },
+// });
+
+// export default CreateAdScreen;
+
+
 /**
  * Create Ad Screen
  * Allows users to create new ads
@@ -22,7 +56,9 @@ import { Button } from '../../components/common/Button';
 import { useAds } from '../../hooks/ad/use-ads'; //ayad
 import type { RootState } from '../../store';
 import type { NavigationProp } from '../../types/navigation';
-import { SelectList } from 'react-native-dropdown-select-list' //ayad
+// import { SelectList } from 'react-native-dropdown-select-list' //ayad
+// import { Dropdown } from 'react-native-material-dropdown-v2-fixed'; //ayad
+import { Picker } from '@react-native-picker/picker'; //ayad
 import { classNameList, cityNameList } from '../../types/ads';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
@@ -169,26 +205,26 @@ export default function CreateAdScreen() {
   
   const [adTitle, setAdTitle] = useState('');
   const [adDescription, setAdDescription] = useState('');
-  const [className, setClassName] = useState('');
-  const [typeName, setTypeName] = useState('');
-  const [cityName, setCityName] = useState('');
+  const [className, setClassName] = useState('Real estate');
+  const [typeName, setTypeName] = useState('sale');
+  const [cityName, setCityName] = useState('Bagdad');
   
   const [isCreating, setIsCreating] = useState(false);
 
-  const classNameData = [
-    {key:'1', value:`${classNameList.RealEstate}`},
-    {key:'2', value:`${classNameList.WorkAndBusiness}`},
-    {key:'3', value:`${classNameList.MobileAndComputer}`},
-  ]
-  const typeNameData = [
-    {key:'1', value:`sale`},
-    {key:'2', value:`buy`},
-  ]
-  const cityNameData = [
-    {key:'1', value:`${cityNameList.Bagdad}`},
-    {key:'2', value:`${cityNameList.Babylon}`},
-    {key:'3', value:`${cityNameList.Karbala}`}
-  ]
+  // const classNameData = [
+  //   {key:'1', value:`${classNameList.RealEstate}`},
+  //   {key:'2', value:`${classNameList.WorkAndBusiness}`},
+  //   {key:'3', value:`${classNameList.MobileAndComputer}`},
+  // ]
+  // const typeNameData = [
+  //   {key:'1', value:`sale`},
+  //   {key:'2', value:`buy`},
+  // ]
+  // const cityNameData = [
+  //   {key:'1', value:`${cityNameList.Bagdad}`},
+  //   {key:'2', value:`${cityNameList.Babylon}`},
+  //   {key:'3', value:`${cityNameList.Karbala}`}
+  // ]
 
   /**
    * Handle ad creation
@@ -279,19 +315,6 @@ export default function CreateAdScreen() {
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* Group Name Input */}
-        {/* <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>Group Name</Text>
-          <TextInput
-            style={styles.textInput}
-            value={groupName}
-            onChangeText={setGroupName}
-            placeholder="Enter group name..."
-            placeholderTextColor="#AAAAAA"
-            maxLength={50}
-          />
-        </View> */}
-
         {/* Ad Inputs */}
         <View style={styles.inputContainer}>
           {/* image picker */}
@@ -330,32 +353,61 @@ export default function CreateAdScreen() {
             maxLength={500}
           />
           <Text style={styles.inputLabel}>Category</Text>
-          <SelectList 
+          {/* <SelectList 
               setSelected={(val: string) => setClassName(val)} 
               data={classNameData} 
               save="value"
               boxStyles={styles.textInput} //تحتاج تعديل
               inputStyles={{color: '#FFFFFF',}}
               dropdownTextStyles={{color: '#FFFFFF',}}
-          />
+          /> */}
+          <Picker
+            selectedValue={className}
+            style={styles.textInput}
+            onValueChange={(itemValue, itemIndex) =>
+              setClassName(itemValue)
+            }>
+            <Picker.Item label={classNameList.RealEstate} value={classNameList.RealEstate} />
+            <Picker.Item label={classNameList.WorkAndBusiness} value={classNameList.WorkAndBusiness} />
+            <Picker.Item label={classNameList.MobileAndComputer} value={classNameList.MobileAndComputer} />
+          </Picker>
           <Text style={styles.inputLabel}>Type</Text>
-          <SelectList 
+          {/* <SelectList 
               setSelected={(val: string) => setTypeName(val)} 
               data={typeNameData} 
               save="value"
               boxStyles={styles.textInput} //تحتاج تعديل
               inputStyles={{color: '#FFFFFF',}}
               dropdownTextStyles={{color: '#FFFFFF',}}
-          />
+          /> */}
+          <Picker
+            selectedValue={typeName}
+            style={styles.textInput}
+            onValueChange={(itemValue, itemIndex) =>
+              setTypeName(itemValue)
+            }>
+            <Picker.Item label="sale" value="sale" />
+            <Picker.Item label="buy" value="buy" />
+          </Picker>
           <Text style={styles.inputLabel}>City</Text>
-          <SelectList 
+          {/* <SelectList 
               setSelected={(val: string) => setCityName(val)} 
               data={cityNameData} 
               save="value"
               boxStyles={styles.textInput} //تحتاج تعديل
               inputStyles={{color: '#FFFFFF',}}
               dropdownTextStyles={{color: '#FFFFFF',}}
-          />
+          /> */}
+          <Picker
+            selectedValue={cityName}
+            style={styles.textInput}
+            onValueChange={(itemValue, itemIndex) =>
+              setCityName(itemValue)
+            }>
+            <Picker.Item label={cityNameList.Bagdad} value={cityNameList.Bagdad} />
+            <Picker.Item label={cityNameList.Babylon} value={cityNameList.Babylon} />
+            <Picker.Item label={cityNameList.Karbala} value={cityNameList.Karbala} />
+          </Picker>
           {/* Create Ad Button */}
           {/* <Button
             title={isCreating ? 'Creating...' : 'Create Ad'}
