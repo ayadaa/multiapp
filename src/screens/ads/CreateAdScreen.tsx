@@ -72,9 +72,37 @@ import { setImageAsync } from 'expo-clipboard';
 // import ImageCropPicker from 'react-native-image-crop-picker'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../config/firebase'; // Assuming your Firebase config is in firebaseConfig.js
-  
+import { launchImagePicker, openCamera, uploadImageAsync } from "./imagePickerHelper";
 
 export default function CreateAdScreen() {
+  const navigation = useNavigation<NavigationProp>();
+  const user = useSelector((state: RootState) => state.auth.user);
+  
+  const { createNewAd, refreshAds } = useAds(user?.uid || '');
+  
+  const [adTitle, setAdTitle] = useState('');
+  const [adDescription, setAdDescription] = useState('');
+  const [className, setClassName] = useState('Real estate');
+  const [typeName, setTypeName] = useState('sale');
+  const [cityName, setCityName] = useState('Bagdad');
+  
+  const [isCreating, setIsCreating] = useState(false);
+
+  // const classNameData = [
+  //   {key:'1', value:`${classNameList.RealEstate}`},
+  //   {key:'2', value:`${classNameList.WorkAndBusiness}`},
+  //   {key:'3', value:`${classNameList.MobileAndComputer}`},
+  // ]
+  // const typeNameData = [
+  //   {key:'1', value:`sale`},
+  //   {key:'2', value:`buy`},
+  // ]
+  // const cityNameData = [
+  //   {key:'1', value:`${cityNameList.Bagdad}`},
+  //   {key:'2', value:`${cityNameList.Babylon}`},
+  //   {key:'3', value:`${cityNameList.Karbala}`}
+  // ]
+
   const [image, setImage] = useState<any>(null);
   const [uploading, setUploading] = useState(false);
   const [imageUri, setImageUri] = useState<string>('');
@@ -83,6 +111,100 @@ export default function CreateAdScreen() {
   // const [img, setImg] = useState<any>(null);
   // const [loading, setLoading] = useState<bool>(false);
   // const [selectedRegion, setSelectedRegion] = useState<any>(null)
+
+
+  const [tempImageUri, setTempImageUri] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const pickImage = useCallback(async () => {
+		try {
+			const tempUri = await launchImagePicker();
+			if (!tempUri) return;
+
+			setTempImageUri(tempUri);
+		} catch (error) {
+			console.log(error);
+		}
+	}, [tempImageUri]);
+
+  const uploadImage = useCallback(async () => {
+		setIsLoading(true);
+
+		try {
+			if (tempImageUri) {
+				const uploadUrl = await uploadImageAsync(tempImageUri, true);
+				setIsLoading(false);
+
+        handleCreateAd(uploadUrl)
+
+				setTimeout(() => setTempImageUri(null), 500);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}, [isLoading, tempImageUri]);
+
+  const handleCreateAd = useCallback(async (url: string) => {
+    if (!adTitle.trim() || !adDescription.trim() || !typeName.trim() || !className.trim() || !cityName.trim() ) {
+      Alert.alert('Ad Data Required', 'Please enter all data for your ad.');
+      console.log('All ad data required!')
+      console.log(`data: ${adTitle.trim(), adDescription.trim(), typeName.trim(), className.trim(), cityName.trim()}`)
+      console.log(`adTitle: ${adTitle}`)
+      console.log(`cityName: ${cityName}`)
+      return;
+    }
+
+    if (!user) return;
+    setIsCreating(true);
+    try {
+      const adId = await createNewAd({
+        title: adTitle.trim(),
+        description: adDescription.trim(),
+        // adPicture: imageUrl,
+        adPicture: url,
+        createdBy: user.uid,
+        className: className.trim(),
+        typeName: typeName.trim(),
+        country: 'Iraq',
+        city: cityName.trim()
+      });
+
+      console.log(`adId: ${adId}`)
+      // handleRefresh; // Refresh ads list
+
+      Alert.alert(
+        'Ad Created!',
+        `"Ad has been created successfully.`,
+        [
+          {
+            text: 'OK',
+            onPress: () => {
+              // Navigate to the ads tab
+              // navigation.navigate('Ads');
+              navigation.goBack(); //ayad
+            }
+          }
+        ]
+      );
+      Alert.alert(
+        'Ad Created',
+        'Ad has been created.',
+        [{ text: 'OK' }]
+      );
+    } catch (error) {
+      Alert.alert(
+        'Error',
+        'Failed to create ad. Please try again.',
+        [{ text: 'OK' }]
+      );
+    } finally {
+      setIsCreating(false);
+    }
+  }, [image, imageUrl, adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
+  
+
+
+
 
   // const openGallery = () => {
   //   const options = { mediaTypes: 'photo', includeBase64: true, maxHeight: 2000, maxWidth: 2000 };
@@ -133,27 +255,27 @@ export default function CreateAdScreen() {
   // }, [img]);
 
   //pick an image
-  const pickImage = async () => {
-    // Request permissions
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      alert('Permission to access media library is required!');
-      return;
-    }
+  // const pickImage = async () => {
+  //   // Request permissions
+  //   const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  //   if (status !== 'granted') {
+  //     alert('Permission to access media library is required!');
+  //     return;
+  //   }
 
-    // Pick image
-    let result = await ImagePicker.launchImageLibraryAsync({
-      // mediaTypes: ImagePicker.MediaTypeOptions.All, // all images and vides
-      mediaTypes: ImagePicker.MediaTypeOptions.Images, // all images and vides
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
+  //   // Pick image
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     // mediaTypes: ImagePicker.MediaTypeOptions.All, // all images and vides
+  //     mediaTypes: ImagePicker.MediaTypeOptions.Images, // all images and vides
+  //     allowsEditing: true,
+  //     aspect: [4, 3],
+  //     quality: 1,
+  //   });
 
-    if (!result.canceled) {
-      setImage(result.assets[0].uri)
-    }
-  }
+  //   if (!result.canceled) {
+  //     setImage(result.assets[0].uri)
+  //   }
+  // }
 
   //upload media files
   // const uploadMedia = useCallback(async () => {
@@ -204,70 +326,70 @@ export default function CreateAdScreen() {
 
   
   // const pickAndUploadImage = async () => {
-  async function uploadImage() {
-    // Request permissions
-    // const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    // if (status !== 'granted') {
-    //   alert('Permission to access media library is required!');
-    //   return;
-    // }
+  // async function uploadImage() {
+  //   // Request permissions
+  //   // const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  //   // if (status !== 'granted') {
+  //   //   alert('Permission to access media library is required!');
+  //   //   return;
+  //   // }
   
-    // Pick an image
-    // const result = await ImagePicker.launchImageLibraryAsync({
-    //   mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    //   allowsEditing: true,
-    //   aspect: [4, 3],
-    //   quality: 1,
-    // });
+  //   // Pick an image
+  //   // const result = await ImagePicker.launchImageLibraryAsync({
+  //   //   mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //   //   allowsEditing: true,
+  //   //   aspect: [4, 3],
+  //   //   quality: 1,
+  //   // });
   
-    // if (!result.canceled) {
-    let url
-    if (image) {
-      // setImage(result.assets[0].uri)
-      // const uri = result.assets[0].uri;
-      const uri = image;
-      const fileName = uri.substring(uri.lastIndexOf('/') + 1); // Extract file name
+  //   // if (!result.canceled) {
+  //   let url
+  //   if (image) {
+  //     // setImage(result.assets[0].uri)
+  //     // const uri = result.assets[0].uri;
+  //     const uri = image;
+  //     const fileName = uri.substring(uri.lastIndexOf('/') + 1); // Extract file name
   
-      try {
-        const response = await fetch(uri);
-        const blob = await response.blob();
+  //     try {
+  //       const response = await fetch(uri);
+  //       const blob = await response.blob();
   
-        const storageRef = ref(storage, `images/${fileName}`);
-        const uploadTask = uploadBytesResumable(storageRef, blob);
+  //       const storageRef = ref(storage, `images/${fileName}`);
+  //       const uploadTask = uploadBytesResumable(storageRef, blob);
   
-        uploadTask.on('state_changed',
-          (snapshot) => {
-            // Track upload progress if needed
-            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload is ' + progress + '% done');
-          },
-          (error) => {
-            console.error("Upload error:", error);
-          },
-          async () => {
-            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-            setImageUrl(downloadURL);
-            console.log("Image uploaded, download URL:", downloadURL);
-            // You can now use this downloadURL, e.g., save it to a database
-            setImage(null)
-            // return downloadURL;
-            url = downloadURL;
-            return url;
-          }
-        );
-      } catch (e) {
-        console.error("Error uploading image:", e);
-        // const downloadURL = '';
-        // return downloadURL
-      }
-      setImage(null)
-    } else {
-      console.log('!image')
-      // const downloadURL = '';
-      // return downloadURL
-    }
-    return url
-  };
+  //       uploadTask.on('state_changed',
+  //         (snapshot) => {
+  //           // Track upload progress if needed
+  //           const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //           console.log('Upload is ' + progress + '% done');
+  //         },
+  //         (error) => {
+  //           console.error("Upload error:", error);
+  //         },
+  //         async () => {
+  //           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+  //           setImageUrl(downloadURL);
+  //           console.log("Image uploaded, download URL:", downloadURL);
+  //           // You can now use this downloadURL, e.g., save it to a database
+  //           setImage(null)
+  //           // return downloadURL;
+  //           url = downloadURL;
+  //           return url;
+  //         }
+  //       );
+  //     } catch (e) {
+  //       console.error("Error uploading image:", e);
+  //       // const downloadURL = '';
+  //       // return downloadURL
+  //     }
+  //     setImage(null)
+  //   } else {
+  //     console.log('!image')
+  //     // const downloadURL = '';
+  //     // return downloadURL
+  //   }
+  //   return url
+  // };
   
   // delete image
   // const deleteImage = async () => {
@@ -280,33 +402,7 @@ export default function CreateAdScreen() {
   //   }
   // }
 
-  const navigation = useNavigation<NavigationProp>();
-  const user = useSelector((state: RootState) => state.auth.user);
-  
-  const { createNewAd, refreshAds } = useAds(user?.uid || '');
-  
-  const [adTitle, setAdTitle] = useState('');
-  const [adDescription, setAdDescription] = useState('');
-  const [className, setClassName] = useState('Real estate');
-  const [typeName, setTypeName] = useState('sale');
-  const [cityName, setCityName] = useState('Bagdad');
-  
-  const [isCreating, setIsCreating] = useState(false);
 
-  // const classNameData = [
-  //   {key:'1', value:`${classNameList.RealEstate}`},
-  //   {key:'2', value:`${classNameList.WorkAndBusiness}`},
-  //   {key:'3', value:`${classNameList.MobileAndComputer}`},
-  // ]
-  // const typeNameData = [
-  //   {key:'1', value:`sale`},
-  //   {key:'2', value:`buy`},
-  // ]
-  // const cityNameData = [
-  //   {key:'1', value:`${cityNameList.Bagdad}`},
-  //   {key:'2', value:`${cityNameList.Babylon}`},
-  //   {key:'3', value:`${cityNameList.Karbala}`}
-  // ]
 
   /**
    * Handle ad creation
@@ -370,116 +466,118 @@ export default function CreateAdScreen() {
   //     }
   //   })
   // }, [image, imageUrl, adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
-  const handleCreateAd = useCallback(async () => {
-    if (!adTitle.trim() || !adDescription.trim() || !typeName.trim() || !className.trim() || !cityName.trim() ) {
-      Alert.alert('Ad Data Required', 'Please enter all data for your ad.');
-      console.log('All ad data required!')
-      console.log(`data: ${adTitle.trim(), adDescription.trim(), typeName.trim(), className.trim(), cityName.trim()}`)
-      console.log(`adTitle: ${adTitle}`)
-      console.log(`cityName: ${cityName}`)
-      return;
-    }
-
-    if (!user) return;
-    setIsCreating(true);
-
-    if (image) {
-      // setImage(result.assets[0].uri)
-      // const uri = result.assets[0].uri;
-      const uri = image;
-      const fileName = uri.substring(uri.lastIndexOf('/') + 1); // Extract file name
   
-      try {
-        const response = await fetch(uri);
-        const blob = await response.blob();
   
-        const storageRef = ref(storage, `images/${fileName}`);
-        const uploadTask = uploadBytesResumable(storageRef, blob);
+  // const handleCreateAd = useCallback(async () => {
+  //   if (!adTitle.trim() || !adDescription.trim() || !typeName.trim() || !className.trim() || !cityName.trim() ) {
+  //     Alert.alert('Ad Data Required', 'Please enter all data for your ad.');
+  //     console.log('All ad data required!')
+  //     console.log(`data: ${adTitle.trim(), adDescription.trim(), typeName.trim(), className.trim(), cityName.trim()}`)
+  //     console.log(`adTitle: ${adTitle}`)
+  //     console.log(`cityName: ${cityName}`)
+  //     return;
+  //   }
+
+  //   if (!user) return;
+  //   setIsCreating(true);
+
+  //   if (image) {
+  //     // setImage(result.assets[0].uri)
+  //     // const uri = result.assets[0].uri;
+  //     const uri = image;
+  //     const fileName = uri.substring(uri.lastIndexOf('/') + 1); // Extract file name
   
-        uploadTask.on('state_changed',
-          (snapshot) => {
-            // Track upload progress if needed
-            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload is ' + progress + '% done');
-          },
-          (error) => {
-            console.error("Upload error:", error);
-          },
-          async () => {
-            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-            // setImageUrl(downloadURL);
-            console.log("Image uploaded, download URL:", downloadURL);
-            // You can now use this downloadURL, e.g., save it to a database
-            setImage(null)
-            // return downloadURL;
-            // url = downloadURL;
-            // return url;
+  //     try {
+  //       const response = await fetch(uri);
+  //       const blob = await response.blob();
+  
+  //       const storageRef = ref(storage, `images/${fileName}`);
+  //       const uploadTask = uploadBytesResumable(storageRef, blob);
+  
+  //       uploadTask.on('state_changed',
+  //         (snapshot) => {
+  //           // Track upload progress if needed
+  //           const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //           console.log('Upload is ' + progress + '% done');
+  //         },
+  //         (error) => {
+  //           console.error("Upload error:", error);
+  //         },
+  //         async () => {
+  //           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+  //           // setImageUrl(downloadURL);
+  //           console.log("Image uploaded, download URL:", downloadURL);
+  //           // You can now use this downloadURL, e.g., save it to a database
+  //           setImage(null)
+  //           // return downloadURL;
+  //           // url = downloadURL;
+  //           // return url;
 
 
-            try {
-              const adId = await createNewAd({
-                title: adTitle.trim(),
-                description: adDescription.trim(),
-                // adPicture: imageUrl,
-                adPicture: downloadURL,
-                createdBy: user.uid,
-                className: className.trim(),
-                typeName: typeName.trim(),
-                country: 'Iraq',
-                city: cityName.trim()
-              });
+  //           try {
+  //             const adId = await createNewAd({
+  //               title: adTitle.trim(),
+  //               description: adDescription.trim(),
+  //               // adPicture: imageUrl,
+  //               adPicture: downloadURL,
+  //               createdBy: user.uid,
+  //               className: className.trim(),
+  //               typeName: typeName.trim(),
+  //               country: 'Iraq',
+  //               city: cityName.trim()
+  //             });
       
-              console.log(`adId: ${adId}`)
-              // handleRefresh; // Refresh ads list
+  //             console.log(`adId: ${adId}`)
+  //             // handleRefresh; // Refresh ads list
       
-              Alert.alert(
-                'Ad Created!',
-                `"Ad has been created successfully.`,
-                [
-                  {
-                    text: 'OK',
-                    onPress: () => {
-                      // Navigate to the ads tab
-                      // navigation.navigate('Ads');
-                      navigation.goBack(); //ayad
-                    }
-                  }
-                ]
-              );
-              Alert.alert(
-                'Ad Created',
-                'Ad has been created.',
-                [{ text: 'OK' }]
-              );
-            } catch (error) {
-              Alert.alert(
-                'Error',
-                'Failed to create ad. Please try again.',
-                [{ text: 'OK' }]
-              );
-            } finally {
-              setIsCreating(false);
-            }
+  //             Alert.alert(
+  //               'Ad Created!',
+  //               `"Ad has been created successfully.`,
+  //               [
+  //                 {
+  //                   text: 'OK',
+  //                   onPress: () => {
+  //                     // Navigate to the ads tab
+  //                     // navigation.navigate('Ads');
+  //                     navigation.goBack(); //ayad
+  //                   }
+  //                 }
+  //               ]
+  //             );
+  //             Alert.alert(
+  //               'Ad Created',
+  //               'Ad has been created.',
+  //               [{ text: 'OK' }]
+  //             );
+  //           } catch (error) {
+  //             Alert.alert(
+  //               'Error',
+  //               'Failed to create ad. Please try again.',
+  //               [{ text: 'OK' }]
+  //             );
+  //           } finally {
+  //             setIsCreating(false);
+  //           }
 
 
-          }
-        );
-      } catch (e) {
-        console.error("Error uploading image:", e);
-        // const downloadURL = '';
-        // return downloadURL
-      }
-      setImage(null)
-    } else {
-      console.log('!image')
-      // const downloadURL = '';
-      // return downloadURL
-    }
+  //         }
+  //       );
+  //     } catch (e) {
+  //       console.error("Error uploading image:", e);
+  //       // const downloadURL = '';
+  //       // return downloadURL
+  //     }
+  //     setImage(null)
+  //   } else {
+  //     console.log('!image')
+  //     // const downloadURL = '';
+  //     // return downloadURL
+  //   }
 
-    // await uploadImage().then(async (url) => {
+  //   // await uploadImage().then(async (url) => {
       
-    // })
-  }, [image, adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
+  //   // })
+  // }, [image, adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
 
   /**
    * Handle refresh
@@ -616,7 +714,8 @@ export default function CreateAdScreen() {
         <View style={{ marginTop: 16, paddingHorizontal: 16, paddingVertical: 12 }}>
           <Button
             title={isCreating ? 'Creating...' : 'Create Ad'}
-            onPress={handleCreateAd}
+            // onPress={handleCreateAd}
+            onPress={uploadImage}
             disabled={isCreating || !adTitle.trim() || !adDescription.trim() || !typeName.trim() || !className.trim() || !cityName.trim() }
             style={styles.createButton}
           />
