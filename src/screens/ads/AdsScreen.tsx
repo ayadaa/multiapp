@@ -6,7 +6,8 @@ import {
   TouchableOpacity, 
   StyleSheet, 
   RefreshControl,
-  Alert
+  Alert,
+  Image
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -147,12 +148,17 @@ export function AdsScreen() {
                     width: 50,
                     height: 50,
                     borderRadius: 25,
-                    backgroundColor: 'rgba(0, 200, 100, 0.8)',
+                    // backgroundColor: 'rgba(0, 200, 100, 0.8)',
                     alignItems: 'center',
                     justifyContent: 'center',
                     marginRight: 16,
                   }}>
-                    <Ionicons name="people" size={24} color="#FFFFFF" />
+                    {/* <Ionicons name="people" size={24} color="#FFFFFF" /> */}
+                    <Image
+                      source={{ uri: ad.adPicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
+                      style={styles.image}
+                      resizeMode="cover"
+                    />
                   </View>
 
                   <View style={{ flex: 1 }}>
@@ -376,5 +382,9 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '500',
     textAlign: 'center',
+  },
+  image: {
+    height: 64,
+    width: 64,
   },
 }); 

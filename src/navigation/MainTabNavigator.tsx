@@ -10,6 +10,7 @@ import { AdsScreen } from '../screens/ads/AdsScreen';
 import { FriendsStackNavigator } from './FriendsStackNavigator';
 import StoriesScreen from '../screens/stories/StoriesScreen';
 import { ProfileScreen } from '../screens/profile/ProfileScreen';
+import { WalletScreen } from '../screens/wallet/WalletScreen';
 import { MainTabParamList } from '../types/navigation';
 
 import { Screen } from '../components/common/Screen';
@@ -171,6 +172,21 @@ export function MainTabNavigator() {
           }}
         />
         
+        <Tab.Screen
+          name="Wallet"
+          component={WalletScreen}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <Text style={{ 
+                fontSize: 20, 
+                color: focused ? '#0084FF' : 'rgba(255, 255, 255, 0.6)' 
+              }}>
+                💳
+              </Text>
+            ),
+            tabBarLabel: 'Wallet',
+          }}
+        />
         <Tab.Screen
           name="Profile"
           component={ProfileScreen}

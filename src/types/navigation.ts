@@ -43,6 +43,7 @@ export type MainTabParamList = {
   // Math: undefined;
   Friends: undefined;
   Stories: undefined;
+  Wallet: undefined;
   Profile: undefined;
 };
 

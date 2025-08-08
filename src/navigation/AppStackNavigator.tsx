@@ -45,7 +45,7 @@ export default function AppStackNavigator() {
         name="IndividualChat" 
         component={IndividualChatScreen}
         options={{
-          headerShown: true,
+          headerShown: false,
           headerStyle: { backgroundColor: '#000000' },
           headerTintColor: '#FFFFFF',
           headerTitle: '',
@@ -89,7 +89,7 @@ export default function AppStackNavigator() {
         component={AdDetails}
         // component={CreateAdScreen}
         options={{
-          headerShown: false,
+          headerShown: true,
         }}
       />
 

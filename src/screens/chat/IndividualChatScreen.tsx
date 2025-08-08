@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Alert, StyleSheet, } from 'react-native';
 import { useRoute, useNavigation, type RouteProp } from '@react-navigation/native';
 import { type StackNavigationProp } from '@react-navigation/stack';
 import { Screen } from '../../components/common/Screen';
@@ -9,6 +9,7 @@ import { useMessages } from '../../hooks/chat/use-messages';
 import { useAuth } from '../../hooks/auth/use-auth';
 import { getUserProfile, type UserProfile } from '../../services/firebase/firestore.service';
 import { type Message } from '../../services/firebase/firestore.service';
+import { Ionicons } from '@expo/vector-icons'; //ayad
 
 type ChatStackParamList = {
   IndividualChat: {
@@ -139,6 +140,24 @@ export function IndividualChatScreen() {
         </Text>
       </View>
     </View>
+
+    // <View style={styles.header}>
+    //   <TouchableOpacity
+    //     style={styles.headerBackButton}
+    //     onPress={() => navigation.goBack()}
+    //   >
+    //     <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
+    //   </TouchableOpacity>
+      
+    //   <View style={styles.headerInfo}>
+    //     <Text style={styles.userName} numberOfLines={1}>
+    //       {otherUser?.username || 'Unknown User'}
+    //     </Text>
+    //     <Text style={styles.onlineState}>
+    //       {otherUser?.isOnline ? 'Online' : 'Offline'}
+    //     </Text>
+    //   </View>
+    // </View>
   );
 
   const renderEmptyState = () => (
@@ -219,7 +238,7 @@ export function IndividualChatScreen() {
   }
 
   return (
-    <Screen backgroundColor="#000000" statusBarStyle="light-content">
+    <Screen style={styles.container}>
       {renderHeader()}
       
       <View style={{ flex: 1 }}>
@@ -264,3 +283,35 @@ export function IndividualChatScreen() {
     </Screen>
   );
 } 
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#000000',
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  headerBackButton: {
+    padding: 8,
+    marginRight: 8,
+  },
+  headerInfo: {
+    flex: 1,
+  },
+  userName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  onlineState: {
+    fontSize: 12,
+    color: '#AAAAAA',
+    marginTop: 2,
+  },
+})

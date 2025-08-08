@@ -191,7 +191,7 @@ export default function GroupChatScreen() {
 
   return (
     <Screen style={styles.container}>
-      {/* Header */}
+      Header
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.headerBackButton}

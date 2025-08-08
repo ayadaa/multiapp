@@ -65,7 +65,7 @@ export const uploadImageAsync = async (uri: string, isChatImage = false, isStatu
 
 	await uploadBytesResumable(storageRef, blob);
 
-	blob.close();
+	// blob.close();
 
 	return await getDownloadURL(storageRef);
 };

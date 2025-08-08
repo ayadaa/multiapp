@@ -142,7 +142,7 @@ export default function CreateAdScreen() {
 		} catch (error) {
 			console.log(error);
 		}
-	}, [isLoading, tempImageUri]);
+	}, [tempImageUri, adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
 
   const handleCreateAd = useCallback(async (url: string) => {
     if (!adTitle.trim() || !adDescription.trim() || !typeName.trim() || !className.trim() || !cityName.trim() ) {
@@ -200,9 +200,8 @@ export default function CreateAdScreen() {
     } finally {
       setIsCreating(false);
     }
-  }, [image, imageUrl, adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
-  
-
+  // }, [image, imageUrl, adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
+  }, [tempImageUri, adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
 
 
 
@@ -615,9 +614,11 @@ export default function CreateAdScreen() {
           {/* <TouchableOpacity style={styles.textInput} onPress={openGallery}> */}
             <Text style={styles.textInput}>Pick an image</Text>
           </TouchableOpacity>
-          {image && (
+          {/* {image && ( */}
+          {tempImageUri && (
             <Image
-              source={{ uri: image }}
+              // source={{ uri: image }}
+              source={{ uri: tempImageUri }}
               style={{ width: 200, height: 200 }}
             />
           )}
