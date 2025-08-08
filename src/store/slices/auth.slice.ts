@@ -6,6 +6,7 @@ export interface User {
   username: string;
   createdAt?: Date;
   lastLogin?: Date;
+  balance?: number;
 }
 
 interface AuthState {

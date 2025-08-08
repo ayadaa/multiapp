@@ -92,7 +92,7 @@ export function WalletScreen() {
           </View> */}
           <View style={styles.balanceSection}>
             <Text style={styles.username}>{user?.balance || '1000'} 💎</Text>
-            <Text style={styles.email}>{user?.balance / 10 || '100'} $</Text>
+            <Text style={styles.email}>{user?.balance ? user.balance / 10 : '100'} $</Text>
           </View>
 
           <View style={styles.balanceSection}>
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 16,
     // backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    borderRadius: 12,
+    // borderRadius: 12,
     marginBottom: 8,
     height: CardHeight,
     // backgroundColor: '#000000',

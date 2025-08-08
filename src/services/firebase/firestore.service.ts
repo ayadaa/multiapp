@@ -36,6 +36,7 @@ export interface UserProfile {
   createdAt: Timestamp;
   lastSeen: Timestamp;
   isOnline?: boolean;
+  balance?: number;
 }
 
 export interface Friendship {
