@@ -3,7 +3,7 @@
  * Displays user profile information and provides logout functionality
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -23,14 +23,16 @@ import { Screen } from '../../components/common/Screen';
 import Assets from "../../constants/Assets"
 import { collect } from '../../services/firebase/wallet.service';
 import { useUser } from '../../hooks/user/use-user';
+import { Timestamp } from 'firebase/firestore';
 import { ref } from 'firebase/storage';
+// import { Timestamp } from "firebase-admin/firestore";
 
 const FullWidth = Dimensions.get("screen").width;
 const CardWidth_0 = Math.min(FullWidth, 500) - 20 * 2;
 const CardWidth = Dimensions.get("window").width  - 20 * 2;
 const CardHeight = CardWidth_0 / 1.8
 
-export function WalletScreen() {
+export function WalletScreen() {  
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
   const {
@@ -39,17 +41,67 @@ export function WalletScreen() {
     userError,
     refreshUser
   } = useUser(user?.uid || '');
+  // const [time, setTime] = useState<number>(1 * 24 * 60 * 60 * 1000);
+  const [time, setTime] = useState<number>(0);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
+
+  // const [minEndTime, setMinEndTime] = useState<number>(User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis());
+  // const date = new Date().getTime();
+  // const date = new Date().getTime();
+  // const miningEndTime = User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis();
+  // const timeDiff = miningEndTime - date;
+  // setTime(timeDiff);
+
+  //set time
+  useEffect(() => {
+    // const date = new Date().getTime();
+    // const miningEndTime = User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis();
+    // const timeDiff = miningEndTime - date;
+    // setTime(timeDiff);
+
+    setTimeout(() => {
+      // setTime((prevTime) => prevTime - 1000);
+      const miningEndTime = User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis();
+      // const timeDiff = miningEndTime - date;
+      const timeDiff = miningEndTime - Timestamp.now().toMillis();
+      // console.log('miningEndTime, timeDiff, User?.miningEndTime!.toMillis()', miningEndTime, timeDiff, User?.miningEndTime!.toMillis())
+      setTime(timeDiff);
+    }, 1000);
+    //set is desable
+    if (((User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis()) - Timestamp.now().toMillis()) > 0) {
+      setIsDisabled(true);
+    } else {
+      setIsDisabled(false);
+    }
+  }, [time, User?.miningEndTime]);
+
+  const getFormattedTime = (milliSeconds: number) => {
+    const seconds = Math.floor((milliSeconds / 1000) % 60);
+    const minutes = Math.floor((milliSeconds / (1000 * 60)) % 60);
+    const hours = Math.floor((milliSeconds / (1000 * 60 * 60)) % 24);
+    // const days = Math.floor(milliSeconds / (1000 * 60 * 60 * 24));
+
+    // return `${days}: ${hours}: ${minutes}: ${seconds}`;
+    return `${hours}: ${minutes}: ${seconds}`;
+  }
+  
 
   /**
    * Handle collection
    */
   const handleCollection = useCallback(async () => {
+    // if (((User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis()) - Timestamp.now().toMillis()) > 0) {
+    //   return console.log('mining end time not reached');
+    // }
+    
     const newBalance = await collect(user?.uid || '0')
-    console.log('user?.balance, newBalance', user?.balance, newBalance)
+    console.log('newBalance', newBalance)
     Alert.alert(
       'Collection',
       `Collection completed successfukky! New balance ${newBalance}`,
     );
+    refreshUser();
+    // setMinEndTime(User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis())
   }, [user?.uid]);
 
   return (
@@ -80,8 +132,8 @@ export function WalletScreen() {
       >
         <View style={styles.card}>
           <View style={styles.balanceSection}>
-            <Text style={styles.username}>{User?.balance || '1000'} 💎</Text>
-            <Text style={styles.email}>{User?.balance ? User.balance / 10 : '100'} $</Text>
+            <Text style={styles.username}>{Math.round((User?.balance || 1000) * 1000) / 1000} 💎</Text>
+            <Text style={styles.email}>{Math.round((User?.balance ? User.balance / 10 : 100) * 1000) / 1000} $</Text>
           </View>
           <View style={styles.balanceSection}>
             <Text style={styles.username}>@{user?.username || 'username'}</Text>
@@ -97,14 +149,17 @@ export function WalletScreen() {
             // collect(user?.uid || '0')
             handleCollection();
           }}
+          disabled={isDisabled}
           >
             <View style={styles.menuItemLeft}>
-              <Text style={styles.menuItemText}>Mining ⛏💎</Text>
+              <Text style={styles.menuItemText}>Mining ⛏💎 : {User?.miningSpeed || 0} / day</Text>
             </View>
             <View style={styles.menuItemLeft}>
               {/* <Text style={styles.menuItemText}>Start Mining</Text> */}
-              {/* <Text style={styles.menuItemText}>23:54:10</Text> */}
-              <Text style={styles.menuItemText}>Collection</Text>
+              {/* <Text style={styles.menuItemText}>{getFormattedTime(time)}</Text> */}
+              {/* <Text style={styles.menuItemText}>Collection</Text> */}
+              {(User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis()) - Timestamp.now().toMillis() > 0 && <Text style={styles.menuItemText}>{getFormattedTime(time)}</Text>}
+              {(User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis()) - Timestamp.now().toMillis() <= 0 && <Text style={styles.menuItemText}>Collection</Text>}
             </View>
           </TouchableOpacity>
 

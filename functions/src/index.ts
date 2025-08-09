@@ -30,8 +30,10 @@
 export {
   // helloworld,
   // getUsername,
-  collection,
-  collectionCall
+  // collection,
+  collectionCall,
+  sendAssetsCall,
+  updateMiningSpeedCall
 } from "./functions/app.functions";
 
 
