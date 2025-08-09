@@ -21,11 +21,12 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { clearUser } from '../../store/slices/auth.slice';
 import { Screen } from '../../components/common/Screen';
 import Assets from "../../constants/Assets"
-import { collect } from '../../services/firebase/wallet.service';
+import { useWallet } from '../../hooks/wallet/use-wallet';
 import { useUser } from '../../hooks/user/use-user';
 import { Timestamp } from 'firebase/firestore';
 import { ref } from 'firebase/storage';
 // import { Timestamp } from "firebase-admin/firestore";
+import { useNavigation } from '@react-navigation/native';
 
 const FullWidth = Dimensions.get("screen").width;
 const CardWidth_0 = Math.min(FullWidth, 500) - 20 * 2;
@@ -33,6 +34,7 @@ const CardWidth = Dimensions.get("window").width  - 20 * 2;
 const CardHeight = CardWidth_0 / 1.8
 
 export function WalletScreen() {  
+  const navigation = useNavigation<any>();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
   const {
@@ -41,6 +43,7 @@ export function WalletScreen() {
     userError,
     refreshUser
   } = useUser(user?.uid || '');
+  const { collect } = useWallet();
   // const [time, setTime] = useState<number>(1 * 24 * 60 * 60 * 1000);
   const [time, setTime] = useState<number>(0);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
@@ -97,12 +100,16 @@ export function WalletScreen() {
     const newBalance = await collect(user?.uid || '0')
     console.log('newBalance', newBalance)
     Alert.alert(
-      'Collection',
-      `Collection completed successfukky! New balance ${newBalance}`,
+      'collection',
+      `collection completed successfukky! New balance ${newBalance}`,
     );
     refreshUser();
     // setMinEndTime(User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis())
   }, [user?.uid]);
+
+  const navigateToSend = () => {
+    navigation.navigate('Send');
+  };
 
   return (
     <Screen style={styles.container}>
@@ -163,10 +170,13 @@ export function WalletScreen() {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.menuItem}>
+          <TouchableOpacity 
+          style={styles.menuItem}
+          onPress={navigateToSend}
+          >
             <View style={styles.menuItemLeft}>
               <Ionicons name="person-outline" size={20} color="rgba(255, 255, 255, 0.8)" />
-              <Text style={styles.menuItemText}>Edit Profile</Text>
+              <Text style={styles.menuItemText}>Send</Text>
             </View>
             <Ionicons name="chevron-forward" size={16} color="rgba(255, 255, 255, 0.4)" />
           </TouchableOpacity>

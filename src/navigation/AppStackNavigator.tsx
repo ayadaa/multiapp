@@ -12,6 +12,7 @@ import StoryViewerScreen from '../screens/stories/StoryViewerScreen';
 import CreateGroupScreen from '../screens/chat/CreateGroupScreen';
 import CreateAdScreen from '../screens/ads/CreateAdScreen';
 import AdDetails from '../screens/ads/AdDetails';
+import { SendScreen } from '../screens/wallet/SendScreen';
 import GroupChatScreen from '../screens/chat/GroupChatScreen';
 import GroupSettingsScreen from '../screens/chat/GroupSettingsScreen';
 import { ChallengeViewerScreen } from '../components/rag/ChallengeViewerScreen';
@@ -88,6 +89,14 @@ export default function AppStackNavigator() {
         name="AdDetails" 
         component={AdDetails}
         // component={CreateAdScreen}
+        options={{
+          headerShown: true,
+        }}
+      />
+
+      <Stack.Screen 
+        name="Send" 
+        component={SendScreen}
         options={{
           headerShown: true,
         }}

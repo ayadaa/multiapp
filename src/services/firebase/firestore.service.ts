@@ -192,7 +192,7 @@ export async function checkUsernameAvailability(username: string): Promise<boole
     throw new Error('Failed to check username availability');
   }
 }
-
+ 
 /**
  * Get user profile by ID
  */

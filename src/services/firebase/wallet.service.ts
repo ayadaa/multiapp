@@ -1,9 +1,31 @@
 // import { httpsCallable } from 'firebase/functions';
 import * as Functions from 'firebase/functions';
-import { doc, getDoc, setDoc, updateDoc, collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
-import { functions, db } from '../../config/firebase';
+import { 
+    doc, 
+    getDoc, 
+    getDocs, 
+    setDoc, 
+    updateDoc, 
+    deleteDoc, 
+    query, 
+    where, 
+    orderBy, 
+    limit, 
+    collection,
+    serverTimestamp,
+    onSnapshot,
+    Timestamp,
+    writeBatch,
+    arrayUnion,
+    arrayRemove,
+    increment
+  } from 'firebase/firestore';
+import { functions } from '../../config/firebase';
+import { db } from '../../config/firebase';
 
 const collectionCallable = Functions.httpsCallable(functions, 'collectionCall');
+const sendAssetsCallable = Functions.httpsCallable(functions, 'sendAssetsCall');
+const updateMiningSpeedCallable = Functions.httpsCallable(functions, 'updateMiningSpeedCall');
 
 export async function collect(uId: string) {
     try {
@@ -16,6 +38,47 @@ export async function collect(uId: string) {
     }
 }
 
+export async function sendAssets(sender: string, receiver: string, amount: number) {
+    try {
+        const result = await sendAssetsCallable({sender: sender, receiver: receiver, amount: amount});
+        console.log('Result data from sendAssetsCall:', result.data)
+        // return result.data;
+        return {success: 'success', data: result.data};
+    } catch (error) {
+        console.error('Error in sendAssetsCall:', error);
+        throw new Error('Failed in sendAssetsCall function. Please try again.');  
+    }
+}
+
+export async function updateMiningSpeed(uid: string, offer: string) {
+    try {
+        const result = await updateMiningSpeedCallable({uid: uid, offer: offer});
+        console.log('Result data from updateMiningSpeedCall:', result.data)
+        return result.data;
+    } catch (error) {
+        console.error('Error in updateMiningSpeedCall:', error);
+        throw new Error('Failed in updateMiningSpeedCall function. Please try again.');  
+    }
+}
+
+/**
+ * Check if an address is exist
+ */
+export async function checkAddressExisting(uId: string): Promise<boolean> {
+    try {
+        const usersQuery = query(
+        collection(db, 'users'),
+        where('uid', '==', uId),
+        limit(1)
+        );
+    //   const uDoc = await getDoc(doc(db, 'users', uid));
+        const querySnapshot = await getDocs(usersQuery);
+        return querySnapshot.empty;
+    } catch (error) {
+        console.error('Username availability check error:', error);
+        throw new Error('Failed to check username availability');
+    }
+}
 
 
 // export async function collect(uId: string): Promise<string> {

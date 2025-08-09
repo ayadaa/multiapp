@@ -66,6 +66,7 @@ export type AppStackParamList = {
   };
   CreateGroup: undefined;
   CreateAd: undefined;
+  Send:undefined;
   AdDetails: Ad;
   StoryViewer: {
     storyId: string;

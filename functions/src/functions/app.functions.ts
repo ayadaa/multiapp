@@ -209,7 +209,7 @@ export const sendAssetsCall = functions.https.onCall(async (data: {sender: strin
         const senderId = data.sender
         const docSenderRef = db.collection('users').doc(`${senderId}`);
         const docSender = await docSenderRef.get();
-        const senderBalance = docSender.data()?.balance || 0;
+        const senderBalance = (docSender.data()?.balance) as number || 0;
         //receiver
         // const receiverUsername = data.receiver
         // const docReceiverRef = db.collection('users').where('username', '==', receiverUsername);
@@ -223,7 +223,7 @@ export const sendAssetsCall = functions.https.onCall(async (data: {sender: strin
         
         // if (docSender.exists && docReceiver.size > 0 && senderBalance >= data.amount) {
         if (docSender.exists && docReceiver.exists && senderBalance >= data.amount) {
-            const receiverBalance = docReceiver.data()?.balance || 0;
+            const receiverBalance = (docReceiver.data()?.balance) as number || 0;
             const newSenderBalance = senderBalance - data.amount;
             const newReceiverBalance = receiverBalance + data.amount;
             //update sender balance
