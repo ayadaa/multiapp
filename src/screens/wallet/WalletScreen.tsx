@@ -3,7 +3,7 @@
  * Displays user profile information and provides logout functionality
  */
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   View,
   Text,
@@ -13,13 +13,17 @@ import {
   ScrollView,
   FlatList,
   Dimensions,
-  Image
+  Image,
+  RefreshControl
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { clearUser } from '../../store/slices/auth.slice';
 import { Screen } from '../../components/common/Screen';
 import Assets from "../../constants/Assets"
+import { collect } from '../../services/firebase/wallet.service';
+import { useUser } from '../../hooks/user/use-user';
+import { ref } from 'firebase/storage';
 
 const FullWidth = Dimensions.get("screen").width;
 const CardWidth_0 = Math.min(FullWidth, 500) - 20 * 2;
@@ -29,94 +33,71 @@ const CardHeight = CardWidth_0 / 1.8
 export function WalletScreen() {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
+  const {
+    User,
+    isLoadingUser,
+    userError,
+    refreshUser
+  } = useUser(user?.uid || '');
 
   /**
-   * Handle logout with confirmation
+   * Handle collection
    */
-  const handleLogout = () => {
+  const handleCollection = useCallback(async () => {
+    const newBalance = await collect(user?.uid || '0')
+    console.log('user?.balance, newBalance', user?.balance, newBalance)
     Alert.alert(
-      'Logout',
-      'Are you sure you want to logout?',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {
-          text: 'Logout',
-          style: 'destructive',
-          onPress: () => {
-            dispatch(clearUser());
-          },
-        },
-      ]
+      'Collection',
+      `Collection completed successfukky! New balance ${newBalance}`,
     );
-  };
+  }, [user?.uid]);
 
   return (
-    // <FlatList 
-      // ListHeaderComponent={
-        // <View style={{
-        //   overflow: "hidden"
-        //   , borderRadius: 28
-        //   , width: CardWidth
-        //   , height: CardHeight
-        //   , marginBottom: 20
-        //   , alignSelf: "center"
-        // }}>
-        //   <Image source={Assets.Card} style={{ position: "absolute", height: "100%", width: "100%" }} resizeMode="cover" />
-          // <View style={{ paddingLeft: 28, paddingTop: 28 }}>
-          //   <Text style={{ color: "#fff", fontWeight: "700", fontSize: 32 }}>$ 12222.74</Text>
-          //   <Text style={{ color: "#fff", marginTop: 5, fontSize: 15 }}>≈ 345268.754 ₿</Text>
-          // </View>
-          // <View style={{ flex: 1, justifyContent: "flex-end", paddingLeft: 28, paddingBottom: 28 }}>
-          //   <Text style={{ color: "#fff", marginTop: 20, fontSize: 10 }}>This balance is not real.</Text>
-          // </View>
-        // </View>
-      // }
-    // />
     <Screen style={styles.container}>
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-        {/* Header */}
-        {/* <View style={styles.header}>
-          <Text style={styles.headerTitle}>Wallet</Text>
-        </View> */}
-
+      {/* Error State */}
+      {userError && (
+        <View style={styles.errorContainer}>
+          <Ionicons name="alert-circle" size={24} color="#FF3B30" />
+          <Text style={styles.errorText}>{userError}</Text>
+          <TouchableOpacity
+            style={styles.retryButton}
+            onPress={refreshUser}
+          >
+            <Text style={styles.retryText}>Retry</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+      <ScrollView 
+      style={styles.content} 
+      showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl
+          refreshing={isLoadingUser}
+          onRefresh={refreshUser}
+          tintColor="white"
+        />
+      }
+      >
         <View style={styles.card}>
-          {/* <Text style={styles.headerTitle}>Cadr</Text>
-          <Text style={styles.headerTitle}>Cadr</Text>
-          <Text style={styles.headerTitle}>Cadr</Text> */}
-          {/* <View style={{ paddingLeft: 28, paddingTop: 28 }}>
-            <Text style={{ color: "#fff", fontWeight: "700", fontSize: 32 }}>$ 12222.74</Text>
-            <Text style={{ color: "#fff", marginTop: 5, fontSize: 15 }}>≈ 345268.754 ₿</Text>
-          </View> */}
           <View style={styles.balanceSection}>
-            <Text style={styles.username}>{user?.balance || '1000'} 💎</Text>
-            <Text style={styles.email}>{user?.balance ? user.balance / 10 : '100'} $</Text>
+            <Text style={styles.username}>{User?.balance || '1000'} 💎</Text>
+            <Text style={styles.email}>{User?.balance ? User.balance / 10 : '100'} $</Text>
           </View>
-
           <View style={styles.balanceSection}>
             <Text style={styles.username}>@{user?.username || 'username'}</Text>
             <Text style={styles.email}>{user?.email || 'email@example.com'}</Text>
           </View>
         </View>
-
-        {/* Profile Info */}
-        {/* <View style={styles.profileSection}>
-          <View style={styles.avatarContainer}>
-            <View style={styles.avatar}>
-              <Ionicons name="person" size={48} color="rgba(255, 255, 255, 0.8)" />
-            </View>
-          </View>
-          
-          <Text style={styles.username}>@{user?.username || 'username'}</Text>
-          <Text style={styles.email}>{user?.email || 'email@example.com'}</Text>
-        </View> */}
-
         {/* Menu Items */}
         <View style={styles.menuSection}>
           {/*Mining ⛏💎 */}
-          <TouchableOpacity style={styles.menuItem}>
+          <TouchableOpacity 
+          style={styles.menuItem}
+          onPress={() => {
+            // collect(user?.uid || '0')
+            handleCollection();
+          }}
+          >
             <View style={styles.menuItemLeft}>
               <Text style={styles.menuItemText}>Mining ⛏💎</Text>
             </View>
@@ -159,15 +140,6 @@ export function WalletScreen() {
             <Ionicons name="chevron-forward" size={16} color="rgba(255, 255, 255, 0.4)" />
           </TouchableOpacity>
         </View>
-
-        {/* Logout Section */}
-        {/* <View style={styles.logoutSection}>
-          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <Ionicons name="log-out-outline" size={20} color="#FF3B30" />
-            <Text style={styles.logoutText}>Logout</Text>
-          </TouchableOpacity>
-        </View> */}
-
         {/* App Info */}
         <View style={styles.appInfo}>
           <Text style={styles.appInfoText}>Snap Factor v1.0</Text>
@@ -315,5 +287,33 @@ const styles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.4)',
     fontSize: 12,
     marginBottom: 4,
+  },
+  errorContainer: {
+    backgroundColor: 'rgba(255, 59, 48, 0.2)',
+    marginHorizontal: 16,
+    padding: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 59, 48, 0.3)',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  errorText: {
+    color: '#FF3B30',
+    fontSize: 16,
+    textAlign: 'center',
+    marginVertical: 8,
+  },
+  retryButton: {
+    backgroundColor: 'rgba(255, 59, 48, 0.8)',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+    marginTop: 8,
+  },
+  retryText: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: '600',
   },
 }); 

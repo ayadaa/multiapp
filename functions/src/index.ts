@@ -30,7 +30,8 @@
 export {
   // helloworld,
   // getUsername,
-  collection
+  collection,
+  collectionCall
 } from "./functions/app.functions";
 
 

@@ -37,6 +37,11 @@ export interface UserProfile {
   lastSeen: Timestamp;
   isOnline?: boolean;
   balance?: number;
+  lastLogin: Timestamp;
+  miningSpeed?: number;
+  miningStartTime?: Timestamp;
+  miningEndTime?: Timestamp;
+  referral?: string;
 }
 
 export interface Friendship {
