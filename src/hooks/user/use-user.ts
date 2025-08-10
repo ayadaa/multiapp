@@ -23,9 +23,9 @@ export function useUser(userId: string) {
 
         try {
             const userP = await getUserProfile(userId);
-            console.log('userP', userP)
+            // console.log('userP', userP)
             setUser(userP);
-            console.log('User', User)
+            // console.log('User', User)
         } catch (error) {
             console.error('Error loading user:', error);
             setUserError('Failed to load user');

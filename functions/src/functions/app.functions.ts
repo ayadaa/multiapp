@@ -225,7 +225,7 @@ export const sendAssetsCall = functions.https.onCall(async (data: {sender: strin
         if (docSender.exists && docReceiver.exists && senderBalance >= data.amount) {
             const receiverBalance = (docReceiver.data()?.balance) as number || 0;
             const newSenderBalance = senderBalance - data.amount;
-            const newReceiverBalance = receiverBalance + data.amount;
+            const newReceiverBalance = receiverBalance - (- data.amount);
             //update sender balance
             docSenderRef.update({
                 balance: newSenderBalance

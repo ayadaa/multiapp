@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Input } from '../common/Input';
 import { Button } from '../common/Button';
-import { useAuth } from '../../hooks/auth/use-auth';
-import { signupSchema, type SignupFormData } from '../../utils/validation/auth-schemas';
+// import { useAuth } from '../../hooks/auth/use-auth';
+// import { signupSchema, type SignupFormData } from '../../utils/validation/auth-schemas';
 
 import { useAppSelector } from '../../store/hooks';
 import { useUser } from '../../hooks/user/use-user';
@@ -19,9 +19,10 @@ interface SendFormProps {
 
 export function SendForm({ onSuccess, onNavigateToWallet }: SendFormProps) {
   const user = useAppSelector((state) => state.auth.user);
-  const { User } = useUser(user?.uid || '');
   const { sendAssets, checkAddress, addressCheckLoading, addressExist, error, isLoading } = useWallet();
-
+  const [amountCheckLoading, setAmountCheckLoading] = useState<boolean>(false);
+  const [amountSufficient, setAmountSufficient] = useState<boolean | null>(null);
+  const { User, isLoadingUser, userError, refreshUser } = useUser(user?.uid || '');
   const {
     control,
     handleSubmit,
@@ -50,6 +51,33 @@ export function SendForm({ onSuccess, onNavigateToWallet }: SendFormProps) {
     }
   }, [watchedAddress, checkAddress]);
 
+  const watchedAmount = watch('amount')
+
+  const checkAmount = (amount: number) => {
+    if (!User) return null;
+    refreshUser();
+    setAmountCheckLoading(true);
+    if (User?.balance! >= amount) {
+      setAmountSufficient(true);
+    } else {
+      setAmountSufficient(false);
+    }
+    setAmountCheckLoading(false);
+  }
+
+  // Check amount sufficiently when it changes
+  useEffect(() => {
+    if (watchedAmount) {
+      const timeoutId = setTimeout(() => {
+        checkAmount((watchedAmount || 0) as number)
+      }, 500)
+
+      return () => clearTimeout(timeoutId)
+    }
+  }, [watchedAmount, checkAmount])
+
+
+
   const onSubmit = async (data: SendFormData) => {
     // clearAuthError();
     
@@ -70,6 +98,16 @@ export function SendForm({ onSuccess, onNavigateToWallet }: SendFormProps) {
   };
 
   const addressStatus = getAddressStatus();
+
+  const getAmountStatus = () => {
+    if (!watchedAmount) return null;
+    if (amountCheckLoading) return { color: '#007AFF', text: 'Checking...' };
+    if (amountSufficient === true) return { color: '#34C759', text: 'Your balance is enogh' };
+    if (amountSufficient === false) return { color: '#FF3B30', text: 'Your balance is not enough to send assets' };
+    return null;
+  };
+
+  const amountStatus = getAmountStatus();
   
 
   // const { signup, isLoading, error, clearAuthError, checkUsername, usernameCheckLoading, usernameAvailable } = useAuth();
@@ -162,6 +200,36 @@ export function SendForm({ onSuccess, onNavigateToWallet }: SendFormProps) {
           control={control}
           name="amount"
           render={({ field: { onChange, onBlur, value } }) => (
+            <View>
+              <Input
+                label="Amount"
+                placeholder="Place an amount"
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                keyboardType="numeric"
+                autoCapitalize="none"
+                // autoComplete="number" //ayad
+                error={errors.amount?.message}
+              />
+              {amountStatus && (
+                <Text style={{ 
+                  color: amountStatus.color, 
+                  fontSize: 12, 
+                  marginTop: 4,
+                  marginLeft: 4 
+                }}>
+                  {amountStatus.text}
+                </Text>
+              )}
+            </View>
+          )}
+        />
+
+        {/* <Controller
+          control={control}
+          name="amount"
+          render={({ field: { onChange, onBlur, value } }) => (
             <Input
               label="Amount"
               placeholder="Enter an amount"
@@ -174,7 +242,7 @@ export function SendForm({ onSuccess, onNavigateToWallet }: SendFormProps) {
               error={errors.amount?.message}
             />
           )}
-        />
+        /> */}
 
         {/* Global Error Message */}
         {error && (
@@ -190,7 +258,7 @@ export function SendForm({ onSuccess, onNavigateToWallet }: SendFormProps) {
           title="Send Assets"
           onPress={handleSubmit(onSubmit)}
           loading={isLoading}
-          disabled={!isValid || addressExist === false}
+          disabled={!isValid || addressExist === false || amountSufficient === false}
           style={{ marginTop: 16 }}
         />
 

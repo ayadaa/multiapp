@@ -1,6 +1,6 @@
 /**
- * Profile Screen
- * Displays user profile information and provides logout functionality
+ * Wallet Screen
+ * Displays user wallet information and provides many functionality
  */
 
 import React, { useCallback, useEffect, useState } from 'react';
@@ -37,12 +37,7 @@ export function WalletScreen() {
   const navigation = useNavigation<any>();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
-  const {
-    User,
-    isLoadingUser,
-    userError,
-    refreshUser
-  } = useUser(user?.uid || '');
+  const { User, isLoadingUser, userError, refreshUser } = useUser(user?.uid || '');
   const { collect } = useWallet();
   // const [time, setTime] = useState<number>(1 * 24 * 60 * 60 * 1000);
   const [time, setTime] = useState<number>(0);
