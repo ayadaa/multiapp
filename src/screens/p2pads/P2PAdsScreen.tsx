@@ -27,10 +27,10 @@ export function P2PAdsScreen() {
   const { user } = useAuth();
   
   const {
-    p2pAdsWithUsers,
-    isLoadingP2PAdsWithUsers,
-    p2pAdsErrorWithUsers,
-    refreshP2PAdsWithUsers,
+    p2pAds,
+    isLoadingP2PAds,
+    p2pAdsError,
+    refreshP2PAds,
   } = useP2PAds();
 
   const handleCreateP2PAdPress = () => {
@@ -42,7 +42,7 @@ export function P2PAdsScreen() {
    */
   const handleRefresh = async () => {
     try {
-      await refreshP2PAdsWithUsers();
+      await refreshP2PAds();
     } catch (error) {
       console.error('Error refreshing p2p ads:', error);
     }
@@ -60,7 +60,7 @@ export function P2PAdsScreen() {
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Ads</Text>
             <Text style={styles.subtitle}>
-              {p2pAdsWithUsers.length} {p2pAdsWithUsers.length === 1 ? 'ad' : 'ads'}
+              {p2pAds.length} {p2pAds.length === 1 ? 'ad' : 'ads'}
             </Text>
           </View>
           
@@ -73,10 +73,10 @@ export function P2PAdsScreen() {
         </View>
 
         {/* Error State */}
-        {p2pAdsErrorWithUsers && (
+        {p2pAdsError && (
           <View style={styles.errorContainer}>
             <Ionicons name="alert-circle" size={24} color="#FF3B30" />
-            <Text style={styles.errorText}>{p2pAdsErrorWithUsers}</Text>
+            <Text style={styles.errorText}>{p2pAdsError}</Text>
             <TouchableOpacity
               style={styles.retryButton}
               onPress={handleRefresh}
@@ -92,15 +92,15 @@ export function P2PAdsScreen() {
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl
-              refreshing={isLoadingP2PAdsWithUsers}
+              refreshing={isLoadingP2PAds}
               onRefresh={handleRefresh}
               tintColor="white"
             />
           }
         >
-          {p2pAdsWithUsers.length > 0 ? (
+          {p2pAds.length > 0 ? (
             <View style={styles.friendsList}>
-              {p2pAdsWithUsers.map((ad) => (
+              {p2pAds.map((ad) => (
                 <TouchableOpacity
                   // onPress={() => handleAdPress(ad)}
                   style={{
@@ -123,7 +123,7 @@ export function P2PAdsScreen() {
                   }}>
                     {/* <Ionicons name="people" size={24} color="#FFFFFF" /> */}
                     <Image
-                      source={{ uri: ad.profilePicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
+                      source={{ uri:'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
                       style={styles.image}
                       resizeMode="cover"
                     />
@@ -141,7 +141,7 @@ export function P2PAdsScreen() {
                         fontSize: 16,
                         fontWeight: 'bold',
                       }}>
-                        {ad.username}
+                        {ad.creatorUsername}
                       </Text>
                       <Text style={{
                         color: 'rgba(255, 255, 255, 0.6)',
