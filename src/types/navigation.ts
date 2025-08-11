@@ -39,6 +39,7 @@ export type MainTabParamList = {
   Chat: undefined;
   Camera: undefined;
   Ads: undefined;
+  P2PAds: undefined;
   CreateAdScreen: undefined;
   // Math: undefined;
   Friends: undefined;
@@ -66,10 +67,12 @@ export type AppStackParamList = {
   };
   CreateGroup: undefined;
   CreateAd: undefined;
+  P2PCreateAd: undefined;
   Send: undefined | {qrData: any};
   Receive: undefined;
   Scan: undefined;
   AdDetails: Ad;
+  P2PAdDetails: Ad;
   StoryViewer: {
     storyId: string;
     stories: Array<{

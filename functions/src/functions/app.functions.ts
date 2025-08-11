@@ -317,7 +317,7 @@ export const updateMiningSpeedCall = functions.https.onCall(async (data: {uid: s
     }
 });
 
-export const createP2PPaymentCall = functions.https.onCall(async (data: {uid: string, amount: number, paymentMethod: string}, context: any) => { //sender (uid) receiver (uid)
+export const createP2PPaymentCall = functions.https.onCall(async (data: {uid: string, amount: number, paymentMethod: string, price: string}, context: any) => { //sender (uid) receiver (uid)
     try {
         const uId = data.uid
         const docRef = db.collection('users').doc(`${uId}`);
@@ -325,7 +325,8 @@ export const createP2PPaymentCall = functions.https.onCall(async (data: {uid: st
         const isVerified = doc.data()?.isVerified;
         const balance = doc.data()?.balance || 0;
 
-        const amount = data.amount
+        const amount = data.amount;
+        const price = data.price;
         // const paymentMethod = P2PPaymentMethods[data.paymentMethod as `${P2PPaymentMethods.zainCash}` || `${P2PPaymentMethods.zainCashBusiness}` || `${P2PPaymentMethods.alRafidainQiServices}` || `${P2PPaymentMethods.asiaHawala}` || `${P2PPaymentMethods.firstIraqiBank}` || `${P2PPaymentMethods.fastPay}`];
         const paymentMethod = P2PPaymentMethods[data.paymentMethod as `zainCash` || `zainCashBusiness` || `alRafidainQiServices` || `asiaHawala` || `firstIraqiBank` || `fastPay`];
         const docP2PPaymentRef = db.collection('p2pPayment');
@@ -342,6 +343,7 @@ export const createP2PPaymentCall = functions.https.onCall(async (data: {uid: st
             docP2PPaymentRef.add({
                 createdBy: uId,
                 amount: amount,
+                price: price,
                 paymentMethod: paymentMethod,
                 isActive: true,
                 createdAt: Timestamp.now(),
