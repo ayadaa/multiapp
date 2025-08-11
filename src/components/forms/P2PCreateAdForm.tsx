@@ -6,19 +6,29 @@ import { Input } from '../common/Input';
 import { Button } from '../common/Button';
 import { useAppSelector } from '../../store/hooks';
 import { useUser } from '../../hooks/user/use-user';
-import { useWallet } from '../../hooks/wallet/use-wallet';
+import { useP2PAds } from '../../hooks/p2pAd/use-p2pAds';
 // import { sendSchema, type SendFormData } from '../../utils/validation/wallet-schemas';
 import { createP2PPaymentSchema, type CreateP2PPaymentFormData } from '../../utils/validation/wallet-schemas';
 import { useNavigation } from '@react-navigation/native';
+import { Picker } from '@react-native-picker/picker';
 
 interface SendFormProps {
   onSuccess?: () => void;
   onNavigateToWallet?: () => void;
 }
 
+export const P2PPaymentMethods = {
+    zainCash: 'zainCash',
+    zainCashBusiness: 'zainCashBusiness',
+    alRafidainQiServices: 'alRafidainQiServices',
+    asiaHawala: 'asiaHawala',
+    firstIraqiBank: 'firstIraqiBank',
+    fastPay: 'fastPay',
+}
+
 export function P2PCreateAdForm({ onSuccess, onNavigateToWallet }: SendFormProps) {
   const user = useAppSelector((state) => state.auth.user);
-  const { sendAssets, createP2PPayment, checkAddress, addressCheckLoading, addressExist, error, isLoading } = useWallet();
+  const { createP2PPayment, error, isLoading } = useP2PAds();
   const [amountCheckLoading, setAmountCheckLoading] = useState<boolean>(false);
   const [priceCheckLoading, setPriceCheckLoading] = useState<boolean>(false);
   const [amountSufficient, setAmountSufficient] = useState<boolean | null>(null);
@@ -138,9 +148,9 @@ export function P2PCreateAdForm({ onSuccess, onNavigateToWallet }: SendFormProps
   // };
   // const addressStatus = getAddressStatus();
 
-  const navigateToScan = () => {
-    navigation.navigate('Scan');
-  };
+  // const navigateToScan = () => {
+  //   navigation.navigate('Scan');
+  // };
 
   return (
     <View style={{ width: '100%' }}>
@@ -260,6 +270,67 @@ export function P2PCreateAdForm({ onSuccess, onNavigateToWallet }: SendFormProps
                   {priceStatus.text}
                 </Text>
               )}
+            </View>
+          )}
+        />
+        {/* method */}
+        <Controller
+          control={control}
+          name="method"
+          render={({ field: { onChange, onBlur, value } }) => (
+            <View>
+              {/* <Input
+                label="Method"
+                placeholder="Place an price"
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                keyboardType="numeric"
+                autoCapitalize="none"
+                error={errors.price?.message}
+              /> */}
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: '600',
+                  color: '#FFFFFF',
+                  marginBottom: 8,
+                }}
+              >Method</Text>
+              <Picker
+                selectedValue={value}
+                style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  borderRadius: 12,
+                  paddingHorizontal: 16,
+                  paddingVertical: 12,
+                  fontSize: 16,
+                  color: '#FFFFFF',
+                  borderWidth: 1,
+                  borderColor: 'rgba(255, 255, 255, 0.2)',
+                }}
+                // onValueChange={onChange}
+                onValueChange={(itemValue) => onChange(itemValue)}
+                onBlur={onBlur}
+                >
+                <Picker.Item label={P2PPaymentMethods.zainCash} value={P2PPaymentMethods.zainCash} />
+                <Picker.Item label={P2PPaymentMethods.zainCashBusiness} value={P2PPaymentMethods.zainCash} />
+                <Picker.Item label={P2PPaymentMethods.alRafidainQiServices} value={P2PPaymentMethods.alRafidainQiServices} />
+                <Picker.Item label={P2PPaymentMethods.fastPay} value={P2PPaymentMethods.fastPay} />
+                <Picker.Item label={P2PPaymentMethods.firstIraqiBank} value={P2PPaymentMethods.firstIraqiBank} />
+                <Picker.Item label={P2PPaymentMethods.asiaHawala} value={P2PPaymentMethods.asiaHawala} />
+              </Picker>
+
+              {/* {methodStatus && (
+                <Text style={{ 
+                  color: methodStatus.color, 
+                  fontSize: 12, 
+                  marginTop: 4,
+                  marginLeft: 4 
+                }}>
+                  {methodStatus.text}
+                </Text>
+              )} */}
             </View>
           )}
         />

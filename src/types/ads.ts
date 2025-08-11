@@ -14,14 +14,14 @@ export interface Ad {
     city: string;
   }
 
-export const classNameList = {
-    RealEstate: 'Real estate', 
-    WorkAndBusiness: 'Work and business', 
-    MobileAndComputer: 'Mobile and computer'
-};
+// export const classNameList = {
+//     RealEstate: 'Real estate', 
+//     WorkAndBusiness: 'Work and business', 
+//     MobileAndComputer: 'Mobile and computer'
+// };
 
-export const cityNameList = {
-    Bagdad: 'Bagdad',
-    Babylon: 'Babylon',
-    Karbala: 'Karbala'
-}
+// export const cityNameList = {
+//     Bagdad: 'Bagdad',
+//     Babylon: 'Babylon',
+//     Karbala: 'Karbala'
+// }
