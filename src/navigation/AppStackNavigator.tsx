@@ -13,6 +13,8 @@ import CreateGroupScreen from '../screens/chat/CreateGroupScreen';
 import CreateAdScreen from '../screens/ads/CreateAdScreen';
 import AdDetails from '../screens/ads/AdDetails';
 import { SendScreen } from '../screens/wallet/SendScreen';
+import { ReceiveScreen } from '../screens/wallet/ReceiveScreen';
+import QRScannerScreen from '../screens/wallet/QRCodeScannerScreen';
 import GroupChatScreen from '../screens/chat/GroupChatScreen';
 import GroupSettingsScreen from '../screens/chat/GroupSettingsScreen';
 import { ChallengeViewerScreen } from '../components/rag/ChallengeViewerScreen';
@@ -97,6 +99,22 @@ export default function AppStackNavigator() {
       <Stack.Screen 
         name="Send" 
         component={SendScreen}
+        options={{
+          headerShown: true,
+        }}
+      />
+
+      <Stack.Screen 
+        name="Receive" 
+        component={ReceiveScreen}
+        options={{
+          headerShown: true,
+        }}
+      />
+
+      <Stack.Screen 
+        name="Scan" 
+        component={QRScannerScreen}
         options={{
           headerShown: true,
         }}

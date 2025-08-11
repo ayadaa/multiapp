@@ -6,7 +6,7 @@ import listingsData from './airbnb-listings.json';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from './AdDetailsColors';
 import { defaultStyles } from './AdDetailsStyle';
-import type { AppStackParamList, NavigationProp } from '../../types/navigation';
+import type { AppStackParamList } from '../../types/navigation';
 // import { formatTimestamp } from '../../functions/formatTimestamp';
 import { useAds } from '../../hooks/ad/use-ads';
 import { useAuth } from '../../hooks/auth/use-auth';

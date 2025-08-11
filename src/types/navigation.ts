@@ -66,7 +66,9 @@ export type AppStackParamList = {
   };
   CreateGroup: undefined;
   CreateAd: undefined;
-  Send:undefined;
+  Send: undefined | {qrData: any};
+  Receive: undefined;
+  Scan: undefined;
   AdDetails: Ad;
   StoryViewer: {
     storyId: string;

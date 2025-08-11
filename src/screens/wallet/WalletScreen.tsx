@@ -106,6 +106,10 @@ export function WalletScreen() {
     navigation.navigate('Send');
   };
 
+  const navigateToReceive = () => {
+    navigation.navigate('Receive');
+  };
+
   return (
     <Screen style={styles.container}>
       {/* Error State */}
@@ -176,10 +180,13 @@ export function WalletScreen() {
             <Ionicons name="chevron-forward" size={16} color="rgba(255, 255, 255, 0.4)" />
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.menuItem}>
+          <TouchableOpacity 
+          style={styles.menuItem}
+          onPress={navigateToReceive}
+          >
             <View style={styles.menuItemLeft}>
               <Ionicons name="settings-outline" size={20} color="rgba(255, 255, 255, 0.8)" />
-              <Text style={styles.menuItemText}>Settings</Text>
+              <Text style={styles.menuItemText}>Receive</Text>
             </View>
             <Ionicons name="chevron-forward" size={16} color="rgba(255, 255, 255, 0.4)" />
           </TouchableOpacity>

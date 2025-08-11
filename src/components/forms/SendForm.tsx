@@ -11,18 +11,22 @@ import { useAppSelector } from '../../store/hooks';
 import { useUser } from '../../hooks/user/use-user';
 import { useWallet } from '../../hooks/wallet/use-wallet';
 import { sendSchema, type SendFormData } from '../../utils/validation/wallet-schemas';
+import { useNavigation } from '@react-navigation/native';
 
 interface SendFormProps {
   onSuccess?: () => void;
   onNavigateToWallet?: () => void;
+  qrData?: any;
 }
 
-export function SendForm({ onSuccess, onNavigateToWallet }: SendFormProps) {
+export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProps) {
+// export function SendForm() {
   const user = useAppSelector((state) => state.auth.user);
   const { sendAssets, checkAddress, addressCheckLoading, addressExist, error, isLoading } = useWallet();
   const [amountCheckLoading, setAmountCheckLoading] = useState<boolean>(false);
   const [amountSufficient, setAmountSufficient] = useState<boolean | null>(null);
   const { User, isLoadingUser, userError, refreshUser } = useUser(user?.uid || '');
+  const navigation = useNavigation<any>();
   const {
     control,
     handleSubmit,
@@ -85,7 +89,7 @@ export function SendForm({ onSuccess, onNavigateToWallet }: SendFormProps) {
     
     if (result.success) {
       reset();
-      onSuccess?.();
+      // onSuccess?.();
     }
   };
 
@@ -108,6 +112,10 @@ export function SendForm({ onSuccess, onNavigateToWallet }: SendFormProps) {
   };
 
   const amountStatus = getAmountStatus();
+
+  const navigateToScan = () => {
+    navigation.navigate('Scan');
+  };
   
 
   // const { signup, isLoading, error, clearAuthError, checkUsername, usernameCheckLoading, usernameAvailable } = useAuth();
@@ -171,18 +179,57 @@ export function SendForm({ onSuccess, onNavigateToWallet }: SendFormProps) {
           control={control}
           name="address"
           render={({ field: { onChange, onBlur, value } }) => (
-            <View>
-              <Input
-                label="Address"
-                placeholder="Place an address"
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                autoCapitalize="none"
-                // autoComplete="address-line1" //ayad
-                error={errors.address?.message}
-              />
-              {addressStatus && (
+            <View 
+            style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}
+            >
+              <View 
+                style={{
+                  flex: 1,
+                  // flexDirection: 'row', // This makes the items display in a row
+                  // justifyContent: 'space-around', // Distributes space evenly between items
+                  // justifyContent: 'space-between', // Distributes space evenly between items
+                  // alignItems: 'center', // Aligns items vertically in the center
+                  // padding: 10,
+                  // backgroundColor: '#f0f0f0',
+                  // width: '100%',
+                  // flex: 1
+                  flexDirection: 'column'
+                }}
+              >
+                <Input
+                  label="Address"
+                  placeholder="Place an address"
+                  value={value || qrData}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  autoCapitalize="none"
+                  // autoComplete="address-line1" //ayad
+                  error={errors.address?.message}
+                  // style={{
+                  //   width: '80%'
+                  // }}
+                />
+                {/* <Button
+                  title="Scan"
+                  onPress={navigateToScan}
+                  style={{
+                    width: '10%',
+                    height: 20
+                  }}
+                /> */}
+                {addressStatus && (
+                  <Text style={{ 
+                    color: addressStatus.color, 
+                    fontSize: 12, 
+                    marginTop: 4,
+                    marginLeft: 4 
+                  }}>
+                    {addressStatus.text}
+                  </Text>
+                )}
+              </View>
+
+              {/* {addressStatus && (
                 <Text style={{ 
                   color: addressStatus.color, 
                   fontSize: 12, 
@@ -191,7 +238,16 @@ export function SendForm({ onSuccess, onNavigateToWallet }: SendFormProps) {
                 }}>
                   {addressStatus.text}
                 </Text>
-              )}
+              )} */}
+              <Button
+                  title="Scan"
+                  onPress={navigateToScan}
+                  style={{
+                    // width: '10%',
+                    width: 80,
+                    height: 40
+                  }}
+                />
             </View>
           )}
         />

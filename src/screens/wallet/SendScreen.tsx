@@ -1,11 +1,19 @@
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import { Screen } from '../../components/common/Screen';
 import { SendForm } from '../../components/forms/SendForm';
+import { type StackNavigationProp } from '@react-navigation/stack';
+import type { AppStackParamList } from '../../types/navigation';
+
+type SendScreenRouteProp = RouteProp<AppStackParamList, 'Send'>;
+type SendScreenNavigationProp = StackNavigationProp<AppStackParamList, 'Send'>;
 
 export function SendScreen() {
-  const navigation = useNavigation<any>();
+  // const navigation = useNavigation<any>();
+  const route = useRoute<SendScreenRouteProp>();
+  const navigation = useNavigation<SendScreenNavigationProp>();
+  const qrData = route.params?.qrData;
 
   const handleSendSuccess = () => {
     // Navigation is handled automatically by AppNavigator based on auth state
@@ -13,7 +21,7 @@ export function SendScreen() {
   };
 
   const navigateToWallet = () => {
-    navigation.navigate('Wallet');
+    navigation.navigate('Wallet' as any);
   };
 
   return (
@@ -50,6 +58,7 @@ export function SendScreen() {
           <SendForm
             onSuccess={handleSendSuccess}
             onNavigateToWallet={navigateToWallet}
+            qrData={qrData}
           />
         </View>
       </ScrollView>

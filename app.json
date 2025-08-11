@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Snap Factor",
-    "slug": "snap-factor",
+    "name": "multiapp",
+    "slug": "multiapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,8 +15,8 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSCameraUsageDescription": "Snap Factor needs access to the camera to take photos and videos for math snaps.",
-        "NSMicrophoneUsageDescription": "Snap Factor needs access to the microphone to record videos with audio."
+        "NSCameraUsageDescription": "multiapp needs access to the camera to take photos and videos for math snaps.",
+        "NSMicrophoneUsageDescription": "multiapp needs access to the microphone to record videos with audio."
       }
     },
     "android": {
@@ -32,7 +32,7 @@
         "android.permission.READ_EXTERNAL_STORAGE"
       ],
       "edgeToEdgeEnabled": true,
-      "package": "com.ayadali.snapfactor"
+      "package": "com.ayadali.multiapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -52,7 +52,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "2dab68aa-3788-426a-a2aa-d170e4c0abe0"
+        "projectId": "9946d389-d90f-4d98-af61-ade6b7027bda"
       }
     }
   }
