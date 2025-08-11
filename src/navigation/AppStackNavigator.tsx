@@ -12,6 +12,8 @@ import StoryViewerScreen from '../screens/stories/StoryViewerScreen';
 import CreateGroupScreen from '../screens/chat/CreateGroupScreen';
 import CreateAdScreen from '../screens/ads/CreateAdScreen';
 import AdDetails from '../screens/ads/AdDetails';
+import { P2PCreateAdScreen } from '../screens/p2pads/P2PCreateAdScreen';
+import P2PAdDetails from '../screens/p2pads/P2PAdDetails';
 import { SendScreen } from '../screens/wallet/SendScreen';
 import { ReceiveScreen } from '../screens/wallet/ReceiveScreen';
 import QRScannerScreen from '../screens/wallet/QRCodeScannerScreen';
@@ -83,7 +85,7 @@ export default function AppStackNavigator() {
         name="CreateAd" 
         component={CreateAdScreen}
         options={{
-          headerShown: false,
+          headerShown: true,
         }}
       />
       
@@ -91,6 +93,22 @@ export default function AppStackNavigator() {
         name="AdDetails" 
         component={AdDetails}
         // component={CreateAdScreen}
+        options={{
+          headerShown: true,
+        }}
+      />
+
+      <Stack.Screen 
+        name="P2PCreateAd" 
+        component={P2PCreateAdScreen}
+        options={{
+          headerShown: true,
+        }}
+      />
+
+      <Stack.Screen 
+        name="P2PAdDetails" 
+        component={P2PAdDetails}
         options={{
           headerShown: true,
         }}

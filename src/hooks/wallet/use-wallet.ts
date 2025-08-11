@@ -1,4 +1,4 @@
-import { collect, sendAssets, updateMiningSpeed } from '../../services/firebase/wallet.service';
+import { collect, sendAssets, updateMiningSpeed, createP2PPayment, deactiveateP2PPayment, createP2PRequest, completeP2PRequest, approveP2PRequest, cancelP2PRequest, rejectP2PRequest } from '../../services/firebase/wallet.service';
 import { useState, useCallback } from 'react';
 import { checkAddressExisting } from '../../services/firebase/wallet.service';
 import { useAppSelector } from '../../store/hooks';
@@ -30,5 +30,23 @@ export function useWallet() {
     }
     }, []);
 
-    return { collect, sendAssets, updateMiningSpeed, checkAddress, addressCheckLoading, addressExist, error, isLoading }
+    return { 
+        // actions
+        collect, 
+        sendAssets, 
+        updateMiningSpeed, 
+        checkAddress,
+        createP2PPayment, 
+        deactiveateP2PPayment, 
+        createP2PRequest, 
+        completeP2PRequest, 
+        approveP2PRequest, 
+        cancelP2PRequest, 
+        rejectP2PRequest,
+        
+        addressCheckLoading, 
+        addressExist, 
+        error, 
+        isLoading 
+    }
 }
