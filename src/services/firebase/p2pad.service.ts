@@ -1,5 +1,14 @@
 import * as Functions from 'firebase/functions';
 import { functions } from '../../config/firebase';
+import type { P2PAd } from '../../types/p2pads';
+import { 
+  getDocs, 
+  collection, 
+  query, 
+  orderBy, 
+} from 'firebase/firestore';
+import { db } from '../../config/firebase';
+import { getUserProfile, UserProfile } from './firestore.service'
 
 const createP2PPaymentCallable = Functions.httpsCallable(functions, 'createP2PPaymentCall');
 const deactiveateP2PPaymentCallable = Functions.httpsCallable(functions, 'deactiveateP2PPaymentCall');
@@ -91,4 +100,39 @@ export async function rejectP2PRequest(uid: string, p2pRequestId: string) {
         console.error('Error in  rejectP2PRequestCallable:', error);
         throw new Error('Failed in  rejectP2PRequestCallable function. Please try again.');  
     }
+}
+
+/**
+ * Get p2p ads
+ */
+export async function getP2PAds(): Promise<P2PAd[]> {
+  try {
+    const p2pAdsQuery = query(
+      collection(db, 'p2pPayment'),
+      orderBy('createdAt', 'desc')
+    );
+    
+    const p2pAds = await getDocs(p2pAdsQuery);
+    // console.log('ads', ads)
+    return p2pAds.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    })) as P2PAd[];
+  } catch (error) {
+    console.error('Get p2p ads error:', error);
+    throw new Error('Failed to get p2p ads');
+  }
+}
+
+export async function getP2PAdsWithUsers(): Promise<(P2PAd & UserProfile)[]> {
+    const p2pAds = await getP2PAds();
+    const p2pAdsWithUsers = <(P2PAd & UserProfile)[]>[];
+    for (let index = 0; index < p2pAds.length; index++) {
+        const ad = p2pAds[index];
+        const user = await getUserProfile(ad.createdBy);
+        if (user) {
+            p2pAdsWithUsers.push({ ...ad, ...user });
+        }
+    }
+    return p2pAdsWithUsers;
 }

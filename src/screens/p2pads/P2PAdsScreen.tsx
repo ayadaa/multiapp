@@ -1,3 +1,6 @@
+/**
+ * P2p Ads List screen displaying all ads.
+ */
 import React from 'react';
 import { 
   View, 
@@ -12,63 +15,41 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Screen } from '../../components/common/Screen';
-import { useAds } from '../../hooks/ad/use-ads';
+import { useP2PAds } from '../../hooks/p2pAd/use-p2pAds';
 import { useAuth } from '../../hooks/auth/use-auth';
-import type { Ad } from '../../types/ads';
+// import type { Ad } from '../../types/ads';
 import type { NavigationProp } from '../../types/navigation';
 // import { formatTimestamp } from '../../functions/formatTimestamp';
-
-/**
- * Ads List screen displaying all ads.
- * Provides navigation to individual chats and friend management options.
- * Features pull-to-refresh and real-time status indicators.
- */
 
 export function P2PAdsScreen() {
   // const navigation = useNavigation();
   const navigation = useNavigation<NavigationProp>();
   const { user } = useAuth();
   
-  // const {
-  //   friends,
-  //   isLoadingFriends,
-  //   friendsError,
-  //   refreshFriends,
-  // } = useFriends();
-
   const {
-    ads,
-    isLoadingAds,
-    adsError,
-    refreshAds,
-    formatTimestamp
-  } = useAds(user?.uid || '');
+    p2pAdsWithUsers,
+    isLoadingP2PAdsWithUsers,
+    p2pAdsErrorWithUsers,
+    refreshP2PAdsWithUsers,
+  } = useP2PAds();
 
-  // const { createChat } = useChats(user?.uid || '');
-
-  const handleCreateAdPress = () => {
+  const handleCreateP2PAdPress = () => {
     navigation.navigate('P2PCreateAd' as never); //ayad
-  };
+  }
 
   /**
    * Handle refresh
    */
   const handleRefresh = async () => {
     try {
-      await refreshAds();
+      await refreshP2PAdsWithUsers();
     } catch (error) {
-      console.error('Error refreshing ads:', error);
+      console.error('Error refreshing p2p ads:', error);
     }
-  };
+  }
 
-  const handleAdPress = (ad: Ad) => {
-    navigation.navigate('P2PAdDetails', ad);
-    // (navigation as any).navigate('AdDetails', ad);
-    // navigation.navigate('AdDetails' as never);
-  };
-
-  // const handleFormatTimestamp = (tx: any) => {
-  //   return formatTimestamp(tx)
+  // const handleAdPress = (ad: Ad) => {
+  //   navigation.navigate('P2PAdDetails', ad);
   // }
 
   return (
@@ -79,23 +60,23 @@ export function P2PAdsScreen() {
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Ads</Text>
             <Text style={styles.subtitle}>
-              {ads.length} {ads.length === 1 ? 'ad' : 'ads'}
+              {p2pAdsWithUsers.length} {p2pAdsWithUsers.length === 1 ? 'ad' : 'ads'}
             </Text>
           </View>
           
           <TouchableOpacity
             style={styles.addButton}
-            onPress={handleCreateAdPress}
+            onPress={handleCreateP2PAdPress}
           >
             <Ionicons name="person-add" size={24} color="white" />
           </TouchableOpacity>
         </View>
 
         {/* Error State */}
-        {adsError && (
+        {p2pAdsErrorWithUsers && (
           <View style={styles.errorContainer}>
             <Ionicons name="alert-circle" size={24} color="#FF3B30" />
-            <Text style={styles.errorText}>{adsError}</Text>
+            <Text style={styles.errorText}>{p2pAdsErrorWithUsers}</Text>
             <TouchableOpacity
               style={styles.retryButton}
               onPress={handleRefresh}
@@ -111,30 +92,17 @@ export function P2PAdsScreen() {
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl
-              refreshing={isLoadingAds}
+              refreshing={isLoadingP2PAdsWithUsers}
               onRefresh={handleRefresh}
               tintColor="white"
             />
           }
         >
-          {ads.length > 0 ? (
+          {p2pAdsWithUsers.length > 0 ? (
             <View style={styles.friendsList}>
-              {ads.map((ad) => (
-                // <UserCard
-                //   key={friend.uid}
-                //   user={friend}
-                //   actionType="friendStatus"
-                //   onPress={() => handleFriendPress(friend.uid, friend.username)}
-                // />
-
-                // <View key={ad.id}>
-                //   <Text style={{color: 'white', fontSize: 14}}>{ad.title}</Text>
-                //   <Text style={{color: 'white', fontSize: 14}}>{ad.description}</Text>
-                // </View>
-
-                
+              {p2pAdsWithUsers.map((ad) => (
                 <TouchableOpacity
-                  onPress={() => handleAdPress(ad)}
+                  // onPress={() => handleAdPress(ad)}
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
@@ -155,7 +123,7 @@ export function P2PAdsScreen() {
                   }}>
                     {/* <Ionicons name="people" size={24} color="#FFFFFF" /> */}
                     <Image
-                      source={{ uri: ad.adPicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
+                      source={{ uri: ad.profilePicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
                       style={styles.image}
                       resizeMode="cover"
                     />
@@ -173,13 +141,13 @@ export function P2PAdsScreen() {
                         fontSize: 16,
                         fontWeight: 'bold',
                       }}>
-                        {ad.title}
+                        {ad.username}
                       </Text>
                       <Text style={{
                         color: 'rgba(255, 255, 255, 0.6)',
                         fontSize: 12,
                       }}>
-                        {ad.createdAt? formatTimestamp(ad.createdAt): ''}
+                        {ad.price}
                       </Text>
                     </View>
 
@@ -193,7 +161,7 @@ export function P2PAdsScreen() {
                         fontSize: 14,
                         flex: 1,
                       }} numberOfLines={1}>
-                        {ad.description.slice(0, 50)} {/* 50 characters */}
+                        {ad.paymentMethod}
                       </Text>
                     </View>
                   </View>
@@ -211,7 +179,7 @@ export function P2PAdsScreen() {
               </Text>
               <TouchableOpacity
                 style={styles.addFriendsButton}
-                onPress={handleCreateAdPress}
+                onPress={handleCreateP2PAdPress}
               >
                 <Ionicons name="person-add" size={20} color="white" />
                 <Text style={styles.addFriendsButtonText}>Add Ads</Text>
