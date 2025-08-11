@@ -91,11 +91,11 @@ export async function updateMiningSpeed(uid: string, offer: string) {
 }
 
 // createP2PPaymentCall
-export async function createP2PPayment(uid: string, amount: number, paymentMethod: string, price: string) {
+export async function createP2PPayment(uid: string, amount: number, paymentMethod: string, price: number) {
     try {
         const result = await createP2PPaymentCallable({uid: uid, amount: amount, paymentMethod: paymentMethod, price: price});
         console.log('Result data from  createP2PPaymentCall:', result.data)
-        return result.data;
+        return {success: 'success', data: result.data};
     } catch (error) {
         console.error('Error in  createP2PPaymentCall:', error);
         throw new Error('Failed in  createP2PPaymentCall function. Please try again.');  
