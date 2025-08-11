@@ -19,9 +19,9 @@ const cancelP2PRequestCallable = Functions.httpsCallable(functions, 'cancelP2PRe
 const rejectP2PRequestCallable = Functions.httpsCallable(functions, 'rejectP2PRequestCall');
 
 // createP2PPaymentCall
-export async function createP2PPayment(uid: string, amount: number, paymentMethod: string, price: number) {
+export async function createP2PPayment(uid: string, creatorUsername: string, amount: number, paymentMethod: string, price: number) {
     try {
-        const result = await createP2PPaymentCallable({uid: uid, amount: amount, paymentMethod: paymentMethod, price: price});
+        const result = await createP2PPaymentCallable({uid: uid, creatorUsername: creatorUsername, amount: amount, paymentMethod: paymentMethod, price: price});
         console.log('Result data from  createP2PPaymentCall:', result.data) 
         return {success: 'success', data: result.data};
     } catch (error) {

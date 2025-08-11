@@ -6,6 +6,7 @@ export interface P2PAd {
     price: number;
     createdAt: Timestamp;
     createdBy: string;
+    creatorUsername: string;
     isActive: boolean;
     paymentMethod: string;
 }
