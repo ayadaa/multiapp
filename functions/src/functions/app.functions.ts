@@ -15,6 +15,7 @@ const miningSpeedOffers = {
     fast: {cost: 5000, speed: 500},
     veryFast: {cost: 50000, speed: 5000},
 }
+
 const P2PPaymentMethods = {
     zainCash: 'zainCash',
     zainCashBusiness: 'zainCashBusiness',
@@ -325,8 +326,8 @@ export const createP2PPaymentCall = functions.https.onCall(async (data: {uid: st
         const balance = doc.data()?.balance || 0;
 
         const amount = data.amount
-        const paymentMethod = P2PPaymentMethods[data.paymentMethod as `${P2PPaymentMethods.zainCash}` || `${P2PPaymentMethods.zainCashBusiness}` || `${P2PPaymentMethods.alRafidainQiServices}` || `${P2PPaymentMethods.asiaHawala}` || `${P2PPaymentMethods.firstIraqiBank}` || `${P2PPaymentMethods.fastPay}`];
-        // const paymentMethod = P2PPaymentMethods[data.paymentMethod as 'zainCash'];
+        // const paymentMethod = P2PPaymentMethods[data.paymentMethod as `${P2PPaymentMethods.zainCash}` || `${P2PPaymentMethods.zainCashBusiness}` || `${P2PPaymentMethods.alRafidainQiServices}` || `${P2PPaymentMethods.asiaHawala}` || `${P2PPaymentMethods.firstIraqiBank}` || `${P2PPaymentMethods.fastPay}`];
+        const paymentMethod = P2PPaymentMethods[data.paymentMethod as `zainCash` || `zainCashBusiness` || `alRafidainQiServices` || `asiaHawala` || `firstIraqiBank` || `fastPay`];
         const docP2PPaymentRef = db.collection('p2pPayment');
         const docTransactionsRef = db.collection('transactions');
 
@@ -367,6 +368,37 @@ export const createP2PPaymentCall = functions.https.onCall(async (data: {uid: st
     }
 });
 
+export const deactiveateP2PPaymentCall = functions.https.onCall(async (data: {uid: string, p2pPaymentId: string}, context: any) => { //sender (uid) receiver (uid)
+    try {
+        const uId = data.uid
+        const docRef = db.collection('users').doc(`${uId}`);
+        const doc = await docRef.get();
+
+        const p2pPaymentId = data.p2pPaymentId;
+        const docP2PPaymentRef = db.collection('p2pPayment').doc(`${p2pPaymentId}`);
+        const docP2PPayment = await docP2PPaymentRef.get();
+        const createdBy = docP2PPayment.data()?.createdBy;
+
+        if (doc.exists && docP2PPayment.exists && uId == createdBy) {
+            //update the P2P payment
+            docP2PPaymentRef.update({
+                isActive: false,
+            });
+
+            return 'The p2p payment has been successfully deactiveated!';
+        } else if (!doc.exists) {
+            return 'User not found!';
+        } else if (!docP2PPayment.exists) {
+            return 'P2P payment not found!';
+        } else {
+            return 'Your can not edit this p2p payment!';
+        }
+    } catch (error) {
+        console.log(error);
+        return 'Error retrieving data';
+    }
+});
+
 export const createP2PRequestCall = functions.https.onCall(async (data: {uid: string, p2pPaymentId: string, amount: number}, context: any) => { //sender (uid) receiver (uid)
     try {
         const uId = data.uid;
@@ -390,10 +422,12 @@ export const createP2PRequestCall = functions.https.onCall(async (data: {uid: st
                 p2pCreatedBy: p2pCreatedBy,
                 amount: amount,
                 expiresAt: expiresAt,
-                isExpired: false,
-                isCompleted: false,
-                isApproved: false,
-                p2pPicture: '',
+                isCompleted: false, // createdBy action
+                isApproved: false, // p2pCreatedBy action
+                isCanceled: false, // createdBy action
+                isRejected: false, // p2pCreatedBy action
+                isExpired: false, // p2pSystem action
+                p2pPicture: '', // createdBy action
                 createdAt: Timestamp.now(),
             });
             return 'The p2p request has been successfully placed!';
@@ -409,8 +443,6 @@ export const createP2PRequestCall = functions.https.onCall(async (data: {uid: st
         return 'Error retrieving data';
     }
 });
-
-// export const expiresP2PRequestCall =
 
 export const completeP2PRequestCall = functions.https.onCall(async (data: {uid: string, p2pRequestId: string, p2pPicture: string}, context: any) => { //sender (uid) receiver (uid)
     try {
@@ -452,11 +484,11 @@ export const approveP2PRequestCall = functions.https.onCall(async (data: {uid: s
         const uId = data.uid;
         const docRef = db.collection('users').doc(`${uId}`);
         const doc = await docRef.get();
-        // const balance = doc.data?.balance;
 
         const p2pRequestId = data.p2pRequestId;
         const docP2PRequestsRef = db.collection('p2pRequests').doc(`${p2pRequestId}`);
         const docP2PRequest = await docP2PRequestsRef.get();
+        const p2pPaymentId = docP2PRequest.data()?.p2pPaymentId;
         const p2pCreatedBy = docP2PRequest.data()?.p2pCreatedBy;
         const isExpired = docP2PRequest.data()?.isExpired;
         const amount = docP2PRequest.data()?.amount;
@@ -465,14 +497,25 @@ export const approveP2PRequestCall = functions.https.onCall(async (data: {uid: s
         const docReceiverRef = db.collection('users').doc(`${receiverId}`);
         const docReceiver = await docReceiverRef.get();
 
-        if (doc.exists && docP2PRequest.exists && uId == p2pCreatedBy && isExpired == false && balance >= amount) {
+        const docP2PPaymentRef = db.collection('p2pPayment').doc(`${p2pPaymentId}`);
+        const docP2PPayment = await docP2PPaymentRef.get();
+        const p2PPaymentbalance = docP2PPayment.data()?.amount;
+
+        const docTransactionsRef = db.collection('transactions');
+
+        if (doc.exists && docP2PRequest.exists && uId == p2pCreatedBy && isExpired == false && p2PPaymentbalance >= amount) {
             const receiverBalance = (docReceiver.data()?.balance) as number || 0;
             // const newSenderBalance = balance - amount;
             const newReceiverBalance = receiverBalance - (- amount);
+            const newP2PPaymentBalance = p2PPaymentbalance - amount;
             //update sender balance
             // docSenderRef.update({
             //     balance: newSenderBalance
             // });
+            //update the P2P payment
+            docP2PPaymentRef.update({
+                amount: newP2PPaymentBalance,
+            });
             //update receiver balance
             docReceiverRef.update({
                 balance: newReceiverBalance
@@ -480,7 +523,7 @@ export const approveP2PRequestCall = functions.https.onCall(async (data: {uid: s
             //add transaction
             docTransactionsRef.add({
                 // sender: senderId,
-                sender: 'p2pProgram'
+                sender: 'p2pProgram',
                 receiver: receiverId,
                 amount: amount,
                 createdAt: Timestamp.now(),
@@ -504,3 +547,71 @@ export const approveP2PRequestCall = functions.https.onCall(async (data: {uid: s
         return 'Error retrieving data';
     }
 });
+
+export const cancelP2PRequestCall = functions.https.onCall(async (data: {uid: string, p2pRequestId: string}, context: any) => { //sender (uid) receiver (uid)
+    try {
+        const uId = data.uid;
+        const docRef = db.collection('users').doc(`${uId}`);
+        const doc = await docRef.get();
+
+        const p2pRequestId = data.p2pRequestId;
+        const docP2PRequestsRef = db.collection('p2pRequests').doc(`${p2pRequestId}`);
+        const docP2PRequest = await docP2PRequestsRef.get();
+        const createdBy = docP2PRequest.data()?.createdBy;
+        const isExpired = docP2PRequest.data()?.isExpired;
+
+        if (doc.exists && docP2PRequest.exists && uId == createdBy && isExpired == false) {
+            //update the P2P request
+            docP2PRequestsRef.update({
+                isCanceled: true,
+            });
+            return 'The p2p request has been successfully updated!';
+        } else if (!doc.exists) {
+            return 'User not found!';
+        } else if (!docP2PRequest.exists) {
+            return 'Doc not found!';
+        } else if (!(uId == createdBy)) {
+            return 'You can not update this doc!';
+        } else {
+            return 'This request is expired!';
+        }
+    } catch (error) {
+        console.log(error);
+        return 'Error retrieving data';
+    }
+});
+
+export const rejectP2PRequestCall = functions.https.onCall(async (data: {uid: string, p2pRequestId: string}, context: any) => { //sender (uid) receiver (uid)
+    try {
+        const uId = data.uid;
+        const docRef = db.collection('users').doc(`${uId}`);
+        const doc = await docRef.get();
+
+        const p2pRequestId = data.p2pRequestId;
+        const docP2PRequestsRef = db.collection('p2pRequests').doc(`${p2pRequestId}`);
+        const docP2PRequest = await docP2PRequestsRef.get();
+        const p2pCreatedBy = docP2PRequest.data()?.p2pCreatedBy;
+        const isExpired = docP2PRequest.data()?.isExpired;
+
+        if (doc.exists && docP2PRequest.exists && uId == p2pCreatedBy && isExpired == false) {
+            //update the P2P request
+            docP2PRequestsRef.update({
+                isRejected: true,
+            });
+            return 'The p2p request has been successfully updated!';
+        } else if (!doc.exists) {
+            return 'User not found!';
+        } else if (!docP2PRequest.exists) {
+            return 'Doc not found!';
+        } else if (!(uId == p2pCreatedBy)) {
+            return 'You can not update this doc!';
+        } else {
+            return 'This request is expired!';
+        }
+    } catch (error) {
+        console.log(error);
+        return 'Error retrieving data';
+    }
+});
+
+// export const expiresP2PRequestCall = // p2pSystem action

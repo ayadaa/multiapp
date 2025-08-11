@@ -33,7 +33,14 @@ export {
   // collection,
   collectionCall,
   sendAssetsCall,
-  updateMiningSpeedCall
+  updateMiningSpeedCall,
+  createP2PPaymentCall,
+  deactiveateP2PPaymentCall,
+  createP2PRequestCall,
+  completeP2PRequestCall,
+  approveP2PRequestCall,
+  cancelP2PRequestCall,
+  rejectP2PRequestCall
 } from "./functions/app.functions";
 
 
