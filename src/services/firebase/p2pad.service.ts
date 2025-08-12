@@ -113,7 +113,7 @@ export async function getP2PAds(): Promise<P2PAd[]> {
     );
     
     const p2pAds = await getDocs(p2pAdsQuery);
-    // console.log('ads', ads)
+    console.log('p2p ads', p2pAds)
     return p2pAds.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
