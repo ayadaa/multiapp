@@ -1,67 +1,40 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity, Share, ScrollView, Alert } from 'react-native';
 import { useRoute, useNavigation, type RouteProp } from '@react-navigation/native';
-import { type StackNavigationProp } from '@react-navigation/stack';
-import listingsData from './airbnb-listings.json';
-import { Ionicons } from '@expo/vector-icons';
+// import { type StackNavigationProp } from '@react-navigation/stack';
+// import listingsData from './airbnb-listings.json';
+// import { Ionicons } from '@expo/vector-icons';
 import Colors from './AdDetailsColors';
-import { defaultStyles } from './AdDetailsStyle';
+// import { defaultStyles } from './AdDetailsStyle';
 import type { AppStackParamList } from '../../types/navigation';
-import { useAds } from '../../hooks/ad/use-ads';
-import { useAuth } from '../../hooks/auth/use-auth';
-import { useUser } from '../../hooks/user/use-user';
-import { useChats } from '../../hooks/chat/use-chats';
+// import { useAds } from '../../hooks/ad/use-ads';
+// import { useAuth } from '../../hooks/auth/use-auth';
+// import { useUser } from '../../hooks/user/use-user';
+// import { useChats } from '../../hooks/chat/use-chats';
 import { P2PCreateRequestForm } from '../../components/forms/P2PCreateRequestForm';
 
 type AdDetailsScreenRouteProp = RouteProp<AppStackParamList, 'P2PCreateRequest'>;
-type AdDetailsScreenNavigationProp = StackNavigationProp<AppStackParamList, 'P2PCreateRequest'>;
+// type AdDetailsScreenNavigationProp = StackNavigationProp<AppStackParamList, 'P2PCreateRequest'>;
 
-const { width } = Dimensions.get('window');
-const IMG_HEIGHT = 300;
+// const { width } = Dimensions.get('window');
+// const IMG_HEIGHT = 300;
 
 
 
 export default function P2PCreateRequestScreen() {
   const route = useRoute<AdDetailsScreenRouteProp>();
-  const navigation = useNavigation<AdDetailsScreenNavigationProp>();
+  // const navigation = useNavigation<AdDetailsScreenNavigationProp>();
   const ad = route.params;
-  const { user } = useAuth();
-  const {
-    formatTimestamp
-  } = useAds(user?.uid || '');
-  const {
-    User,
-    isLoadingUser,
-    userError,
-    refreshUser,
-  } = useUser(ad.createdBy || '');
-
-  // const { id } = useLocalSearchParams();
-  const id = "9689519"
-  const listing = (listingsData as any[]).find((item) => item.id === id);
-  // const listing = (listingsData as any[])[0]
-
-  const { createChat } = useChats(user?.uid || '');
-  
-  /**
-   * Handle send message button press - navigate to chat
-   */
-  const handleSendMessagePress = async () => {
-    try {
-      // const { createChat } = useChats(user?.uid || '');
-      const chatId = await createChat(User?.uid || '');
-
-      if (User) {
-        (navigation as any).navigate('IndividualChat', {
-          chatId,
-          otherUser: User,
-        });
-      }
-    } catch (error) {
-      Alert.alert('Error', 'Failed to start chat. Please try again.');
-      console.error('Error creating chat:', error);
-    }
-  };
+  // const { user } = useAuth();
+  // const {
+  //   formatTimestamp
+  // } = useAds(user?.uid || '');
+  // const {
+  //   User,
+  //   isLoadingUser,
+  //   userError,
+  //   refreshUser,
+  // } = useUser(ad.createdBy || '');
 
   return (
     <View style={styles.container}>

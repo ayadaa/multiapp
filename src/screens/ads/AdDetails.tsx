@@ -45,15 +45,15 @@ export default function AdDetails() {
   //   return formatTimestamp(tx)
   // }
 
-  const { createChat } = useChats(user?.uid || '');
   
   /**
    * Handle send message button press - navigate to chat
    */
+  const { createChat } = useChats(user?.uid || '');
   const handleSendMessagePress = async () => {
     try {
       // const { createChat } = useChats(user?.uid || '');
-      const chatId = await createChat(User?.uid || '');
+      const chatId = await createChat(ad.createdBy);
 
       if (User) {
         (navigation as any).navigate('IndividualChat', {

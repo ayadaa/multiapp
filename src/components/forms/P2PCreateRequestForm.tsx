@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Alert } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Input } from '../common/Input';
@@ -11,6 +11,8 @@ import { createP2PRequestSchema, type CreateP2PRequestFormData } from '../../uti
 import { useNavigation } from '@react-navigation/native';
 import type { P2PAd } from '../../types/p2pads';
 import { UserProfile } from '../../services/firebase/firestore.service'
+import { useChats } from '../../hooks/chat/use-chats';
+import { useMessages } from '../../hooks/chat/use-messages';
 
 interface CreateP2PRequestFormProps {
   onSuccess?: () => void;
@@ -26,7 +28,8 @@ export function P2PCreateRequestForm({ ad, onSuccess, onNavigateToP2PAds }: Crea
   const [amountSufficient, setAmountSufficient] = useState<boolean | null>(null);
   const [balanceSufficient, setPalanceSufficient] = useState<boolean | null>(null);
   const [priceSufficient, setPriceSufficient] = useState<boolean | null>(null);
-  const { User, isLoadingUser, userError, refreshUser } = useUser(user?.uid || '');
+  const { User, refreshUser } = useUser(user?.uid!);
+  const User2 =  useUser(ad.createdBy);
   const navigation = useNavigation<any>();
   const {
     control,
@@ -83,12 +86,39 @@ export function P2PCreateRequestForm({ ad, onSuccess, onNavigateToP2PAds }: Crea
   };
   const amountStatus = getAmountStatus();
 
+  // chat navigation
+  const { createChat } = useChats(user?.uid!);
+  // const chatId = await createChat(ad.createdBy);
+  // const { sendTextMessage } = useMessages(chatId, user?.uid!);
+  const sendMessage = async (amount: string) => {
+    try {
+      const chatId = await createChat(ad.createdBy);
+      // const { sendTextMessage } = useMessages(chatId, user?.uid!);
+      const message = `Hello, I have been send for you a p2p request with amount ${amount}.`
+      // await sendTextMessage(message);
+
+      if (User) {
+        (navigation as any).navigate('IndividualChat', {
+          chatId,
+          otherUser: User2.User,
+          message: message, //ayad
+        });
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Failed to start chat. Please try again.');
+      console.error('Error creating chat:', error);
+    }
+  };
+  
+
   const onSubmit = async (data: CreateP2PRequestFormData) => {
     // clearAuthError();
     const result = await createP2PRequest(user?.uid || '', ad.id!, (data.amount || 0) as number)
     if (result.success) {
       reset();
       // onSuccess?.();
+      //navigate to an chat
+      sendMessage(data.amount);
     }
   };
 

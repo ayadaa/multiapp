@@ -12,7 +12,7 @@ import {
 import { useAppSelector } from '../../store/hooks'; 
 import { useState, useEffect, useCallback } from 'react';
 import type { P2PAd } from '../../types/p2pads';
-import { UserProfile } from '../../services/firebase/firestore.service'
+import type { UserProfile } from '../../services/firebase/firestore.service'
 
 export function useP2PAds() {
     const { user, isLoading, error, isAuthenticated } = useAppSelector((state) => state.auth); 

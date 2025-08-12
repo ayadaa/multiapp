@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Alert, StyleSheet, } from 'react-native';
 import { useRoute, useNavigation, type RouteProp } from '@react-navigation/native';
 import { type StackNavigationProp } from '@react-navigation/stack';
@@ -15,6 +15,7 @@ type ChatStackParamList = {
   IndividualChat: {
     chatId: string;
     otherUser: UserProfile;
+    message?: string; //ayad
   };
 };
 
@@ -30,8 +31,9 @@ export function IndividualChatScreen() {
   const navigation = useNavigation<IndividualChatScreenNavigationProp>();
   const { user } = useAuth();
   const flatListRef = useRef<FlatList<Message>>(null);
+  const [messageSent, setMessageSent] = useState<boolean>(false);
 
-  const { chatId, otherUser } = route.params;
+  const { chatId, otherUser, message } = route.params;
   const currentUserId = user?.uid || '';
 
   const {
@@ -68,6 +70,14 @@ export function IndividualChatScreen() {
       Alert.alert('Error', 'Failed to send message. Please try again.');
     }
   };
+
+  //ayad
+  useEffect(() => {
+    if (message && !messageSent) {
+      handleSendMessage(message);
+      setMessageSent(true);
+    }
+  }, [message])
 
   const renderMessage = ({ item }: { item: Message }) => (
     <MessageBubble
