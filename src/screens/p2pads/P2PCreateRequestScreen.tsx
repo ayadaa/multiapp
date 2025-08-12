@@ -7,21 +7,21 @@ import { Ionicons } from '@expo/vector-icons';
 import Colors from './AdDetailsColors';
 import { defaultStyles } from './AdDetailsStyle';
 import type { AppStackParamList } from '../../types/navigation';
-// import { formatTimestamp } from '../../functions/formatTimestamp';
 import { useAds } from '../../hooks/ad/use-ads';
 import { useAuth } from '../../hooks/auth/use-auth';
 import { useUser } from '../../hooks/user/use-user';
 import { useChats } from '../../hooks/chat/use-chats';
+import { P2PCreateRequestForm } from '../../components/forms/P2PCreateRequestForm';
 
-type AdDetailsScreenRouteProp = RouteProp<AppStackParamList, 'P2PAdDetails'>;
-type AdDetailsScreenNavigationProp = StackNavigationProp<AppStackParamList, 'P2PAdDetails'>;
+type AdDetailsScreenRouteProp = RouteProp<AppStackParamList, 'P2PCreateRequest'>;
+type AdDetailsScreenNavigationProp = StackNavigationProp<AppStackParamList, 'P2PCreateRequest'>;
 
 const { width } = Dimensions.get('window');
 const IMG_HEIGHT = 300;
 
 
 
-export default function P2PAdDetails() {
+export default function P2PCreateRequestScreen() {
   const route = useRoute<AdDetailsScreenRouteProp>();
   const navigation = useNavigation<AdDetailsScreenNavigationProp>();
   const ad = route.params;
@@ -40,10 +40,6 @@ export default function P2PAdDetails() {
   const id = "9689519"
   const listing = (listingsData as any[]).find((item) => item.id === id);
   // const listing = (listingsData as any[])[0]
-
-  // const handleFormatTimestamp = (tx: any) => {
-  //   return formatTimestamp(tx)
-  // }
 
   const { createChat } = useChats(user?.uid || '');
   
@@ -70,13 +66,13 @@ export default function P2PAdDetails() {
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Image
+        {/* <Image
           source={{ uri: ad.adPicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
           style={styles.image}
           resizeMode="cover"
-        />
+        /> */}
 
-        <View style={styles.infoContainer}>
+        {/* <View style={styles.infoContainer}>
           <Text style={styles.name}>{ad.title}</Text>
           <Text style={styles.location}>{ad.className}</Text>
           <Text style={styles.rooms}>{ad.typeName}</Text>
@@ -90,7 +86,6 @@ export default function P2PAdDetails() {
 
           <View style={styles.divider} />
 
-          {/* User profile details */}
           {User == null ?
           (
           <View><Text> . . . </Text></View>
@@ -116,6 +111,95 @@ export default function P2PAdDetails() {
           <View style={styles.divider} />
 
           <Text style={styles.description}>{ad.description}</Text>
+        </View> */}
+
+        <View style={styles.infoContainer}>
+          <View
+            // onPress={() => handleAdPress(ad)}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              paddingHorizontal: 20,
+              paddingVertical: 16,
+              borderBottomWidth: 1,
+              borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+              // marginBottom: 24
+            }}
+          >
+            <View style={{
+              width: 50,
+              height: 50,
+              borderRadius: 25,
+              // backgroundColor: 'rgba(0, 200, 100, 0.8)',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginRight: 16,
+            }}>
+              {/* <Ionicons name="people" size={24} color="#FFFFFF" /> */}
+              <Image
+                source={{ uri: ad.profilePicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
+                style={styles.image}
+                resizeMode="cover"
+              />
+            </View>
+
+            <View style={{ flex: 1 }}>
+              <View style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: 4,
+              }}>
+                <Text style={{
+                  color: '#FFFFFF',
+                  fontSize: 16,
+                  fontWeight: 'bold',
+                }}>
+                  {/* {ad.creatorUsername} */}
+                  {/* {ad.username} */}
+                  {/* {ad.username}   {((ad.requests! - ad.completeRequests!) / ad.requests!) * 100} % */}
+                  {ad.username}   {(Math.round(((ad.requests! - ad.approvedRequests!) / ad.requests!) * 100) / 100) * 100} %
+                </Text>
+                <Text style={{
+                  color: 'rgba(255, 255, 255, 0.6)',
+                  fontSize: 12,
+                }}>
+                  {ad.price} IQD
+                </Text>
+              </View>
+
+              <View style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+                <Text style={{
+                  color: 'rgba(255, 255, 255, 0.8)',
+                  fontSize: 14,
+                  // flex: 1,
+                }} numberOfLines={1}>
+                  {ad.paymentMethod}  {ad.requests!}
+                </Text>
+                <Text style={{
+                  color: 'rgba(255, 255, 255, 0.8)',
+                  fontSize: 14,
+                  // flex: 1,
+                }} numberOfLines={1}>
+                  {ad.amount} 💎
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View
+            style={{
+              paddingHorizontal: 20,
+              paddingVertical: 16,
+            }}
+          >
+            <P2PCreateRequestForm
+              ad={ad}
+            />
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -125,15 +209,16 @@ export default function P2PAdDetails() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
+    backgroundColor: '#000000',
   },
-  image: {
-    height: IMG_HEIGHT,
-    width: width,
-  },
+  // image: {
+  //   height: IMG_HEIGHT,
+  //   width: width,
+  // },
   infoContainer: {
     padding: 24,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
   },
   name: {
     fontSize: 26,
@@ -208,5 +293,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 10,
     fontFamily: 'mon',
+  },
+  image: {
+    height: 60,
+    width: 60,
+    borderRadius: '100%', // This will make it a circle
   },
 });

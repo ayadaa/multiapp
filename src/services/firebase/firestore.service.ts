@@ -42,6 +42,10 @@ export interface UserProfile {
   miningStartTime?: Timestamp;
   miningEndTime?: Timestamp;
   referral?: string;
+  isVerified?: boolean;
+  requests?: number;
+  // completeRequests?: number;
+  approvedRequests?: number
 }
 
 export interface Friendship {

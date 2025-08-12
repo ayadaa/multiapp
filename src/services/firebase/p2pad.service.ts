@@ -2,10 +2,11 @@ import * as Functions from 'firebase/functions';
 import { functions } from '../../config/firebase';
 import type { P2PAd } from '../../types/p2pads';
 import { 
-  getDocs, 
-  collection, 
-  query, 
-  orderBy, 
+    getDocs, 
+    collection, 
+    query, 
+    orderBy, 
+    where
 } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import { getUserProfile, UserProfile } from './firestore.service'
@@ -48,7 +49,7 @@ export async function createP2PRequest(uid: string, p2pPaymentId: string, amount
     try {
         const result = await createP2PRequestCallable({uid: uid, p2pPaymentId: p2pPaymentId, amount: amount});
         console.log('Result data from  createP2PRequestCallable:', result.data)
-        return result.data;
+        return {success: 'success', data: result.data};
     } catch (error) {
         console.error('Error in  createP2PRequestCallable:', error);
         throw new Error('Failed in  createP2PRequestCallable function. Please try again.');  
@@ -109,8 +110,10 @@ export async function rejectP2PRequest(uid: string, p2pRequestId: string) {
 export async function getP2PAds(): Promise<P2PAd[]> {
   try {
     const p2pAdsQuery = query(
-      collection(db, 'p2pPayment'),
-      orderBy('createdAt', 'desc')
+        collection(db, 'p2pPayment'),
+        where('isActive', '==', true),
+        // orderBy('createdAt', 'desc'),
+        orderBy('price', 'asc'),
     );
     
     const p2pAds = await getDocs(p2pAdsQuery);

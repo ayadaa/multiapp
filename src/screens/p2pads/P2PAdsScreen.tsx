@@ -1,6 +1,3 @@
-/**
- * P2p Ads List screen displaying all ads.
- */
 import React from 'react';
 import { 
   View, 
@@ -16,10 +13,10 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Screen } from '../../components/common/Screen';
 import { useP2PAds } from '../../hooks/p2pAd/use-p2pAds';
-import { useAuth } from '../../hooks/auth/use-auth';
-// import type { Ad } from '../../types/ads';
+// import { useAuth } from '../../hooks/auth/use-auth';
 import type { NavigationProp } from '../../types/navigation';
-// import { formatTimestamp } from '../../functions/formatTimestamp';
+import type { P2PAd } from '../../types/p2pads';
+import { UserProfile } from '../../services/firebase/firestore.service'
 
 export function P2PAdsScreen() {
   // const navigation = useNavigation();
@@ -55,9 +52,9 @@ export function P2PAdsScreen() {
     }
   }
 
-  // const handleAdPress = (ad: Ad) => {
-  //   navigation.navigate('P2PAdDetails', ad);
-  // }
+  const handleAdPress = (p2pAdWithUser: P2PAd & UserProfile) => {
+    navigation.navigate('P2PCreateRequest', p2pAdWithUser);
+  }
 
   return (
     <Screen backgroundColor="#000000" statusBarStyle="light-content">
@@ -115,7 +112,7 @@ export function P2PAdsScreen() {
               {/* {p2pAds.map((ad) => ( */}
               {p2pAdsWithUsers.map((ad) => (
                 <TouchableOpacity
-                  // onPress={() => handleAdPress(ad)}
+                  onPress={() => handleAdPress(ad)}
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
@@ -155,13 +152,15 @@ export function P2PAdsScreen() {
                         fontWeight: 'bold',
                       }}>
                         {/* {ad.creatorUsername} */}
-                        {ad.username}
+                        {/* {ad.username} */}
+                        {/* {ad.username}   {((ad.requests! - ad.completeRequests!) / ad.requests!) * 100} % */}
+                        {ad.username}   {(Math.round(((ad.requests! - ad.approvedRequests!) / ad.requests!) * 100) / 100) * 100} %
                       </Text>
                       <Text style={{
                         color: 'rgba(255, 255, 255, 0.6)',
                         fontSize: 12,
                       }}>
-                        {ad.price}
+                        {ad.price} IQD
                       </Text>
                     </View>
 
@@ -173,9 +172,16 @@ export function P2PAdsScreen() {
                       <Text style={{
                         color: 'rgba(255, 255, 255, 0.8)',
                         fontSize: 14,
-                        flex: 1,
+                        // flex: 1,
                       }} numberOfLines={1}>
-                        {ad.paymentMethod}
+                        {ad.paymentMethod}  {ad.requests!}
+                      </Text>
+                      <Text style={{
+                        color: 'rgba(255, 255, 255, 0.8)',
+                        fontSize: 14,
+                        // flex: 1,
+                      }} numberOfLines={1}>
+                        {ad.amount} 💎
                       </Text>
                     </View>
                   </View>
@@ -366,7 +372,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   image: {
-    height: 64,
-    width: 64,
+    height: 60,
+    width: 60,
+    borderRadius: '100%', // This will make it a circle
   },
 }); 

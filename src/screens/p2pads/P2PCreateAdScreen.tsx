@@ -20,7 +20,7 @@ export function P2PCreateAdScreen() {
     console.log('Send assets successful - navigating to wallet');
   };
 
-  const navigateToWallet = () => {
+  const navigateToP2PAds = () => {
     navigation.navigate('P2PAds' as any);
   };
 
@@ -57,7 +57,7 @@ export function P2PCreateAdScreen() {
           {/* Send Form */}
           <P2PCreateAdForm
             onSuccess={handleSendSuccess}
-            onNavigateToWallet={navigateToWallet}
+            onNavigateToP2PAds={navigateToP2PAds}
           />
         </View>
       </ScrollView>

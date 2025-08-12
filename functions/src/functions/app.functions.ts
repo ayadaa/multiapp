@@ -417,6 +417,8 @@ export const createP2PRequestCall = functions.https.onCall(async (data: {uid: st
         const p2pAmount = docP2PPayment.data()?.amount;
         const docP2PRequestsRef = db.collection('p2pRequests');
 
+        const docp2pCreatedByRef = db.collection('users').doc(`${p2pCreatedBy}`);
+
         if (doc.exists && docP2PPayment.exists && p2pAmount >= amount) {
             const expiredAt = Timestamp.now().toMillis() + (1 * 60 * 60 * 1000) // expires after one hour
             const expiresAt = Timestamp.fromMillis(expiredAt);
@@ -432,9 +434,14 @@ export const createP2PRequestCall = functions.https.onCall(async (data: {uid: st
                 isCanceled: false, // createdBy action
                 isRejected: false, // p2pCreatedBy action
                 isExpired: false, // p2pSystem action
-                p2pPicture: '', // createdBy action
+                // p2pPicture: '', // createdBy action
                 createdAt: Timestamp.now(),
             });
+            // update p2p payment createor requests number
+            const docp2pCreatedBy = await docp2pCreatedByRef.get();
+            docp2pCreatedByRef.update({
+                requests: docp2pCreatedBy.data()?.requests - (-1), // requests + 1
+            })
             return 'The p2p request has been successfully placed!';
         } else if (!doc.exists) {
             return 'User not found!';
@@ -525,6 +532,15 @@ export const approveP2PRequestCall = functions.https.onCall(async (data: {uid: s
             docReceiverRef.update({
                 balance: newReceiverBalance
             });
+            //update the P2P request
+            docP2PRequestsRef.update({
+                isApproved: true,
+            });
+            //update p2p payment creator approvedRequests
+            docRef.update({
+                approvedRequests: doc.data()?.approvedRequests - (-1),
+            });
+            
             //add transaction
             docTransactionsRef.add({
                 // sender: senderId,
@@ -533,10 +549,7 @@ export const approveP2PRequestCall = functions.https.onCall(async (data: {uid: s
                 amount: amount,
                 createdAt: Timestamp.now(),
             });
-            //update the P2P request
-            docP2PRequestsRef.update({
-                isApproved: true,
-            });
+
             return 'The p2p request has been successfully updated!';
         } else if (!doc.exists) {
             return 'User not found!';

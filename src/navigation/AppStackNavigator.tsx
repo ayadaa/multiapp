@@ -13,7 +13,7 @@ import CreateGroupScreen from '../screens/chat/CreateGroupScreen';
 import CreateAdScreen from '../screens/ads/CreateAdScreen';
 import AdDetails from '../screens/ads/AdDetails';
 import { P2PCreateAdScreen } from '../screens/p2pads/P2PCreateAdScreen';
-import P2PAdDetails from '../screens/p2pads/P2PAdDetails';
+import P2PCreateRequestScreen from '../screens/p2pads/P2PCreateRequestScreen';
 import { SendScreen } from '../screens/wallet/SendScreen';
 import { ReceiveScreen } from '../screens/wallet/ReceiveScreen';
 import QRScannerScreen from '../screens/wallet/QRCodeScannerScreen';
@@ -107,8 +107,8 @@ export default function AppStackNavigator() {
       />
 
       <Stack.Screen 
-        name="P2PAdDetails" 
-        component={P2PAdDetails}
+        name="P2PCreateRequest" 
+        component={P2PCreateRequestScreen}
         options={{
           headerShown: true,
         }}

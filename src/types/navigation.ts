@@ -1,5 +1,7 @@
 import type { NavigationProp as RNNavigationProp } from '@react-navigation/native';
 import type { Ad } from './ads';
+import { P2PAd } from './p2pads';
+import { UserProfile } from '../services/firebase/firestore.service'
 
 /**
  * Navigation parameter types for React Navigation.
@@ -72,7 +74,7 @@ export type AppStackParamList = {
   Receive: undefined;
   Scan: undefined;
   AdDetails: Ad;
-  P2PAdDetails: Ad;
+  P2PCreateRequest: P2PAd & UserProfile;
   StoryViewer: {
     storyId: string;
     stories: Array<{

@@ -8,13 +8,13 @@ import { useAppSelector } from '../../store/hooks';
 import { useUser } from '../../hooks/user/use-user';
 import { useP2PAds } from '../../hooks/p2pAd/use-p2pAds';
 // import { sendSchema, type SendFormData } from '../../utils/validation/wallet-schemas';
-import { createP2PPaymentSchema, type CreateP2PPaymentFormData } from '../../utils/validation/wallet-schemas';
+import { createP2PPaymentSchema, type CreateP2PPaymentFormData } from '../../utils/validation/p2p-schemas';
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 
 interface SendFormProps {
   onSuccess?: () => void;
-  onNavigateToWallet?: () => void;
+  onNavigateToP2PAds?: () => void;
 }
 
 export const P2PPaymentMethods = {
@@ -26,7 +26,7 @@ export const P2PPaymentMethods = {
     fastPay: 'fastPay',
 }
 
-export function P2PCreateAdForm({ onSuccess, onNavigateToWallet }: SendFormProps) {
+export function P2PCreateAdForm({ onSuccess, onNavigateToP2PAds }: SendFormProps) {
   const user = useAppSelector((state) => state.auth.user);
   const { createP2PPayment, error, isLoading } = useP2PAds();
   const [amountCheckLoading, setAmountCheckLoading] = useState<boolean>(false);
@@ -77,7 +77,7 @@ export function P2PCreateAdForm({ onSuccess, onNavigateToWallet }: SendFormProps
     if (!watchedAmount) return null;
     if (amountCheckLoading) return { color: '#007AFF', text: 'Checking...' };
     if (amountSufficient === true) return { color: '#34C759', text: 'Your balance is enogh' };
-    if (amountSufficient === false) return { color: '#FF3B30', text: 'Your balance is not enough to send assets' };
+    if (amountSufficient === false) return { color: '#FF3B30', text: 'Your balance is not enough to send create p2p ad' };
     return null;
   };
   const amountStatus = getAmountStatus();

@@ -10,3 +10,17 @@ export interface P2PAd {
     isActive: boolean;
     paymentMethod: string;
 }
+
+export interface p2pRequest {
+    amount: number;
+    createdAt: Timestamp;
+    createdBy: string;
+    expiresAt: Timestamp;
+    isApproved: boolean;
+    isCanceled: boolean;
+    isCompleted: boolean;
+    isExpired: boolean;
+    isRejected: boolean;
+    p2pCreatedBy: string;
+    p2pPaymentId: string;
+}
