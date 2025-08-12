@@ -20,7 +20,6 @@ export function useAds(currentUserId: string) {
 
   // Data state
   const [ads, setAds] = useState<Ad[]>([]);
-  // const [ad, setAd] = useState<Ad | null>(null);
   const [isLoadingAds, setIsLoadingAds] = useState(false);
 
   // Error states
