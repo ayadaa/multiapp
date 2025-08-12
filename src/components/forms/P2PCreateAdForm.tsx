@@ -51,19 +51,6 @@ export function P2PCreateAdForm({ onSuccess, onNavigateToWallet }: SendFormProps
     },
   });
 
-  // const watchedAddress = watch('address');
-
-  // Check address availability when it changes
-  // useEffect(() => {
-  //   if (watchedAddress && watchedAddress.length >= 3) {
-  //     const timeoutId = setTimeout(() => {
-  //       checkAddress(watchedAddress);
-  //     }, 500); // Debounce for 500ms
-
-  //     return () => clearTimeout(timeoutId);
-  //   }
-  // }, [watchedAddress, checkAddress]);
-
   const watchedAmount = watch('amount')
   const checkAmount = (amount: number) => {
     if (!User) return null;
@@ -131,7 +118,7 @@ export function P2PCreateAdForm({ onSuccess, onNavigateToWallet }: SendFormProps
   const onSubmit = async (data: CreateP2PPaymentFormData) => {
     // clearAuthError();
     
-    // const result = await sendAssets(user?.uid || '', data.address, (data.amount || 0) as number);
+    // const result = await createP2PPayment(user?.uid || '', User?.username || 'Username', (data.amount || 0) as number, data.method, (data.price || 0) as number)
     const result = await createP2PPayment(user?.uid || '', (data.amount || 0) as number, data.method, (data.price || 0) as number)
     if (result.success) {
       reset();
@@ -139,81 +126,10 @@ export function P2PCreateAdForm({ onSuccess, onNavigateToWallet }: SendFormProps
     }
   };
 
-  // const getAddressStatus = () => {
-  //   if (!watchedAddress || watchedAddress.length < 3) return null;
-  //   if (addressCheckLoading) return { color: '#007AFF', text: 'Checking...' };
-  //   if (addressExist === true) return { color: '#34C759', text: 'Exist' };
-  //   if (addressExist === false) return { color: '#FF3B30', text: 'Not exist' };
-  //   return null;
-  // };
-  // const addressStatus = getAddressStatus();
-
-  // const navigateToScan = () => {
-  //   navigation.navigate('Scan');
-  // };
-
   return (
     <View style={{ width: '100%' }}>
       {/* Form Fields */}
       <View style={{ marginBottom: 24 }}>
-        {/* address */}
-        {/* <Controller
-          control={control}
-          name="address"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <View 
-            style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}
-            >
-              <View 
-                style={{
-                  flex: 1,
-                  // flexDirection: 'row', // This makes the items display in a row
-                  // justifyContent: 'space-around', // Distributes space evenly between items
-                  // justifyContent: 'space-between', // Distributes space evenly between items
-                  // alignItems: 'center', // Aligns items vertically in the center
-                  // padding: 10,
-                  // backgroundColor: '#f0f0f0',
-                  // width: '100%',
-                  // flex: 1
-                  flexDirection: 'column'
-                }}
-              >
-                <Input
-                  label="Address"
-                  placeholder="Place an address"
-                  value={value || qrData}
-                  onChangeText={onChange}
-                  onBlur={onBlur}
-                  autoCapitalize="none"
-                  // autoComplete="address-line1" //ayad
-                  error={errors.address?.message}
-                  // style={{
-                  //   width: '80%'
-                  // }}
-                />
-                {addressStatus && (
-                  <Text style={{ 
-                    color: addressStatus.color, 
-                    fontSize: 12, 
-                    marginTop: 4,
-                    marginLeft: 4 
-                  }}>
-                    {addressStatus.text}
-                  </Text>
-                )}
-              </View>
-              <Button
-                  title="Scan"
-                  onPress={navigateToScan}
-                  style={{
-                    // width: '10%',
-                    width: 80,
-                    height: 40
-                  }}
-                />
-            </View>
-          )}
-        /> */}
         {/* amount */}
         <Controller
           control={control}

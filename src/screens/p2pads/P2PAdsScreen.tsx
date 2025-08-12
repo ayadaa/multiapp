@@ -24,13 +24,19 @@ import type { NavigationProp } from '../../types/navigation';
 export function P2PAdsScreen() {
   // const navigation = useNavigation();
   const navigation = useNavigation<NavigationProp>();
-  const { user } = useAuth();
+  // const { user } = useAuth();
   
+  // const {
+  //   p2pAds,
+  //   isLoadingP2PAds,
+  //   p2pAdsError,
+  //   refreshP2PAds,
+  // } = useP2PAds();
   const {
-    p2pAds,
-    isLoadingP2PAds,
-    p2pAdsError,
-    refreshP2PAds,
+    p2pAdsWithUsers,
+    isLoadingP2PAdsWithUsers,
+    p2pAdsErrorWithUsers,
+    refreshP2PAdsWithUsers,
   } = useP2PAds();
 
   const handleCreateP2PAdPress = () => {
@@ -42,7 +48,8 @@ export function P2PAdsScreen() {
    */
   const handleRefresh = async () => {
     try {
-      await refreshP2PAds();
+      // await refreshP2PAds();
+      await refreshP2PAdsWithUsers();
     } catch (error) {
       console.error('Error refreshing p2p ads:', error);
     }
@@ -60,7 +67,8 @@ export function P2PAdsScreen() {
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Ads</Text>
             <Text style={styles.subtitle}>
-              {p2pAds.length} {p2pAds.length === 1 ? 'ad' : 'ads'}
+              {/* {p2pAds.length} {p2pAds.length === 1 ? 'ad' : 'ads'} */}
+              {p2pAdsWithUsers.length} {p2pAdsWithUsers.length === 1 ? 'ad' : 'ads'}
             </Text>
           </View>
           
@@ -73,10 +81,12 @@ export function P2PAdsScreen() {
         </View>
 
         {/* Error State */}
-        {p2pAdsError && (
+        {/* {p2pAdsError && ( */}
+        {p2pAdsErrorWithUsers && (
           <View style={styles.errorContainer}>
             <Ionicons name="alert-circle" size={24} color="#FF3B30" />
-            <Text style={styles.errorText}>{p2pAdsError}</Text>
+            {/* <Text style={styles.errorText}>{p2pAdsError}</Text> */}
+            <Text style={styles.errorText}>{p2pAdsErrorWithUsers}</Text>
             <TouchableOpacity
               style={styles.retryButton}
               onPress={handleRefresh}
@@ -92,15 +102,18 @@ export function P2PAdsScreen() {
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl
-              refreshing={isLoadingP2PAds}
+              // refreshing={isLoadingP2PAds}
+              refreshing={isLoadingP2PAdsWithUsers}
               onRefresh={handleRefresh}
               tintColor="white"
             />
           }
         >
-          {p2pAds.length > 0 ? (
+          {/* {p2pAds.length > 0 ? ( */}
+          {p2pAdsWithUsers.length > 0 ? (
             <View style={styles.friendsList}>
-              {p2pAds.map((ad) => (
+              {/* {p2pAds.map((ad) => ( */}
+              {p2pAdsWithUsers.map((ad) => (
                 <TouchableOpacity
                   // onPress={() => handleAdPress(ad)}
                   style={{
@@ -123,7 +136,7 @@ export function P2PAdsScreen() {
                   }}>
                     {/* <Ionicons name="people" size={24} color="#FFFFFF" /> */}
                     <Image
-                      source={{ uri:'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
+                      source={{ uri: ad.profilePicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
                       style={styles.image}
                       resizeMode="cover"
                     />
@@ -141,7 +154,8 @@ export function P2PAdsScreen() {
                         fontSize: 16,
                         fontWeight: 'bold',
                       }}>
-                        {ad.creatorUsername}
+                        {/* {ad.creatorUsername} */}
+                        {ad.username}
                       </Text>
                       <Text style={{
                         color: 'rgba(255, 255, 255, 0.6)',

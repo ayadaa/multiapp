@@ -317,14 +317,15 @@ export const updateMiningSpeedCall = functions.https.onCall(async (data: {uid: s
     }
 });
 
-export const createP2PPaymentCall = functions.https.onCall(async (data: {uid: string, creatorUsername: string, amount: number, paymentMethod: string, price: string}, context: any) => { //sender (uid) receiver (uid)
+// export const createP2PPaymentCall = functions.https.onCall(async (data: {uid: string, creatorUsername: string, amount: number, paymentMethod: string, price: string}, context: any) => { //sender (uid) receiver (uid)
+export const createP2PPaymentCall = functions.https.onCall(async (data: {uid: string, amount: number, paymentMethod: string, price: string}, context: any) => { //sender (uid) receiver (uid)
     try {
         const uId = data.uid
         const docRef = db.collection('users').doc(`${uId}`);
         const doc = await docRef.get();
         const isVerified = doc.data()?.isVerified;
         const balance = doc.data()?.balance || 0;
-        const creatorUsername = data.creatorUsername;
+        // const creatorUsername = data.creatorUsername;
 
         const amount = data.amount;
         const price = data.price;
@@ -343,7 +344,7 @@ export const createP2PPaymentCall = functions.https.onCall(async (data: {uid: st
             //add the P2P payment
             docP2PPaymentRef.add({
                 createdBy: uId,
-                creatorUsername: creatorUsername,
+                // creatorUsername: creatorUsername,
                 amount: amount,
                 price: price,
                 paymentMethod: paymentMethod,

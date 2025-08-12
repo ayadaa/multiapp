@@ -58,6 +58,15 @@ export function useP2PAds() {
           setIsLoadingP2PAdsWithUsers(false);
         }
       }, []);
+    
+    // Load initial data
+    useEffect(() => {
+        refreshP2PAds();
+    }, [refreshP2PAds]);
+    
+    useEffect(() => {
+        refreshP2PAdsWithUsers();
+    }, [refreshP2PAdsWithUsers]);
 
     return { 
         // Data
