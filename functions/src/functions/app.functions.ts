@@ -334,7 +334,7 @@ export const createP2PPaymentCall = functions.https.onCall(async (data: {uid: st
         const docP2PPaymentRef = db.collection('p2pPayment');
         const docTransactionsRef = db.collection('transactions');
 
-        if (doc.exists && isVerified && balance >= amount) {
+        if (doc.exists && isVerified && balance <= amount) {
             // new palnce
             const newBalance = balance - amount;
             //update the balance
