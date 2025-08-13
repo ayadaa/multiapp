@@ -124,7 +124,9 @@ export function P2PAdsScreen() {
   const handleCancelP2PRequest = async (uid: string, p2pRequestId: string) => {
     const result = await cancelP2PRequest(uid, p2pRequestId);
     if (result.success) {
-      console.log('Request canceled successfully')
+      console.log('Request canceled successfully');
+      refreshP2PAdsWithUsers();
+      refreshP2PRequestsWithUsers();
     }
   }
 
@@ -132,7 +134,9 @@ export function P2PAdsScreen() {
   const handleApproveP2PRequest = async (uid: string, p2pRequestId: string) => {
     const result = await approveP2PRequest(uid, p2pRequestId);
     if (result.success) {
-      console.log('Request approved successfully')
+      console.log('Request approved successfully');
+      refreshP2PAdsWithUsers();
+      refreshP2PRequestsWithUsers();
     }
   }
 
@@ -140,7 +144,9 @@ export function P2PAdsScreen() {
   const handleRejectP2PRequest = async (uid: string, p2pRequestId: string) => {
     const result = await rejectP2PRequest(uid, p2pRequestId);
     if (result.success) {
-      console.log('Request rejected successfully')
+      console.log('Request rejected successfully');
+      refreshP2PAdsWithUsers();
+      refreshP2PRequestsWithUsers();
     }
   }
 
