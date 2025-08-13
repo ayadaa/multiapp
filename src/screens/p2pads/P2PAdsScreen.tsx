@@ -324,7 +324,7 @@ export function P2PAdsScreen() {
                         title="Approve"
                         onPress={() => handleApproveP2PRequest(user.uid, ad.id)}
                         loading={false}
-                        disabled={false}
+                        disabled={!ad.isCompleted}
                         size= 'small'
                       />
                       <RedButton
