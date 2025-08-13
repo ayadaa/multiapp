@@ -428,6 +428,7 @@ export const createP2PRequestCall = functions.https.onCall(async (data: {uid: st
                 p2pPaymentId: p2pPaymentId,
                 p2pCreatedBy: p2pCreatedBy,
                 amount: amount,
+                price: docP2PPayment.data()?.price,
                 expiresAt: expiresAt,
                 isActive: true,
                 isCompleted: false, // createdBy action

@@ -279,8 +279,7 @@ export function P2PAdsScreen() {
                         color: 'rgba(255, 255, 255, 0.6)',
                         fontSize: 12,
                       }}>
-                        {/* {ad.price} IQD */}
-                        price
+                        {ad.price} IQD
                       </Text>
                     </View>
 

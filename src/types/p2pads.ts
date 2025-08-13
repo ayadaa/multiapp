@@ -24,4 +24,5 @@ export interface P2PRequest {
     isRejected: boolean;
     p2pCreatedBy: string;
     p2pPaymentId: string;
+    price: string;
 }
