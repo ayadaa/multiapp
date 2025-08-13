@@ -22,6 +22,8 @@ import type { UserProfile } from '../../services/firebase/firestore.service'
 import { useAppSelector } from '../../store/hooks';
 import { Button } from '../../components/common/Button';
 import { RedButton } from '../../components/common/RedButton';
+// import { useChats } from '../../hooks/chat/use-chats';
+// import { useUser } from '../../hooks/user/use-user';
 
 interface P2PAdsSection {
   title: string;
@@ -32,9 +34,9 @@ interface P2PAdsSection {
 
 export function P2PAdsScreen() {
   const user = useAppSelector((state) => state.auth.user);
-  // const navigation = useNavigation();
+  // const { User } = useUser(user?.uid!);
+  // const User2 =  useUser(ad.createdBy);
   const navigation = useNavigation<NavigationProp>();
-  // const { user } = useAuth();
   
   // const {
   //   p2pAds,
@@ -51,6 +53,10 @@ export function P2PAdsScreen() {
     isLoadingP2PRequestsWithUsers,
     p2pRequestsWithUsersError,
     refreshP2PRequestsWithUsers,
+    completeP2PRequest,
+    approveP2PRequest,
+    cancelP2PRequest,
+    rejectP2PRequest,
   } = useP2PAds();
 
   const handleCreateP2PAdPress = () => {
@@ -79,6 +85,64 @@ export function P2PAdsScreen() {
   // const handleRequestPress = (p2pRequestWithUser: P2PRequest & UserProfile) => {
   //   navigation.navigate('P2PRequestDetails', p2pRequestWithUser);
   // }
+
+  // chat navigation
+  // const { createChat } = useChats(user?.uid!);
+  // const chatId = await createChat(ad.createdBy);
+  // const { sendTextMessage } = useMessages(chatId, user?.uid!);
+  // const sendMessage = async (amount: string) => {
+  //   try {
+  //     const chatId = await createChat(ad.createdBy);
+  //     // const { sendTextMessage } = useMessages(chatId, user?.uid!);
+  //     const message = `Hello, I have been send for you a p2p request with amount ${amount}.`
+  //     // await sendTextMessage(message);
+
+  //     if (User) {
+  //       (navigation as any).navigate('IndividualChat', {
+  //         chatId,
+  //         otherUser: User2.User,
+  //         message: message, //ayad
+  //       });
+  //     }
+  //   } catch (error) {
+  //     Alert.alert('Error', 'Failed to start chat. Please try again.');
+  //     console.error('Error creating chat:', error);
+  //   }
+  // };
+  // const handleComplete = async (uid: string, p2pRequestId: string, p2pPicture: string)  => {
+  //   // clearAuthError();
+  //   const result = await completeP2PRequest(uid, p2pRequestId, p2pPicture);
+  //   if (result.success) {
+  //     // reset();
+  //     // onSuccess?.();
+  //     //navigate to an chat
+  //     sendMessage(data.amount);
+  //   }
+  // };
+
+  // cancel request
+  const handleCancelP2PRequest = async (uid: string, p2pRequestId: string) => {
+    const result = await cancelP2PRequest(uid, p2pRequestId);
+    if (result.success) {
+      console.log('Request canceled successfully')
+    }
+  }
+
+  // approve request
+  const handleApproveP2PRequest = async (uid: string, p2pRequestId: string) => {
+    const result = await approveP2PRequest(uid, p2pRequestId);
+    if (result.success) {
+      console.log('Request approved successfully')
+    }
+  }
+
+  // approve request
+  const handleRejectP2PRequest = async (uid: string, p2pRequestId: string) => {
+    const result = await rejectP2PRequest(uid, p2pRequestId);
+    if (result.success) {
+      console.log('Request rejected successfully')
+    }
+  }
 
   // Prepare sections data
   const sections: P2PAdsSection[] = [];
@@ -243,13 +307,14 @@ export function P2PAdsScreen() {
                       <Button
                         title="Complete"
                         onPress={() => {}}
+                        // onPress={() => handleComplete(user.uid, ad.id, 'ad picture')}
                         loading={false}
                         disabled={false}
                         size= 'small'
                       />
                       <RedButton
                         title="Cancel"
-                        onPress={() => {}}
+                        onPress={() => handleCancelP2PRequest(user.uid, ad.id)}
                         loading={false}
                         disabled={false}
                         size= 'small'
@@ -257,14 +322,14 @@ export function P2PAdsScreen() {
                       {(ad.p2pCreatedBy === user?.uid) && <>
                       <Button
                         title="Approve"
-                        onPress={() => {}}
+                        onPress={() => handleApproveP2PRequest(user.uid, ad.id)}
                         loading={false}
                         disabled={false}
                         size= 'small'
                       />
                       <RedButton
-                        title="Rejected"
-                        onPress={() => {}}
+                        title="Reject"
+                        onPress={() => handleRejectP2PRequest(user.uid, ad.id)}
                         loading={false}
                         disabled={false}
                         size= 'small'

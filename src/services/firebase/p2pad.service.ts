@@ -37,7 +37,7 @@ export async function deactiveateP2PPayment(uid: string, p2pPaymentId: string) {
     try {
         const result = await deactiveateP2PPaymentCallable({uid: uid, p2pPaymentId: p2pPaymentId});
         console.log('Result data from  deactiveateP2PPaymentCallable:', result.data)
-        return result.data;
+        return {success: 'success', data: result.data};
     } catch (error) {
         console.error('Error in  deactiveateP2PPaymentCallable:', error);
         throw new Error('Failed in  deactiveateP2PPaymentCallable function. Please try again.');  
@@ -61,7 +61,7 @@ export async function completeP2PRequest(uid: string, p2pRequestId: string, p2pP
     try {
         const result = await completeP2PRequestCallable({uid: uid, p2pRequestId: p2pRequestId, p2pPicture: p2pPicture});
         console.log('Result data from  completeP2PRequestCallable:', result.data)
-        return result.data;
+        return {success: 'success', data: result.data};
     } catch (error) {
         console.error('Error in  completeP2PRequestCallable:', error);
         throw new Error('Failed in  completeP2PRequestCallable function. Please try again.');  
@@ -73,7 +73,7 @@ export async function approveP2PRequest(uid: string, p2pRequestId: string) {
     try {
         const result = await approveP2PRequestCallable({uid: uid, p2pRequestId: p2pRequestId});
         console.log('Result data from  approveP2PRequestCallable:', result.data)
-        return result.data;
+        return {success: 'success', data: result.data};
     } catch (error) {
         console.error('Error in  approveP2PRequestCallable:', error);
         throw new Error('Failed in  approveP2PRequestCallable function. Please try again.');  
@@ -85,7 +85,7 @@ export async function cancelP2PRequest(uid: string, p2pRequestId: string) {
     try {
         const result = await cancelP2PRequestCallable({uid: uid, p2pRequestId: p2pRequestId});
         console.log('Result data from  cancelP2PRequestCallable:', result.data)
-        return result.data;
+        return {success: 'success', data: result.data};
     } catch (error) {
         console.error('Error in  cancelP2PRequestCallable:', error);
         throw new Error('Failed in  cancelP2PRequestCallable function. Please try again.');  
@@ -97,7 +97,7 @@ export async function rejectP2PRequest(uid: string, p2pRequestId: string) {
     try {
         const result = await rejectP2PRequestCallable({uid: uid, p2pRequestId: p2pRequestId});
         console.log('Result data from  rejectP2PRequestCallable:', result.data)
-        return result.data;
+        return {success: 'success', data: result.data};
     } catch (error) {
         console.error('Error in  rejectP2PRequestCallable:', error);
         throw new Error('Failed in  rejectP2PRequestCallable function. Please try again.');  
