@@ -29,7 +29,7 @@ export function P2PCreateRequestForm({ ad, onSuccess, onNavigateToP2PAds }: Crea
   const [balanceSufficient, setPalanceSufficient] = useState<boolean | null>(null);
   const [priceSufficient, setPriceSufficient] = useState<boolean | null>(null);
   const { User, refreshUser } = useUser(user?.uid!);
-  const User2 =  useUser(ad.createdBy);
+  const User2 = useUser(ad.createdBy);
   const navigation = useNavigation<any>();
   const {
     control,
@@ -88,14 +88,10 @@ export function P2PCreateRequestForm({ ad, onSuccess, onNavigateToP2PAds }: Crea
 
   // chat navigation
   const { createChat } = useChats(user?.uid!);
-  // const chatId = await createChat(ad.createdBy);
-  // const { sendTextMessage } = useMessages(chatId, user?.uid!);
   const sendMessage = async (amount: string) => {
     try {
       const chatId = await createChat(ad.createdBy);
-      // const { sendTextMessage } = useMessages(chatId, user?.uid!);
       const message = `Hello, I have been send for you a p2p request with amount ${amount}.`
-      // await sendTextMessage(message);
 
       if (User) {
         (navigation as any).navigate('IndividualChat', {
@@ -109,7 +105,7 @@ export function P2PCreateRequestForm({ ad, onSuccess, onNavigateToP2PAds }: Crea
       console.error('Error creating chat:', error);
     }
   };
-  
+
 
   const onSubmit = async (data: CreateP2PRequestFormData) => {
     // clearAuthError();
@@ -144,11 +140,11 @@ export function P2PCreateRequestForm({ ad, onSuccess, onNavigateToP2PAds }: Crea
                 error={errors.amount?.message}
               />
               {amountStatus && (
-                <Text style={{ 
-                  color: amountStatus.color, 
-                  fontSize: 12, 
+                <Text style={{
+                  color: amountStatus.color,
+                  fontSize: 12,
                   marginTop: 4,
-                  marginLeft: 4 
+                  marginLeft: 4
                 }}>
                   {amountStatus.text}
                 </Text>
@@ -176,12 +172,12 @@ export function P2PCreateRequestForm({ ad, onSuccess, onNavigateToP2PAds }: Crea
       {/* Footer Actions */}
       <View style={{ alignItems: 'center' }}>
         {/* Terms */}
-        <Text style={{ 
-          color: 'rgba(255, 255, 255, 0.4)', 
-          fontSize: 12, 
+        <Text style={{
+          color: 'rgba(255, 255, 255, 0.4)',
+          fontSize: 12,
           textAlign: 'center',
           marginTop: 16,
-          paddingHorizontal: 16 
+          paddingHorizontal: 16
         }}>
           By create p2p request, you agree to our Terms of Service and Privacy Policy.
         </Text>
