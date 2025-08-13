@@ -8,7 +8,8 @@ import {
   RefreshControl,
   Alert,
   Image,
-  SectionList
+  SectionList,
+  // Button
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -16,17 +17,21 @@ import { Screen } from '../../components/common/Screen';
 import { useP2PAds } from '../../hooks/p2pAd/use-p2pAds';
 // import { useAuth } from '../../hooks/auth/use-auth';
 import type { NavigationProp } from '../../types/navigation';
-import type { P2PAd } from '../../types/p2pads';
+import type { P2PAd, P2PRequest } from '../../types/p2pads';
 import type { UserProfile } from '../../services/firebase/firestore.service'
+import { useAppSelector } from '../../store/hooks';
+import { Button } from '../../components/common/Button';
+import { RedButton } from '../../components/common/RedButton';
 
 interface P2PAdsSection {
   title: string;
-  // data: ((P2PAd & UserProfile) | (P2PAd & UserProfile))[];
-  data: (P2PAd & UserProfile)[];
+  // data: (P2PAd & UserProfile)[];
+  data: ((P2PAd & UserProfile) | (P2PRequest & UserProfile))[];
   type: 'p2pRequests' | 'p2pAds';
 }
 
 export function P2PAdsScreen() {
+  const user = useAppSelector((state) => state.auth.user);
   // const navigation = useNavigation();
   const navigation = useNavigation<NavigationProp>();
   // const { user } = useAuth();
@@ -40,8 +45,12 @@ export function P2PAdsScreen() {
   const {
     p2pAdsWithUsers,
     isLoadingP2PAdsWithUsers,
-    p2pAdsErrorWithUsers,
+    p2pAdsWithUsersError,
     refreshP2PAdsWithUsers,
+    p2pRequestsWithUsers,
+    isLoadingP2PRequestsWithUsers,
+    p2pRequestsWithUsersError,
+    refreshP2PRequestsWithUsers,
   } = useP2PAds();
 
   const handleCreateP2PAdPress = () => {
@@ -55,31 +64,36 @@ export function P2PAdsScreen() {
     try {
       // await refreshP2PAds();
       await refreshP2PAdsWithUsers();
+      await refreshP2PRequestsWithUsers();
     } catch (error) {
       console.error('Error refreshing p2p ads:', error);
     }
   }
 
+  // handle p2p ad pree
   const handleAdPress = (p2pAdWithUser: P2PAd & UserProfile) => {
     navigation.navigate('P2PCreateRequest', p2pAdWithUser);
   }
 
+  // handle p2p request press
+  // const handleRequestPress = (p2pRequestWithUser: P2PRequest & UserProfile) => {
+  //   navigation.navigate('P2PRequestDetails', p2pRequestWithUser);
+  // }
+
   // Prepare sections data
   const sections: P2PAdsSection[] = [];
-  
+  if (p2pRequestsWithUsers.length > 0) { 
+    sections.push({
+      title: 'P2P Requests',
+      data: p2pRequestsWithUsers,
+      type: 'p2pRequests',
+    });
+  }
   if (p2pAdsWithUsers.length > 0) {
     sections.push({
       title: 'P2P Ads',
       data: p2pAdsWithUsers,
       type: 'p2pAds',
-    });
-  }
-  
-  if (p2pAdsWithUsers.length > 0) { // need changes ayad
-    sections.push({
-      title: 'P2P Requests',
-      data: p2pAdsWithUsers, //needs a change
-      type: 'p2pRequests',
     });
   }
 
@@ -103,26 +117,55 @@ export function P2PAdsScreen() {
     </View>
   );
 
-  const renderP2PItem = (item: P2PAd & UserProfile, type: 'p2pAds' | 'p2pRequests') => {
-    if (type === 'p2pAds') {
-      const ad = item as P2PAd & UserProfile;
+  const renderP2PItem = (item: (P2PAd & UserProfile) | (P2PRequest & UserProfile), type: 'p2pAds' | 'p2pRequests') => {
+    if (type === 'p2pRequests') {
+      const ad = item as P2PRequest & UserProfile;
+      if (
+        (ad.createdBy != user?.uid) && (ad.p2pCreatedBy != user?.uid) ||
+        (ad.isCanceled === true) || (ad.isCompleted === true) ||
+        ((ad.isRejected === true) || (ad.isApproved === true) && (ad.p2pCreatedBy === user?.uid))
+      ) { 
+        return (
+          null
+          // <View style={{
+          //   backgroundColor: 'rgba(255, 59, 48, 0.2)',
+          //   marginHorizontal: 16,
+          //   padding: 16,
+          //   borderRadius: 12,
+          //   borderWidth: 1,
+          //   borderColor: 'rgba(255, 59, 48, 0.3)',
+          //   alignItems: 'center',
+          //   marginBottom: 16,
+          // }}>
+          //   <Text style={{
+          //     color: '#FF3B30',
+          //     fontSize: 16,
+          //     textAlign: 'center',
+          //     marginVertical: 8,
+          //   }}>
+          //     You don't have any active request.
+          //   </Text>
+          // </View>
+        );
+      }
       return (
         <ScrollView
           style={styles.scrollView}
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl
-              refreshing={isLoadingP2PAdsWithUsers}
+              refreshing={isLoadingP2PRequestsWithUsers}
               onRefresh={handleRefresh}
               tintColor="white"
             />
           }
         >
           {/* {p2pAdsWithUsers.length > 0 ? ( */}
-            <View style={styles.friendsList}>
+            {/* <View style={styles.friendsList}> */}
+            <View>
               {/* {p2pAdsWithUsers.map((ad) => ( */}
-                <TouchableOpacity
-                  onPress={() => handleAdPress(ad)}
+                <View
+                  // onPress={() => handleRequestPress(ad)}
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
@@ -159,13 +202,15 @@ export function P2PAdsScreen() {
                         fontSize: 16,
                         fontWeight: 'bold',
                       }}>
-                        {ad.username}   {(Math.round(((ad.requests! - ad.approvedRequests!) / ad.requests!) * 100) / 100) * 100} %
+                        {/* {ad.username}   {(Math.round(((ad.requests! - ad.approvedRequests!) / ad.requests!) * 100) / 100) * 100} % */}
+                        {ad.username}
                       </Text>
                       <Text style={{
                         color: 'rgba(255, 255, 255, 0.6)',
                         fontSize: 12,
                       }}>
-                        {ad.price} IQD
+                        {/* {ad.price} IQD */}
+                        price
                       </Text>
                     </View>
 
@@ -173,12 +218,14 @@ export function P2PAdsScreen() {
                       flexDirection: 'row',
                       justifyContent: 'space-between',
                       alignItems: 'center',
+                      marginBottom: 4,
                     }}>
                       <Text style={{
                         color: 'rgba(255, 255, 255, 0.8)',
                         fontSize: 14,
                       }} numberOfLines={1}>
-                        {ad.paymentMethod}  {ad.requests!}
+                        {/* {ad.paymentMethod}  {ad.requests!} */}
+                        payment method
                       </Text>
                       <Text style={{
                         color: 'rgba(255, 255, 255, 0.8)',
@@ -187,8 +234,44 @@ export function P2PAdsScreen() {
                         {ad.amount} 💎
                       </Text>
                     </View>
+                    <View style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}>
+                      {(ad.createdBy === user?.uid) && <>
+                      <Button
+                        title="Complete"
+                        onPress={() => {}}
+                        loading={false}
+                        disabled={false}
+                        size= 'small'
+                      />
+                      <RedButton
+                        title="Cancel"
+                        onPress={() => {}}
+                        loading={false}
+                        disabled={false}
+                        size= 'small'
+                      /></>}
+                      {(ad.p2pCreatedBy === user?.uid) && <>
+                      <Button
+                        title="Approve"
+                        onPress={() => {}}
+                        loading={false}
+                        disabled={false}
+                        size= 'small'
+                      />
+                      <RedButton
+                        title="Rejected"
+                        onPress={() => {}}
+                        loading={false}
+                        disabled={false}
+                        size= 'small'
+                      /></>}
+                    </View>
                   </View>
-                </TouchableOpacity>
+                </View>
               {/* ))} */}
             </View>
           {/* ) : (
@@ -224,7 +307,8 @@ export function P2PAdsScreen() {
           }
         >
           {/* {p2pAdsWithUsers.length > 0 ? ( */}
-            <View style={styles.friendsList}>
+            {/* <View style={styles.friendsList}> */}
+            <View>
               {/* {p2pAdsWithUsers.map((ad) => ( */}
                 <TouchableOpacity
                   onPress={() => handleAdPress(ad)}
@@ -340,11 +424,11 @@ export function P2PAdsScreen() {
 
         {/* Error State */}
         {/* {p2pAdsError && ( */}
-        {p2pAdsErrorWithUsers && (
+        {(p2pAdsWithUsersError || p2pRequestsWithUsersError) && (
           <View style={styles.errorContainer}>
             <Ionicons name="alert-circle" size={24} color="#FF3B30" />
             {/* <Text style={styles.errorText}>{p2pAdsError}</Text> */}
-            <Text style={styles.errorText}>{p2pAdsErrorWithUsers}</Text>
+            <Text style={styles.errorText}>{p2pAdsWithUsersError}</Text>
             <TouchableOpacity
               style={styles.retryButton}
               onPress={handleRefresh}

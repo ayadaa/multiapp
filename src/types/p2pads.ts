@@ -12,6 +12,7 @@ export interface P2PAd {
 }
 
 export interface P2PRequest {
+    id: string;
     amount: number;
     createdAt: Timestamp;
     createdBy: string;

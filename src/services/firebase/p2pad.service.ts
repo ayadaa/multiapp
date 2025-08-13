@@ -137,26 +137,44 @@ export async function getP2PAdsWithUsers(): Promise<(P2PAd & UserProfile)[]> {
             p2pAdsWithUsers.push({ ...ad, ...user });
         }
     }
+    console.log('p2p ads with users', p2pAdsWithUsers);
     return p2pAdsWithUsers;
 }
 
 // Get p2p requests
 export async function getP2PRequests(): Promise<P2PRequest[]> {
   try {
-    const p2pAdsQuery = query(
+    const p2pRequestsQuery = query(
         collection(db, 'p2pRequests'),
-        where('isActive', '==', true),
+        // where('isActive', '==', true),
+        // where('createdBy', '==', uId),
+        // where('p2pCreatedBy', '==', uId),
         orderBy('createdAt', 'desc'),
     );
-    
-    const p2pAds = await getDocs(p2pAdsQuery);
-    console.log('p2p ads', p2pAds)
-    return p2pAds.docs.map(doc => ({
+     
+    const p2pRequests = await getDocs(p2pRequestsQuery);
+    console.log('p2p requests', p2pRequests)
+    return p2pRequests.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
-    })) as P2PAd[];
+    })) as P2PRequest[];
   } catch (error) {
-    console.error('Get p2p ads error:', error);
-    throw new Error('Failed to get p2p ads');
+    console.error('Get p2p requests error:', error);
+    throw new Error('Failed to get p2p requests');
   }
+}
+
+// Get p2p requests with users
+export async function getP2PRequestsWithUsers(): Promise<(P2PRequest & UserProfile)[]> {
+    const p2pRequests = await getP2PRequests();
+    const p2pRequestsWithUsers = <(P2PRequest & UserProfile)[]>[];
+    for (let index = 0; index < p2pRequests.length; index++) {
+        const request = p2pRequests[index];
+        const user = await getUserProfile(request.createdBy);
+        if (user) {
+            p2pRequestsWithUsers.push({ ...request, ...user });
+        }
+    }
+    console.log('p2p requests with users', p2pRequestsWithUsers);
+    return p2pRequestsWithUsers;
 }
