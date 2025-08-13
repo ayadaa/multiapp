@@ -242,11 +242,12 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
               <Button
                   title="Scan"
                   onPress={navigateToScan}
-                  style={{
-                    // width: '10%',
-                    width: 80,
-                    height: 40
-                  }}
+                  // style={{
+                  //   // width: '10%',
+                  //   width: 80,
+                  //   height: 40
+                  // }}
+                  size='small'
                 />
             </View>
           )}
