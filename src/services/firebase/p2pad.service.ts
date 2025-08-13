@@ -1,6 +1,6 @@
 import * as Functions from 'firebase/functions';
 import { functions } from '../../config/firebase';
-import type { P2PAd } from '../../types/p2pads';
+import type { P2PAd, P2PRequest } from '../../types/p2pads';
 import { 
     getDocs, 
     collection, 
@@ -104,9 +104,7 @@ export async function rejectP2PRequest(uid: string, p2pRequestId: string) {
     }
 }
 
-/**
- * Get p2p ads
- */
+// Get p2p ads
 export async function getP2PAds(): Promise<P2PAd[]> {
   try {
     const p2pAdsQuery = query(
@@ -128,6 +126,7 @@ export async function getP2PAds(): Promise<P2PAd[]> {
   }
 }
 
+// Get p2p ads with users
 export async function getP2PAdsWithUsers(): Promise<(P2PAd & UserProfile)[]> {
     const p2pAds = await getP2PAds();
     const p2pAdsWithUsers = <(P2PAd & UserProfile)[]>[];
@@ -139,4 +138,25 @@ export async function getP2PAdsWithUsers(): Promise<(P2PAd & UserProfile)[]> {
         }
     }
     return p2pAdsWithUsers;
+}
+
+// Get p2p requests
+export async function getP2PRequests(): Promise<P2PRequest[]> {
+  try {
+    const p2pAdsQuery = query(
+        collection(db, 'p2pRequests'),
+        where('isActive', '==', true),
+        orderBy('createdAt', 'desc'),
+    );
+    
+    const p2pAds = await getDocs(p2pAdsQuery);
+    console.log('p2p ads', p2pAds)
+    return p2pAds.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    })) as P2PAd[];
+  } catch (error) {
+    console.error('Get p2p ads error:', error);
+    throw new Error('Failed to get p2p ads');
+  }
 }

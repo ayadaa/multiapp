@@ -429,6 +429,7 @@ export const createP2PRequestCall = functions.https.onCall(async (data: {uid: st
                 p2pCreatedBy: p2pCreatedBy,
                 amount: amount,
                 expiresAt: expiresAt,
+                isActive: true,
                 isCompleted: false, // createdBy action
                 isApproved: false, // p2pCreatedBy action
                 isCanceled: false, // createdBy action
@@ -473,6 +474,7 @@ export const completeP2PRequestCall = functions.https.onCall(async (data: {uid: 
             //update the P2P request
             docP2PRequestsRef.update({
                 isCompleted: true,
+                isActive: false,
                 p2pPicture: p2pPicture,
             });
             return 'The p2p request has been successfully updated!';
@@ -535,6 +537,7 @@ export const approveP2PRequestCall = functions.https.onCall(async (data: {uid: s
             //update the P2P request
             docP2PRequestsRef.update({
                 isApproved: true,
+                isActive: false,
             });
             //update p2p payment creator approvedRequests
             docRef.update({
@@ -582,6 +585,7 @@ export const cancelP2PRequestCall = functions.https.onCall(async (data: {uid: st
             //update the P2P request
             docP2PRequestsRef.update({
                 isCanceled: true,
+                isActive: false,
             });
             return 'The p2p request has been successfully updated!';
         } else if (!doc.exists) {
@@ -615,6 +619,7 @@ export const rejectP2PRequestCall = functions.https.onCall(async (data: {uid: st
             //update the P2P request
             docP2PRequestsRef.update({
                 isRejected: true,
+                isActive: false,
             });
             return 'The p2p request has been successfully updated!';
         } else if (!doc.exists) {

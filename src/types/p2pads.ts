@@ -11,7 +11,7 @@ export interface P2PAd {
     paymentMethod: string;
 }
 
-export interface p2pRequest {
+export interface P2PRequest {
     amount: number;
     createdAt: Timestamp;
     createdBy: string;
