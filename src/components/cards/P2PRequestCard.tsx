@@ -24,6 +24,7 @@ import { styles } from '../../screens/p2pads/P2PAdsScreen';
 import { useChats } from '../../hooks/chat/use-chats';
 import { useUser } from '../../hooks/user/use-user';
 import { useMessages } from '../../hooks/chat/use-messages';
+import { launchImagePicker, openCamera, uploadImageAsync } from "../../screens/ads/imagePickerHelper";
 
 interface P2PRequestFormProps {
     ad: P2PRequest & UserProfile;
@@ -36,7 +37,10 @@ interface P2PRequestFormProps {
 // export default function P2PRequestCard({ ad, handleRefresh, complete, setComplete }: P2PRequestFormProps) {
 // export default function P2PRequestCard({ ad, handleRefresh, setReRender }: P2PRequestFormProps) {
 export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProps) {
-    const [complete, setComplete] = React.useState<boolean>(false)
+    const [complete, setComplete] = React.useState<boolean>(false);
+    const [tempImageUri, setTempImageUri] = React.useState<string | null>(null);
+    // const [isLoading, setIsLoading] = React.useState(false);
+    const [isCompleting, setIsCompleting] = React.useState(false);
     const user = useAppSelector((state) => state.auth.user);
     const { User } = useUser(user?.uid!);
     const User2 = useUser(ad.p2pCreatedBy);
@@ -56,9 +60,54 @@ export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProp
         rejectP2PRequest,
     } = useP2PAds();
 
+    // image picker
+    const pickImage = React.useCallback(async () => {
+        try {
+            const tempUri = await launchImagePicker();
+            if (!tempUri) return;
+
+            setTempImageUri(tempUri);
+        } catch (error) {
+            console.log(error);
+        }
+    }, [tempImageUri]);
+
+    const uploadImageAndSendMessage = React.useCallback(async () => {
+        // setIsLoading(true);
+
+        try {
+            if (tempImageUri) {
+                const uploadUrl = await uploadImageAsync(tempImageUri, true);
+                // setIsLoading(false);
+
+                handleComplete(user?.uid!, ad.id, uploadUrl);
+
+                setTimeout(() => setTempImageUri(null), 500);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }, [tempImageUri, user, navigation]);
+
+    // complete request
+    const handleComplete = async (uid: string, p2pRequestId: string, p2pPicture: string) => {
+        try {
+            setIsCompleting(true);
+            const result = await completeP2PRequest(uid, p2pRequestId, p2pPicture);
+            if (result.success) {
+                //navigate to an chat
+                sendMessage(p2pPicture);
+            }
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setIsCompleting(false);
+        }
+    };
+
     // chat navigation
     const { createChat } = useChats(user?.uid!);
-    const sendMessage = async () => {
+    const sendMessage = async (imageUrl: string) => {
         try {
             const chatId = await createChat(ad.p2pCreatedBy);
             const message = `Hello, I have been complete send for you an assets.`
@@ -67,6 +116,7 @@ export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProp
                 (navigation as any).navigate('IndividualChat', {
                     chatId,
                     otherUser: User2.User,
+                    imageUrl: imageUrl,
                     message: message, //ayad
                 });
             }
@@ -75,15 +125,6 @@ export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProp
             console.error('Error creating chat:', error);
         }
     }
-
-    // complete request
-    const handleComplete = async (uid: string, p2pRequestId: string, p2pPicture: string) => {
-        const result = await completeP2PRequest(uid, p2pRequestId, p2pPicture);
-        if (result.success) {
-            //navigate to an chat
-            sendMessage();
-        }
-    };
 
     // cancel request
     const handleCancelP2PRequest = async (uid: string, p2pRequestId: string) => {
@@ -240,37 +281,65 @@ export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProp
                     </View>
                 </View>
             </ScrollView>}
-            {complete && <View style={{ flex: 1 }}>
+            {complete && <View style={{
+                flex: 1,
+                paddingHorizontal: 20,
+                paddingVertical: 16,
+                borderBottomWidth: 1,
+                borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+            }}>
                 <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
+                    // flexDirection: 'row',
+                    // justifyContent: 'space-between',
                     alignItems: 'center',
                     marginBottom: 4,
                 }}>
-                    <Text style={{
+                    {/* <Text style={{
                         color: 'rgba(255, 255, 255, 0.8)',
                         fontSize: 14,
                     }} numberOfLines={1}>
                         I'll show image here
-                    </Text>
+                    </Text> */}
+
+                    {/* image */}
+                    {tempImageUri && (
+                        <Image
+                            // source={{ uri: image }}
+                            source={{ uri: tempImageUri }}
+                            // style={{ width: 300, height: 300, alignItems: 'center' }}
+                            style={{ width: 300, height: 300, maxWidth: 3000, maxHeight: 3000, alignItems: 'center' }}
+                        />
+                    )}
                 </View>
                 <View style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     alignItems: 'center',
                 }}>
-                    <Button
-                        title="upload an Image"
+                    {(tempImageUri === null) && <Button
+                        title="pick an Image"
                         // onPress={() => setComplete(true)}
-                        onPress={() => handleComplete(user?.uid!, ad.id, 'ad picture')}
+                        // onPress={() => handleComplete(user?.uid!, ad.id, 'ad picture')}
+                        onPress={() => pickImage()}
                         loading={false}
                         disabled={false}
                         size='small'
-                    />
+                    />}
+                    {(tempImageUri != null) && <Button
+                        // title="complete"
+                        title={isCompleting ? 'Completing...' : 'complete request'}
+                        // onPress={() => setComplete(true)}
+                        onPress={() => uploadImageAndSendMessage()}
+                        // onPress={() => pickImage()}
+                        loading={false}
+                        disabled={tempImageUri === null}
+                        size='small'
+                    />}
                     <RedButton
                         title="cancel"
                         onPress={() => {
                             setComplete(false);
+                            setTempImageUri(null);
                             // setReRender(false); //to re render ads screen
                         }}
                         loading={false}

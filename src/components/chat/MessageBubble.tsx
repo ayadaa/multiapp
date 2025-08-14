@@ -101,7 +101,7 @@ export function MessageBubble({ message, isCurrentUser, chatType = 'individual' 
 
   const formatTime = (timestamp: any): string => {
     if (!timestamp) return '';
-    
+
     const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
@@ -129,8 +129,8 @@ export function MessageBubble({ message, isCurrentUser, chatType = 'individual' 
         'Math Challenge 🎯',
         'Ready to take on this challenge?',
         [
-          { 
-            text: 'View Challenge', 
+          {
+            text: 'View Challenge',
             onPress: () => {
               // Navigate directly to the ChallengeViewer
               // Since we're in a chat context, we can navigate to any screen
@@ -298,7 +298,7 @@ export function MessageBubble({ message, isCurrentUser, chatType = 'individual' 
               </View>
             )}
           </View>
-          
+
           <View style={{ flex: 1 }}>
             <Text style={{
               color: isCurrentUser ? '#FFFFFF' : '#FFFFFF',
@@ -308,8 +308,8 @@ export function MessageBubble({ message, isCurrentUser, chatType = 'individual' 
               📸 {snapData.mediaType === 'photo' ? 'Photo' : 'Video'}
             </Text>
             <Text style={{
-              color: isCurrentUser 
-                ? 'rgba(255, 255, 255, 0.8)' 
+              color: isCurrentUser
+                ? 'rgba(255, 255, 255, 0.8)'
                 : 'rgba(255, 255, 255, 0.7)',
               fontSize: 14,
               marginTop: 2,
@@ -317,11 +317,11 @@ export function MessageBubble({ message, isCurrentUser, chatType = 'individual' 
               Tap to view
             </Text>
           </View>
-          
-          <Ionicons 
-            name="play-circle" 
-            size={24} 
-            color={isCurrentUser ? 'rgba(255, 255, 255, 0.8)' : 'rgba(255, 255, 255, 0.7)'} 
+
+          <Ionicons
+            name="play-circle"
+            size={24}
+            color={isCurrentUser ? 'rgba(255, 255, 255, 0.8)' : 'rgba(255, 255, 255, 0.7)'}
           />
         </View>
       </TouchableOpacity>
@@ -388,7 +388,7 @@ export function MessageBubble({ message, isCurrentUser, chatType = 'individual' 
               🎯
             </Text>
           </View>
-          
+
           <View style={{ flex: 1 }}>
             <Text style={{
               color: isCurrentUser ? '#FFFFFF' : '#FFFFFF',
@@ -398,8 +398,8 @@ export function MessageBubble({ message, isCurrentUser, chatType = 'individual' 
               🎯 Math Challenge
             </Text>
             <Text style={{
-              color: isCurrentUser 
-                ? 'rgba(255, 255, 255, 0.9)' 
+              color: isCurrentUser
+                ? 'rgba(255, 255, 255, 0.9)'
                 : 'rgba(255, 255, 255, 0.8)',
               fontSize: 14,
               marginTop: 2,
@@ -407,8 +407,8 @@ export function MessageBubble({ message, isCurrentUser, chatType = 'individual' 
               {challengeData ? `${challengeData.concept} • ${challengeData.difficulty.charAt(0).toUpperCase() + challengeData.difficulty.slice(1)}` : 'Loading challenge details...'}
             </Text>
             <Text style={{
-              color: isCurrentUser 
-                ? 'rgba(255, 255, 255, 0.7)' 
+              color: isCurrentUser
+                ? 'rgba(255, 255, 255, 0.7)'
                 : 'rgba(255, 255, 255, 0.6)',
               fontSize: 12,
               marginTop: 4,
@@ -417,11 +417,11 @@ export function MessageBubble({ message, isCurrentUser, chatType = 'individual' 
               Tap to view and solve
             </Text>
           </View>
-          
-          <Ionicons 
-            name="arrow-forward-circle" 
-            size={24} 
-            color={isCurrentUser ? 'rgba(255, 255, 255, 0.8)' : 'rgba(255, 255, 255, 0.7)'} 
+
+          <Ionicons
+            name="arrow-forward-circle"
+            size={24}
+            color={isCurrentUser ? 'rgba(255, 255, 255, 0.8)' : 'rgba(255, 255, 255, 0.7)'}
           />
         </View>
       </TouchableOpacity>
@@ -445,7 +445,7 @@ export function MessageBubble({ message, isCurrentUser, chatType = 'individual' 
     >
       <View
         style={{
-          backgroundColor: isCurrentUser 
+          backgroundColor: isCurrentUser
             ? 'rgba(0, 132, 255, 0.8)' // Blue for sent messages
             : 'rgba(255, 255, 255, 0.15)', // Glass effect for received
           borderRadius: 18,
@@ -466,6 +466,51 @@ export function MessageBubble({ message, isCurrentUser, chatType = 'individual' 
           renderSnapContent()
         ) : message.type === 'challenge' ? (
           renderChallengeContent()
+        ) : message.type === 'textWithImage' ? (
+          message.imageUrl && (
+            // <Text
+            //   style={{
+            //     color: isCurrentUser ? '#FFFFFF' : '#FFFFFF',
+            //     fontSize: 16,
+            //     lineHeight: 20,
+            //   }}
+            // >
+            //   {message.text}
+            // </Text>
+            <View style={{ flex: 1 }}>
+              <Image
+                source={{ uri: message.imageUrl }}
+                style={{
+                  // backgroundColor: isCurrentUser ? '#FFFFFF' : '#FFFFFF',
+                  width: '100%',
+                  height: 200,
+                }}
+                resizeMode="cover"
+              />
+              <Text
+                style={{
+                  color: isCurrentUser ? '#FFFFFF' : '#FFFFFF',
+                  fontSize: 16,
+                  lineHeight: 20,
+                  // width: '15%',
+                  // height: '15%',
+                }}
+              >
+                {message.text}
+              </Text>
+            </View>
+          )
+          // ,message.text && (
+          //   <Text
+          //     style={{
+          //       color: isCurrentUser ? '#FFFFFF' : '#FFFFFF',
+          //       fontSize: 16,
+          //       lineHeight: 20,
+          //     }}
+          //   >
+          //     {message.text}
+          //   </Text>
+          // )
         ) : (
           message.text && (
             <Text
@@ -479,7 +524,7 @@ export function MessageBubble({ message, isCurrentUser, chatType = 'individual' 
             </Text>
           )
         )}
-        
+
         <View
           style={{
             flexDirection: 'row',
@@ -490,8 +535,8 @@ export function MessageBubble({ message, isCurrentUser, chatType = 'individual' 
         >
           <Text
             style={{
-              color: isCurrentUser 
-                ? 'rgba(255, 255, 255, 0.8)' 
+              color: isCurrentUser
+                ? 'rgba(255, 255, 255, 0.8)'
                 : 'rgba(255, 255, 255, 0.6)',
               fontSize: 12,
               marginTop: 2,
@@ -499,7 +544,7 @@ export function MessageBubble({ message, isCurrentUser, chatType = 'individual' 
           >
             {formatTime(message.timestamp)}
           </Text>
-          
+
           {isCurrentUser && (
             <View style={{ marginLeft: 8 }}>
               {message.status === 'sent' && (

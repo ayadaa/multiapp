@@ -70,15 +70,27 @@ export interface Chat {
   updatedAt: Timestamp;
 }
 
+// export interface Message {
+//   id: string;
+//   senderId: string;
+//   text?: string;
+//   snapId?: string;
+//   challengeSnapId?: string;
+//   timestamp: Timestamp;
+//   status: 'sent' | 'delivered' | 'read';
+//   type: 'text' | 'snap' | 'challenge';
+// }
+
 export interface Message {
   id: string;
   senderId: string;
   text?: string;
   snapId?: string;
   challengeSnapId?: string;
+  imageUrl?: string;
   timestamp: Timestamp;
   status: 'sent' | 'delivered' | 'read';
-  type: 'text' | 'snap' | 'challenge';
+  type: 'text' | 'snap' | 'challenge' | 'textWithImage';
 }
 
 export interface Story {
@@ -406,6 +418,47 @@ export async function sendMessage(
         senderId,
         timestamp: serverTimestamp(),
         type: 'text',
+      },
+      updatedAt: serverTimestamp(),
+    });
+    
+    return messageRef.id;
+  } catch (error) {
+    console.error('Send message error:', error);
+    throw new Error('Failed to send message');
+  }
+}
+
+/**
+ * Send a text message to a chat
+ */
+export async function sendMessageWithImage(
+  chatId: string, 
+  senderId: string,
+  imageUrl: string,
+  text: string,
+): Promise<string> {
+  try {
+    const messageRef = doc(collection(db, 'chats', chatId, 'messages'));
+    const messageData = {
+      senderId,
+      imageUrl,
+      text,
+      timestamp: serverTimestamp(),
+      status: 'sent' as const,
+      type: 'textWithImage' as const,
+    };
+    
+    await setDoc(messageRef, messageData);
+    
+    // Update chat's last message
+    await updateDoc(doc(db, 'chats', chatId), {
+      lastMessage: {
+        imageUrl,
+        text,
+        senderId,
+        timestamp: serverTimestamp(),
+        type: 'textWithImage',
       },
       updatedAt: serverTimestamp(),
     });

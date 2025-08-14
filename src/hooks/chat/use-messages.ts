@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { 
   subscribeToMessages, 
   sendMessage, 
+  sendMessageWithImage,
   markMessagesAsRead,
   type Message 
 } from '../../services/firebase/firestore.service';
@@ -60,6 +61,26 @@ export function useMessages(chatId: string | null, currentUserId: string) {
   }, [chatId, currentUserId]);
 
   /**
+   * Send an image with text message to the chat
+   */
+  const sendTextWithImageMessage = useCallback(async (imageUrl: string, text: string): Promise<void> => {
+    // if (!chatId || !text.trim()) return;
+    if (!chatId || !imageUrl.trim()) return; //ayad
+
+    setSending(true);
+    setError(null);
+
+    try {
+      await sendMessageWithImage(chatId, currentUserId, imageUrl.trim(), text.trim());
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to send message');
+      throw err;
+    } finally {
+      setSending(false);
+    }
+  }, [chatId, currentUserId]);
+
+  /**
    * Mark unread messages as read
    */
   const markAsRead = useCallback(async (): Promise<void> => {
@@ -92,6 +113,7 @@ export function useMessages(chatId: string | null, currentUserId: string) {
     error,
     sending,
     sendTextMessage,
+    sendTextWithImageMessage,
     markAsRead,
     unreadCount,
   };

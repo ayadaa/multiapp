@@ -46,7 +46,7 @@ import {
   StyleSheet,
   ScrollView,
   Image,
-  Platform 
+  Platform
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
@@ -75,29 +75,29 @@ import { storage } from '../../config/firebase'; // Assuming your Firebase confi
 import { launchImagePicker, openCamera, uploadImageAsync } from "./imagePickerHelper";
 
 export const classNameList = {
-    RealEstate: 'Real estate', 
-    WorkAndBusiness: 'Work and business', 
-    MobileAndComputer: 'Mobile and computer'
+  RealEstate: 'Real estate',
+  WorkAndBusiness: 'Work and business',
+  MobileAndComputer: 'Mobile and computer'
 };
 
 export const cityNameList = {
-    Bagdad: 'Bagdad',
-    Babylon: 'Babylon',
-    Karbala: 'Karbala'
+  Bagdad: 'Bagdad',
+  Babylon: 'Babylon',
+  Karbala: 'Karbala'
 }
 
 export default function CreateAdScreen() {
   const navigation = useNavigation<NavigationProp>();
   const user = useSelector((state: RootState) => state.auth.user);
-  
+
   const { createNewAd, refreshAds } = useAds(user?.uid || '');
-  
+
   const [adTitle, setAdTitle] = useState('');
   const [adDescription, setAdDescription] = useState('');
   const [className, setClassName] = useState('Real estate');
   const [typeName, setTypeName] = useState('sale');
   const [cityName, setCityName] = useState('Bagdad');
-  
+
   const [isCreating, setIsCreating] = useState(false);
 
   // const classNameData = [
@@ -115,10 +115,10 @@ export default function CreateAdScreen() {
   //   {key:'3', value:`${cityNameList.Karbala}`}
   // ]
 
-  const [image, setImage] = useState<any>(null);
-  const [uploading, setUploading] = useState(false);
-  const [imageUri, setImageUri] = useState<string>('');
-  const [imageUrl, setImageUrl] = useState<string>('');
+  // const [image, setImage] = useState<any>(null);
+  // const [uploading, setUploading] = useState(false);
+  // const [imageUri, setImageUri] = useState<string>('');
+  // const [imageUrl, setImageUrl] = useState<string>('');
 
   // const [img, setImg] = useState<any>(null);
   // const [loading, setLoading] = useState<bool>(false);
@@ -129,35 +129,35 @@ export default function CreateAdScreen() {
   const [isLoading, setIsLoading] = useState(false);
 
   const pickImage = useCallback(async () => {
-		try {
-			const tempUri = await launchImagePicker();
-			if (!tempUri) return;
+    try {
+      const tempUri = await launchImagePicker();
+      if (!tempUri) return;
 
-			setTempImageUri(tempUri);
-		} catch (error) {
-			console.log(error);
-		}
-	}, [tempImageUri]);
+      setTempImageUri(tempUri);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [tempImageUri]);
 
   const uploadImage = useCallback(async () => {
-		setIsLoading(true);
+    setIsLoading(true);
 
-		try {
-			if (tempImageUri) {
-				const uploadUrl = await uploadImageAsync(tempImageUri, true);
-				setIsLoading(false);
+    try {
+      if (tempImageUri) {
+        const uploadUrl = await uploadImageAsync(tempImageUri, true);
+        setIsLoading(false);
 
         handleCreateAd(uploadUrl)
 
-				setTimeout(() => setTempImageUri(null), 500);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	}, [tempImageUri, adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
+        setTimeout(() => setTempImageUri(null), 500);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [tempImageUri, adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
 
   const handleCreateAd = useCallback(async (url: string) => {
-    if (!adTitle.trim() || !adDescription.trim() || !typeName.trim() || !className.trim() || !cityName.trim() ) {
+    if (!adTitle.trim() || !adDescription.trim() || !typeName.trim() || !className.trim() || !cityName.trim()) {
       Alert.alert('Ad Data Required', 'Please enter all data for your ad.');
       console.log('All ad data required!')
       console.log(`data: ${adTitle.trim(), adDescription.trim(), typeName.trim(), className.trim(), cityName.trim()}`)
@@ -212,7 +212,7 @@ export default function CreateAdScreen() {
     } finally {
       setIsCreating(false);
     }
-  // }, [image, imageUrl, adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
+    // }, [image, imageUrl, adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
   }, [tempImageUri, adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
 
   return (
@@ -236,8 +236,8 @@ export default function CreateAdScreen() {
           {/* image picker */}
           <Text style={styles.inputLabel}>Image</Text>
           <TouchableOpacity style={styles.textInput} onPress={pickImage}>
-          {/* <TouchableOpacity style={styles.textInput} onPress={pickAndUploadImage}> */}
-          {/* <TouchableOpacity style={styles.textInput} onPress={openGallery}> */}
+            {/* <TouchableOpacity style={styles.textInput} onPress={pickAndUploadImage}> */}
+            {/* <TouchableOpacity style={styles.textInput} onPress={openGallery}> */}
             <Text style={styles.textInput}>Pick an image</Text>
           </TouchableOpacity>
           {/* {image && ( */}
@@ -251,7 +251,7 @@ export default function CreateAdScreen() {
           {/* <TouchableOpacity style={styles.textInput} onPress={uploadMedia}> */}
           {/* <TouchableOpacity style={styles.textInput} onPress={handleSave}> */}
           {/* <TouchableOpacity style={styles.textInput} onPress={pickAndUploadImage}> */}
-            {/* <Text style={styles.textInput}>Upload Media</Text> */}
+          {/* <Text style={styles.textInput}>Upload Media</Text> */}
           {/* </TouchableOpacity> */}
 
           <Text style={styles.inputLabel}>Title</Text>
@@ -343,7 +343,7 @@ export default function CreateAdScreen() {
             title={isCreating ? 'Creating...' : 'Create Ad'}
             // onPress={handleCreateAd}
             onPress={uploadImage}
-            disabled={isCreating || !adTitle.trim() || !adDescription.trim() || !typeName.trim() || !className.trim() || !cityName.trim() }
+            disabled={isCreating || !adTitle.trim() || !adDescription.trim() || !typeName.trim() || !className.trim() || !cityName.trim()}
             style={styles.createButton}
           />
         </View>

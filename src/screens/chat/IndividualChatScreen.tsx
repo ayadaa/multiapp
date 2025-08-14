@@ -15,6 +15,7 @@ type ChatStackParamList = {
   IndividualChat: {
     chatId: string;
     otherUser: UserProfile;
+    imageUrl?: string;
     message?: string; //ayad
   };
 };
@@ -33,7 +34,7 @@ export function IndividualChatScreen() {
   const flatListRef = useRef<FlatList<Message>>(null);
   const [messageSent, setMessageSent] = useState<boolean>(false);
 
-  const { chatId, otherUser, message } = route.params;
+  const { chatId, otherUser, imageUrl, message } = route.params;
   const currentUserId = user?.uid || '';
 
   const {
@@ -42,6 +43,7 @@ export function IndividualChatScreen() {
     error,
     sending,
     sendTextMessage,
+    sendTextWithImageMessage,
     markAsRead,
   } = useMessages(chatId, currentUserId);
 
@@ -71,13 +73,28 @@ export function IndividualChatScreen() {
     }
   };
 
+  const handleSendMessageWithImage = async (imageUrl: string, text: string) => {
+    try {
+      await sendTextWithImageMessage(imageUrl, text);
+    } catch (error) {
+      Alert.alert('Error', 'Failed to send message. Please try again.');
+    }
+  };
+
   //ayad
   useEffect(() => {
-    if (message && !messageSent) {
+    if (message && !imageUrl && !messageSent) {
       handleSendMessage(message);
       setMessageSent(true);
     }
   }, [message])
+
+  useEffect(() => {
+    if (message && imageUrl && !messageSent) {
+      handleSendMessageWithImage(imageUrl, message);
+      setMessageSent(true);
+    }
+  }, [message, imageUrl])
 
   const renderMessage = ({ item }: { item: Message }) => (
     <MessageBubble
@@ -158,7 +175,7 @@ export function IndividualChatScreen() {
     //   >
     //     <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
     //   </TouchableOpacity>
-      
+
     //   <View style={styles.headerInfo}>
     //     <Text style={styles.userName} numberOfLines={1}>
     //       {otherUser?.username || 'Unknown User'}
@@ -250,7 +267,7 @@ export function IndividualChatScreen() {
   return (
     <Screen style={styles.container}>
       {renderHeader()}
-      
+
       <View style={{ flex: 1 }}>
         {loading ? (
           <View
@@ -292,7 +309,7 @@ export function IndividualChatScreen() {
       />
     </Screen>
   );
-} 
+}
 
 const styles = StyleSheet.create({
   container: {
