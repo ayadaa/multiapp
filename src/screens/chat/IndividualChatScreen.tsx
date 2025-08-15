@@ -1,15 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Alert, StyleSheet, } from 'react-native';
+import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import { View, Text, FlatList, TouchableOpacity, Alert, StyleSheet, Button, Image, Dimensions } from 'react-native';
 import { useRoute, useNavigation, type RouteProp } from '@react-navigation/native';
 import { type StackNavigationProp } from '@react-navigation/stack';
 import { Screen } from '../../components/common/Screen';
 import { MessageBubble } from '../../components/chat/MessageBubble';
 import { ChatInput } from '../../components/chat/ChatInput';
+import { ChatInputSheet } from '../../components/chat/ChatInputSheet';
 import { useMessages } from '../../hooks/chat/use-messages';
 import { useAuth } from '../../hooks/auth/use-auth';
 import { getUserProfile, type UserProfile } from '../../services/firebase/firestore.service';
 import { type Message } from '../../services/firebase/firestore.service';
 import { Ionicons } from '@expo/vector-icons'; //ayad
+import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from "@gorhom/bottom-sheet";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Text as Text2, View as View2 } from "./bottomSheet/Themed";
+// import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { launchImagePicker, uploadImageAsync } from "../../screens/ads/imagePickerHelper";
 
 type ChatStackParamList = {
   IndividualChat: {
@@ -23,6 +29,8 @@ type ChatStackParamList = {
 type IndividualChatScreenRouteProp = RouteProp<ChatStackParamList, 'IndividualChat'>;
 type IndividualChatScreenNavigationProp = StackNavigationProp<ChatStackParamList, 'IndividualChat'>;
 
+const { width } = Dimensions.get('window');
+
 /**
  * Individual chat screen for one-on-one messaging.
  * Features real-time messaging, message status indicators, and glassmorphic UI.
@@ -33,6 +41,11 @@ export function IndividualChatScreen() {
   const { user } = useAuth();
   const flatListRef = useRef<FlatList<Message>>(null);
   const [messageSent, setMessageSent] = useState<boolean>(false);
+  const [tempImageUri, setTempImageUri] = React.useState<string | null>(null);
+
+  const insets = useSafeAreaInsets();
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => ["25%", "50%", "75%"], []);
 
   const { chatId, otherUser, imageUrl, message } = route.params;
   const currentUserId = user?.uid || '';
@@ -46,6 +59,67 @@ export function IndividualChatScreen() {
     sendTextWithImageMessage,
     markAsRead,
   } = useMessages(chatId, currentUserId);
+
+  const showBottomSheet = useCallback(() => {
+    bottomSheetRef.current?.expand();
+  }, []);
+
+  // show bottom sheet
+  // showBottomSheet();
+
+  const renderBackdrop = useCallback(
+    (props: any) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={-1} // Hides backdrop when sheet is fully closed
+        appearsOnIndex={0}    // Shows backdrop when sheet is at index 0 or higher
+        pressBehavior="close" // Closes the bottom sheet when backdrop is pressed
+      />
+    ),
+    []
+  );
+
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log("handleSheetChanges", index);
+  }, []);
+
+  // image picker
+  // const pickImage = React.useCallback(async () => {
+  //   try {
+  //     const tempUri = await launchImagePicker();
+  //     if (!tempUri) return;
+
+  //     setTempImageUri(tempUri);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, [tempImageUri]);
+
+  // image picker and then show bottom sheet
+  const pickImageAndShowBottomSheet = React.useCallback(async () => {
+    try {
+      const tempUri = await launchImagePicker();
+      if (!tempUri) return;
+      setTempImageUri(tempUri);
+      showBottomSheet();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [tempImageUri]);
+
+  const handleSendMessageWithImage2 = async (text: string) => {
+    try {
+      if (tempImageUri) {
+        const imageUrl = await uploadImageAsync(tempImageUri, true);
+        await sendTextWithImageMessage(imageUrl, text);
+        setTimeout(() => setTempImageUri(null), 500);
+        // close bottom sheet
+        bottomSheetRef.current?.close();
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Failed to send message text with image. Please try again.');
+    }
+  };
 
   // Mark messages as read when screen is focused
   useEffect(() => {
@@ -234,7 +308,7 @@ export function IndividualChatScreen() {
         {renderHeader()}
         <View
           style={{
-            flex: 1,
+            // flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
             paddingHorizontal: 40,
@@ -265,49 +339,83 @@ export function IndividualChatScreen() {
   }
 
   return (
-    <Screen style={styles.container}>
-      {renderHeader()}
+    // <GestureHandlerRootView>
+    <View2 style={{ flex: 1, marginBottom: insets.bottom }}>
+      <Screen style={styles.container}>
+        {renderHeader()}
+        <View style={{ flex: 1 }}>
+          {loading ? (
+            <View
+              style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Text style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: 16 }}>
+                Loading messages...
+              </Text>
+            </View>
+          ) : (
+            <FlatList
+              ref={flatListRef}
+              data={messages}
+              renderItem={renderMessage}
+              keyExtractor={(item) => item.id}
+              contentContainerStyle={{
+                flexGrow: 1,
+                paddingVertical: 16,
+              }}
+              ListEmptyComponent={renderEmptyState}
+              showsVerticalScrollIndicator={false}
+              onContentSizeChange={() => {
+                if (messages.length > 0) {
+                  flatListRef.current?.scrollToEnd({ animated: false });
+                }
+              }}
+            />
+          )}
+        </View>
+        <ChatInput
+          onSendMessage={handleSendMessage}
+          onPickImageAndShowBottomSheet={pickImageAndShowBottomSheet}
+          sending={sending}
+          placeholder={`Message ${otherUser?.username || 'user'}...`}
+        />
+        {/* <Button onPress={showBottomSheet} title='ahow bottom seet' /> */}
+      </Screen>
 
-      <View style={{ flex: 1 }}>
-        {loading ? (
-          <View
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Text style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: 16 }}>
-              Loading messages...
-            </Text>
-          </View>
-        ) : (
-          <FlatList
-            ref={flatListRef}
-            data={messages}
-            renderItem={renderMessage}
-            keyExtractor={(item) => item.id}
-            contentContainerStyle={{
-              flexGrow: 1,
-              paddingVertical: 16,
-            }}
-            ListEmptyComponent={renderEmptyState}
-            showsVerticalScrollIndicator={false}
-            onContentSizeChange={() => {
-              if (messages.length > 0) {
-                flatListRef.current?.scrollToEnd({ animated: false });
-              }
-            }}
+      {/* <View style={styles.container}> */}
+      <BottomSheet snapPoints={snapPoints} index={-1} backdropComponent={renderBackdrop} ref={bottomSheetRef} onChange={handleSheetChanges}>
+        <BottomSheetView style={{
+          flex: 1,
+          // alignItems: "center",
+          // padding: 24,
+          // paddingBottom: 10,
+          margin: 5
+        }}>
+          {/* image */}
+          {tempImageUri && (
+            <Image
+              // source={{ uri: image }}
+              source={{ uri: tempImageUri }}
+              // style={{ width: 300, height: 300, alignItems: 'center' }}
+              // style={{ width: width, height: 500, alignItems: 'center' }}
+              // style={{ flex: 1, width: width, alignItems: 'center' }}
+              style={{ flex: 1, alignItems: 'center' }}
+            />
+          )}
+          <ChatInputSheet
+            // imageUri={imageUri}
+            onSendMessageWithImage={handleSendMessageWithImage2}
+            sending={sending}
+            placeholder={`Message ${otherUser?.username || 'user'}...`}
           />
-        )}
-      </View>
-
-      <ChatInput
-        onSendMessage={handleSendMessage}
-        sending={sending}
-        placeholder={`Message ${otherUser?.username || 'user'}...`}
-      />
-    </Screen>
+        </BottomSheetView>
+      </BottomSheet>
+      {/* </View> */}
+    </View2>
+    // </GestureHandlerRootView>
   );
 }
 

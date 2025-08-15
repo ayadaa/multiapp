@@ -24,7 +24,8 @@ import { styles } from '../../screens/p2pads/P2PAdsScreen';
 import { useChats } from '../../hooks/chat/use-chats';
 import { useUser } from '../../hooks/user/use-user';
 import { useMessages } from '../../hooks/chat/use-messages';
-import { launchImagePicker, openCamera, uploadImageAsync } from "../../screens/ads/imagePickerHelper";
+import { launchImagePicker, uploadImageAsync } from "../../screens/ads/imagePickerHelper";
+import { Timestamp } from 'firebase/firestore';
 
 interface P2PRequestFormProps {
     ad: P2PRequest & UserProfile;
@@ -41,6 +42,8 @@ export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProp
     const [tempImageUri, setTempImageUri] = React.useState<string | null>(null);
     // const [isLoading, setIsLoading] = React.useState(false);
     const [isCompleting, setIsCompleting] = React.useState(false);
+    const [time, setTime] = React.useState<number>(0);
+    // const [isDisabled, setIsDisabled] = React.useState<boolean>(false);
     const user = useAppSelector((state) => state.auth.user);
     const { User } = useUser(user?.uid!);
     const User2 = useUser(ad.p2pCreatedBy);
@@ -59,6 +62,31 @@ export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProp
         cancelP2PRequest,
         rejectP2PRequest,
     } = useP2PAds();
+
+    //set time
+    React.useEffect(() => {
+        setTimeout(() => {
+            const expiresAt = ad?.expiresAt.toMillis();
+            const timeDiff = expiresAt - Timestamp.now().toMillis();
+            setTime(timeDiff);
+        }, 1000);
+        //set is desable
+        if ((ad?.expiresAt.toMillis() - Timestamp.now().toMillis()) > 0) {
+            // setIsDisabled(true);
+        } else {
+            // setIsDisabled(false);
+        }
+    }, [time, ad?.expiresAt]);
+
+    const getFormattedTime = (milliSeconds: number) => {
+        const seconds = Math.floor((milliSeconds / 1000) % 60);
+        const minutes = Math.floor((milliSeconds / (1000 * 60)) % 60);
+        const hours = Math.floor((milliSeconds / (1000 * 60 * 60)) % 24);
+        if (time < 0) {
+            return '0:0:0';
+        }
+        return `${hours}: ${minutes}: ${seconds}`;
+    }
 
     // image picker
     const pickImage = React.useCallback(async () => {
@@ -79,9 +107,8 @@ export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProp
             if (tempImageUri) {
                 const uploadUrl = await uploadImageAsync(tempImageUri, true);
                 // setIsLoading(false);
-
                 handleComplete(user?.uid!, ad.id, uploadUrl);
-
+                handleRefresh();
                 setTimeout(() => setTempImageUri(null), 500);
             }
         } catch (error) {
@@ -229,7 +256,7 @@ export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProp
                                 color: 'rgba(255, 255, 255, 0.8)',
                                 fontSize: 14,
                             }} numberOfLines={1}>
-                                payment method
+                                {getFormattedTime(time)}
                             </Text>
                             <Text style={{
                                 color: 'rgba(255, 255, 255, 0.8)',
@@ -252,7 +279,7 @@ export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProp
                                     }}
                                     // onPress={() => handleComplete(user.uid, ad.id, 'ad picture')}
                                     loading={false}
-                                    disabled={false}
+                                    disabled={ad?.isExpired}
                                     size='small'
                                 />
                                 <RedButton

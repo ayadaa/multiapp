@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, Platform } from 'react-native';
 
 interface ChatInputProps {
-  onSendMessage: (text: string) => Promise<void>;
-  onPickImageAndShowBottomSheet: () => Promise<void>;
+  // onSendMessage: (text: string) => Promise<void>;
+  // imageUri: string;
+  // onSendMessageWithImage: (imageUrl: string, text: string) => Promise<void>;
+  onSendMessageWithImage: (text: string) => Promise<void>;
   sending: boolean;
   placeholder?: string;
 }
@@ -12,9 +14,10 @@ interface ChatInputProps {
  * Chat input component for sending text messages.
  * Features glassmorphic design with send button and loading state.
  */
-export function ChatInput({
-  onSendMessage,
-  onPickImageAndShowBottomSheet,
+export function ChatInputSheet({
+  // onSendMessage,
+  // imageUri,
+  onSendMessageWithImage,
   sending,
   placeholder = "Type a message..."
 }: ChatInputProps) {
@@ -27,7 +30,9 @@ export function ChatInput({
     setText(''); // Clear input immediately for better UX
 
     try {
-      await onSendMessage(messageText);
+      // await onSendMessage(messageText);
+      // await onSendMessageWithImage(imageUri, messageText);
+      await onSendMessageWithImage(messageText);
     } catch (error) {
       // If sending fails, restore the text
       setText(messageText);
@@ -37,6 +42,8 @@ export function ChatInput({
   return (
     <View
       style={{
+        // flex: 1,
+        justifyContent: 'flex-end', //ayad
         flexDirection: 'row',
         alignItems: 'flex-end',
         paddingHorizontal: 16,
@@ -80,7 +87,7 @@ export function ChatInput({
         />
       </View>
 
-      {(text != '') && <TouchableOpacity
+      <TouchableOpacity
         onPress={handleSend}
         disabled={!text.trim() || sending}
         style={{
@@ -111,31 +118,7 @@ export function ChatInput({
             ➤
           </Text>
         )}
-      </TouchableOpacity>}
-
-      {/* //show bottom sheet */}
-      {(text === '') && <TouchableOpacity
-        onPress={onPickImageAndShowBottomSheet}
-        style={{
-          width: 40,
-          height: 40,
-          borderRadius: 20,
-          backgroundColor: 'rgba(255, 255, 255, 0.2)',
-          alignItems: 'center',
-          justifyContent: 'center',
-          borderWidth: 1,
-          borderColor: 'rgba(255, 255, 255, 0.1)',
-        }}
-      >
-        <Text
-          style={{
-            color: text.trim() ? '#FFFFFF' : 'rgba(255, 255, 255, 0.5)',
-            fontSize: 16,
-          }}
-        >
-          ✚
-        </Text>
-      </TouchableOpacity>}
+      </TouchableOpacity>
     </View>
   );
 } 
