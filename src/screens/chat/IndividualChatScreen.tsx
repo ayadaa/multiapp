@@ -11,7 +11,7 @@ import { useAuth } from '../../hooks/auth/use-auth';
 import { getUserProfile, type UserProfile } from '../../services/firebase/firestore.service';
 import { type Message } from '../../services/firebase/firestore.service';
 import { Ionicons } from '@expo/vector-icons'; //ayad
-import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetView, BottomSheetBackdrop, BottomSheetFooter } from "@gorhom/bottom-sheet";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Text as Text2, View as View2 } from "./bottomSheet/Themed";
 // import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -338,6 +338,22 @@ export function IndividualChatScreen() {
     );
   }
 
+  const renderBottomSheetFooter = useCallback(
+    (props: any) => (
+      <BottomSheetFooter {...props}>
+        {/* <View style={{ flex: 1 }}> */}
+        <ChatInputSheet
+          // imageUri={imageUri}
+          onSendMessageWithImage={handleSendMessageWithImage2}
+          sending={sending}
+          placeholder={`Message ${otherUser?.username || 'user'}...`}
+        />
+        {/* </View> */}
+      </BottomSheetFooter>
+    ),
+    []
+  );
+
   return (
     // <GestureHandlerRootView>
     <View2 style={{ flex: 1, marginBottom: insets.bottom }}>
@@ -386,13 +402,20 @@ export function IndividualChatScreen() {
       </Screen>
 
       {/* <View style={styles.container}> */}
-      <BottomSheet snapPoints={snapPoints} index={-1} backdropComponent={renderBackdrop} ref={bottomSheetRef} onChange={handleSheetChanges}>
+      <BottomSheet
+        snapPoints={snapPoints}
+        index={-1}
+        backdropComponent={renderBackdrop}
+        ref={bottomSheetRef}
+        onChange={handleSheetChanges}
+        footerComponent={renderBottomSheetFooter}
+      >
         <BottomSheetView style={{
           flex: 1,
           // alignItems: "center",
           // padding: 24,
           // paddingBottom: 10,
-          margin: 5
+          // margin: 5
         }}>
           {/* image */}
           {tempImageUri && (
@@ -405,12 +428,12 @@ export function IndividualChatScreen() {
               style={{ flex: 1, alignItems: 'center' }}
             />
           )}
-          <ChatInputSheet
+          {/* <ChatInputSheet
             // imageUri={imageUri}
             onSendMessageWithImage={handleSendMessageWithImage2}
             sending={sending}
             placeholder={`Message ${otherUser?.username || 'user'}...`}
-          />
+          /> */}
         </BottomSheetView>
       </BottomSheet>
       {/* </View> */}

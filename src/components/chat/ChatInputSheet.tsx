@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, Platform } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, Platform, ScrollView } from 'react-native';
 
 interface ChatInputProps {
   // onSendMessage: (text: string) => Promise<void>;
@@ -42,14 +42,13 @@ export function ChatInputSheet({
   return (
     <View
       style={{
-        // flex: 1,
         justifyContent: 'flex-end', //ayad
         flexDirection: 'row',
         alignItems: 'flex-end',
         paddingHorizontal: 16,
         paddingVertical: 12,
         paddingBottom: Platform.OS === 'ios' ? 34 : 12, // Account for home indicator
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        backgroundColor: 'white',
         borderTopWidth: 1,
         borderTopColor: 'rgba(255, 255, 255, 0.1)',
       }}
@@ -57,10 +56,10 @@ export function ChatInputSheet({
       <View
         style={{
           flex: 1,
-          backgroundColor: 'rgba(255, 255, 255, 0.15)',
+          backgroundColor: 'rgba(0, 0, 0, 0.1)',
           borderRadius: 20,
           borderWidth: 1,
-          borderColor: 'rgba(255, 255, 255, 0.2)',
+          borderColor: '#ffffff36',
           paddingHorizontal: 16,
           paddingVertical: 10,
           marginRight: 8,
@@ -72,21 +71,23 @@ export function ChatInputSheet({
           value={text}
           onChangeText={setText}
           placeholder={placeholder}
-          placeholderTextColor="rgba(255, 255, 255, 0.5)"
-          style={{
-            color: '#FFFFFF',
+          placeholderTextColor="gray"
+          style={[{
+            color: '#000000ff',
+            borderWidth: 0, //ayad
+            outlineWidth: 0, //ayad
             fontSize: 16,
             lineHeight: 20,
             textAlignVertical: 'center',
-          }}
-          multiline
+          },
+          ]}
+          multiline={true}
           maxLength={1000}
           editable={!sending}
           onSubmitEditing={handleSend}
           blurOnSubmit={false}
         />
       </View>
-
       <TouchableOpacity
         onPress={handleSend}
         disabled={!text.trim() || sending}
@@ -96,7 +97,7 @@ export function ChatInputSheet({
           borderRadius: 20,
           backgroundColor: text.trim() && !sending
             ? 'rgba(0, 132, 255, 0.8)'
-            : 'rgba(255, 255, 255, 0.2)',
+            : 'rgba(0, 0, 0, 0.1)',
           alignItems: 'center',
           justifyContent: 'center',
           borderWidth: 1,
@@ -110,7 +111,7 @@ export function ChatInputSheet({
         ) : (
           <Text
             style={{
-              color: text.trim() ? '#FFFFFF' : 'rgba(255, 255, 255, 0.5)',
+              color: text.trim() ? '#FFFFFF' : 'gray',
               fontSize: 16,
               transform: [{ rotate: '-45deg' }],
             }}
