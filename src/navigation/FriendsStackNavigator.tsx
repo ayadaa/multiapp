@@ -21,7 +21,7 @@ export function FriendsStackNavigator() {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        cardStyle: { backgroundColor: '#000000' },
+        cardStyle: { backgroundColor: '#FFFFFF' },
         gestureEnabled: true,
       }}
       initialRouteName="FriendsList"
@@ -33,7 +33,7 @@ export function FriendsStackNavigator() {
           title: 'Friends',
         }}
       />
-      
+
       <Stack.Screen
         name="AddFriends"
         component={AddFriendsScreen}

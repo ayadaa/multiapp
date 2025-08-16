@@ -17,14 +17,14 @@ interface UserCardProps {
   onActionPress?: () => void;
 }
 
-export function UserCard({ 
-  user, 
-  actionType = 'none', 
+export function UserCard({
+  user,
+  actionType = 'none',
   isLoading = false,
   onPress,
-  onActionPress 
+  onActionPress
 }: UserCardProps) {
-  
+
   /**
    * Render action button based on type
    */
@@ -37,19 +37,19 @@ export function UserCard({
             onPress={onActionPress}
             disabled={isLoading}
           >
-            <Ionicons 
-              name={isLoading ? "hourglass" : "person-add"} 
-              size={20} 
-              color="white" 
+            <Ionicons
+              name={isLoading ? "hourglass" : "person-add"}
+              size={20}
+              color="white"
             />
           </TouchableOpacity>
         );
-      
+
       case 'friendStatus':
         return (
           <View style={styles.statusContainer}>
             <View style={[
-              styles.statusDot, 
+              styles.statusDot,
               { backgroundColor: user.isOnline ? '#00FF88' : '#666666' }
             ]} />
             <Text style={styles.statusText}>
@@ -57,7 +57,7 @@ export function UserCard({
             </Text>
           </View>
         );
-      
+
       default:
         return null;
     }
@@ -114,16 +114,16 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.3)',
+    borderColor: 'rgba(255, 255, 255, 0.75)',
   },
   avatarText: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'Black',
   },
   userInfo: {
     flex: 1,
@@ -131,12 +131,12 @@ const styles = StyleSheet.create({
   username: {
     fontSize: 16,
     fontWeight: '600',
-    color: 'white',
+    color: 'Black',
     marginBottom: 2,
   },
   displayName: {
     fontSize: 14,
-    color: 'rgba(255, 255, 255, 0.7)',
+    color: 'rgba(0, 0, 0, 0.75)',
   },
   actionContainer: {
     alignItems: 'center',

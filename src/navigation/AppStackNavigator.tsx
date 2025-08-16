@@ -36,61 +36,61 @@ export default function AppStackNavigator() {
       }}
     >
       <Stack.Screen name="MainTabs" component={MainTabNavigator} />
-      
-      <Stack.Screen 
-        name="SnapViewer" 
+
+      <Stack.Screen
+        name="SnapViewer"
         component={SnapViewerScreen}
         options={{
           presentation: 'modal',
           gestureEnabled: false,
         }}
       />
-      
-      <Stack.Screen 
-        name="IndividualChat" 
+
+      <Stack.Screen
+        name="IndividualChat"
         component={IndividualChatScreen}
         options={{
           headerShown: false,
-          headerStyle: { backgroundColor: '#000000' },
+          headerStyle: { backgroundColor: '#FFFFFF' },
           headerTintColor: '#FFFFFF',
           headerTitle: '',
         }}
       />
 
-      <Stack.Screen 
-        name="GroupChat" 
+      <Stack.Screen
+        name="GroupChat"
         component={GroupChatScreen}
         options={{
           headerShown: false,
         }}
       />
-      
-      <Stack.Screen 
-        name="GroupSettings" 
+
+      <Stack.Screen
+        name="GroupSettings"
         component={GroupSettingsScreen}
         options={{
           headerShown: false,
         }}
       />
-      
-      <Stack.Screen 
-        name="CreateGroup" 
+
+      <Stack.Screen
+        name="CreateGroup"
         component={CreateGroupScreen}
         options={{
           headerShown: false,
         }}
       />
 
-      <Stack.Screen 
-        name="CreateAd" 
+      <Stack.Screen
+        name="CreateAd"
         component={CreateAdScreen}
         options={{
           headerShown: true,
         }}
       />
-      
-      <Stack.Screen 
-        name="AdDetails" 
+
+      <Stack.Screen
+        name="AdDetails"
         component={AdDetails}
         // component={CreateAdScreen}
         options={{
@@ -98,57 +98,57 @@ export default function AppStackNavigator() {
         }}
       />
 
-      <Stack.Screen 
-        name="P2PCreateAd" 
+      <Stack.Screen
+        name="P2PCreateAd"
         component={P2PCreateAdScreen}
         options={{
           headerShown: true,
         }}
       />
 
-      <Stack.Screen 
-        name="P2PCreateRequest" 
+      <Stack.Screen
+        name="P2PCreateRequest"
         component={P2PCreateRequestScreen}
         options={{
           headerShown: true,
         }}
       />
 
-      <Stack.Screen 
-        name="Send" 
+      <Stack.Screen
+        name="Send"
         component={SendScreen}
         options={{
           headerShown: true,
         }}
       />
 
-      <Stack.Screen 
-        name="Receive" 
+      <Stack.Screen
+        name="Receive"
         component={ReceiveScreen}
         options={{
           headerShown: true,
         }}
       />
 
-      <Stack.Screen 
-        name="Scan" 
+      <Stack.Screen
+        name="Scan"
         component={QRScannerScreen}
         options={{
           headerShown: true,
         }}
       />
 
-      <Stack.Screen 
-        name="StoryViewer" 
+      <Stack.Screen
+        name="StoryViewer"
         component={StoryViewerScreen}
         options={{
           presentation: 'modal',
           gestureEnabled: false,
         }}
       />
-      
-      <Stack.Screen 
-        name="ChallengeViewer" 
+
+      <Stack.Screen
+        name="ChallengeViewer"
         component={ChallengeViewerScreen}
         options={{
           headerShown: false,

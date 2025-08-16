@@ -56,7 +56,7 @@ export function ChatScreen() {
 
   // Prepare sections data
   const sections: ChatSection[] = [];
-  
+
   if (groups.length > 0) {
     sections.push({
       title: 'Groups',
@@ -64,7 +64,7 @@ export function ChatScreen() {
       type: 'group',
     });
   }
-  
+
   if (chats.length > 0) {
     sections.push({
       title: 'Direct Messages',
@@ -80,12 +80,12 @@ export function ChatScreen() {
     <View style={{
       paddingHorizontal: 20,
       paddingVertical: 12,
-      backgroundColor: 'rgba(0, 0, 0, 0.8)',
+      backgroundColor: 'rgba(0, 0, 0, 0.06)',
       borderBottomWidth: 1,
-      borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+      borderBottomColor: 'rgba(0, 0, 0, 0.05)',
     }}>
       <Text style={{
-        color: 'rgba(255, 255, 255, 0.8)',
+        color: 'rgba(0, 0, 0, 0.75)',
         fontSize: 14,
         fontWeight: '600',
         textTransform: 'uppercase',
@@ -108,7 +108,7 @@ export function ChatScreen() {
             paddingHorizontal: 20,
             paddingVertical: 16,
             borderBottomWidth: 1,
-            borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+            borderBottomColor: 'rgba(0, 0, 0, 0.6)',
           }}
         >
           <View style={{
@@ -120,7 +120,7 @@ export function ChatScreen() {
             justifyContent: 'center',
             marginRight: 16,
           }}>
-            <Ionicons name="people" size={24} color="#FFFFFF" />
+            <Ionicons name="people" size={24} color="#000000" />
           </View>
 
           <View style={{ flex: 1 }}>
@@ -131,14 +131,14 @@ export function ChatScreen() {
               marginBottom: 4,
             }}>
               <Text style={{
-                color: '#FFFFFF',
+                color: '#000000',
                 fontSize: 16,
                 fontWeight: 'bold',
               }}>
                 {group.name}
               </Text>
               <Text style={{
-                color: 'rgba(255, 255, 255, 0.6)',
+                color: 'rgba(0, 0, 0, 0.7)',
                 fontSize: 12,
               }}>
                 {group.lastMessage ? formatTimestamp(group.lastMessage.timestamp) : ''}
@@ -151,7 +151,7 @@ export function ChatScreen() {
               alignItems: 'center',
             }}>
               <Text style={{
-                color: 'rgba(255, 255, 255, 0.8)',
+                color: 'rgba(0, 0, 0, 0.75)',
                 fontSize: 14,
                 flex: 1,
               }} numberOfLines={1}>
@@ -172,7 +172,7 @@ export function ChatScreen() {
             paddingHorizontal: 20,
             paddingVertical: 16,
             borderBottomWidth: 1,
-            borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+            borderBottomColor: 'rgba(0, 0, 0, 0.6)',
           }}
         >
           <View style={{
@@ -184,7 +184,7 @@ export function ChatScreen() {
             justifyContent: 'center',
             marginRight: 16,
           }}>
-            <Text style={{ fontSize: 18, color: '#FFFFFF' }}>
+            <Text style={{ fontSize: 18, color: '#000000' }}>
               {chat.otherUser?.username?.charAt(0).toUpperCase() || '?'}
             </Text>
           </View>
@@ -197,14 +197,14 @@ export function ChatScreen() {
               marginBottom: 4,
             }}>
               <Text style={{
-                color: '#FFFFFF',
+                color: '#000000',
                 fontSize: 16,
                 fontWeight: 'bold',
               }}>
                 {chat.otherUser?.username || 'Unknown User'}
               </Text>
               <Text style={{
-                color: 'rgba(255, 255, 255, 0.6)',
+                color: 'rgba(0, 0, 0, 0.7)',
                 fontSize: 12,
               }}>
                 {chat.lastMessage ? formatTimestamp(chat.lastMessage.timestamp) : ''}
@@ -217,12 +217,12 @@ export function ChatScreen() {
               alignItems: 'center',
             }}>
               <Text style={{
-                color: 'rgba(255, 255, 255, 0.8)',
+                color: 'rgba(0, 0, 0, 0.75)',
                 fontSize: 14,
                 flex: 1,
               }} numberOfLines={1}>
-                {chat.lastMessage?.type === 'snap' 
-                  ? '📸 Snap' 
+                {chat.lastMessage?.type === 'snap'
+                  ? '📸 Snap'
                   : chat.lastMessage?.text || 'No messages yet'
                 }
               </Text>
@@ -243,7 +243,7 @@ export function ChatScreen() {
   };
 
   return (
-    <Screen backgroundColor="#000000" statusBarStyle="light-content">
+    <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
       <View style={{ flex: 1 }}>
         {/* Header */}
         <View style={{
@@ -255,7 +255,7 @@ export function ChatScreen() {
           paddingBottom: 16,
         }}>
           <Text style={{
-            color: '#FFFFFF',
+            color: '#000000',
             fontSize: 24,
             fontWeight: 'bold',
           }}>
@@ -274,7 +274,7 @@ export function ChatScreen() {
                 justifyContent: 'center',
               }}
             >
-              <Ionicons name="people-outline" size={20} color="#FFFFFF" />
+              <Ionicons name="people-outline" size={20} color="#000000" />
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -283,12 +283,12 @@ export function ChatScreen() {
                 width: 40,
                 height: 40,
                 borderRadius: 20,
-                backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                backgroundColor: 'rgba(0, 0, 0, 0.05)',
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
             >
-              <Ionicons name="search" size={20} color="#FFFFFF" />
+              <Ionicons name="search" size={20} color="#000000" />
             </TouchableOpacity>
           </View>
         </View>
@@ -300,7 +300,7 @@ export function ChatScreen() {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-            <Text style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: 16 }}>
+            <Text style={{ color: 'rgba(0, 0, 0, 0.75)', fontSize: 16 }}>
               Loading chats...
             </Text>
           </View>
@@ -336,7 +336,7 @@ export function ChatScreen() {
           }}>
             <Ionicons name="chatbubbles-outline" size={64} color="rgba(255, 255, 255, 0.3)" />
             <Text style={{
-              color: '#FFFFFF',
+              color: '#000000',
               fontSize: 20,
               fontWeight: 'bold',
               marginTop: 16,
@@ -346,14 +346,14 @@ export function ChatScreen() {
               No chats yet
             </Text>
             <Text style={{
-              color: 'rgba(255, 255, 255, 0.6)',
+              color: 'rgba(0, 0, 0, 0.75)',
               fontSize: 16,
               textAlign: 'center',
               marginBottom: 24,
             }}>
               Start a conversation with friends or create a group chat
             </Text>
-            
+
             <View style={{ flexDirection: 'row', gap: 16 }}>
               <TouchableOpacity
                 onPress={handleCreateGroupPress}
@@ -367,8 +367,8 @@ export function ChatScreen() {
                   gap: 8,
                 }}
               >
-                <Ionicons name="people-outline" size={20} color="#FFFFFF" />
-                <Text style={{ color: '#FFFFFF', fontSize: 16, fontWeight: '600' }}>
+                <Ionicons name="people-outline" size={20} color="#000000" />
+                <Text style={{ color: '#000000', fontSize: 16, fontWeight: '600' }}>
                   Create Group
                 </Text>
               </TouchableOpacity>
@@ -385,8 +385,8 @@ export function ChatScreen() {
                   gap: 8,
                 }}
               >
-                <Ionicons name="search" size={20} color="#FFFFFF" />
-                <Text style={{ color: '#FFFFFF', fontSize: 16, fontWeight: '600' }}>
+                <Ionicons name="search" size={20} color="#000000" />
+                <Text style={{ color: '#000000', fontSize: 16, fontWeight: '600' }}>
                   Find Friends
                 </Text>
               </TouchableOpacity>

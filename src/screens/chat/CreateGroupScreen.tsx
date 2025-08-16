@@ -33,10 +33,10 @@ interface SelectedFriend {
 export default function CreateGroupScreen() {
   const navigation = useNavigation<NavigationProp>();
   const user = useSelector((state: RootState) => state.auth.user);
-  
+
   const { friends, isLoadingFriends } = useFriends();
   const { createNewGroup } = useGroups(user?.uid || '');
-  
+
   const [groupName, setGroupName] = useState('');
   const [selectedFriends, setSelectedFriends] = useState<SelectedFriend[]>([]);
   const [isCreating, setIsCreating] = useState(false);
@@ -115,7 +115,7 @@ export default function CreateGroupScreen() {
    */
   const renderFriendItem = useCallback(({ item }: { item: UserProfile }) => {
     const isSelected = isFriendSelected(item.uid);
-    
+
     return (
       <TouchableOpacity
         style={styles.friendItem}
@@ -138,7 +138,7 @@ export default function CreateGroupScreen() {
    */
   const renderSelectedCount = () => {
     if (selectedFriends.length === 0) return null;
-    
+
     return (
       <View style={styles.selectedContainer}>
         <Text style={styles.selectedText}>
@@ -156,7 +156,7 @@ export default function CreateGroupScreen() {
           style={styles.backButton}
           onPress={() => navigation.goBack()}
         >
-          <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
+          <Ionicons name="arrow-back" size={24} color="#000000" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Create Group</Text>
         <View style={styles.headerSpacer} />
@@ -181,7 +181,7 @@ export default function CreateGroupScreen() {
       {/* Friends List */}
       <View style={styles.friendsContainer}>
         <Text style={styles.sectionTitle}>Select Friends</Text>
-        
+
         {isLoadingFriends ? (
           <View style={styles.loadingContainer}>
             <Text style={styles.loadingText}>Loading friends...</Text>
@@ -220,7 +220,7 @@ export default function CreateGroupScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: '#FFFFFF',
   },
   header: {
     flexDirection: 'row',
@@ -228,7 +228,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+    borderBottomColor: 'rgba(0, 0, 0, 0.75)',
   },
   backButton: {
     padding: 8,
@@ -237,7 +238,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: '#000000',
     textAlign: 'center',
   },
   headerSpacer: {
@@ -245,29 +246,30 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     padding: 16,
+    backgroundColor: 'rgba(255, 255, 255, 1)',
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+    borderBottomColor: 'rgba(0, 0, 0, 0.05)',
   },
   inputLabel: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: '#000000',
     marginBottom: 8,
   },
   textInput: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: 'rgba(255, 255, 255, 1)',
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 12,
     fontSize: 16,
-    color: '#FFFFFF',
+    color: '#000000',
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.2)',
+    borderColor: 'rgba(0, 0, 0, 0.7)',
   },
   selectedContainer: {
     paddingHorizontal: 16,
     paddingVertical: 8,
-    backgroundColor: 'rgba(0, 132, 255, 0.1)',
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
   },
   selectedText: {
     fontSize: 14,
@@ -277,11 +279,12 @@ const styles = StyleSheet.create({
   friendsContainer: {
     flex: 1,
     paddingTop: 16,
+    backgroundColor: 'rgba(255, 255, 255, 1)',
   },
   sectionTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: '#000000',
     paddingHorizontal: 16,
     marginBottom: 12,
   },
@@ -302,7 +305,7 @@ const styles = StyleSheet.create({
     height: 24,
     borderRadius: 12,
     borderWidth: 2,
-    borderColor: 'rgba(255, 255, 255, 0.3)',
+    borderColor: 'rgba(0, 0, 0, 0.75)',
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 12,
@@ -330,7 +333,7 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: '#000000',
     marginBottom: 8,
   },
   emptySubtext: {
@@ -344,9 +347,9 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     padding: 16,
-    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+    backgroundColor: 'rgba(255, 255, 255, 1)',
     borderTopWidth: 1,
-    borderTopColor: 'rgba(255, 255, 255, 0.1)',
+    borderTopColor: 'rgba(0, 0, 0, 0.75)',
   },
   createButton: {
     backgroundColor: '#0084FF',

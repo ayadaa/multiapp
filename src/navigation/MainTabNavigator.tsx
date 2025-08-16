@@ -25,19 +25,19 @@ const Tab = createBottomTabNavigator<MainTabParamList>();
  */
 export function MainTabNavigator() {
   return (
-    <Screen backgroundColor="#000000" statusBarStyle="light-content">
+    <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
           tabBarStyle: {
-            backgroundColor: '#000000',
+            backgroundColor: '#FFFFFF',
             borderTopWidth: 0,
             height: Platform.OS === 'ios' ? 85 : 65,
             paddingBottom: Platform.OS === 'ios' ? 25 : 10,
             paddingTop: 10,
           },
           tabBarActiveTintColor: '#0084FF',
-          tabBarInactiveTintColor: 'rgba(255, 255, 255, 0.6)',
+          tabBarInactiveTintColor: 'rgba(0, 0, 0, 0.75)',
           tabBarLabelStyle: {
             fontSize: 12,
             fontWeight: '500',
@@ -52,7 +52,7 @@ export function MainTabNavigator() {
             tabBarIcon: ({ focused }) => (
               <Text style={{ 
                 fontSize: 20, 
-                color: focused ? '#0084FF' : 'rgba(255, 255, 255, 0.6)' 
+                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)' 
               }}>
                 💬
               </Text>
@@ -68,7 +68,7 @@ export function MainTabNavigator() {
             tabBarIcon: ({ focused }) => (
               <Text style={{ 
                 fontSize: 24, 
-                color: focused ? '#0084FF' : 'rgba(255, 255, 255, 0.6)' 
+                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)' 
               }}>
                 📸
               </Text>
@@ -84,7 +84,7 @@ export function MainTabNavigator() {
             tabBarIcon: ({ focused }) => (
               <Text style={{ 
                 fontSize: 20, 
-                color: focused ? '#0084FF' : 'rgba(255, 255, 255, 0.6)' 
+                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)' 
               }}>
                 🧮
               </Text>
@@ -100,7 +100,7 @@ export function MainTabNavigator() {
             tabBarIcon: ({ focused }) => (
               <Text style={{ 
                 fontSize: 20, 
-                color: focused ? '#0084FF' : 'rgba(255, 255, 255, 0.6)' 
+                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)' 
               }}>
                 🧮
               </Text>
@@ -164,7 +164,7 @@ export function MainTabNavigator() {
             tabBarIcon: ({ focused }) => (
               <Text style={{ 
                 fontSize: 20, 
-                color: focused ? '#0084FF' : 'rgba(255, 255, 255, 0.6)' 
+                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)' 
               }}>
                 👥
               </Text>
@@ -180,7 +180,7 @@ export function MainTabNavigator() {
             tabBarIcon: ({ focused }) => (
               <Text style={{ 
                 fontSize: 20, 
-                color: focused ? '#0084FF' : 'rgba(255, 255, 255, 0.6)' 
+                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)' 
               }}>
                 📱
               </Text>
@@ -196,7 +196,7 @@ export function MainTabNavigator() {
             tabBarIcon: ({ focused }) => (
               <Text style={{ 
                 fontSize: 20, 
-                color: focused ? '#0084FF' : 'rgba(255, 255, 255, 0.6)' 
+                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)' 
               }}>
                 💳
               </Text>
@@ -211,7 +211,7 @@ export function MainTabNavigator() {
             tabBarIcon: ({ focused }) => (
               <Text style={{ 
                 fontSize: 20, 
-                color: focused ? '#0084FF' : 'rgba(255, 255, 255, 0.6)' 
+                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)' 
               }}>
                 👤
               </Text>
