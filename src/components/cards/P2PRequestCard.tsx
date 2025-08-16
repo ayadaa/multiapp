@@ -195,7 +195,7 @@ export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProp
                     <RefreshControl
                         refreshing={isLoadingP2PRequestsWithUsers}
                         onRefresh={handleRefresh}
-                        tintColor="white"
+                        tintColor="Black"
                     />
                 }
             >
@@ -206,7 +206,7 @@ export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProp
                         paddingHorizontal: 20,
                         paddingVertical: 16,
                         borderBottomWidth: 1,
-                        borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+                        borderBottomColor: 'rgba(0, 0, 0, 0.1)',
                     }}
                 >
                     <View style={{
@@ -232,14 +232,14 @@ export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProp
                             marginBottom: 4,
                         }}>
                             <Text style={{
-                                color: '#FFFFFF',
+                                color: '#000000',
                                 fontSize: 16,
                                 fontWeight: 'bold',
                             }}>
                                 {ad.username}
                             </Text>
                             <Text style={{
-                                color: 'rgba(255, 255, 255, 0.6)',
+                                color: 'rgba(0, 0, 0, 0.75)',
                                 fontSize: 12,
                             }}>
                                 {ad.price} IQD
@@ -253,13 +253,13 @@ export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProp
                             marginBottom: 4,
                         }}>
                             <Text style={{
-                                color: 'rgba(255, 255, 255, 0.8)',
+                                color: 'rgba(0, 0, 0, 0.7)',
                                 fontSize: 14,
                             }} numberOfLines={1}>
                                 {getFormattedTime(time)}
                             </Text>
                             <Text style={{
-                                color: 'rgba(255, 255, 255, 0.8)',
+                                color: 'rgba(0, 0, 0, 0.7)',
                                 fontSize: 14,
                             }} numberOfLines={1}>
                                 {ad.amount} 💎
@@ -313,7 +313,7 @@ export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProp
                 paddingHorizontal: 20,
                 paddingVertical: 16,
                 borderBottomWidth: 1,
-                borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+                borderBottomColor: 'rgba(0, 0, 0, 0.1)',
             }}>
                 <View style={{
                     // flexDirection: 'row',
@@ -321,13 +321,6 @@ export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProp
                     alignItems: 'center',
                     marginBottom: 4,
                 }}>
-                    {/* <Text style={{
-                        color: 'rgba(255, 255, 255, 0.8)',
-                        fontSize: 14,
-                    }} numberOfLines={1}>
-                        I'll show image here
-                    </Text> */}
-
                     {/* image */}
                     {tempImageUri && (
                         <Image

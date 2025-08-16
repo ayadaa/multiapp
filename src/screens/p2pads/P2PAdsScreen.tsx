@@ -12,6 +12,7 @@ import {
   // Button
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import Entypo from '@expo/vector-icons/Entypo';
 import { useNavigation } from '@react-navigation/native';
 import { Screen } from '../../components/common/Screen';
 import { useP2PAds } from '../../hooks/p2pAd/use-p2pAds';
@@ -95,12 +96,12 @@ export function P2PAdsScreen() {
     <View style={{
       paddingHorizontal: 20,
       paddingVertical: 12,
-      backgroundColor: 'rgba(0, 0, 0, 0.8)',
+      backgroundColor: 'rgba(0, 0, 0, 0.05)',
       borderBottomWidth: 1,
-      borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+      borderBottomColor: 'rgba(0, 0, 0, 0.06)',
     }}>
       <Text style={{
-        color: 'rgba(255, 255, 255, 0.8)',
+        color: 'rgba(0, 0, 0, 0.75)',
         fontSize: 14,
         fontWeight: '600',
         textTransform: 'uppercase',
@@ -122,8 +123,6 @@ export function P2PAdsScreen() {
         return (null);
       }
       return (
-        // <P2PRequestCard ad={ad} handleRefresh={handleRefresh} complete={complete} setComplete={setComplete} />
-        // <P2PRequestCard ad={ad} handleRefresh={handleRefresh} setReRender={setReRender} />
         <P2PRequestCard ad={ad} handleRefresh={handleRefresh} />
       );
     } else {
@@ -136,12 +135,10 @@ export function P2PAdsScreen() {
             <RefreshControl
               refreshing={isLoadingP2PAdsWithUsers}
               onRefresh={handleRefresh}
-              tintColor="white"
+              tintColor="Black"
             />
           }
         >
-          {/* {p2pAdsWithUsers.length > 0 ? ( */}
-          {/* <View style={styles.friendsList}> */}
           <View>
             {/* {p2pAdsWithUsers.map((ad) => ( */}
             <TouchableOpacity
@@ -152,7 +149,7 @@ export function P2PAdsScreen() {
                 paddingHorizontal: 20,
                 paddingVertical: 16,
                 borderBottomWidth: 1,
-                borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+                borderBottomColor: 'rgba(0, 0, 0, 0.1)',
               }}
             >
               <View style={{
@@ -178,14 +175,14 @@ export function P2PAdsScreen() {
                   marginBottom: 4,
                 }}>
                   <Text style={{
-                    color: '#FFFFFF',
+                    color: '#000000',
                     fontSize: 16,
                     fontWeight: 'bold',
                   }}>
                     {ad.username}   {(Math.round(((ad.requests! - ad.approvedRequests!) / ad.requests!) * 100) / 100) * 100} %
                   </Text>
                   <Text style={{
-                    color: 'rgba(255, 255, 255, 0.6)',
+                    color: 'rgba(0, 0, 0, 0.75)',
                     fontSize: 12,
                   }}>
                     {ad.price} IQD
@@ -198,13 +195,13 @@ export function P2PAdsScreen() {
                   alignItems: 'center',
                 }}>
                   <Text style={{
-                    color: 'rgba(255, 255, 255, 0.8)',
+                    color: 'rgba(0, 0, 0, 0.7)',
                     fontSize: 14,
                   }} numberOfLines={1}>
                     {ad.paymentMethod}  {ad.requests!}
                   </Text>
                   <Text style={{
-                    color: 'rgba(255, 255, 255, 0.8)',
+                    color: 'rgba(0, 0, 0, 0.7)',
                     fontSize: 14,
                   }} numberOfLines={1}>
                     {ad.amount} 💎
@@ -214,34 +211,18 @@ export function P2PAdsScreen() {
             </TouchableOpacity>
             {/* ))} */}
           </View>
-          {/* ) : (
-            <View style={styles.emptyStateContainer}>
-              <Ionicons name="people-outline" size={80} color="rgba(255, 255, 255, 0.3)" />
-              <Text style={styles.emptyStateTitle}>No Ads Yet</Text>
-              <Text style={styles.emptyStateText}>
-                Start by adding some ads.
-              </Text>
-              <TouchableOpacity
-                style={styles.addFriendsButton}
-                onPress={handleCreateP2PAdPress}
-              >
-                <Ionicons name="person-add" size={20} color="white" />
-                <Text style={styles.addFriendsButtonText}>Add Ads</Text>
-              </TouchableOpacity>
-            </View>
-          )} */}
         </ScrollView>
       );
     }
   }
 
   return (
-    <Screen backgroundColor="#000000" statusBarStyle="light-content">
+    <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Ads</Text>
+            <Text style={styles.title}>P2P Ads</Text>
             <Text style={styles.subtitle}>
               {/* {p2pAds.length} {p2pAds.length === 1 ? 'ad' : 'ads'} */}
               {p2pAdsWithUsers.length} {p2pAdsWithUsers.length === 1 ? 'ad' : 'ads'}
@@ -252,7 +233,8 @@ export function P2PAdsScreen() {
             style={styles.addButton}
             onPress={handleCreateP2PAdPress}
           >
-            <Ionicons name="person-add" size={24} color="white" />
+            {/* <Ionicons name="person-add" size={24} color="white" /> */}
+            <Entypo name="add-to-list" size={24} color="white" />
           </TouchableOpacity>
         </View>
 
@@ -271,110 +253,6 @@ export function P2PAdsScreen() {
             </TouchableOpacity>
           </View>
         )}
-
-        {/* Ads List */}
-        {/* <ScrollView
-          style={styles.scrollView}
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl
-              refreshing={isLoadingP2PAdsWithUsers}
-              onRefresh={handleRefresh}
-              tintColor="white"
-            />
-          }
-        >
-          {p2pAdsWithUsers.length > 0 ? (
-            <View style={styles.friendsList}>
-              {p2pAdsWithUsers.map((ad) => (
-                <TouchableOpacity
-                  onPress={() => handleAdPress(ad)}
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    paddingHorizontal: 20,
-                    paddingVertical: 16,
-                    borderBottomWidth: 1,
-                    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
-                  }}
-                >
-                  <View style={{
-                    width: 50,
-                    height: 50,
-                    borderRadius: 25,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginRight: 16,
-                  }}>
-                    <Image
-                      source={{ uri: ad.profilePicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
-                      style={styles.image}
-                      resizeMode="cover"
-                    />
-                  </View>
-
-                  <View style={{ flex: 1 }}>
-                    <View style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      marginBottom: 4,
-                    }}>
-                      <Text style={{
-                        color: '#FFFFFF',
-                        fontSize: 16,
-                        fontWeight: 'bold',
-                      }}>
-                        {ad.username}   {(Math.round(((ad.requests! - ad.approvedRequests!) / ad.requests!) * 100) / 100) * 100} %
-                      </Text>
-                      <Text style={{
-                        color: 'rgba(255, 255, 255, 0.6)',
-                        fontSize: 12,
-                      }}>
-                        {ad.price} IQD
-                      </Text>
-                    </View>
-
-                    <View style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}>
-                      <Text style={{
-                        color: 'rgba(255, 255, 255, 0.8)',
-                        fontSize: 14,
-                      }} numberOfLines={1}>
-                        {ad.paymentMethod}  {ad.requests!}
-                      </Text>
-                      <Text style={{
-                        color: 'rgba(255, 255, 255, 0.8)',
-                        fontSize: 14,
-                      }} numberOfLines={1}>
-                        {ad.amount} 💎
-                      </Text>
-                    </View>
-                  </View>
-                </TouchableOpacity>
-
-              ))}
-            </View>
-          ) : (
-            <View style={styles.emptyStateContainer}>
-              <Ionicons name="people-outline" size={80} color="rgba(255, 255, 255, 0.3)" />
-              <Text style={styles.emptyStateTitle}>No Ads Yet</Text>
-              <Text style={styles.emptyStateText}>
-                Start by adding some ads.
-              </Text>
-              <TouchableOpacity
-                style={styles.addFriendsButton}
-                onPress={handleCreateP2PAdPress}
-              >
-                <Ionicons name="person-add" size={20} color="white" />
-                <Text style={styles.addFriendsButtonText}>Add Ads</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        </ScrollView> */}
         <SectionList
           sections={sections}
           keyExtractor={(item, index) => `${item.id}-${index}`}
@@ -406,12 +284,12 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'Black',
     marginBottom: 2,
   },
   subtitle: {
     fontSize: 16,
-    color: 'rgba(255, 255, 255, 0.7)',
+    color: 'rgba(0, 0, 0, 0.75)',
   },
   addButton: {
     width: 44,
@@ -453,99 +331,6 @@ export const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-  },
-  friendsList: {
-    paddingBottom: 20,
-  },
-  emptyStateContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 40,
-    paddingTop: 80,
-  },
-  emptyStateTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
-    marginTop: 20,
-    marginBottom: 8,
-  },
-  emptyStateText: {
-    fontSize: 16,
-    color: 'rgba(255, 255, 255, 0.6)',
-    textAlign: 'center',
-    lineHeight: 22,
-    marginBottom: 32,
-  },
-  addFriendsButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 132, 255, 0.8)',
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 24,
-    borderWidth: 1,
-    borderColor: 'rgba(0, 132, 255, 0.3)',
-  },
-  addFriendsButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600',
-    marginLeft: 8,
-  },
-  onlineSection: {
-    marginTop: 20,
-    paddingBottom: 20,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: 'white',
-    marginBottom: 12,
-    marginHorizontal: 20,
-  },
-  onlineScrollView: {
-    paddingLeft: 20,
-  },
-  onlineFriendCard: {
-    alignItems: 'center',
-    marginRight: 16,
-    width: 70,
-  },
-  onlineAvatar: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 8,
-    borderWidth: 2,
-    borderColor: 'rgba(0, 255, 136, 0.6)',
-    position: 'relative',
-  },
-  onlineAvatarText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
-  },
-  onlineIndicator: {
-    position: 'absolute',
-    bottom: 2,
-    right: 2,
-    width: 16,
-    height: 16,
-    borderRadius: 8,
-    backgroundColor: '#00FF88',
-    borderWidth: 2,
-    borderColor: '#000000',
-  },
-  onlineUsername: {
-    fontSize: 12,
-    color: 'white',
-    fontWeight: '500',
-    textAlign: 'center',
   },
   image: {
     height: 60,

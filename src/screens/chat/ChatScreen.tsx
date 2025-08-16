@@ -82,7 +82,7 @@ export function ChatScreen() {
       paddingVertical: 12,
       backgroundColor: 'rgba(0, 0, 0, 0.06)',
       borderBottomWidth: 1,
-      borderBottomColor: 'rgba(0, 0, 0, 0.05)',
+      borderBottomColor: 'rgba(0, 0, 0, 0.1)',
     }}>
       <Text style={{
         color: 'rgba(0, 0, 0, 0.75)',
@@ -108,7 +108,7 @@ export function ChatScreen() {
             paddingHorizontal: 20,
             paddingVertical: 16,
             borderBottomWidth: 1,
-            borderBottomColor: 'rgba(0, 0, 0, 0.6)',
+            borderBottomColor: 'rgba(0, 0, 0, 0.1)',
           }}
         >
           <View style={{
@@ -172,7 +172,7 @@ export function ChatScreen() {
             paddingHorizontal: 20,
             paddingVertical: 16,
             borderBottomWidth: 1,
-            borderBottomColor: 'rgba(0, 0, 0, 0.6)',
+            borderBottomColor: 'rgba(0, 0, 0, 0.1)',
           }}
         >
           <View style={{

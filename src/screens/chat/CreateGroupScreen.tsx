@@ -349,7 +349,7 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: 'rgba(255, 255, 255, 1)',
     borderTopWidth: 1,
-    borderTopColor: 'rgba(0, 0, 0, 0.75)',
+    borderTopColor: 'rgba(0, 0, 0, 0.05)',
   },
   createButton: {
     backgroundColor: '#0084FF',
