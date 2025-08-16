@@ -46,22 +46,22 @@ export function Input({
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderColor: error ? '#FF4444' : isFocused ? '#0084FF' : 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: 'rgba(0, 0, 0, 0)',
+    borderColor: error ? '#FF4444' : isFocused ? '#0084FF' : 'rgba(0, 0, 0, 0.5)',
     minHeight: 48,
   };
 
   const inputStyle = {
     flex: 1,
     fontSize: 16,
-    color: '#FFFFFF',
+    color: '#000000',
     paddingVertical: 0,
   };
 
   const labelStyle = {
     fontSize: 14,
     fontWeight: '500' as const,
-    color: '#FFFFFF',
+    color: '#000000',
     marginBottom: 8,
   };
 
@@ -74,14 +74,14 @@ export function Input({
   return (
     <View style={[{ marginBottom: 16 }, containerStyle]}>
       {label && <Text style={labelStyle}>{label}</Text>}
-      
+
       <View style={inputContainerStyle}>
         {leftIcon && (
           <View style={{ marginRight: 12 }}>
             {leftIcon}
           </View>
         )}
-        
+
         <TextInput
           style={[inputStyle, style]}
           placeholderTextColor="rgba(255, 255, 255, 0.6)"
@@ -90,7 +90,7 @@ export function Input({
           onBlur={() => setIsFocused(false)}
           {...props}
         />
-        
+
         {isPassword && (
           <TouchableOpacity
             onPress={togglePasswordVisibility}
@@ -101,14 +101,14 @@ export function Input({
             </Text>
           </TouchableOpacity>
         )}
-        
+
         {rightIcon && !isPassword && (
           <View style={{ marginLeft: 12 }}>
             {rightIcon}
           </View>
         )}
       </View>
-      
+
       {error && <Text style={errorStyle}>{error}</Text>}
     </View>
   );

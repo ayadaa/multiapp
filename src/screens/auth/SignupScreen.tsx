@@ -22,7 +22,7 @@ export function SignupScreen() {
   };
 
   return (
-    <Screen backgroundColor="#000000" keyboardAvoidingView>
+    <Screen backgroundColor="#FFFFFF" keyboardAvoidingView>
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
@@ -34,16 +34,16 @@ export function SignupScreen() {
               style={{
                 fontSize: 32,
                 fontWeight: 'bold',
-                color: '#FFFFFF',
+                color: '#000000',
                 marginBottom: 8,
               }}
             >
-              Join Snap Factor
+              Join MultiApp
             </Text>
             <Text
               style={{
                 fontSize: 16,
-                color: 'rgba(255, 255, 255, 0.6)',
+                color: 'rgba(0, 0, 0, 0.75)',
                 textAlign: 'center',
               }}
             >

@@ -52,9 +52,9 @@ export function SignupForm({ onSuccess, onNavigateToLogin }: SignupFormProps) {
 
   const onSubmit = async (data: SignupFormData) => {
     clearAuthError();
-    
+
     const result = await signup(data);
-    
+
     if (result.success) {
       reset();
       onSuccess?.();
@@ -109,11 +109,11 @@ export function SignupForm({ onSuccess, onNavigateToLogin }: SignupFormProps) {
                 error={errors.username?.message}
               />
               {usernameStatus && (
-                <Text style={{ 
-                  color: usernameStatus.color, 
-                  fontSize: 12, 
+                <Text style={{
+                  color: usernameStatus.color,
+                  fontSize: 12,
                   marginTop: 4,
-                  marginLeft: 4 
+                  marginLeft: 4
                 }}>
                   {usernameStatus.text}
                 </Text>
@@ -178,7 +178,7 @@ export function SignupForm({ onSuccess, onNavigateToLogin }: SignupFormProps) {
       {/* Footer Actions */}
       <View style={{ alignItems: 'center' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: 14 }}>
+          <Text style={{ color: 'rgba(0, 0, 0, 0.75)', fontSize: 14 }}>
             Already have an account?{' '}
           </Text>
           <Button
@@ -190,12 +190,12 @@ export function SignupForm({ onSuccess, onNavigateToLogin }: SignupFormProps) {
         </View>
 
         {/* Terms */}
-        <Text style={{ 
-          color: 'rgba(255, 255, 255, 0.4)', 
-          fontSize: 12, 
+        <Text style={{
+          color: 'rgba(0, 0, 0, 0.7)',
+          fontSize: 12,
           textAlign: 'center',
           marginTop: 16,
-          paddingHorizontal: 16 
+          paddingHorizontal: 16
         }}>
           By creating an account, you agree to our Terms of Service and Privacy Policy
         </Text>

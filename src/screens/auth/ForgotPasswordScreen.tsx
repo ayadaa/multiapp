@@ -34,9 +34,9 @@ export function ForgotPasswordScreen() {
 
   const onSubmit = async (data: ForgotPasswordFormData) => {
     clearAuthError();
-    
+
     const result = await forgotPassword(data);
-    
+
     if (result.success) {
       setEmailSent(true);
       Alert.alert(
@@ -60,14 +60,14 @@ export function ForgotPasswordScreen() {
 
   if (emailSent) {
     return (
-      <Screen backgroundColor="#000000">
+      <Screen backgroundColor="#FFFFFF">
         <View style={{ flex: 1, padding: 24, justifyContent: 'center' }}>
           <View style={{ alignItems: 'center', marginBottom: 48 }}>
             <Text
               style={{
                 fontSize: 32,
                 fontWeight: 'bold',
-                color: '#FFFFFF',
+                color: '#000000',
                 marginBottom: 8,
               }}
             >
@@ -76,7 +76,7 @@ export function ForgotPasswordScreen() {
             <Text
               style={{
                 fontSize: 16,
-                color: 'rgba(255, 255, 255, 0.6)',
+                color: 'rgba(0, 0, 0, 0.75)',
                 textAlign: 'center',
                 lineHeight: 24,
               }}
@@ -97,7 +97,7 @@ export function ForgotPasswordScreen() {
   }
 
   return (
-    <Screen backgroundColor="#000000">
+    <Screen backgroundColor="#FFFFFF">
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -109,7 +109,7 @@ export function ForgotPasswordScreen() {
               style={{
                 fontSize: 32,
                 fontWeight: 'bold',
-                color: '#FFFFFF',
+                color: '#000000',
                 marginBottom: 8,
               }}
             >
@@ -118,7 +118,7 @@ export function ForgotPasswordScreen() {
             <Text
               style={{
                 fontSize: 16,
-                color: 'rgba(255, 255, 255, 0.6)',
+                color: 'rgba(0, 0, 0, 0.75)',
                 textAlign: 'center',
                 lineHeight: 24,
               }}
@@ -160,7 +160,7 @@ export function ForgotPasswordScreen() {
           {/* Footer Actions */}
           <View style={{ alignItems: 'center' }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: 14 }}>
+              <Text style={{ color: 'rgba(0, 0, 0, 0.75)', fontSize: 14 }}>
                 Remember your password?{' '}
               </Text>
               <Button

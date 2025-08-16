@@ -37,9 +37,9 @@ export function LoginForm({ onSuccess, onForgotPassword, onNavigateToSignup }: L
 
   const onSubmit = async (data: LoginFormData) => {
     clearAuthError();
-    
+
     const result = await login(data);
-    
+
     if (result.success) {
       reset();
       onSuccess?.();
@@ -115,7 +115,7 @@ export function LoginForm({ onSuccess, onForgotPassword, onNavigateToSignup }: L
         />
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: 14 }}>
+          <Text style={{ color: 'rgba(0, 0, 0, 0.75)', fontSize: 14 }}>
             Don't have an account?{' '}
           </Text>
           <Button

@@ -27,7 +27,7 @@ export function LoginScreen() {
   };
 
   return (
-    <Screen backgroundColor="#000000" keyboardAvoidingView>
+    <Screen backgroundColor="#FFFFFF" keyboardAvoidingView>
       <View style={{ flex: 1, padding: 24, justifyContent: 'center' }}>
         {/* Header */}
         <View style={{ alignItems: 'center', marginBottom: 48 }}>
@@ -35,16 +35,16 @@ export function LoginScreen() {
             style={{
               fontSize: 32,
               fontWeight: 'bold',
-              color: '#FFFFFF',
+              color: '#000000',
               marginBottom: 8,
             }}
           >
-            Snap Factor
+            MultiApp
           </Text>
           <Text
             style={{
               fontSize: 16,
-              color: 'rgba(255, 255, 255, 0.6)',
+              color: 'rgba(0, 0, 0, 0.75)',
               textAlign: 'center',
             }}
           >
