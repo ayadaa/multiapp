@@ -17,7 +17,8 @@
       "infoPlist": {
         "NSCameraUsageDescription": "multiapp needs access to the camera to take photos and videos for math snaps.",
         "NSMicrophoneUsageDescription": "multiapp needs access to the microphone to record videos with audio."
-      }
+      },
+      "bundleIdentifier": "com.ayadali.multiapp"
     },
     "android": {
       "adaptiveIcon": {
@@ -52,7 +53,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "9946d389-d90f-4d98-af61-ade6b7027bda"
+        "projectId": "ac2d3fdc-d413-43b9-b587-4cce724e7b2c"
       }
     }
   }
