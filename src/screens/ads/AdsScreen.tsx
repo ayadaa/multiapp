@@ -123,6 +123,7 @@ export function AdsScreen() {
             <View style={styles.adsList}>
               {ads.map((ad) => (
                 <TouchableOpacity
+                  key={ad.id}
                   onPress={() => handleAdPress(ad)}
                   style={{
                     flexDirection: 'row',
