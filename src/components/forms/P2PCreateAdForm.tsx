@@ -18,12 +18,12 @@ interface SendFormProps {
 }
 
 export const P2PPaymentMethods = {
-    zainCash: 'zainCash',
-    zainCashBusiness: 'zainCashBusiness',
-    alRafidainQiServices: 'alRafidainQiServices',
-    asiaHawala: 'asiaHawala',
-    firstIraqiBank: 'firstIraqiBank',
-    fastPay: 'fastPay',
+  zainCash: 'zainCash',
+  zainCashBusiness: 'zainCashBusiness',
+  alRafidainQiServices: 'alRafidainQiServices',
+  asiaHawala: 'asiaHawala',
+  firstIraqiBank: 'firstIraqiBank',
+  fastPay: 'fastPay',
 }
 
 export function P2PCreateAdForm({ onSuccess, onNavigateToP2PAds }: SendFormProps) {
@@ -117,7 +117,7 @@ export function P2PCreateAdForm({ onSuccess, onNavigateToP2PAds }: SendFormProps
 
   const onSubmit = async (data: CreateP2PPaymentFormData) => {
     // clearAuthError();
-    
+
     // const result = await createP2PPayment(user?.uid || '', User?.username || 'Username', (data.amount || 0) as number, data.method, (data.price || 0) as number)
     const result = await createP2PPayment(user?.uid || '', (data.amount || 0) as number, data.method, (data.price || 0) as number)
     if (result.success) {
@@ -148,11 +148,11 @@ export function P2PCreateAdForm({ onSuccess, onNavigateToP2PAds }: SendFormProps
                 error={errors.amount?.message}
               />
               {amountStatus && (
-                <Text style={{ 
-                  color: amountStatus.color, 
-                  fontSize: 12, 
+                <Text style={{
+                  color: amountStatus.color,
+                  fontSize: 12,
                   marginTop: 4,
-                  marginLeft: 4 
+                  marginLeft: 4
                 }}>
                   {amountStatus.text}
                 </Text>
@@ -177,11 +177,11 @@ export function P2PCreateAdForm({ onSuccess, onNavigateToP2PAds }: SendFormProps
                 error={errors.price?.message}
               />
               {priceStatus && (
-                <Text style={{ 
-                  color: priceStatus.color, 
-                  fontSize: 12, 
+                <Text style={{
+                  color: priceStatus.color,
+                  fontSize: 12,
                   marginTop: 4,
-                  marginLeft: 4 
+                  marginLeft: 4
                 }}>
                   {priceStatus.text}
                 </Text>
@@ -195,40 +195,30 @@ export function P2PCreateAdForm({ onSuccess, onNavigateToP2PAds }: SendFormProps
           name="method"
           render={({ field: { onChange, onBlur, value } }) => (
             <View>
-              {/* <Input
-                label="Method"
-                placeholder="Place an price"
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                keyboardType="numeric"
-                autoCapitalize="none"
-                error={errors.price?.message}
-              /> */}
               <Text
                 style={{
                   fontSize: 16,
                   fontWeight: '600',
-                  color: '#FFFFFF',
+                  color: '#000000',
                   marginBottom: 8,
                 }}
               >Method</Text>
               <Picker
                 selectedValue={value}
                 style={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  backgroundColor: 'rgba(255, 255, 255, 1)',
                   borderRadius: 12,
                   paddingHorizontal: 16,
                   paddingVertical: 12,
                   fontSize: 16,
-                  color: '#FFFFFF',
+                  color: '#000000',
                   borderWidth: 1,
-                  borderColor: 'rgba(255, 255, 255, 0.2)',
+                  borderColor: 'rgba(0, 0, 0, 0.5)',
                 }}
                 // onValueChange={onChange}
                 onValueChange={(itemValue) => onChange(itemValue)}
                 onBlur={onBlur}
-                >
+              >
                 <Picker.Item label={P2PPaymentMethods.zainCash} value={P2PPaymentMethods.zainCash} />
                 <Picker.Item label={P2PPaymentMethods.zainCashBusiness} value={P2PPaymentMethods.zainCash} />
                 <Picker.Item label={P2PPaymentMethods.alRafidainQiServices} value={P2PPaymentMethods.alRafidainQiServices} />
@@ -236,17 +226,6 @@ export function P2PCreateAdForm({ onSuccess, onNavigateToP2PAds }: SendFormProps
                 <Picker.Item label={P2PPaymentMethods.firstIraqiBank} value={P2PPaymentMethods.firstIraqiBank} />
                 <Picker.Item label={P2PPaymentMethods.asiaHawala} value={P2PPaymentMethods.asiaHawala} />
               </Picker>
-
-              {/* {methodStatus && (
-                <Text style={{ 
-                  color: methodStatus.color, 
-                  fontSize: 12, 
-                  marginTop: 4,
-                  marginLeft: 4 
-                }}>
-                  {methodStatus.text}
-                </Text>
-              )} */}
             </View>
           )}
         />
@@ -266,20 +245,6 @@ export function P2PCreateAdForm({ onSuccess, onNavigateToP2PAds }: SendFormProps
           disabled={!isValid || amountSufficient === false}
           style={{ marginTop: 16 }}
         />
-      </View>
-
-      {/* Footer Actions */}
-      <View style={{ alignItems: 'center' }}>
-        {/* Terms */}
-        <Text style={{ 
-          color: 'rgba(255, 255, 255, 0.4)', 
-          fontSize: 12, 
-          textAlign: 'center',
-          marginTop: 16,
-          paddingHorizontal: 16 
-        }}>
-          By sending assets, you agree to our Terms of Service and Privacy Policy
-        </Text>
       </View>
     </View>
   );

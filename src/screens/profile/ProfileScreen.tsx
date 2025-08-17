@@ -57,7 +57,7 @@ export function ProfileScreen() {
           <View style={styles.profileSection}>
             <View style={styles.avatarContainer}>
               <View style={styles.avatar}>
-                <Ionicons name="person" size={48} color="rgba(255, 255, 255, 0.8)" />
+                <Ionicons name="person" size={48} color="rgba(0, 0, 0, 0.8)" />
               </View>
             </View>
 
