@@ -31,7 +31,7 @@ import BottomSheet, { BottomSheetView, BottomSheetBackdrop, BottomSheetFooter } 
 interface P2PRequestFormProps {
     ad: P2PRequest & UserProfile;
     handleRefresh: () => void;
-    showBottomSheet: () => void;
+    showBottomSheet: (adRequest: P2PRequest & UserProfile) => void;
     setComplete?: React.Dispatch<React.SetStateAction<boolean>>;
     complete?: boolean;
 }
@@ -231,7 +231,7 @@ export default function P2PRequestCard({ ad, handleRefresh, showBottomSheet }: P
                         borderBottomWidth: 1,
                         borderBottomColor: 'rgba(0, 0, 0, 0.1)',
                     }}
-                    onPress={showBottomSheet}
+                    onPress={() => showBottomSheet(ad)}
                 >
                     <View style={{
                         width: 50,
@@ -289,7 +289,7 @@ export default function P2PRequestCard({ ad, handleRefresh, showBottomSheet }: P
                                 {ad.amount} 💎
                             </Text>
                         </View>
-                        <View style={{
+                        {/* <View style={{
                             flexDirection: 'row',
                             justifyContent: 'space-between',
                             alignItems: 'center',
@@ -314,7 +314,7 @@ export default function P2PRequestCard({ ad, handleRefresh, showBottomSheet }: P
                                     size='small'
                                 />
                             </>}
-                        </View>
+                        </View> */}
                     </View>
                 </TouchableOpacity>
             </ScrollView>}

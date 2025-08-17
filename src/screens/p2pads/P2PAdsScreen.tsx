@@ -54,8 +54,10 @@ export function P2PAdsScreen() {
   } = useP2PAds();
   const bottomSheetRef = React.useRef<BottomSheet>(null);
   const snapPoints = React.useMemo(() => ["25%", "50%", "75%"], []);
+  const [p2pRequest, setP2PRequest] = React.useState<(P2PRequest & UserProfile) | null>(null);
 
-  const showBottomSheet = React.useCallback(() => {
+  const showBottomSheet = React.useCallback((adRequest: P2PRequest & UserProfile) => {
+    setP2PRequest(adRequest);
     bottomSheetRef.current?.expand();
   }, []);
 
@@ -292,7 +294,7 @@ const renderBackdrop = React.useCallback(
         <BottomSheetView style={{
           flex: 1,
         }}>
-          <Text>Heloo world</Text>
+          <Text>{p2pRequest?.username || 'Unknown User'}</Text>
         </BottomSheetView>
       </BottomSheet>
     </Screen>
