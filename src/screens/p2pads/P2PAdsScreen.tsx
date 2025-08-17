@@ -24,6 +24,7 @@ import { useAppSelector } from '../../store/hooks';
 import { Button } from '../../components/common/Button';
 import { RedButton } from '../../components/common/RedButton';
 import P2PRequestCard from '../../components/cards/P2PRequestCard'
+import BottomSheet, { BottomSheetView, BottomSheetBackdrop, BottomSheetFooter } from "@gorhom/bottom-sheet";
 
 interface P2PAdsSection {
   title: string;
@@ -51,10 +52,28 @@ export function P2PAdsScreen() {
     cancelP2PRequest,
     rejectP2PRequest,
   } = useP2PAds();
+  const bottomSheetRef = React.useRef<BottomSheet>(null);
+  const snapPoints = React.useMemo(() => ["25%", "50%", "75%"], []);
 
-  // const handleCompleteState = () => {
-  //   setComplete(state => !state)
-  // }
+  const showBottomSheet = React.useCallback(() => {
+    bottomSheetRef.current?.expand();
+  }, []);
+
+const renderBackdrop = React.useCallback(
+    (props: any) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={-1} // Hides backdrop when sheet is fully closed
+        appearsOnIndex={0}    // Shows backdrop when sheet is at index 0 or higher
+        pressBehavior="close" // Closes the bottom sheet when backdrop is pressed
+      />
+    ),
+    []
+  );
+
+  const handleSheetChanges = React.useCallback((index: number) => {
+    console.log("handleSheetChanges", index);
+  }, []);
 
   const handleCreateP2PAdPress = () => {
     navigation.navigate('P2PCreateAd' as never); //ayad
@@ -123,7 +142,7 @@ export function P2PAdsScreen() {
         return (null);
       }
       return (
-        <P2PRequestCard ad={ad} handleRefresh={handleRefresh} />
+        <P2PRequestCard ad={ad} handleRefresh={handleRefresh} showBottomSheet={showBottomSheet} />
       );
     } else {
       const ad = item as P2PAd & UserProfile;
@@ -262,6 +281,20 @@ export function P2PAdsScreen() {
           stickySectionHeadersEnabled={false}
         />
       </View>
+
+      <BottomSheet
+        snapPoints={snapPoints}
+        index={-1}
+        backdropComponent={renderBackdrop}
+        ref={bottomSheetRef}
+        onChange={handleSheetChanges}
+      >
+        <BottomSheetView style={{
+          flex: 1,
+        }}>
+          <Text>Heloo world</Text>
+        </BottomSheetView>
+      </BottomSheet>
     </Screen>
   );
 }

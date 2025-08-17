@@ -26,18 +26,19 @@ import { useUser } from '../../hooks/user/use-user';
 import { useMessages } from '../../hooks/chat/use-messages';
 import { launchImagePicker, uploadImageAsync } from "../../screens/ads/imagePickerHelper";
 import { Timestamp } from 'firebase/firestore';
+import BottomSheet, { BottomSheetView, BottomSheetBackdrop, BottomSheetFooter } from "@gorhom/bottom-sheet";
 
 interface P2PRequestFormProps {
     ad: P2PRequest & UserProfile;
     handleRefresh: () => void;
-    // complete: boolean;
-    // setComplete: (state: boolean) => void;
-    // setReRender: (state: boolean) => void; // any function
+    showBottomSheet: () => void;
+    setComplete?: React.Dispatch<React.SetStateAction<boolean>>;
+    complete?: boolean;
 }
 
 // export default function P2PRequestCard({ ad, handleRefresh, complete, setComplete }: P2PRequestFormProps) {
 // export default function P2PRequestCard({ ad, handleRefresh, setReRender }: P2PRequestFormProps) {
-export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProps) {
+export default function P2PRequestCard({ ad, handleRefresh, showBottomSheet }: P2PRequestFormProps) {
     const [complete, setComplete] = React.useState<boolean>(false);
     const [tempImageUri, setTempImageUri] = React.useState<string | null>(null);
     // const [isLoading, setIsLoading] = React.useState(false);
@@ -62,6 +63,28 @@ export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProp
         cancelP2PRequest,
         rejectP2PRequest,
     } = useP2PAds();
+    // const bottomSheetRef = React.useRef<BottomSheet>(null);
+    // const snapPoints = React.useMemo(() => ["25%", "50%", "75%"], []);
+
+    // const showBottomSheet = React.useCallback(() => {
+    //     bottomSheetRef.current?.expand();
+    //   }, []);
+
+    // const renderBackdrop = React.useCallback(
+    //     (props: any) => (
+    //       <BottomSheetBackdrop
+    //         {...props}
+    //         disappearsOnIndex={-1} // Hides backdrop when sheet is fully closed
+    //         appearsOnIndex={0}    // Shows backdrop when sheet is at index 0 or higher
+    //         pressBehavior="close" // Closes the bottom sheet when backdrop is pressed
+    //       />
+    //     ),
+    //     []
+    //   );
+    
+    //   const handleSheetChanges = React.useCallback((index: number) => {
+    //     console.log("handleSheetChanges", index);
+    //   }, []);
 
     //set time
     React.useEffect(() => {
@@ -199,7 +222,7 @@ export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProp
                     />
                 }
             >
-                <View
+                <TouchableOpacity
                     style={{
                         flexDirection: 'row',
                         alignItems: 'center',
@@ -208,6 +231,7 @@ export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProp
                         borderBottomWidth: 1,
                         borderBottomColor: 'rgba(0, 0, 0, 0.1)',
                     }}
+                    onPress={showBottomSheet}
                 >
                     <View style={{
                         width: 50,
@@ -270,43 +294,29 @@ export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProp
                             justifyContent: 'space-between',
                             alignItems: 'center',
                         }}>
-                            {(ad.createdBy === user?.uid) && <>
+                            {<>
                                 <Button
-                                    title="Complete"
+                                    title={(ad.createdBy === user?.uid) ? 'Complete' : 'Approve'}
                                     onPress={() => {
-                                        setComplete(true);
-                                        // setReRender(true); //to re render ads screen
+                                        (ad.createdBy === user?.uid) ? setComplete(true) : handleApproveP2PRequest(user?.uid!, ad.id);
                                     }}
-                                    // onPress={() => handleComplete(user.uid, ad.id, 'ad picture')}
                                     loading={false}
-                                    disabled={ad?.isExpired}
+                                    disabled={(ad.createdBy === user?.uid) ? ad?.isExpired : !ad.isCompleted}
                                     size='small'
                                 />
                                 <RedButton
-                                    title="Cancel"
-                                    onPress={() => handleCancelP2PRequest(user.uid, ad.id)}
+                                    title={(ad.createdBy === user?.uid) ? "Cancel" : "Reject"}
+                                    onPress={() => {
+                                        (ad.createdBy === user?.uid) ? handleCancelP2PRequest(user.uid, ad.id) : handleRejectP2PRequest(user?.uid!, ad.id);
+                                    }}
                                     loading={false}
                                     disabled={false}
-                                    size='small'
-                                /></>}
-                            {(ad.p2pCreatedBy === user?.uid) && <>
-                                <Button
-                                    title="Approve"
-                                    onPress={() => handleApproveP2PRequest(user.uid, ad.id)}
-                                    loading={false}
-                                    disabled={!ad.isCompleted}
                                     size='small'
                                 />
-                                <RedButton
-                                    title="Reject"
-                                    onPress={() => handleRejectP2PRequest(user.uid, ad.id)}
-                                    loading={false}
-                                    disabled={false}
-                                    size='small'
-                                /></>}
+                            </>}
                         </View>
                     </View>
-                </View>
+                </TouchableOpacity>
             </ScrollView>}
             {complete && <View style={{
                 flex: 1,
@@ -316,17 +326,12 @@ export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProp
                 borderBottomColor: 'rgba(0, 0, 0, 0.1)',
             }}>
                 <View style={{
-                    // flexDirection: 'row',
-                    // justifyContent: 'space-between',
                     alignItems: 'center',
                     marginBottom: 4,
                 }}>
-                    {/* image */}
                     {tempImageUri && (
                         <Image
-                            // source={{ uri: image }}
                             source={{ uri: tempImageUri }}
-                            // style={{ width: 300, height: 300, alignItems: 'center' }}
                             style={{ width: 300, height: 300, maxWidth: 3000, maxHeight: 3000, alignItems: 'center' }}
                         />
                     )}
@@ -338,19 +343,14 @@ export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProp
                 }}>
                     {(tempImageUri === null) && <Button
                         title="pick an Image"
-                        // onPress={() => setComplete(true)}
-                        // onPress={() => handleComplete(user?.uid!, ad.id, 'ad picture')}
                         onPress={() => pickImage()}
                         loading={false}
                         disabled={false}
                         size='small'
                     />}
                     {(tempImageUri != null) && <Button
-                        // title="complete"
                         title={isCompleting ? 'Completing...' : 'complete request'}
-                        // onPress={() => setComplete(true)}
                         onPress={() => uploadImageAndSendMessage()}
-                        // onPress={() => pickImage()}
                         loading={false}
                         disabled={tempImageUri === null}
                         size='small'
@@ -360,7 +360,6 @@ export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProp
                         onPress={() => {
                             setComplete(false);
                             setTempImageUri(null);
-                            // setReRender(false); //to re render ads screen
                         }}
                         loading={false}
                         disabled={false}
@@ -368,6 +367,20 @@ export default function P2PRequestCard({ ad, handleRefresh }: P2PRequestFormProp
                     />
                 </View>
             </View>}
+
+            {/* <BottomSheet
+                snapPoints={snapPoints}
+                index={-1}
+                backdropComponent={renderBackdrop}
+                ref={bottomSheetRef}
+                onChange={handleSheetChanges}
+            >
+                <BottomSheetView style={{
+                    flex: 1,
+                }}>
+                    <Text>Heloo world</Text>
+                </BottomSheetView>
+            </BottomSheet> */}
         </>
     );
 }

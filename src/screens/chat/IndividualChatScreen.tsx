@@ -12,8 +12,8 @@ import { getUserProfile, type UserProfile } from '../../services/firebase/firest
 import { type Message } from '../../services/firebase/firestore.service';
 import { Ionicons } from '@expo/vector-icons'; //ayad
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop, BottomSheetFooter } from "@gorhom/bottom-sheet";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Text as Text2, View as View2 } from "./bottomSheet/Themed";
+// import { useSafeAreaInsets } from "react-native-safe-area-context";
+// import { Text as Text2, View as View2 } from "./bottomSheet/Themed";
 // import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { launchImagePicker, uploadImageAsync } from "../../screens/ads/imagePickerHelper";
 
@@ -43,7 +43,7 @@ export function IndividualChatScreen() {
   const [messageSent, setMessageSent] = useState<boolean>(false);
   const [tempImageUri, setTempImageUri] = React.useState<string | null>(null);
 
-  const insets = useSafeAreaInsets();
+  // const insets = useSafeAreaInsets();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ["25%", "50%", "75%"], []);
 
@@ -63,9 +63,6 @@ export function IndividualChatScreen() {
   const showBottomSheet = useCallback(() => {
     bottomSheetRef.current?.expand();
   }, []);
-
-  // show bottom sheet
-  // showBottomSheet();
 
   const renderBackdrop = useCallback(
     (props: any) => (
@@ -338,25 +335,25 @@ export function IndividualChatScreen() {
     );
   }
 
-  const renderBottomSheetFooter = useCallback(
-    (props: any) => (
-      <BottomSheetFooter {...props}>
-        {/* <View style={{ flex: 1 }}> */}
-        <ChatInputSheet
-          // imageUri={imageUri}
-          onSendMessageWithImage={handleSendMessageWithImage2}
-          sending={sending}
-          placeholder={`Message ${otherUser?.username || 'user'}...`}
-        />
-        {/* </View> */}
-      </BottomSheetFooter>
-    ),
-    []
-  );
+  // const renderBottomSheetFooter = useCallback(
+  //   (props: any) => (
+  //     <BottomSheetFooter {...props}>
+  //       {/* <View style={{ flex: 1 }}> */}
+  //       <ChatInputSheet
+  //         // imageUri={imageUri}
+  //         onSendMessageWithImage={handleSendMessageWithImage2}
+  //         sending={sending}
+  //         placeholder={`Message ${otherUser?.username || 'user'}...`}
+  //       />
+  //       {/* </View> */}
+  //     </BottomSheetFooter>
+  //   ),
+  //   []
+  // );
 
   return (
-    // <GestureHandlerRootView>
-    <View2 style={{ flex: 1, marginBottom: insets.bottom }}>
+    <>
+    {/* <View2 style={{ flex: 1, marginBottom: insets.bottom }}> */}
       <Screen style={styles.container}>
         {renderHeader()}
         <View style={{ flex: 1 }}>
@@ -399,53 +396,71 @@ export function IndividualChatScreen() {
           placeholder={`Message ${otherUser?.username || 'user'}...`}
         />
         {/* <Button onPress={showBottomSheet} title='ahow bottom seet' /> */}
-      </Screen>
 
-      {/* <View style={styles.container}> */}
-      <BottomSheet
+        <BottomSheet
         snapPoints={snapPoints}
         index={-1}
         backdropComponent={renderBackdrop}
         ref={bottomSheetRef}
         onChange={handleSheetChanges}
-        footerComponent={renderBottomSheetFooter}
+        // footerComponent={renderBottomSheetFooter}
       >
         <BottomSheetView style={{
           flex: 1,
-          // alignItems: "center",
-          // padding: 24,
-          // paddingBottom: 10,
-          // margin: 5
         }}>
-          {/* image */}
           {tempImageUri && (
             <Image
-              // source={{ uri: image }}
               source={{ uri: tempImageUri }}
-              // style={{ width: 300, height: 300, alignItems: 'center' }}
-              // style={{ width: width, height: 500, alignItems: 'center' }}
-              // style={{ flex: 1, width: width, alignItems: 'center' }}
               style={{ flex: 1, alignItems: 'center' }}
             />
           )}
-          {/* <ChatInputSheet
-            // imageUri={imageUri}
+          <ChatInputSheet
             onSendMessageWithImage={handleSendMessageWithImage2}
             sending={sending}
             placeholder={`Message ${otherUser?.username || 'user'}...`}
-          /> */}
+          />
         </BottomSheetView>
       </BottomSheet>
+      </Screen>
+
+      {/* <View style={styles.container}> */}
+      {/* <BottomSheet
+        snapPoints={snapPoints}
+        index={-1}
+        backdropComponent={renderBackdrop}
+        ref={bottomSheetRef}
+        onChange={handleSheetChanges}
+        // footerComponent={renderBottomSheetFooter}
+      >
+        <BottomSheetView style={{
+          flex: 1,
+        }}>
+          {tempImageUri && (
+            <Image
+              source={{ uri: tempImageUri }}
+              style={{ flex: 1, alignItems: 'center' }}
+            />
+          )}
+          <ChatInputSheet
+            onSendMessageWithImage={handleSendMessageWithImage2}
+            sending={sending}
+            placeholder={`Message ${otherUser?.username || 'user'}...`}
+          />
+        </BottomSheetView>
+      </BottomSheet> */}
       {/* </View> */}
-    </View2>
-    // </GestureHandlerRootView>
+    {/* </View2> */}
+    </>
   );
 }
+
+// const insets = useSafeAreaInsets();
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000000',
+    // marginBottom: insets.bottom // for bottom sheet
   },
   header: {
     flexDirection: 'row',
