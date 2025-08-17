@@ -145,83 +145,83 @@ export function P2PAdsScreen() {
     } else {
       const ad = item as P2PAd & UserProfile;
       return (
-        // <View
-        //   style={styles.scrollView}
-        // >
-        //   <View>
-        //     <TouchableOpacity
-        //       onPress={() => handleAdPress(ad)}
-        //       style={{
-        //         flexDirection: 'row',
-        //         alignItems: 'center',
-        //         paddingHorizontal: 20,
-        //         paddingVertical: 16,
-        //         borderBottomWidth: 1,
-        //         borderBottomColor: 'rgba(0, 0, 0, 0.1)',
-        //       }}
-        //     >
-        //       <View style={{
-        //         width: 50,
-        //         height: 50,
-        //         borderRadius: 25,
-        //         alignItems: 'center',
-        //         justifyContent: 'center',
-        //         marginRight: 16,
-        //       }}>
-        //         <Image
-        //           source={{ uri: ad.profilePicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
-        //           style={styles.image}
-        //           resizeMode="cover"
-        //         />
-        //       </View>
+        <View
+          style={styles.scrollView}
+        >
+          <View>
+            <TouchableOpacity
+              onPress={() => handleAdPress(ad)}
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                paddingHorizontal: 20,
+                paddingVertical: 16,
+                borderBottomWidth: 1,
+                borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+              }}
+            >
+              <View style={{
+                width: 50,
+                height: 50,
+                borderRadius: 25,
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: 16,
+              }}>
+                <Image
+                  source={{ uri: ad.profilePicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
+                  style={styles.image}
+                  resizeMode="cover"
+                />
+              </View>
 
-        //       <View style={{ flex: 1 }}>
-        //         <View style={{
-        //           flexDirection: 'row',
-        //           justifyContent: 'space-between',
-        //           alignItems: 'center',
-        //           marginBottom: 4,
-        //         }}>
-        //           <Text style={{
-        //             color: '#000000',
-        //             fontSize: 16,
-        //             fontWeight: 'bold',
-        //           }}>
-        //             {ad.username}   {(Math.round(((ad.requests! - ad.approvedRequests!) / ad.requests!) * 100) / 100) * 100} %
-        //           </Text>
-        //           <Text style={{
-        //             color: 'rgba(0, 0, 0, 0.75)',
-        //             fontSize: 12,
-        //           }}>
-        //             {ad.price} IQD
-        //           </Text>
-        //         </View>
+              <View style={{ flex: 1 }}>
+                <View style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: 4,
+                }}>
+                  <Text style={{
+                    color: '#000000',
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                  }}>
+                    {ad.username}   {(Math.round(((ad.requests! - ad.approvedRequests!) / ad.requests!) * 100) / 100) * 100} %
+                  </Text>
+                  <Text style={{
+                    color: 'rgba(0, 0, 0, 0.75)',
+                    fontSize: 12,
+                  }}>
+                    {ad.price} IQD
+                  </Text>
+                </View>
 
-        //         <View style={{
-        //           flexDirection: 'row',
-        //           justifyContent: 'space-between',
-        //           alignItems: 'center',
-        //         }}>
-        //           <Text style={{
-        //             color: 'rgba(0, 0, 0, 0.7)',
-        //             fontSize: 14,
-        //           }} numberOfLines={1}>
-        //             {ad.paymentMethod}  {ad.requests!}
-        //           </Text>
-        //           <Text style={{
-        //             color: 'rgba(0, 0, 0, 0.7)',
-        //             fontSize: 14,
-        //           }} numberOfLines={1}>
-        //             {ad.amount} 💎
-        //           </Text>
-        //         </View>
-        //       </View>
-        //     </TouchableOpacity>
-        //   </View>
-        // </View>
-        <View>
-          <Text>p2p ads</Text>
+                <View style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                  <Text style={{
+                    color: 'rgba(0, 0, 0, 0.7)',
+                    fontSize: 14,
+                  }} numberOfLines={1}>
+                    {ad.paymentMethod}  {ad.requests!}
+                  </Text>
+                  <Text style={{
+                    color: 'rgba(0, 0, 0, 0.7)',
+                    fontSize: 14,
+                  }} numberOfLines={1}>
+                    {ad.amount} 💎
+                  </Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
+        // <View>
+        //   <Text>p2p ads</Text>
+        // </View>
       );
     }
   }

@@ -30,10 +30,10 @@ import { useNavigation } from '@react-navigation/native';
 
 const FullWidth = Dimensions.get("screen").width;
 const CardWidth_0 = Math.min(FullWidth, 500) - 20 * 2;
-const CardWidth = Dimensions.get("window").width  - 20 * 2;
+const CardWidth = Dimensions.get("window").width - 20 * 2;
 const CardHeight = CardWidth_0 / 1.8
 
-export function WalletScreen() {  
+export function WalletScreen() {
   const navigation = useNavigation<any>();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
@@ -82,7 +82,7 @@ export function WalletScreen() {
     // return `${days}: ${hours}: ${minutes}: ${seconds}`;
     return `${hours}: ${minutes}: ${seconds}`;
   }
-  
+
 
   /**
    * Handle collection
@@ -91,7 +91,7 @@ export function WalletScreen() {
     // if (((User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis()) - Timestamp.now().toMillis()) > 0) {
     //   return console.log('mining end time not reached');
     // }
-    
+
     const newBalance = await collect(user?.uid || '0')
     console.log('newBalance', newBalance)
     Alert.alert(
@@ -111,108 +111,116 @@ export function WalletScreen() {
   };
 
   return (
-    <Screen style={styles.container}>
-      {/* Error State */}
-      {userError && (
-        <View style={styles.errorContainer}>
-          <Ionicons name="alert-circle" size={24} color="#FF3B30" />
-          <Text style={styles.errorText}>{userError}</Text>
-          <TouchableOpacity
-            style={styles.retryButton}
-            onPress={refreshUser}
-          >
-            <Text style={styles.retryText}>Retry</Text>
-          </TouchableOpacity>
+    <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
+      <View style={styles.container}>
+        {/* Header */}
+        <View style={styles.header}>
+          <Text style={styles.title}>Wallet</Text>
         </View>
-      )}
-      <ScrollView 
-      style={styles.content} 
-      showsVerticalScrollIndicator={false}
-      refreshControl={
-        <RefreshControl
-          refreshing={isLoadingUser}
-          onRefresh={refreshUser}
-          tintColor="white"
-        />
-      }
-      >
-        <View style={styles.card}>
-          <View style={styles.balanceSection}>
-            <Text style={styles.username}>{Math.round((User?.balance || 1000) * 1000) / 1000} 💎</Text>
-            <Text style={styles.email}>{Math.round((User?.balance ? User.balance / 10 : 100) * 1000) / 1000} $</Text>
+        {/* Error State */}
+        {userError && (
+          <View style={styles.errorContainer}>
+            <Ionicons name="alert-circle" size={24} color="#FF3B30" />
+            <Text style={styles.errorText}>{userError}</Text>
+            <TouchableOpacity
+              style={styles.retryButton}
+              onPress={refreshUser}
+            >
+              <Text style={styles.retryText}>Retry</Text>
+            </TouchableOpacity>
           </View>
-          <View style={styles.balanceSection}>
-            <Text style={styles.username}>@{user?.username || 'username'}</Text>
-            <Text style={styles.email}>{user?.email || 'email@example.com'}</Text>
+        )}
+        <ScrollView
+          style={styles.content}
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={isLoadingUser}
+              onRefresh={refreshUser}
+              tintColor="white"
+            />
+          }
+        >
+          {/* card */}
+          <View style={styles.card}>
+            <View style={styles.balanceSection}>
+              <Text style={styles.username}>{Math.round((User?.balance || 1000) * 1000) / 1000} 💎</Text>
+              <Text style={styles.email}>{Math.round((User?.balance ? User.balance / 10 : 100) * 1000) / 1000} $</Text>
+            </View>
+            <View style={styles.balanceSection}>
+              <Text style={styles.username}>@{user?.username || 'username'}</Text>
+              <Text style={styles.email}>{user?.email || 'email@example.com'}</Text>
+            </View>
           </View>
-        </View>
-        {/* Menu Items */}
-        <View style={styles.menuSection}>
-          {/*Mining ⛏💎 */}
-          <TouchableOpacity 
-          style={styles.menuItem}
-          onPress={() => {
-            // collect(user?.uid || '0')
-            handleCollection();
-          }}
-          disabled={isDisabled}
-          >
-            <View style={styles.menuItemLeft}>
-              <Text style={styles.menuItemText}>Mining ⛏💎 : {User?.miningSpeed || 0} / day</Text>
-            </View>
-            <View style={styles.menuItemLeft}>
-              {/* <Text style={styles.menuItemText}>Start Mining</Text> */}
-              {/* <Text style={styles.menuItemText}>{getFormattedTime(time)}</Text> */}
-              {/* <Text style={styles.menuItemText}>Collection</Text> */}
-              {(User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis()) - Timestamp.now().toMillis() > 0 && <Text style={styles.menuItemText}>{getFormattedTime(time)}</Text>}
-              {(User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis()) - Timestamp.now().toMillis() <= 0 && <Text style={styles.menuItemText}>Collection</Text>}
-            </View>
-          </TouchableOpacity>
+          {/* Menu Items */}
+          <View style={styles.menuSection}>
+            {/*Mining ⛏💎 */}
+            <TouchableOpacity
+              style={styles.menuItem}
+              onPress={() => {
+                // collect(user?.uid || '0')
+                handleCollection();
+              }}
+              disabled={isDisabled}
+            >
+              <View style={styles.menuItemLeft}>
+                <Text style={styles.menuItemText}>Mining ⛏💎 : {User?.miningSpeed || 0} / day</Text>
+              </View>
+              <View style={styles.menuItemLeft}>
+                {/* <Text style={styles.menuItemText}>Start Mining</Text> */}
+                {/* <Text style={styles.menuItemText}>{getFormattedTime(time)}</Text> */}
+                {/* <Text style={styles.menuItemText}>Collection</Text> */}
+                {(User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis()) - Timestamp.now().toMillis() > 0 && <Text style={styles.menuItemText}>{getFormattedTime(time)}</Text>}
+                {(User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis()) - Timestamp.now().toMillis() <= 0 && <Text style={styles.menuItemText}>Collection</Text>}
+              </View>
+            </TouchableOpacity>
 
-          <TouchableOpacity 
-          style={styles.menuItem}
-          onPress={navigateToSend}
-          >
-            <View style={styles.menuItemLeft}>
-              <Ionicons name="person-outline" size={20} color="rgba(255, 255, 255, 0.8)" />
-              <Text style={styles.menuItemText}>Send</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={16} color="rgba(255, 255, 255, 0.4)" />
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.menuItem}
+              onPress={navigateToSend}
+            >
+              <View style={styles.menuItemLeft}>
+                <Ionicons name="person-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
+                <Text style={styles.menuItemText}>Send</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.75)" />
+            </TouchableOpacity>
 
-          <TouchableOpacity 
-          style={styles.menuItem}
-          onPress={navigateToReceive}
-          >
-            <View style={styles.menuItemLeft}>
-              <Ionicons name="settings-outline" size={20} color="rgba(255, 255, 255, 0.8)" />
-              <Text style={styles.menuItemText}>Receive</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={16} color="rgba(255, 255, 255, 0.4)" />
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.menuItem}
+              onPress={navigateToReceive}
+            >
+              <View style={styles.menuItemLeft}>
+                <Ionicons name="settings-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
+                <Text style={styles.menuItemText}>Receive</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.75)" />
+            </TouchableOpacity>
 
-          <TouchableOpacity style={styles.menuItem}>
-            <View style={styles.menuItemLeft}>
-              <Ionicons name="help-circle-outline" size={20} color="rgba(255, 255, 255, 0.8)" />
-              <Text style={styles.menuItemText}>Help & Support</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={16} color="rgba(255, 255, 255, 0.4)" />
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.menuItem}>
+              <View style={styles.menuItemLeft}>
+                <Ionicons name="help-circle-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
+                <Text style={styles.menuItemText}>Help & Support</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.75)" />
+            </TouchableOpacity>
 
-          <TouchableOpacity style={styles.menuItem}>
-            <View style={styles.menuItemLeft}>
-              <Ionicons name="shield-outline" size={20} color="rgba(255, 255, 255, 0.8)" />
-              <Text style={styles.menuItemText}>Privacy</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={16} color="rgba(255, 255, 255, 0.4)" />
-          </TouchableOpacity>
-        </View>
-        {/* App Info */}
-        <View style={styles.appInfo}>
-          <Text style={styles.appInfoText}>Snap Factor v1.0</Text>
-          <Text style={styles.appInfoText}>Built with React Native & Firebase</Text>
-        </View>
-      </ScrollView>
+            <TouchableOpacity style={styles.menuItem}>
+              <View style={styles.menuItemLeft}>
+                <Ionicons name="shield-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
+                <Text style={styles.menuItemText}>Privacy</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.75)" />
+            </TouchableOpacity>
+          </View>
+          {/* App Info */}
+          <View style={styles.appInfo}>
+            <Text style={styles.appInfoText}>Snap Factor v1.0</Text>
+            <Text style={styles.appInfoText}>Built with React Native & Firebase</Text>
+          </View>
+        </ScrollView>
+
+      </View>
     </Screen>
   );
 }
@@ -220,15 +228,25 @@ export function WalletScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
   },
   content: {
     flex: 1,
   },
   header: {
-    paddingTop: 60,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 20,
-    paddingBottom: 20,
+    paddingTop: 20,
+    paddingBottom: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: 'Black',
+    marginBottom: 2,
   },
   card: {
     paddingTop: 10,
@@ -260,7 +278,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   headerTitle: {
-    color: 'white',
+    color: 'Black',
     fontSize: 28,
     fontWeight: 'bold',
     textAlign: 'center',
@@ -311,7 +329,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 16,
     paddingHorizontal: 16,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
     borderRadius: 12,
     marginBottom: 8,
   },
@@ -320,7 +338,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   menuItemText: {
-    color: 'rgba(255, 255, 255, 0.8)',
+    color: 'rgba(0, 0, 0, 0.8)',
     fontSize: 16,
     marginLeft: 12,
   },
@@ -379,7 +397,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   retryText: {
-    color: 'white',
+    color: 'Black',
     fontSize: 14,
     fontWeight: '600',
   },
