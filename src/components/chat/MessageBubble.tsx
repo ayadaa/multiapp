@@ -477,7 +477,8 @@ export function MessageBubble({ message, isCurrentUser, chatType = 'individual' 
             // >
             //   {message.text}
             // </Text>
-            <View style={{ flex: 1 }}>
+            // <View style={{ flex: 1 }}>
+            <View>
               <Image
                 source={{ uri: message.imageUrl }}
                 style={{

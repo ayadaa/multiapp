@@ -61,7 +61,7 @@ export function P2PAdsScreen() {
     bottomSheetRef.current?.expand();
   }, []);
 
-const renderBackdrop = React.useCallback(
+  const renderBackdrop = React.useCallback(
     (props: any) => (
       <BottomSheetBackdrop
         {...props}
@@ -137,9 +137,9 @@ const renderBackdrop = React.useCallback(
     if (type === 'p2pRequests') {
       const ad = item as P2PRequest & UserProfile;
       if (
-        (ad.createdBy != user?.uid) && (ad.p2pCreatedBy != user?.uid) ||
-        (ad.isCanceled === true) || (ad.isCompleted === true) ||
-        ((ad.isRejected === true) || (ad.isApproved === true) && (ad.p2pCreatedBy === user?.uid))
+        ((ad.createdBy != user?.uid) && (ad.p2pCreatedBy != user?.uid)) ||
+        ((ad.isCanceled === true) || (ad.isApproved === true)) ||
+        ((ad.isRejected === true) && (ad.p2pCreatedBy === user?.uid))
       ) {
         return (null);
       }
@@ -149,16 +149,19 @@ const renderBackdrop = React.useCallback(
     } else {
       const ad = item as P2PAd & UserProfile;
       return (
-        <ScrollView
+        // <ScrollView
+        //   style={styles.scrollView}
+        //   showsVerticalScrollIndicator={false}
+        //   refreshControl={
+        //     <RefreshControl
+        //       refreshing={isLoadingP2PAdsWithUsers}
+        //       onRefresh={handleRefresh}
+        //       tintColor="Black"
+        //     />
+        //   }
+        // >
+        <View
           style={styles.scrollView}
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl
-              refreshing={isLoadingP2PAdsWithUsers}
-              onRefresh={handleRefresh}
-              tintColor="Black"
-            />
-          }
         >
           <View>
             {/* {p2pAdsWithUsers.map((ad) => ( */}
@@ -232,7 +235,8 @@ const renderBackdrop = React.useCallback(
             </TouchableOpacity>
             {/* ))} */}
           </View>
-        </ScrollView>
+          {/* </ScrollView> */}
+        </View>
       );
     }
   }
@@ -281,6 +285,13 @@ const renderBackdrop = React.useCallback(
           renderItem={({ item, section }) => renderP2PItem(item, section.type)}
           showsVerticalScrollIndicator={false}
           stickySectionHeadersEnabled={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={isLoadingP2PAdsWithUsers}
+              onRefresh={handleRefresh}
+              tintColor="Black"
+            />
+          }
         />
       </View>
 

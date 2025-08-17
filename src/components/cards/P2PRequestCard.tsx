@@ -211,16 +211,8 @@ export default function P2PRequestCard({ ad, handleRefresh, showBottomSheet }: P
 
     return (
         <>
-            {!complete && <ScrollView
+            {!complete && <View
                 style={styles.scrollView}
-                showsVerticalScrollIndicator={false}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={isLoadingP2PRequestsWithUsers}
-                        onRefresh={handleRefresh}
-                        tintColor="Black"
-                    />
-                }
             >
                 <TouchableOpacity
                     style={{
@@ -317,7 +309,7 @@ export default function P2PRequestCard({ ad, handleRefresh, showBottomSheet }: P
                         </View> */}
                     </View>
                 </TouchableOpacity>
-            </ScrollView>}
+            </View>}
             {complete && <View style={{
                 flex: 1,
                 paddingHorizontal: 20,
