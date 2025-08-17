@@ -138,16 +138,16 @@ export function P2PAdsScreen() {
   const renderP2PItem = (item: (P2PAd & UserProfile) | (P2PRequest & UserProfile), type: 'p2pAds' | 'p2pRequests') => {
     if (type === 'p2pRequests') {
       const ad = item as P2PRequest & UserProfile;
-      if (
-        // ((ad.createdBy != user?.uid) && (ad.p2pCreatedBy != user?.uid)) ||
-        // ((ad.isCanceled === true) || (ad.isApproved === true)) ||
-        // ((ad.isRejected === true) && (ad.p2pCreatedBy === user?.uid))
-        (ad.createdBy != user?.uid) && (ad.p2pCreatedBy != user?.uid)
-      ) {
-        return (null);
-      }
+      // if (
+      //   // ((ad.createdBy != user?.uid) && (ad.p2pCreatedBy != user?.uid)) ||
+      //   // ((ad.isCanceled === true) || (ad.isApproved === true)) ||
+      //   // ((ad.isRejected === true) && (ad.p2pCreatedBy === user?.uid))
+      //   (ad.createdBy != user?.uid) && (ad.p2pCreatedBy != user?.uid)
+      // ) {
+      //   return (null);
+      // }
       return (
-        <P2PRequestCard ad={ad} handleRefresh={() => handleRefresh(user?.uid)} showBottomSheet={showBottomSheet} />
+        <P2PRequestCard ad={ad} handleRefresh={() => handleRefresh(user?.uid!)} showBottomSheet={showBottomSheet} />
       );
     } else {
       const ad = item as P2PAd & UserProfile;
