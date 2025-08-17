@@ -84,10 +84,10 @@ export function P2PAdsScreen() {
   }
 
   // handle refresh
-  const handleRefresh = async () => {
+  const handleRefresh = async (uId: string) => {
     try {
       await refreshP2PAdsWithUsers();
-      await refreshP2PRequestsWithUsers();
+      await refreshP2PRequestsWithUsers(uId);
     } catch (error) {
       console.error('Error refreshing p2p ads:', error);
     }
@@ -147,7 +147,7 @@ export function P2PAdsScreen() {
         return (null);
       }
       return (
-        <P2PRequestCard ad={ad} handleRefresh={handleRefresh} showBottomSheet={showBottomSheet} />
+        <P2PRequestCard ad={ad} handleRefresh={() => handleRefresh(user?.uid)} showBottomSheet={showBottomSheet} />
       );
     } else {
       const ad = item as P2PAd & UserProfile;
@@ -268,13 +268,76 @@ export function P2PAdsScreen() {
             <Text style={styles.errorText}>{p2pAdsWithUsersError}</Text>
             <TouchableOpacity
               style={styles.retryButton}
-              onPress={handleRefresh}
+              onPress={() => handleRefresh(user?.uid!)}
             >
               <Text style={styles.retryText}>Retry</Text>
             </TouchableOpacity>
           </View>
         ) : sections.length === 0 ? (
-          null
+          <View style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingHorizontal: 40,
+          }}>
+            <Ionicons name="chatbubbles-outline" size={64} color="rgba(255, 255, 255, 0.3)" />
+            <Text style={{
+              color: '#000000',
+              fontSize: 20,
+              fontWeight: 'bold',
+              marginTop: 16,
+              marginBottom: 8,
+              textAlign: 'center',
+            }}>
+              No chats yet
+            </Text>
+            <Text style={{
+              color: 'rgba(0, 0, 0, 0.75)',
+              fontSize: 16,
+              textAlign: 'center',
+              marginBottom: 24,
+            }}>
+              Start a conversation with friends or create a group chat
+            </Text>
+
+            <View style={{ flexDirection: 'row', gap: 16 }}>
+              <TouchableOpacity
+                onPress={handleCreateP2PAdPress}
+                style={{
+                  backgroundColor: 'rgba(0, 200, 100, 0.8)',
+                  paddingHorizontal: 20,
+                  paddingVertical: 12,
+                  borderRadius: 25,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 8,
+                }}
+              >
+                <Entypo name="add-to-list" size={24} color="white" />
+                <Text style={{ color: '#000000', fontSize: 16, fontWeight: '600' }}>
+                  Create p2p ad
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={handleCreateP2PAdPress}
+                style={{
+                  backgroundColor: 'rgba(0, 132, 255, 0.8)',
+                  paddingHorizontal: 20,
+                  paddingVertical: 12,
+                  borderRadius: 25,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 8,
+                }}
+              >
+                <Ionicons name="search" size={20} color="#000000" />
+                <Text style={{ color: '#000000', fontSize: 16, fontWeight: '600' }}>
+                  Find Friends
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         ) : (
           <SectionList
             sections={sections}
@@ -286,7 +349,7 @@ export function P2PAdsScreen() {
             refreshControl={
               <RefreshControl
                 refreshing={isLoadingP2PAdsWithUsers || isLoadingP2PRequestsWithUsers}
-                onRefresh={handleRefresh}
+                onRefresh={() => handleRefresh(user?.uid!)}
                 tintColor="Black"
               />
             }

@@ -44,12 +44,12 @@ export function useP2PAds() {
   // }, []);
     
   // Load p2p requests with users list
-  const refreshP2PRequestsWithUsers = useCallback(async () => {
+  const refreshP2PRequestsWithUsers = useCallback(async (uId: string) => {
     setIsLoadingP2PRequestsWithUsers(true);
     setP2pRequestsWithUsersError(null);
     
     try {
-      const p2pRequestsListWithUsers = await getP2PRequestsWithUsers();
+      const p2pRequestsListWithUsers = await getP2PRequestsWithUsers(uId);
       setP2pRequestsWithUsers(p2pRequestsListWithUsers);
     } catch (error) {
       console.error('Error loading p2p requests with users:', error);
@@ -87,7 +87,7 @@ export function useP2PAds() {
 
   // Load initial p2p requests data
   useEffect(() => {
-    refreshP2PRequestsWithUsers();
+    refreshP2PRequestsWithUsers(user?.uid!);
   }, [refreshP2PRequestsWithUsers]);
 
   return { 

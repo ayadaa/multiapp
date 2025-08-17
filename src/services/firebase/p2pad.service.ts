@@ -1,12 +1,14 @@
 import * as Functions from 'firebase/functions';
 import { functions } from '../../config/firebase';
 import type { P2PAd, P2PRequest } from '../../types/p2pads';
-import { 
-    getDocs, 
-    collection, 
-    query, 
-    orderBy, 
-    where
+import {
+    getDocs,
+    collection,
+    query,
+    orderBy,
+    where,
+    or,
+    and
 } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import { getUserProfile, UserProfile } from './firestore.service'
@@ -23,107 +25,107 @@ const rejectP2PRequestCallable = Functions.httpsCallable(functions, 'rejectP2PRe
 // export async function createP2PPayment(uid: string, creatorUsername: string, amount: number, paymentMethod: string, price: number) {
 export async function createP2PPayment(uid: string, amount: number, paymentMethod: string, price: number) {
     try {
-        const result = await createP2PPaymentCallable({uid: uid, amount: amount, paymentMethod: paymentMethod, price: price});
-        console.log('Result data from  createP2PPaymentCall:', result.data) 
-        return {success: 'success', data: result.data};
+        const result = await createP2PPaymentCallable({ uid: uid, amount: amount, paymentMethod: paymentMethod, price: price });
+        console.log('Result data from  createP2PPaymentCall:', result.data)
+        return { success: 'success', data: result.data };
     } catch (error) {
         console.error('Error in  createP2PPaymentCall:', error);
-        throw new Error('Failed in  createP2PPaymentCall function. Please try again.');  
+        throw new Error('Failed in  createP2PPaymentCall function. Please try again.');
     }
 }
 
 // deactiveateP2PPaymentCallable
 export async function deactiveateP2PPayment(uid: string, p2pPaymentId: string) {
     try {
-        const result = await deactiveateP2PPaymentCallable({uid: uid, p2pPaymentId: p2pPaymentId});
+        const result = await deactiveateP2PPaymentCallable({ uid: uid, p2pPaymentId: p2pPaymentId });
         console.log('Result data from  deactiveateP2PPaymentCallable:', result.data)
-        return {success: 'success', data: result.data};
+        return { success: 'success', data: result.data };
     } catch (error) {
         console.error('Error in  deactiveateP2PPaymentCallable:', error);
-        throw new Error('Failed in  deactiveateP2PPaymentCallable function. Please try again.');  
+        throw new Error('Failed in  deactiveateP2PPaymentCallable function. Please try again.');
     }
 }
 
 // createP2PRequestCallable
 export async function createP2PRequest(uid: string, p2pPaymentId: string, amount: number) {
     try {
-        const result = await createP2PRequestCallable({uid: uid, p2pPaymentId: p2pPaymentId, amount: amount});
+        const result = await createP2PRequestCallable({ uid: uid, p2pPaymentId: p2pPaymentId, amount: amount });
         console.log('Result data from  createP2PRequestCallable:', result.data)
-        return {success: 'success', data: result.data};
+        return { success: 'success', data: result.data };
     } catch (error) {
         console.error('Error in  createP2PRequestCallable:', error);
-        throw new Error('Failed in  createP2PRequestCallable function. Please try again.');  
+        throw new Error('Failed in  createP2PRequestCallable function. Please try again.');
     }
 }
 
 // completeP2PRequestCallable
 export async function completeP2PRequest(uid: string, p2pRequestId: string, p2pPicture: string) {
     try {
-        const result = await completeP2PRequestCallable({uid: uid, p2pRequestId: p2pRequestId, p2pPicture: p2pPicture});
+        const result = await completeP2PRequestCallable({ uid: uid, p2pRequestId: p2pRequestId, p2pPicture: p2pPicture });
         console.log('Result data from  completeP2PRequestCallable:', result.data)
-        return {success: 'success', data: result.data};
+        return { success: 'success', data: result.data };
     } catch (error) {
         console.error('Error in  completeP2PRequestCallable:', error);
-        throw new Error('Failed in  completeP2PRequestCallable function. Please try again.');  
+        throw new Error('Failed in  completeP2PRequestCallable function. Please try again.');
     }
 }
 
 // approveP2PRequestCallable
 export async function approveP2PRequest(uid: string, p2pRequestId: string) {
     try {
-        const result = await approveP2PRequestCallable({uid: uid, p2pRequestId: p2pRequestId});
+        const result = await approveP2PRequestCallable({ uid: uid, p2pRequestId: p2pRequestId });
         console.log('Result data from  approveP2PRequestCallable:', result.data)
-        return {success: 'success', data: result.data};
+        return { success: 'success', data: result.data };
     } catch (error) {
         console.error('Error in  approveP2PRequestCallable:', error);
-        throw new Error('Failed in  approveP2PRequestCallable function. Please try again.');  
+        throw new Error('Failed in  approveP2PRequestCallable function. Please try again.');
     }
 }
 
 // cancelP2PRequestCallable
 export async function cancelP2PRequest(uid: string, p2pRequestId: string) {
     try {
-        const result = await cancelP2PRequestCallable({uid: uid, p2pRequestId: p2pRequestId});
+        const result = await cancelP2PRequestCallable({ uid: uid, p2pRequestId: p2pRequestId });
         console.log('Result data from  cancelP2PRequestCallable:', result.data)
-        return {success: 'success', data: result.data};
+        return { success: 'success', data: result.data };
     } catch (error) {
         console.error('Error in  cancelP2PRequestCallable:', error);
-        throw new Error('Failed in  cancelP2PRequestCallable function. Please try again.');  
+        throw new Error('Failed in  cancelP2PRequestCallable function. Please try again.');
     }
 }
 
 // rejectP2PRequestCallable
 export async function rejectP2PRequest(uid: string, p2pRequestId: string) {
     try {
-        const result = await rejectP2PRequestCallable({uid: uid, p2pRequestId: p2pRequestId});
+        const result = await rejectP2PRequestCallable({ uid: uid, p2pRequestId: p2pRequestId });
         console.log('Result data from  rejectP2PRequestCallable:', result.data)
-        return {success: 'success', data: result.data};
+        return { success: 'success', data: result.data };
     } catch (error) {
         console.error('Error in  rejectP2PRequestCallable:', error);
-        throw new Error('Failed in  rejectP2PRequestCallable function. Please try again.');  
+        throw new Error('Failed in  rejectP2PRequestCallable function. Please try again.');
     }
 }
 
 // Get p2p ads
 export async function getP2PAds(): Promise<P2PAd[]> {
-  try {
-    const p2pAdsQuery = query(
-        collection(db, 'p2pPayment'),
-        where('isActive', '==', true),
-        // orderBy('createdAt', 'desc'),
-        orderBy('price', 'asc'),
-    );
-    
-    const p2pAds = await getDocs(p2pAdsQuery);
-    console.log('p2p ads', p2pAds)
-    return p2pAds.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    })) as P2PAd[];
-  } catch (error) {
-    console.error('Get p2p ads error:', error);
-    throw new Error('Failed to get p2p ads');
-  }
+    try {
+        const p2pAdsQuery = query(
+            collection(db, 'p2pPayment'),
+            where('isActive', '==', true),
+            // orderBy('createdAt', 'desc'),
+            orderBy('price', 'asc'),
+        );
+
+        const p2pAds = await getDocs(p2pAdsQuery);
+        console.log('p2p ads', p2pAds)
+        return p2pAds.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        })) as P2PAd[];
+    } catch (error) {
+        console.error('Get p2p ads error:', error);
+        throw new Error('Failed to get p2p ads');
+    }
 }
 
 // Get p2p ads with users
@@ -142,33 +144,38 @@ export async function getP2PAdsWithUsers(): Promise<(P2PAd & UserProfile)[]> {
 }
 
 // Get p2p requests
-export async function getP2PRequests(): Promise<P2PRequest[]> {
-  try {
-    // const p2pRequestsQuery = query(
-    //     collection(db, 'p2pRequests'),
-    //     orderBy('createdAt', 'desc'),
-    // );
-    const p2pRequestsQuery = query(
-        collection(db, 'p2pRequests'),
-        where('isActive', '==', true),
-        orderBy('createdAt', 'desc'),
-    );
-     
-    const p2pRequests = await getDocs(p2pRequestsQuery);
-    console.log('p2p requests', p2pRequests)
-    return p2pRequests.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    })) as P2PRequest[];
-  } catch (error) {
-    console.error('Get p2p requests error:', error);
-    throw new Error('Failed to get p2p requests');
-  }
+export async function getP2PRequests(uId: string): Promise<P2PRequest[]> {
+    try {
+        // const p2pRequestsQuery = query(
+        //     collection(db, 'p2pRequests'),
+        //     orderBy('createdAt', 'desc'),
+        // );
+        const p2pRequestsQuery = query(
+            collection(db, 'p2pRequests'),
+            and(
+                where('isActive', '==', true),
+                or(
+                    where('createdBy', '==', uId),
+                    where('p2pCreatedBy', '==', uId)
+                )),
+            orderBy('createdAt', 'desc'),
+        );
+
+        const p2pRequests = await getDocs(p2pRequestsQuery);
+        console.log('p2p requests', p2pRequests)
+        return p2pRequests.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        })) as P2PRequest[];
+    } catch (error) {
+        console.error('Get p2p requests error:', error);
+        throw new Error('Failed to get p2p requests');
+    }
 }
 
 // Get p2p requests with users
-export async function getP2PRequestsWithUsers(): Promise<(P2PRequest & UserProfile)[]> {
-    const p2pRequests = await getP2PRequests();
+export async function getP2PRequestsWithUsers(uId: string): Promise<(P2PRequest & UserProfile)[]> {
+    const p2pRequests = await getP2PRequests(uId);
     const p2pRequestsWithUsers = <(P2PRequest & UserProfile)[]>[];
     for (let index = 0; index < p2pRequests.length; index++) {
         const request = p2pRequests[index];
