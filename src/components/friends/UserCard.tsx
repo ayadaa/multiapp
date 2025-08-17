@@ -40,7 +40,7 @@ export function UserCard({
             <Ionicons
               name={isLoading ? "hourglass" : "person-add"}
               size={20}
-              color="white"
+              color="Black"
             />
           </TouchableOpacity>
         );
@@ -104,8 +104,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginVertical: 4,
     borderRadius: 16,
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.1)',
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(0, 0, 0, 0.1)',
   },
   avatarContainer: {
     marginRight: 16,
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
   },
   statusText: {
     fontSize: 12,
-    color: 'rgba(255, 255, 255, 0.7)',
+    color: 'rgba(0, 0, 0, 0.7)',
     fontWeight: '500',
   },
 }); 

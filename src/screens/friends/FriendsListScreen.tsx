@@ -1,10 +1,10 @@
 import React from 'react';
-import { 
-  View, 
-  Text, 
-  ScrollView, 
-  TouchableOpacity, 
-  StyleSheet, 
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  StyleSheet,
   RefreshControl,
   Alert
 } from 'react-native';
@@ -25,7 +25,7 @@ import { useAuth } from '../../hooks/auth/use-auth';
 export function FriendsListScreen() {
   const navigation = useNavigation();
   const { user } = useAuth();
-  
+
   const {
     friends,
     isLoadingFriends,
@@ -42,7 +42,7 @@ export function FriendsListScreen() {
     try {
       const chatId = await createChat(friendId);
       const friend = friends.find(f => f.uid === friendId);
-      
+
       if (friend) {
         (navigation as any).navigate('IndividualChat', {
           chatId,
@@ -74,7 +74,7 @@ export function FriendsListScreen() {
   };
 
   return (
-    <Screen backgroundColor="#000000" statusBarStyle="light-content">
+    <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
@@ -84,7 +84,7 @@ export function FriendsListScreen() {
               {friends.length} {friends.length === 1 ? 'friend' : 'friends'}
             </Text>
           </View>
-          
+
           <TouchableOpacity
             style={styles.addButton}
             onPress={handleAddFriendsPress}
@@ -115,7 +115,7 @@ export function FriendsListScreen() {
             <RefreshControl
               refreshing={isLoadingFriends}
               onRefresh={handleRefresh}
-              tintColor="white"
+              tintColor="Black"
             />
           }
         >
@@ -133,7 +133,7 @@ export function FriendsListScreen() {
           ) : (
             /* Empty State */
             <View style={styles.emptyStateContainer}>
-              <Ionicons name="people-outline" size={80} color="rgba(255, 255, 255, 0.3)" />
+              <Ionicons name="people-outline" size={80} color="rgba(0, 0, 0, 0.7)" />
               <Text style={styles.emptyStateTitle}>No Friends Yet</Text>
               <Text style={styles.emptyStateText}>
                 Start by adding some friends to chat and share snaps with them
@@ -142,7 +142,7 @@ export function FriendsListScreen() {
                 style={styles.addFriendsButton}
                 onPress={handleAddFriendsPress}
               >
-                <Ionicons name="person-add" size={20} color="white" />
+                <Ionicons name="person-add" size={20} color="Black" />
                 <Text style={styles.addFriendsButtonText}>Add Friends</Text>
               </TouchableOpacity>
             </View>
@@ -154,8 +154,8 @@ export function FriendsListScreen() {
               <Text style={styles.sectionTitle}>
                 Online Now ({friends.filter(f => f.isOnline).length})
               </Text>
-              <ScrollView 
-                horizontal 
+              <ScrollView
+                horizontal
                 showsHorizontalScrollIndicator={false}
                 style={styles.onlineScrollView}
               >
@@ -198,6 +198,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
     paddingBottom: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(0, 0, 0, 0.1)',
   },
   titleContainer: {
     flex: 1,
@@ -205,12 +207,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'Black',
     marginBottom: 2,
   },
   subtitle: {
     fontSize: 16,
-    color: 'rgba(255, 255, 255, 0.7)',
+    color: 'rgba(0, 0, 0, 0.75)',
   },
   addButton: {
     width: 44,
@@ -246,7 +248,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   retryText: {
-    color: 'white',
+    color: 'Black',
     fontSize: 14,
     fontWeight: '600',
   },
@@ -266,13 +268,13 @@ const styles = StyleSheet.create({
   emptyStateTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'Black',
     marginTop: 20,
     marginBottom: 8,
   },
   emptyStateText: {
     fontSize: 16,
-    color: 'rgba(255, 255, 255, 0.6)',
+    color: 'rgba(0, 0, 0, 0.75)',
     textAlign: 'center',
     lineHeight: 22,
     marginBottom: 32,
@@ -288,7 +290,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(0, 132, 255, 0.3)',
   },
   addFriendsButtonText: {
-    color: 'white',
+    color: 'Black',
     fontSize: 16,
     fontWeight: '600',
     marginLeft: 8,
@@ -300,7 +302,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: 'white',
+    color: 'Black',
     marginBottom: 12,
     marginHorizontal: 20,
   },
@@ -316,7 +318,7 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 8,
@@ -327,7 +329,7 @@ const styles = StyleSheet.create({
   onlineAvatarText: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'Black',
   },
   onlineIndicator: {
     position: 'absolute',
@@ -342,7 +344,7 @@ const styles = StyleSheet.create({
   },
   onlineUsername: {
     fontSize: 12,
-    color: 'white',
+    color: 'Black',
     fontWeight: '500',
     textAlign: 'center',
   },
