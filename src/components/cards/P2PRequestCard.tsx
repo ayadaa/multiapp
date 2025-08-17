@@ -359,20 +359,6 @@ export default function P2PRequestCard({ ad, handleRefresh, showBottomSheet }: P
                     />
                 </View>
             </View>}
-
-            {/* <BottomSheet
-                snapPoints={snapPoints}
-                index={-1}
-                backdropComponent={renderBackdrop}
-                ref={bottomSheetRef}
-                onChange={handleSheetChanges}
-            >
-                <BottomSheetView style={{
-                    flex: 1,
-                }}>
-                    <Text>Heloo world</Text>
-                </BottomSheetView>
-            </BottomSheet> */}
         </>
     );
 }

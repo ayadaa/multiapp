@@ -52,6 +52,8 @@ export function P2PAdsScreen() {
     cancelP2PRequest,
     rejectP2PRequest,
   } = useP2PAds();
+  const loading = isLoadingP2PAdsWithUsers || isLoadingP2PRequestsWithUsers;
+  const error = p2pAdsWithUsersError || p2pRequestsWithUsersError;
   const bottomSheetRef = React.useRef<BottomSheet>(null);
   const snapPoints = React.useMemo(() => ["25%", "50%", "75%"], []);
   const [p2pRequest, setP2PRequest] = React.useState<(P2PRequest & UserProfile) | null>(null);
@@ -137,9 +139,10 @@ export function P2PAdsScreen() {
     if (type === 'p2pRequests') {
       const ad = item as P2PRequest & UserProfile;
       if (
-        ((ad.createdBy != user?.uid) && (ad.p2pCreatedBy != user?.uid)) ||
-        ((ad.isCanceled === true) || (ad.isApproved === true)) ||
-        ((ad.isRejected === true) && (ad.p2pCreatedBy === user?.uid))
+        // ((ad.createdBy != user?.uid) && (ad.p2pCreatedBy != user?.uid)) ||
+        // ((ad.isCanceled === true) || (ad.isApproved === true)) ||
+        // ((ad.isRejected === true) && (ad.p2pCreatedBy === user?.uid))
+        (ad.createdBy != user?.uid) && (ad.p2pCreatedBy != user?.uid)
       ) {
         return (null);
       }
@@ -149,17 +152,6 @@ export function P2PAdsScreen() {
     } else {
       const ad = item as P2PAd & UserProfile;
       return (
-        // <ScrollView
-        //   style={styles.scrollView}
-        //   showsVerticalScrollIndicator={false}
-        //   refreshControl={
-        //     <RefreshControl
-        //       refreshing={isLoadingP2PAdsWithUsers}
-        //       onRefresh={handleRefresh}
-        //       tintColor="Black"
-        //     />
-        //   }
-        // >
         <View
           style={styles.scrollView}
         >
@@ -235,7 +227,6 @@ export function P2PAdsScreen() {
             </TouchableOpacity>
             {/* ))} */}
           </View>
-          {/* </ScrollView> */}
         </View>
       );
     }
@@ -249,7 +240,6 @@ export function P2PAdsScreen() {
           <View style={styles.titleContainer}>
             <Text style={styles.title}>P2P Ads</Text>
             <Text style={styles.subtitle}>
-              {/* {p2pAds.length} {p2pAds.length === 1 ? 'ad' : 'ads'} */}
               {p2pAdsWithUsers.length} {p2pAdsWithUsers.length === 1 ? 'ad' : 'ads'}
             </Text>
           </View>
@@ -258,14 +248,20 @@ export function P2PAdsScreen() {
             style={styles.addButton}
             onPress={handleCreateP2PAdPress}
           >
-            {/* <Ionicons name="person-add" size={24} color="white" /> */}
             <Entypo name="add-to-list" size={24} color="white" />
           </TouchableOpacity>
         </View>
-
-        {/* Error State */}
-        {/* {p2pAdsError && ( */}
-        {(p2pAdsWithUsersError || p2pRequestsWithUsersError) && (
+        {loading ? (
+          <View style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <Text style={{ color: 'rgba(0, 0, 0, 0.75)', fontSize: 16 }}>
+              Loading p2p ads...
+            </Text>
+          </View>
+        ) : error ? (
           <View style={styles.errorContainer}>
             <Ionicons name="alert-circle" size={24} color="#FF3B30" />
             {/* <Text style={styles.errorText}>{p2pAdsError}</Text> */}
@@ -277,22 +273,24 @@ export function P2PAdsScreen() {
               <Text style={styles.retryText}>Retry</Text>
             </TouchableOpacity>
           </View>
-        )}
-        <SectionList
-          sections={sections}
-          keyExtractor={(item, index) => `${item.id}-${index}`}
-          renderSectionHeader={renderSectionHeader}
-          renderItem={({ item, section }) => renderP2PItem(item, section.type)}
-          showsVerticalScrollIndicator={false}
-          stickySectionHeadersEnabled={false}
-          refreshControl={
-            <RefreshControl
-              refreshing={isLoadingP2PAdsWithUsers}
-              onRefresh={handleRefresh}
-              tintColor="Black"
-            />
-          }
-        />
+        ) : sections.length === 0 ? (
+          null
+        ) : (
+          <SectionList
+            sections={sections}
+            keyExtractor={(item, index) => `${item.id}-${index}`}
+            renderSectionHeader={renderSectionHeader}
+            renderItem={({ item, section }) => renderP2PItem(item, section.type)}
+            showsVerticalScrollIndicator={false}
+            stickySectionHeadersEnabled={false}
+            refreshControl={
+              <RefreshControl
+                refreshing={isLoadingP2PAdsWithUsers || isLoadingP2PRequestsWithUsers}
+                onRefresh={handleRefresh}
+                tintColor="Black"
+              />
+            }
+          />)}
       </View>
 
       <BottomSheet

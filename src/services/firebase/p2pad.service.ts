@@ -144,11 +144,13 @@ export async function getP2PAdsWithUsers(): Promise<(P2PAd & UserProfile)[]> {
 // Get p2p requests
 export async function getP2PRequests(): Promise<P2PRequest[]> {
   try {
+    // const p2pRequestsQuery = query(
+    //     collection(db, 'p2pRequests'),
+    //     orderBy('createdAt', 'desc'),
+    // );
     const p2pRequestsQuery = query(
         collection(db, 'p2pRequests'),
-        // where('isActive', '==', true),
-        // where('createdBy', '==', uId),
-        // where('p2pCreatedBy', '==', uId),
+        where('isActive', '==', true),
         orderBy('createdAt', 'desc'),
     );
      
