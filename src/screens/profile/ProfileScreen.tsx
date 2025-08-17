@@ -45,74 +45,76 @@ export function ProfileScreen() {
   };
 
   return (
-    <Screen style={styles.container}>
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Profile</Text>
-        </View>
-
-        {/* Profile Info */}
-        <View style={styles.profileSection}>
-          <View style={styles.avatarContainer}>
-            <View style={styles.avatar}>
-              <Ionicons name="person" size={48} color="rgba(255, 255, 255, 0.8)" />
-            </View>
+    <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
+      <View style={styles.content}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {/* Header */}
+          <View style={styles.header}>
+            <Text style={styles.headerTitle}>Profile</Text>
           </View>
-          
-          <Text style={styles.username}>@{user?.username || 'username'}</Text>
-          <Text style={styles.email}>{user?.email || 'email@example.com'}</Text>
-        </View>
 
-        {/* Menu Items */}
-        <View style={styles.menuSection}>
-          <TouchableOpacity style={styles.menuItem}>
-            <View style={styles.menuItemLeft}>
-              <Ionicons name="person-outline" size={20} color="rgba(255, 255, 255, 0.8)" />
-              <Text style={styles.menuItemText}>Edit Profile</Text>
+          {/* Profile Info */}
+          <View style={styles.profileSection}>
+            <View style={styles.avatarContainer}>
+              <View style={styles.avatar}>
+                <Ionicons name="person" size={48} color="rgba(255, 255, 255, 0.8)" />
+              </View>
             </View>
-            <Ionicons name="chevron-forward" size={16} color="rgba(255, 255, 255, 0.4)" />
-          </TouchableOpacity>
 
-          <TouchableOpacity style={styles.menuItem}>
-            <View style={styles.menuItemLeft}>
-              <Ionicons name="settings-outline" size={20} color="rgba(255, 255, 255, 0.8)" />
-              <Text style={styles.menuItemText}>Settings</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={16} color="rgba(255, 255, 255, 0.4)" />
-          </TouchableOpacity>
+            <Text style={styles.username}>@{user?.username || 'username'}</Text>
+            <Text style={styles.email}>{user?.email || 'email@example.com'}</Text>
+          </View>
 
-          <TouchableOpacity style={styles.menuItem}>
-            <View style={styles.menuItemLeft}>
-              <Ionicons name="help-circle-outline" size={20} color="rgba(255, 255, 255, 0.8)" />
-              <Text style={styles.menuItemText}>Help & Support</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={16} color="rgba(255, 255, 255, 0.4)" />
-          </TouchableOpacity>
+          {/* Menu Items */}
+          <View style={styles.menuSection}>
+            <TouchableOpacity style={styles.menuItem}>
+              <View style={styles.menuItemLeft}>
+                <Ionicons name="person-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
+                <Text style={styles.menuItemText}>Edit Profile</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
+            </TouchableOpacity>
 
-          <TouchableOpacity style={styles.menuItem}>
-            <View style={styles.menuItemLeft}>
-              <Ionicons name="shield-outline" size={20} color="rgba(255, 255, 255, 0.8)" />
-              <Text style={styles.menuItemText}>Privacy</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={16} color="rgba(255, 255, 255, 0.4)" />
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity style={styles.menuItem}>
+              <View style={styles.menuItemLeft}>
+                <Ionicons name="settings-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
+                <Text style={styles.menuItemText}>Settings</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
+            </TouchableOpacity>
 
-        {/* Logout Section */}
-        <View style={styles.logoutSection}>
-          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <Ionicons name="log-out-outline" size={20} color="#FF3B30" />
-            <Text style={styles.logoutText}>Logout</Text>
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity style={styles.menuItem}>
+              <View style={styles.menuItemLeft}>
+                <Ionicons name="help-circle-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
+                <Text style={styles.menuItemText}>Help & Support</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
+            </TouchableOpacity>
 
-        {/* App Info */}
-        <View style={styles.appInfo}>
-          <Text style={styles.appInfoText}>Snap Factor v1.0</Text>
-          <Text style={styles.appInfoText}>Built with React Native & Firebase</Text>
-        </View>
-      </ScrollView>
+            <TouchableOpacity style={styles.menuItem}>
+              <View style={styles.menuItemLeft}>
+                <Ionicons name="shield-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
+                <Text style={styles.menuItemText}>Privacy</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
+            </TouchableOpacity>
+          </View>
+
+          {/* Logout Section */}
+          <View style={styles.logoutSection}>
+            <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+              <Ionicons name="log-out-outline" size={20} color="#FF3B30" />
+              <Text style={styles.logoutText}>Logout</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* App Info */}
+          <View style={styles.appInfo}>
+            <Text style={styles.appInfoText}>MultiApp v1.0</Text>
+            <Text style={styles.appInfoText}>Built with React Native & Firebase</Text>
+          </View>
+        </ScrollView>
+      </View>
     </Screen>
   );
 }
@@ -120,7 +122,7 @@ export function ProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: '#FFFFFF',
   },
   content: {
     flex: 1,
@@ -131,7 +133,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   headerTitle: {
-    color: 'white',
+    color: 'Black',
     fontSize: 28,
     fontWeight: 'bold',
     textAlign: 'center',
@@ -140,7 +142,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 30,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+    borderBottomColor: 'rgba(0, 0, 0, 0.1)',
     marginHorizontal: 20,
   },
   avatarContainer: {
@@ -150,20 +152,20 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: 'rgba(0, 0, 0, 0.06)',
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: 'rgba(255, 255, 255, 0.2)',
+    borderColor: 'rgba(0, 0, 0, 0.05)',
   },
   username: {
-    color: 'white',
+    color: 'Black',
     fontSize: 24,
     fontWeight: '600',
     marginBottom: 4,
   },
   email: {
-    color: 'rgba(255, 255, 255, 0.6)',
+    color: 'rgba(0, 0, 0, 0.75)',
     fontSize: 16,
   },
   menuSection: {
@@ -176,7 +178,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 16,
     paddingHorizontal: 16,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
     borderRadius: 12,
     marginBottom: 8,
   },
@@ -185,7 +187,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   menuItemText: {
-    color: 'rgba(255, 255, 255, 0.8)',
+    color: 'rgba(0, 0, 0, 0.8)',
     fontSize: 16,
     marginLeft: 12,
   },
@@ -216,7 +218,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   appInfoText: {
-    color: 'rgba(255, 255, 255, 0.4)',
+    color: 'rgba(0, 0, 0, 0.4)',
     fontSize: 12,
     marginBottom: 4,
   },

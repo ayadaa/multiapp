@@ -29,7 +29,7 @@ import { ref } from 'firebase/storage';
 import { useNavigation } from '@react-navigation/native';
 
 const FullWidth = Dimensions.get("screen").width;
-const CardWidth_0 = Math.min(FullWidth, 500) - 20 * 2;
+const CardWidth_0 = Math.min(FullWidth, 300) - 20 * 2;
 const CardWidth = Dimensions.get("window").width - 20 * 2;
 const CardHeight = CardWidth_0 / 1.8
 
@@ -183,7 +183,7 @@ export function WalletScreen() {
                 <Ionicons name="person-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
                 <Text style={styles.menuItemText}>Send</Text>
               </View>
-              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.75)" />
+              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -194,7 +194,7 @@ export function WalletScreen() {
                 <Ionicons name="settings-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
                 <Text style={styles.menuItemText}>Receive</Text>
               </View>
-              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.75)" />
+              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.menuItem}>
@@ -202,7 +202,7 @@ export function WalletScreen() {
                 <Ionicons name="help-circle-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
                 <Text style={styles.menuItemText}>Help & Support</Text>
               </View>
-              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.75)" />
+              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.menuItem}>
@@ -210,7 +210,7 @@ export function WalletScreen() {
                 <Ionicons name="shield-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
                 <Text style={styles.menuItemText}>Privacy</Text>
               </View>
-              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.75)" />
+              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
             </TouchableOpacity>
           </View>
           {/* App Info */}
