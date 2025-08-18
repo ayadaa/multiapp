@@ -155,7 +155,8 @@ export function P2PAdsScreen() {
                         fontSize: 16,
                         fontWeight: 'bold',
                       }}>
-                        {ad.username}   {((ad.requests && ad.approvedRequests) && (ad.requests > 0))? ((Math.round(((ad.requests! - ad.approvedRequests!) / ad.requests!) * 100) / 100) * 100): 'NaN'} %
+                        {ad.username}
+                        {/* {ad.username}   {((ad.requests && ad.approvedRequests) && (ad.requests > 0))? ((Math.round(((ad.requests! - ad.approvedRequests!) / ad.requests!) * 100) / 100) * 100): 'NaN'} % */}
                         {/* {ad.username}   {ad.requests && ad.approvedRequests && ((Math.round(((ad.requests - ad.approvedRequests) / ad.requests) * 100) / 100) * 100) && '%'} */}
                       </Text>
                       <Text style={{
