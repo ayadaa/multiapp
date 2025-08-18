@@ -25,35 +25,12 @@ export function P2PCreateAdScreen() {
   };
 
   return (
-    <Screen backgroundColor="#000000" keyboardAvoidingView>
+    <Screen backgroundColor="#FFFFFF" keyboardAvoidingView>
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
       >
         <View style={{ flex: 1, padding: 24, justifyContent: 'center' }}>
-          {/* Header */}
-          <View style={{ alignItems: 'center', marginBottom: 48 }}>
-            <Text
-              style={{
-                fontSize: 32,
-                fontWeight: 'bold',
-                color: '#FFFFFF',
-                marginBottom: 8,
-              }}
-            >
-              Join Snap Factor
-            </Text>
-            <Text
-              style={{
-                fontSize: 16,
-                color: 'rgba(255, 255, 255, 0.6)',
-                textAlign: 'center',
-              }}
-            >
-              Create your account to get started
-            </Text>
-          </View>
-
           {/* Send Form */}
           <P2PCreateAdForm
             onSuccess={handleSendSuccess}
