@@ -50,7 +50,7 @@ export function P2PAdsScreen() {
     cancelP2PRequest,
     rejectP2PRequest,
   } = useP2PAds();
-  // const loading = isLoadingP2PAdsWithUsers || isLoadingP2PRequestsWithUsers;
+  const loading = isLoadingP2PAdsWithUsers || isLoadingP2PRequestsWithUsers;
   const error = p2pAdsWithUsersError || p2pRequestsWithUsersError;
   const bottomSheetRef = React.useRef<BottomSheet>(null);
   const snapPoints = React.useMemo(() => ["25%", "50%", "75%"], []);
@@ -82,14 +82,14 @@ export function P2PAdsScreen() {
   }
 
   // handle refresh
-  // const handleRefresh = async (uId: string) => {
-  //   try {
-  //     await refreshP2PAdsWithUsers();
-  //     await refreshP2PRequestsWithUsers(uId);
-  //   } catch (error) {
-  //     console.error('Error refreshing p2p ads:', error);
-  //   }
-  // }
+  const handleRefresh = async (uId: string) => {
+    try {
+      await refreshP2PAdsWithUsers();
+      await refreshP2PRequestsWithUsers(uId);
+    } catch (error) {
+      console.error('Error refreshing p2p ads:', error);
+    }
+  }
 
   // handle p2p ad pree
   const handleAdPress = (p2pAdWithUser: P2PAd & UserProfile) => {
@@ -259,8 +259,7 @@ export function P2PAdsScreen() {
             <Entypo name="add-to-list" size={24} color="white" />
           </TouchableOpacity>
         </View>
-        {/* {loading ? ( */}
-        {isLoadingP2PAdsWithUsers ? (
+        {loading ? (
           <View style={{
             flex: 1,
             alignItems: 'center',
@@ -277,8 +276,7 @@ export function P2PAdsScreen() {
             <Text style={styles.errorText}>{p2pAdsWithUsersError}</Text>
             <TouchableOpacity
               style={styles.retryButton}
-              // onPress={() => handleRefresh(user?.uid!)}
-              onPress={() => refreshP2PAdsWithUsers()}
+              onPress={() => handleRefresh(user?.uid!)}
             >
               <Text style={styles.retryText}>Retry</Text>
             </TouchableOpacity>
@@ -370,24 +368,21 @@ export function P2PAdsScreen() {
               showsVerticalScrollIndicator={false}
               refreshControl={
                 <RefreshControl
-                  // refreshing={loading}
-                  // onRefresh={() => handleRefresh(user?.uid!)}
-                  refreshing={isLoadingP2PAdsWithUsers}
-                  onRefresh={() => refreshP2PAdsWithUsers()}
+                  refreshing={loading}
+                  onRefresh={() => handleRefresh(user?.uid!)}
                   tintColor="white"
                 />
               }
             >
-              {/* {(p2pRequestsWithUsers.length != 0) && renderHeader('P2P Requests')}
+              {(p2pRequestsWithUsers.length != 0) && renderHeader('P2P Requests')}
               {(p2pRequestsWithUsers.length != 0) && p2pRequestsWithUsers.map((ad) => (
                 <P2PRequestCard
                   key={ad.id}
                   ad={ad} handleRefresh={() => handleRefresh(user?.uid!)}
                   showBottomSheet={showBottomSheet}
                 />
-              ))} */}
-              {/* {(p2pRequestsWithUsers.length != 0) && renderHeader('P2P Ads')} */}
-              {renderHeader('P2P Ads')}
+              ))}
+              {(p2pRequestsWithUsers.length != 0) && renderHeader('P2P Ads')}
               {p2pAdsWithUsers.map((ad) => (
                 <View
                   key={ad.id}
@@ -470,7 +465,7 @@ export function P2PAdsScreen() {
         )}
       </View>
 
-      {/* <BottomSheet
+      <BottomSheet
         snapPoints={snapPoints}
         index={-1}
         backdropComponent={renderBackdrop}
@@ -482,7 +477,7 @@ export function P2PAdsScreen() {
         }}>
           <Text>{p2pRequest?.username || 'Unknown User'}</Text>
         </BottomSheetView>
-      </BottomSheet> */}
+      </BottomSheet>
     </Screen>
   );
 }
