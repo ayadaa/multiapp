@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import {
   sendGroupMessage,
+  sendGroupMessageWithImage,
   subscribeToGroupMessages,
   markGroupMessagesAsRead,
   type GroupMessage,
@@ -39,6 +40,30 @@ export function useGroupMessages(groupId: string, currentUserId: string) {
       setSending(false);
     }
   }, [groupId, currentUserId]);
+
+  /**
+     * Send an image with text message to the chat
+     */
+    const sendTextWithImageMessage = useCallback(async (imageUrl: string, text: string): Promise<void> => {
+      if (!!currentUserId || !groupId || !imageUrl.trim()) return; //ayad
+
+      try {
+        setSending(true);
+        setError(null);
+        
+        await sendGroupMessageWithImage(groupId, {
+          senderId: currentUserId,
+          imageUrl: imageUrl.trim(),
+          text: text.trim(),
+          type: 'textWithImage',
+        });
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to send message');
+        throw err;
+      } finally {
+        setSending(false);
+      }
+    }, [groupId, currentUserId]);
 
   /**
    * Send a snap to the group
@@ -171,6 +196,7 @@ export function useGroupMessages(groupId: string, currentUserId: string) {
     error,
     sending,
     sendMessage,
+    sendTextWithImageMessage,
     sendSnap,
     markAsRead,
     getUnreadMessages,

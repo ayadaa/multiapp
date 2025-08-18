@@ -1056,6 +1056,81 @@ export async function sendGroupMessage(
 }
 
 /**
+ * Send a text message with image to a group
+ */
+export async function sendGroupMessageWithImage(
+  groupId: string,
+  messageData: {
+    senderId: string;
+    text?: string;
+    snapId?: string;
+    imageUrl?: string;
+    type: 'text' | 'snap' | 'system' | 'textWithImage';
+    systemMessageType?: 'member_added' | 'member_left' | 'name_changed' | 'admin_added';
+    metadata?: {
+      addedMembers?: string[];
+      removedMember?: string;
+      oldName?: string;
+      newName?: string;
+      newAdmin?: string;
+    };
+  }
+): Promise<string> {
+  try {
+    const messageRef = doc(collection(db, 'groups', groupId, 'messages'));
+    
+    // Build message object without undefined fields
+    const message: any = {
+      groupId,
+      senderId: messageData.senderId,
+      timestamp: serverTimestamp() as Timestamp,
+      readBy: [{
+        userId: messageData.senderId,
+        readAt: Timestamp.now(),
+      }],
+      type: messageData.type,
+    };
+
+    // Only include fields that have values
+    if (messageData.text) {
+      message.text = messageData.text;
+    }
+    if (messageData.snapId) {
+      message.snapId = messageData.snapId;
+    }
+    if (messageData.imageUrl) {
+      message.imageUrl = messageData.imageUrl;
+    }
+    if (messageData.systemMessageType) {
+      message.systemMessageType = messageData.systemMessageType;
+    }
+    if (messageData.metadata) {
+      message.metadata = messageData.metadata;
+    }
+    
+    await setDoc(messageRef, message);
+    
+    // Update group's last message
+    const groupRef = doc(db, 'groups', groupId);
+    const lastMessage = {
+      text: messageData.text || (messageData.type === 'system' ? 'System message' : 'Snap'),
+      senderId: messageData.senderId,
+      timestamp: serverTimestamp() as Timestamp,
+      type: messageData.type,
+    };
+    
+    await updateDoc(groupRef, {
+      lastMessage,
+    });
+    
+    return messageRef.id;
+  } catch (error) {
+    console.error('Send group message error:', error);
+    throw new Error('Failed to send message');
+  }
+}
+
+/**
  * Subscribe to group messages
  */
 export function subscribeToGroupMessages(

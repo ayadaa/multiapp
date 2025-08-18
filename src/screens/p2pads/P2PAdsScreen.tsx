@@ -24,13 +24,6 @@ import type { UserProfile } from '../../services/firebase/firestore.service'
 export function P2PAdsScreen() {
   const navigation = useNavigation<NavigationProp>();
   const { user } = useAuth();
-  // const {
-  //   ads,
-  //   isLoadingAds,
-  //   adsError,
-  //   refreshAds,
-  //   formatTimestamp
-  // } = useAds(user?.uid || '');
   const {
     p2pAdsWithUsers: ads,
     isLoadingP2PAdsWithUsers: isLoadingAds,
@@ -155,8 +148,8 @@ export function P2PAdsScreen() {
                         fontSize: 16,
                         fontWeight: 'bold',
                       }}>
-                        {/* {ad.username} */}
-                        {ad.username}   {((ad.requests && ad.approvedRequests) && (ad.requests > 0))? ((Math.round(((ad.requests! - ad.approvedRequests!) / ad.requests!) * 100) / 100) * 100): 'NaN'} %
+                        {ad.username}
+                        {/* {ad.username}   {((ad.requests && ad.approvedRequests) && (ad.requests > 0))? ((Math.round(((ad.requests! - ad.approvedRequests!) / ad.requests!) * 100) / 100) * 100): 'NaN'} % */}
                         {/* {ad.username}   {ad.requests && ad.approvedRequests && ((Math.round(((ad.requests - ad.approvedRequests) / ad.requests) * 100) / 100) * 100) && '%'} */}
                       </Text>
                       <Text style={{

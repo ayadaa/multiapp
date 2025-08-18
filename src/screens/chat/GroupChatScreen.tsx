@@ -3,7 +3,7 @@
  * Handles group messaging with multiple participants, system messages, and read receipts
  */
 
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import {
   View,
   Text,
@@ -12,6 +12,7 @@ import {
   StyleSheet,
   Alert,
   ActivityIndicator,
+  Image
 } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
@@ -19,12 +20,15 @@ import { useSelector } from 'react-redux';
 import { Screen } from '../../components/common/Screen';
 import { MessageBubble } from '../../components/chat/MessageBubble';
 import { ChatInput } from '../../components/chat/ChatInput';
+import { ChatInputSheet } from '../../components/chat/ChatInputSheet';
 import { useGroupMessages } from '../../hooks/chat/use-group-messages';
 import { useGroups } from '../../hooks/chat/use-groups';
 import { getUserProfile } from '../../services/firebase/firestore.service';
 import type { RootState } from '../../store';
 import type { AppStackParamList, NavigationProp } from '../../types/navigation';
 import type { GroupMessage, UserProfile } from '../../services/firebase/firestore.service';
+import { launchImagePicker, uploadImageAsync } from "../../screens/ads/imagePickerHelper";
+import BottomSheet, { BottomSheetView, BottomSheetBackdrop, BottomSheetFooter } from "@gorhom/bottom-sheet";
 
 type GroupChatRouteProp = RouteProp<AppStackParamList, 'GroupChat'>;
 
@@ -32,10 +36,10 @@ export default function GroupChatScreen() {
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<GroupChatRouteProp>();
   const { groupId } = route.params;
-  
+
   const user = useSelector((state: RootState) => state.auth.user);
   const currentUserId = user?.uid || '';
-  
+
   const { groups } = useGroups(currentUserId);
   const {
     messages,
@@ -43,22 +47,73 @@ export default function GroupChatScreen() {
     error,
     sending,
     sendMessage,
+    sendTextWithImageMessage,
     formatSystemMessage,
   } = useGroupMessages(groupId, currentUserId);
-  
+
   const [participants, setParticipants] = useState<UserProfile[]>([]);
   const [loadingParticipants, setLoadingParticipants] = useState(true);
   const flatListRef = useRef<FlatList>(null);
-  
+
+  const [tempImageUri, setTempImageUri] = React.useState<string | null>(null);
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => ["25%", "50%", "75%"], []);
+
   // Find current group
   const currentGroup = groups.find(g => g.id === groupId);
+
+  const showBottomSheet = useCallback(() => {
+    bottomSheetRef.current?.expand();
+  }, []);
+
+  const renderBackdrop = useCallback(
+    (props: any) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={-1} // Hides backdrop when sheet is fully closed
+        appearsOnIndex={0}    // Shows backdrop when sheet is at index 0 or higher
+        pressBehavior="close" // Closes the bottom sheet when backdrop is pressed
+      />
+    ),
+    []
+  );
+
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log("handleSheetChanges", index);
+  }, []);
+
+  // image picker and then show bottom sheet
+  const pickImageAndShowBottomSheet = React.useCallback(async () => {
+    try {
+      const tempUri = await launchImagePicker();
+      if (!tempUri) return;
+      setTempImageUri(tempUri);
+      showBottomSheet();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [tempImageUri]);
+
+  const handleSendMessageWithImage2 = async (text: string) => {
+    try {
+      if (tempImageUri) {
+        const imageUrl = await uploadImageAsync(tempImageUri, true);
+        await sendTextWithImageMessage(imageUrl, text);
+        setTimeout(() => setTempImageUri(null), 500);
+        // close bottom sheet
+        bottomSheetRef.current?.close();
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Failed to send message text with image. Please try again.');
+    }
+  };
 
   /**
    * Load participant profiles
    */
   const loadParticipants = useCallback(async () => {
     if (!currentGroup) return;
-    
+
     setLoadingParticipants(true);
     try {
       const participantProfiles = await Promise.all(
@@ -71,7 +126,7 @@ export default function GroupChatScreen() {
           }
         })
       );
-      
+
       const validProfiles = participantProfiles.filter(Boolean) as UserProfile[];
       setParticipants(validProfiles);
     } catch (error) {
@@ -120,7 +175,7 @@ export default function GroupChatScreen() {
 
     const isOwnMessage = item.senderId === currentUserId;
     const senderName = getUsernameById(item.senderId);
-    
+
     return (
       <View style={[
         styles.messageContainer,
@@ -199,7 +254,7 @@ export default function GroupChatScreen() {
         >
           <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
         </TouchableOpacity>
-        
+
         <View style={styles.headerInfo}>
           <Text style={styles.groupName} numberOfLines={1}>
             {currentGroup?.name || 'Loading...'}
@@ -208,7 +263,7 @@ export default function GroupChatScreen() {
             {loadingParticipants ? 'Loading...' : `${participants.length} members`}
           </Text>
         </View>
-        
+
         <TouchableOpacity
           style={styles.settingsButton}
           onPress={() => navigation.navigate('GroupSettings', { groupId })}
@@ -253,9 +308,33 @@ export default function GroupChatScreen() {
       {/* Chat Input */}
       <ChatInput
         onSendMessage={handleSendMessage}
+        onPickImageAndShowBottomSheet={pickImageAndShowBottomSheet}
         sending={sending}
         placeholder={`Message ${currentGroup?.name || 'group'}...`}
       />
+      <BottomSheet
+        snapPoints={snapPoints}
+        index={-1}
+        backdropComponent={renderBackdrop}
+        ref={bottomSheetRef}
+        onChange={handleSheetChanges}
+      >
+        <BottomSheetView style={{
+          flex: 1,
+        }}>
+          {tempImageUri && (
+            <Image
+              source={{ uri: tempImageUri }}
+              style={{ flex: 1, alignItems: 'center' }}
+            />
+          )}
+          <ChatInputSheet
+            onSendMessageWithImage={handleSendMessageWithImage2}
+            sending={sending}
+            placeholder={`Message ${currentGroup?.name || 'group'}...`}
+          />
+        </BottomSheetView>
+      </BottomSheet>
     </Screen>
   );
 }
