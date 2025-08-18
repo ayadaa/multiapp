@@ -447,12 +447,12 @@ export function MessageBubble({ message, isCurrentUser, chatType = 'individual' 
         style={{
           backgroundColor: isCurrentUser
             ? 'rgba(0, 132, 255, 0.8)' // Blue for sent messages
-            : 'rgba(255, 255, 255, 0.15)', // Glass effect for received
+            : 'rgba(0, 0, 0, 0.06)', // Glass effect for received
           borderRadius: 18,
           paddingHorizontal: 16,
           paddingVertical: 10,
           borderWidth: isCurrentUser ? 0 : 1,
-          borderColor: isCurrentUser ? 'transparent' : 'rgba(255, 255, 255, 0.2)',
+          borderColor: isCurrentUser ? 'transparent' : 'rgba(0, 0, 0, 0.05)',
           // Shadow for depth
           shadowColor: '#000',
           shadowOffset: { width: 0, height: 2 },
@@ -490,7 +490,7 @@ export function MessageBubble({ message, isCurrentUser, chatType = 'individual' 
               />
               <Text
                 style={{
-                  color: isCurrentUser ? '#FFFFFF' : '#FFFFFF',
+                  color: isCurrentUser ? '#FFFFFF' : '#000000',
                   fontSize: 16,
                   lineHeight: 20,
                   // width: '15%',
@@ -516,7 +516,7 @@ export function MessageBubble({ message, isCurrentUser, chatType = 'individual' 
           message.text && (
             <Text
               style={{
-                color: isCurrentUser ? '#FFFFFF' : '#FFFFFF',
+                color: isCurrentUser ? '#FFFFFF' : '#000000',
                 fontSize: 16,
                 lineHeight: 20,
               }}
@@ -538,7 +538,7 @@ export function MessageBubble({ message, isCurrentUser, chatType = 'individual' 
             style={{
               color: isCurrentUser
                 ? 'rgba(255, 255, 255, 0.8)'
-                : 'rgba(255, 255, 255, 0.6)',
+                : 'rgba(0, 0, 0, 0.6)',
               fontSize: 12,
               marginTop: 2,
             }}

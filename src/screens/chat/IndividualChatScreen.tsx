@@ -182,9 +182,9 @@ export function IndividualChatScreen() {
         alignItems: 'center',
         paddingHorizontal: 20,
         paddingVertical: 16,
-        backgroundColor: 'rgba(0, 0, 0, 0.9)',
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
         borderBottomWidth: 1,
-        borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+        borderBottomColor: 'rgba(0, 0, 0, 0.1)',
       }}
     >
       <TouchableOpacity
@@ -193,13 +193,13 @@ export function IndividualChatScreen() {
           width: 40,
           height: 40,
           borderRadius: 20,
-          backgroundColor: 'rgba(255, 255, 255, 0.2)',
+          backgroundColor: 'rgba(0, 0, 0, 0.2)',
           alignItems: 'center',
           justifyContent: 'center',
           marginRight: 16,
         }}
       >
-        <Text style={{ color: '#FFFFFF', fontSize: 16 }}>←</Text>
+        <Text style={{ color: '#000000', fontSize: 16 }}>←</Text>
       </TouchableOpacity>
 
       <View
@@ -213,7 +213,7 @@ export function IndividualChatScreen() {
           marginRight: 12,
         }}
       >
-        <Text style={{ color: '#FFFFFF', fontSize: 16 }}>
+        <Text style={{ color: '#000000', fontSize: 16 }}>
           {otherUser?.username?.charAt(0).toUpperCase() || '?'}
         </Text>
       </View>
@@ -221,7 +221,7 @@ export function IndividualChatScreen() {
       <View style={{ flex: 1 }}>
         <Text
           style={{
-            color: '#FFFFFF',
+            color: '#000000',
             fontSize: 18,
             fontWeight: 'bold',
           }}
@@ -230,7 +230,7 @@ export function IndividualChatScreen() {
         </Text>
         <Text
           style={{
-            color: 'rgba(255, 255, 255, 0.6)',
+            color: 'rgba(0, 0, 0, 0.6)',
             fontSize: 14,
           }}
         >
@@ -269,7 +269,7 @@ export function IndividualChatScreen() {
     >
       <Text
         style={{
-          color: 'rgba(255, 255, 255, 0.6)',
+          color: 'rgba(0, 0, 0, 0.6)',
           fontSize: 16,
           textAlign: 'center',
           marginBottom: 8,
@@ -279,7 +279,7 @@ export function IndividualChatScreen() {
       </Text>
       <Text
         style={{
-          color: 'rgba(255, 255, 255, 0.6)',
+          color: 'rgba(0, 0, 0, 0.6)',
           fontSize: 16,
           textAlign: 'center',
           marginBottom: 4,
@@ -289,7 +289,7 @@ export function IndividualChatScreen() {
       </Text>
       <Text
         style={{
-          color: 'rgba(255, 255, 255, 0.4)',
+          color: 'rgba(0, 0, 0, 0.4)',
           fontSize: 14,
           textAlign: 'center',
         }}
@@ -301,7 +301,7 @@ export function IndividualChatScreen() {
 
   if (error) {
     return (
-      <Screen backgroundColor="#000000" statusBarStyle="light-content">
+      <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
         {renderHeader()}
         <View
           style={{
@@ -323,7 +323,7 @@ export function IndividualChatScreen() {
           </Text>
           <Text
             style={{
-              color: 'rgba(255, 255, 255, 0.6)',
+              color: 'rgba(0, 0, 0, 0.6)',
               fontSize: 14,
               textAlign: 'center',
             }}
@@ -353,8 +353,8 @@ export function IndividualChatScreen() {
 
   return (
     <>
-    {/* <View2 style={{ flex: 1, marginBottom: insets.bottom }}> */}
-      <Screen style={styles.container}>
+      {/* <View2 style={{ flex: 1, marginBottom: insets.bottom }}> */}
+      <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content" style={styles.container}>
         {renderHeader()}
         <View style={{ flex: 1 }}>
           {loading ? (
@@ -365,7 +365,7 @@ export function IndividualChatScreen() {
                 justifyContent: 'center',
               }}
             >
-              <Text style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: 16 }}>
+              <Text style={{ color: 'rgba(0, 0, 0, 0.6)', fontSize: 16 }}>
                 Loading messages...
               </Text>
             </View>
@@ -398,29 +398,29 @@ export function IndividualChatScreen() {
         {/* <Button onPress={showBottomSheet} title='ahow bottom seet' /> */}
 
         <BottomSheet
-        snapPoints={snapPoints}
-        index={-1}
-        backdropComponent={renderBackdrop}
-        ref={bottomSheetRef}
-        onChange={handleSheetChanges}
+          snapPoints={snapPoints}
+          index={-1}
+          backdropComponent={renderBackdrop}
+          ref={bottomSheetRef}
+          onChange={handleSheetChanges}
         // footerComponent={renderBottomSheetFooter}
-      >
-        <BottomSheetView style={{
-          flex: 1,
-        }}>
-          {tempImageUri && (
-            <Image
-              source={{ uri: tempImageUri }}
-              style={{ flex: 1, alignItems: 'center' }}
+        >
+          <BottomSheetView style={{
+            flex: 1,
+          }}>
+            {tempImageUri && (
+              <Image
+                source={{ uri: tempImageUri }}
+                style={{ flex: 1, alignItems: 'center' }}
+              />
+            )}
+            <ChatInputSheet
+              onSendMessageWithImage={handleSendMessageWithImage2}
+              sending={sending}
+              placeholder={`Message ${otherUser?.username || 'user'}...`}
             />
-          )}
-          <ChatInputSheet
-            onSendMessageWithImage={handleSendMessageWithImage2}
-            sending={sending}
-            placeholder={`Message ${otherUser?.username || 'user'}...`}
-          />
-        </BottomSheetView>
-      </BottomSheet>
+          </BottomSheetView>
+        </BottomSheet>
       </Screen>
 
       {/* <View style={styles.container}> */}
@@ -449,7 +449,7 @@ export function IndividualChatScreen() {
         </BottomSheetView>
       </BottomSheet> */}
       {/* </View> */}
-    {/* </View2> */}
+      {/* </View2> */}
     </>
   );
 }
@@ -459,7 +459,7 @@ export function IndividualChatScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: '#FFFFFF',
     // marginBottom: insets.bottom // for bottom sheet
   },
   header: {
@@ -468,7 +468,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+    borderBottomColor: 'rgba(0, 0, 0, 0.1)',
   },
   headerBackButton: {
     padding: 8,
@@ -480,7 +480,7 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: '#000000',
   },
   onlineState: {
     fontSize: 12,
