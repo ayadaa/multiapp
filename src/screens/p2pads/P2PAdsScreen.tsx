@@ -432,7 +432,7 @@ export function P2PAdsScreen() {
                             fontSize: 16,
                             fontWeight: 'bold',
                           }}>
-                            {ad.username}   {(Math.round(((ad.requests! - ad.approvedRequests!) / ad.requests!) * 100) / 100) * 100} %
+                            {ad.username}   {ad.requests && ad.approvedRequests && ((Math.round(((ad.requests - ad.approvedRequests) / ad.requests) * 100) / 100) * 100) && '%'}
                           </Text>
                           <Text style={{
                             color: 'rgba(0, 0, 0, 0.75)',
@@ -451,7 +451,7 @@ export function P2PAdsScreen() {
                             color: 'rgba(0, 0, 0, 0.7)',
                             fontSize: 14,
                           }} numberOfLines={1}>
-                            {ad.paymentMethod}  {ad.requests!}
+                            {ad.paymentMethod}  {ad.requests}
                           </Text>
                           <Text style={{
                             color: 'rgba(0, 0, 0, 0.7)',
