@@ -339,6 +339,7 @@ export async function getPendingFriendRequests(userId: string): Promise<Friendsh
     const requestsQuery = query(
       collection(db, 'friendships'),
       where('userIds', 'array-contains', userId),
+      where('requestedBy', '!=', userId), //ayad
       where('status', '==', 'pending')
     );
     

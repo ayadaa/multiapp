@@ -1,11 +1,11 @@
 import React, { useState, useCallback } from 'react';
-import { 
-  View, 
-  Text, 
-  TextInput, 
-  ScrollView, 
-  TouchableOpacity, 
-  StyleSheet, 
+import {
+  View,
+  Text,
+  TextInput,
+  ScrollView,
+  TouchableOpacity,
+  StyleSheet,
   Alert,
   RefreshControl,
   KeyboardAvoidingView,
@@ -27,7 +27,7 @@ import { getUserProfile } from '../../services/firebase/firestore.service';
 export function AddFriendsScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [requestingUsers, setRequestingUsers] = useState<Record<string, any>>({});
-  
+
   const {
     searchResults,
     pendingRequests,
@@ -49,13 +49,13 @@ export function AddFriendsScreen() {
    */
   const handleSearchChange = useCallback((text: string) => {
     setSearchQuery(text);
-    
+
     if (text.trim().length >= 2) {
       // Debounce search to avoid too many API calls
       const timeoutId = setTimeout(() => {
         searchUsers(text);
       }, 500);
-      
+
       return () => clearTimeout(timeoutId);
     } else if (text.trim().length === 0) {
       clearSearch();
@@ -103,7 +103,7 @@ export function AddFriendsScreen() {
   React.useEffect(() => {
     const loadRequestingUsers = async () => {
       const userProfiles: Record<string, any> = {};
-      
+
       for (const request of pendingRequests) {
         if (!requestingUsers[request.requestedBy]) {
           try {
@@ -116,7 +116,7 @@ export function AddFriendsScreen() {
           }
         }
       }
-      
+
       if (Object.keys(userProfiles).length > 0) {
         setRequestingUsers(prev => ({ ...prev, ...userProfiles }));
       }
@@ -138,8 +138,8 @@ export function AddFriendsScreen() {
   }, [clearSearch]);
 
   return (
-    <Screen backgroundColor="#000000" statusBarStyle="light-content">
-      <KeyboardAvoidingView 
+    <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
+      <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
@@ -152,11 +152,11 @@ export function AddFriendsScreen() {
         {/* Search Section */}
         <View style={styles.searchContainer}>
           <View style={styles.searchInputContainer}>
-            <Ionicons name="search" size={20} color="rgba(255, 255, 255, 0.6)" />
+            <Ionicons name="search" size={20} color="rgba(0, 0, 0, 0.6)" />
             <TextInput
               style={styles.searchInput}
               placeholder="Search username..."
-              placeholderTextColor="rgba(255, 255, 255, 0.5)"
+              placeholderTextColor="rgba(0, 0, 0, 0.5)"
               value={searchQuery}
               onChangeText={handleSearchChange}
               autoCapitalize="none"
@@ -169,7 +169,7 @@ export function AddFriendsScreen() {
                   clearSearch();
                 }}
               >
-                <Ionicons name="close-circle" size={20} color="rgba(255, 255, 255, 0.6)" />
+                <Ionicons name="close-circle" size={20} color="rgba(0, 0, 0, 0.6)" />
               </TouchableOpacity>
             )}
           </View>
@@ -182,7 +182,7 @@ export function AddFriendsScreen() {
             <RefreshControl
               refreshing={false}
               onRefresh={refreshRequests}
-              tintColor="white"
+              tintColor="black"
             />
           }
         >
@@ -195,19 +195,19 @@ export function AddFriendsScreen() {
                   <Text style={styles.loadingText}> (Searching...)</Text>
                 )}
               </Text>
-              
+
               {searchError && (
                 <View style={styles.errorContainer}>
                   <Text style={styles.errorText}>{searchError}</Text>
                 </View>
               )}
-              
+
               {searchResults.length === 0 && !isSearching && !searchError && (
                 <View style={styles.emptyContainer}>
                   <Text style={styles.emptyText}>No users found</Text>
                 </View>
               )}
-              
+
               {searchResults.map((user) => (
                 <UserCard
                   key={user.uid}
@@ -226,13 +226,13 @@ export function AddFriendsScreen() {
               <Text style={styles.sectionTitle}>
                 Friend Requests ({pendingRequests.length})
               </Text>
-              
+
               {requestsError && (
                 <View style={styles.errorContainer}>
                   <Text style={styles.errorText}>{requestsError}</Text>
                 </View>
               )}
-              
+
               {pendingRequests.map((request) => (
                 <FriendRequestCard
                   key={request.id}
@@ -249,7 +249,7 @@ export function AddFriendsScreen() {
           {/* Empty State */}
           {pendingRequests.length === 0 && searchQuery.length < 2 && (
             <View style={styles.emptyStateContainer}>
-              <Ionicons name="people" size={60} color="rgba(255, 255, 255, 0.3)" />
+              <Ionicons name="people" size={60} color="rgba(0, 0, 0, 0.3)" />
               <Text style={styles.emptyStateTitle}>Find Friends</Text>
               <Text style={styles.emptyStateText}>
                 Search for friends by their username to send friend requests
@@ -274,12 +274,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'black',
     marginBottom: 4,
   },
   subtitle: {
     fontSize: 16,
-    color: 'rgba(255, 255, 255, 0.7)',
+    color: 'rgba(0, 0, 0, 0.7)',
   },
   searchContainer: {
     paddingHorizontal: 20,
@@ -288,18 +288,20 @@ const styles = StyleSheet.create({
   searchInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
     borderRadius: 16,
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.2)',
+    borderColor: 'rgba(0, 0, 0, 0.2)',
   },
   searchInput: {
     flex: 1,
     marginLeft: 12,
     fontSize: 16,
-    color: 'white',
+    color: 'black',
+    borderWidth: 0, //ayad
+    outlineWidth: 0, //ayad
   },
   scrollView: {
     flex: 1,
@@ -310,12 +312,12 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: 'white',
+    color: 'black',
     marginBottom: 12,
     marginHorizontal: 20,
   },
   loadingText: {
-    color: 'rgba(255, 255, 255, 0.6)',
+    color: 'rgba(0, 0, 0, 0.6)',
     fontWeight: 'normal',
   },
   errorContainer: {
@@ -337,7 +339,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   emptyText: {
-    color: 'rgba(255, 255, 255, 0.6)',
+    color: 'rgba(0, 0, 0, 0.6)',
     fontSize: 16,
   },
   emptyStateContainer: {
@@ -350,13 +352,13 @@ const styles = StyleSheet.create({
   emptyStateTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'black',
     marginTop: 20,
     marginBottom: 8,
   },
   emptyStateText: {
     fontSize: 16,
-    color: 'rgba(255, 255, 255, 0.6)',
+    color: 'rgba(0, 0, 0, 0.6)',
     textAlign: 'center',
     lineHeight: 22,
   },

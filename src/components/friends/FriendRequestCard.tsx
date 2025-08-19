@@ -17,12 +17,12 @@ interface FriendRequestCardProps {
   onDecline: () => void;
 }
 
-export function FriendRequestCard({ 
-  request, 
-  requestingUser, 
+export function FriendRequestCard({
+  request,
+  requestingUser,
   isLoading = false,
   onAccept,
-  onDecline 
+  onDecline
 }: FriendRequestCardProps) {
 
   if (!requestingUser) {
@@ -61,7 +61,7 @@ export function FriendRequestCard({
             {requestingUser.username?.charAt(0).toUpperCase() || '?'}
           </Text>
         </View>
-        
+
         <View style={styles.userInfo}>
           <Text style={styles.username}>{requestingUser.username || 'Unknown User'}</Text>
           {requestingUser.displayName && (
@@ -80,10 +80,10 @@ export function FriendRequestCard({
           onPress={onAccept}
           disabled={isLoading}
         >
-          <Ionicons 
-            name={isLoading ? "hourglass" : "checkmark"} 
-            size={20} 
-            color="white" 
+          <Ionicons
+            name={isLoading ? "hourglass" : "checkmark"}
+            size={20}
+            color="black"
           />
         </TouchableOpacity>
 
@@ -92,10 +92,10 @@ export function FriendRequestCard({
           onPress={onDecline}
           disabled={isLoading}
         >
-          <Ionicons 
-            name={isLoading ? "hourglass" : "close"} 
-            size={20} 
-            color="white" 
+          <Ionicons
+            name={isLoading ? "hourglass" : "close"}
+            size={20}
+            color="black"
           />
         </TouchableOpacity>
       </View>
@@ -105,12 +105,12 @@ export function FriendRequestCard({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    backgroundColor: 'rgba(0, 0, 0, 0.08)',
     marginHorizontal: 16,
     marginVertical: 6,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.15)',
+    borderColor: 'rgba(0, 0, 0, 0.15)',
     padding: 16,
   },
   userSection: {
@@ -122,17 +122,17 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 12,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.3)',
+    borderColor: 'rgba(0, 0, 0, 0.3)',
   },
   avatarText: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'black',
   },
   userInfo: {
     flex: 1,
@@ -140,17 +140,17 @@ const styles = StyleSheet.create({
   username: {
     fontSize: 16,
     fontWeight: '600',
-    color: 'white',
+    color: 'black',
     marginBottom: 2,
   },
   displayName: {
     fontSize: 14,
-    color: 'rgba(255, 255, 255, 0.7)',
+    color: 'rgba(0, 0, 0, 0.7)',
     marginBottom: 2,
   },
   requestTime: {
     fontSize: 12,
-    color: 'rgba(255, 255, 255, 0.5)',
+    color: 'rgba(0, 0, 0, 0.5)',
     fontWeight: '500',
   },
   actionsContainer: {
@@ -174,15 +174,15 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255, 59, 48, 0.3)',
   },
   buttonDisabled: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    borderColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    borderColor: 'rgba(0, 0, 0, 0.1)',
   },
   loadingContainer: {
     padding: 20,
     alignItems: 'center',
   },
   loadingText: {
-    color: 'rgba(255, 255, 255, 0.7)',
+    color: 'rgba(0, 0, 0, 0.7)',
     fontSize: 14,
   },
 }); 
