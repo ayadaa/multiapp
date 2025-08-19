@@ -107,6 +107,7 @@ export default function P2PCreateRequestScreen() {
               alignItems: 'center',
               justifyContent: 'center',
               marginRight: 16,
+              overflow: "hidden",
             }}>
               {/* <Ionicons name="people" size={24} color="#FFFFFF" /> */}
               <Image
@@ -268,8 +269,9 @@ const styles = StyleSheet.create({
     fontFamily: 'mon',
   },
   image: {
-    height: 60,
-    width: 60,
-    borderRadius: '100%', // This will make it a circle
+    height: 50,
+    width: 50,
+    // borderRadius: "100%", // This will make it a circle
+    // overflow: "hidden",
   },
 });
