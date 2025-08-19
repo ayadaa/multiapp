@@ -130,7 +130,8 @@ export function P2PAdsScreen() {
                   }}>
                     {/* <Ionicons name="people" size={24} color="#FFFFFF" /> */}
                     <Image
-                      source={{ uri: ad.profilePicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
+                      source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
+                      // source={{ uri: ad.profilePicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
                       style={styles.image}
                       resizeMode="cover"
                     />
@@ -148,7 +149,8 @@ export function P2PAdsScreen() {
                         fontSize: 16,
                         fontWeight: 'bold',
                       }}>
-                        {ad.username}
+                        username
+                        {/* {ad.username} */}
                         {/* {ad.username}   {((ad.requests && ad.approvedRequests) && (ad.requests > 0))? ((Math.round(((ad.requests! - ad.approvedRequests!) / ad.requests!) * 100) / 100) * 100): 'NaN'} % */}
                         {/* {ad.username}   {ad.requests && ad.approvedRequests && ((Math.round(((ad.requests - ad.approvedRequests) / ad.requests) * 100) / 100) * 100) && '%'} */}
                       </Text>
@@ -156,7 +158,8 @@ export function P2PAdsScreen() {
                         color: 'rgba(0, 0, 0, 0.75)',
                         fontSize: 12,
                       }}>
-                        {ad.price} IQD
+                        price
+                        {/* {ad.price} IQD */}
                       </Text>
                     </View>
 
@@ -170,13 +173,15 @@ export function P2PAdsScreen() {
                         fontSize: 14,
                         flex: 1,
                       }}>
-                        {ad.paymentMethod}  {ad.requests}
+                        paymentMethod  requests
+                        {/* {ad.paymentMethod}  {ad.requests} */}
                       </Text>
                       <Text style={{
                         color: 'rgba(0, 0, 0, 0.7)',
                         fontSize: 14,
                       }}>
-                        {ad.amount} 💎
+                        amount
+                        {/* {ad.amount} 💎 */}
                       </Text>
                     </View>
                   </View>
