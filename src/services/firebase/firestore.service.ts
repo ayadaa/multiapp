@@ -160,13 +160,14 @@ export interface GroupMessage {
   groupId: string;
   senderId: string;
   text?: string;
+  imageUrl?: string;
   snapId?: string;
   timestamp: Timestamp;
   readBy: Array<{
     userId: string;
     readAt: Timestamp;
   }>;
-  type: 'text' | 'snap' | 'system';
+  type: 'text'| 'textWithImage' | 'snap' | 'system';
   systemMessageType?: 'member_added' | 'member_left' | 'name_changed' | 'admin_added';
   metadata?: {
     addedMembers?: string[];

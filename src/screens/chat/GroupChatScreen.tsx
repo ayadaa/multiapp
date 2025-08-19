@@ -98,6 +98,7 @@ export default function GroupChatScreen() {
     try {
       if (tempImageUri) {
         const imageUrl = await uploadImageAsync(tempImageUri, true);
+        console.log('image Url', imageUrl)
         await sendTextWithImageMessage(imageUrl, text);
         setTimeout(() => setTempImageUri(null), 500);
         // close bottom sheet
@@ -188,10 +189,11 @@ export default function GroupChatScreen() {
           message={{
             id: item.id,
             text: item.text || '',
+            imageUrl: item.imageUrl,
             snapId: item.snapId,
             senderId: item.senderId,
             timestamp: item.timestamp,
-            type: item.type === 'snap' ? 'snap' : 'text',
+            type: item.type === 'text' ? 'text' : item.type === 'textWithImage' ? 'textWithImage' : 'snap',
             status: 'sent',
           }}
           isCurrentUser={isOwnMessage}
@@ -245,14 +247,14 @@ export default function GroupChatScreen() {
   }
 
   return (
-    <Screen style={styles.container}>
-      Header
+    <Screen backgroundColor='#FFFFFF' style={styles.container}>
+      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.headerBackButton}
           onPress={() => navigation.goBack()}
         >
-          <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
+          <Ionicons name="arrow-back" size={24} color="#000000" />
         </TouchableOpacity>
 
         <View style={styles.headerInfo}>
@@ -268,7 +270,7 @@ export default function GroupChatScreen() {
           style={styles.settingsButton}
           onPress={() => navigation.navigate('GroupSettings', { groupId })}
         >
-          <Ionicons name="settings" size={24} color="#FFFFFF" />
+          <Ionicons name="settings" size={24} color="#000000" />
         </TouchableOpacity>
       </View>
 
@@ -342,7 +344,7 @@ export default function GroupChatScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: '#FFFFFF',
   },
   header: {
     flexDirection: 'row',
@@ -350,8 +352,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
-    backgroundColor: '#000000',
+    borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#FFFFFF',
   },
   headerBackButton: {
     padding: 8,
@@ -363,7 +365,7 @@ const styles = StyleSheet.create({
   groupName: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: '#000000',
   },
   participantCount: {
     fontSize: 12,
@@ -412,7 +414,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#AAAAAA',
     textAlign: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 12,
@@ -448,7 +450,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   backButtonText: {
-    color: '#FFFFFF',
+    color: '#000000',
     fontSize: 16,
     fontWeight: '600',
   },
@@ -461,7 +463,7 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: '#000000',
     marginBottom: 8,
   },
   emptySubtext: {
