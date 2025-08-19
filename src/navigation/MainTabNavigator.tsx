@@ -4,7 +4,7 @@ import { Text, Platform } from 'react-native';
 import { ChatScreen } from '../screens/chat/ChatScreen';
 import { CameraStackNavigator } from './CameraStackNavigator';
 import { AdsScreen } from '../screens/ads/AdsScreen';
-import { P2PAdsScreen } from '../screens/p2pads/P2PAdsScreen3';
+import { P2PAdsScreen } from '../screens/p2pads/P2PAdsScreen';
 // import CreateAdScreen from '../screens/ads/CreateAdScreen';
 // import { MathStackNavigator } from './MathStackNavigator';
 // import { AdsStackNavigator } from './AdsStackNavigator';

@@ -232,6 +232,7 @@ export default function P2PRequestCard({ ad, handleRefresh, showBottomSheet }: P
                         alignItems: 'center',
                         justifyContent: 'center',
                         marginRight: 16,
+                        overflow: "hidden",
                     }}>
                         <Image
                             source={{ uri: ad.profilePicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
