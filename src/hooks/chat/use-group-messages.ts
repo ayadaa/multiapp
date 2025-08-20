@@ -45,8 +45,7 @@ export function useGroupMessages(groupId: string, currentUserId: string) {
      * Send an image with text message to the chat
      */
     const sendTextWithImageMessage = useCallback(async (imageUrl: string, text: string): Promise<void> => {
-      if (!!currentUserId || !groupId || !imageUrl.trim()) return; //ayad
-
+      if (!currentUserId || !groupId || !imageUrl.trim()) return; //ayad
       try {
         setSending(true);
         setError(null);

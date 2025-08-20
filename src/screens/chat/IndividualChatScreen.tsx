@@ -152,7 +152,7 @@ export function IndividualChatScreen() {
     }
   };
 
-  //ayad
+  // send p2p request message
   useEffect(() => {
     if (message && !imageUrl && !messageSent) {
       handleSendMessage(message);
@@ -160,6 +160,7 @@ export function IndividualChatScreen() {
     }
   }, [message])
 
+  // send p2p request complete message
   useEffect(() => {
     if (message && imageUrl && !messageSent) {
       handleSendMessageWithImage(imageUrl, message);

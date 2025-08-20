@@ -42,18 +42,18 @@ export function ChatInput({
         paddingHorizontal: 16,
         paddingVertical: 12,
         paddingBottom: Platform.OS === 'ios' ? 34 : 12, // Account for home indicator
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
         borderTopWidth: 1,
-        borderTopColor: 'rgba(255, 255, 255, 0.1)',
+        borderTopColor: 'rgba(0, 0, 0, 0.1)',
       }}
     >
       <View
         style={{
           flex: 1,
-          backgroundColor: 'rgba(255, 255, 255, 0.15)',
+          backgroundColor: 'rgba(0, 0, 0, 0.15)',
           borderRadius: 20,
           borderWidth: 1,
-          borderColor: 'rgba(255, 255, 255, 0.2)',
+          borderColor: 'rgba(0, 0, 0, 0.2)',
           paddingHorizontal: 16,
           paddingVertical: 10,
           marginRight: 8,
@@ -65,9 +65,11 @@ export function ChatInput({
           value={text}
           onChangeText={setText}
           placeholder={placeholder}
-          placeholderTextColor="rgba(255, 255, 255, 0.5)"
+          placeholderTextColor="rgba(0, 0, 0, 0.5)"
           style={{
-            color: '#FFFFFF',
+            color: '#000000',
+            borderWidth: 0, //ayad
+            outlineWidth: 0, //ayad
             fontSize: 16,
             lineHeight: 20,
             textAlignVertical: 'center',
@@ -89,21 +91,21 @@ export function ChatInput({
           borderRadius: 20,
           backgroundColor: text.trim() && !sending
             ? 'rgba(0, 132, 255, 0.8)'
-            : 'rgba(255, 255, 255, 0.2)',
+            : 'rgba(0, 0, 0, 0.2)',
           alignItems: 'center',
           justifyContent: 'center',
           borderWidth: 1,
           borderColor: text.trim() && !sending
             ? 'rgba(0, 132, 255, 0.4)'
-            : 'rgba(255, 255, 255, 0.1)',
+            : 'rgba(0, 0, 0, 0.1)',
         }}
       >
         {sending ? (
-          <Text style={{ color: '#FFFFFF', fontSize: 16 }}>⏳</Text>
+          <Text style={{ color: '#000000', fontSize: 16 }}>⏳</Text>
         ) : (
           <Text
             style={{
-              color: text.trim() ? '#FFFFFF' : 'rgba(255, 255, 255, 0.5)',
+              color: text.trim() ? '#000000' : 'rgba(0, 0, 0, 0.5)',
               fontSize: 16,
               transform: [{ rotate: '-45deg' }],
             }}
@@ -120,16 +122,16 @@ export function ChatInput({
           width: 40,
           height: 40,
           borderRadius: 20,
-          backgroundColor: 'rgba(255, 255, 255, 0.2)',
+          backgroundColor: 'rgba(0, 0, 0, 0.2)',
           alignItems: 'center',
           justifyContent: 'center',
           borderWidth: 1,
-          borderColor: 'rgba(255, 255, 255, 0.1)',
+          borderColor: 'rgba(0, 0, 0, 0.1)',
         }}
       >
         <Text
           style={{
-            color: text.trim() ? '#FFFFFF' : 'rgba(255, 255, 255, 0.5)',
+            color: text.trim() ? '#000000' : 'rgba(0, 0, 0, 0.5)',
             fontSize: 16,
           }}
         >

@@ -160,13 +160,14 @@ export interface GroupMessage {
   groupId: string;
   senderId: string;
   text?: string;
+  imageUrl?: string;
   snapId?: string;
   timestamp: Timestamp;
   readBy: Array<{
     userId: string;
     readAt: Timestamp;
   }>;
-  type: 'text' | 'snap' | 'system';
+  type: 'text'| 'textWithImage' | 'snap' | 'system';
   systemMessageType?: 'member_added' | 'member_left' | 'name_changed' | 'admin_added';
   metadata?: {
     addedMembers?: string[];
@@ -338,6 +339,7 @@ export async function getPendingFriendRequests(userId: string): Promise<Friendsh
     const requestsQuery = query(
       collection(db, 'friendships'),
       where('userIds', 'array-contains', userId),
+      where('requestedBy', '!=', userId), //ayad
       where('status', '==', 'pending')
     );
     
