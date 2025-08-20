@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { use } from 'react';
 import {
   View,
   Text,
@@ -25,6 +25,9 @@ import { Button } from '../../components/common/Button';
 import { RedButton } from '../../components/common/RedButton';
 import P2PRequestCard from '../../components/cards/P2PRequestCard'
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop, BottomSheetFooter } from "@gorhom/bottom-sheet";
+import { launchImagePicker, uploadImageAsync } from "../../screens/ads/imagePickerHelper";
+import { useChats } from '../../hooks/chat/use-chats';
+import { useUser } from '../../hooks/user/use-user';
 
 interface P2PAdsSection {
   title: string;
@@ -55,6 +58,12 @@ export function P2PAdsScreen() {
   const bottomSheetRef = React.useRef<BottomSheet>(null);
   const snapPoints = React.useMemo(() => ["25%", "50%", "75%"], []);
   const [p2pRequest, setP2PRequest] = React.useState<(P2PRequest & UserProfile) | null>(null);
+
+  const [complete, setComplete] = React.useState<boolean>(false);
+  const [tempImageUri, setTempImageUri] = React.useState<string | null>(null);
+  const [isCompleting, setIsCompleting] = React.useState(false);
+  const { User } = useUser(user?.uid!);
+  const User2 = useUser(p2pRequest?.p2pCreatedBy!);
 
   const showBottomSheet = React.useCallback((adRequest: P2PRequest & UserProfile) => {
     setP2PRequest(adRequest);
@@ -94,6 +103,107 @@ export function P2PAdsScreen() {
   // handle p2p ad pree
   const handleAdPress = (p2pAdWithUser: P2PAd & UserProfile) => {
     navigation.navigate('P2PCreateRequest', p2pAdWithUser);
+  }
+
+  // image picker
+  const pickImage = React.useCallback(async () => {
+    try {
+      const tempUri = await launchImagePicker();
+      if (!tempUri) return;
+
+      setTempImageUri(tempUri);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [tempImageUri]);
+
+  const uploadImageAndSendMessage = React.useCallback(async (ad: P2PRequest & UserProfile) => {
+    // setIsLoading(true);
+
+    try {
+      if (tempImageUri) {
+        const uploadUrl = await uploadImageAsync(tempImageUri, true);
+        // setIsLoading(false);
+        handleComplete(user?.uid!, ad, uploadUrl);
+        handleRefresh(user?.uid!);
+        setTimeout(() => setTempImageUri(null), 500);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [tempImageUri, user, navigation]);
+
+  // complete request
+  const handleComplete = async (uid: string, ad: P2PRequest & UserProfile, p2pPicture: string) => {
+    try {
+      setIsCompleting(true);
+      const result = await completeP2PRequest(uid, ad.id, p2pPicture);
+      if (result.success) {
+        //navigate to an chat
+        sendMessage(p2pPicture, ad);
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsCompleting(false);
+    }
+  };
+
+  // chat navigation
+  const { createChat } = useChats(user?.uid!);
+  const sendMessage = async (imageUrl: string, ad: P2PRequest & UserProfile) => {
+    try {
+      const chatId = await createChat(ad.p2pCreatedBy);
+      const message = `Hello, I have been complete send for you an assets.`
+
+      if (User) {
+        (navigation as any).navigate('IndividualChat', {
+          chatId,
+          otherUser: User2.User,
+          imageUrl: imageUrl,
+          message: message, //ayad
+        });
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Failed to start chat. Please try again.');
+      console.error('Error creating chat:', error);
+    }
+  }
+
+  // cancel request
+  const handleCancelP2PRequest = async (uid: string, p2pRequestId: string) => {
+    const result = await cancelP2PRequest(uid, p2pRequestId);
+    if (result.success) {
+      console.log('Request canceled successfully');
+      // refreshP2PAdsWithUsers();
+      // refreshP2PRequestsWithUsers();
+      handleRefresh(uid);
+      bottomSheetRef.current?.close();
+    }
+  }
+
+  // approve request
+  const handleApproveP2PRequest = async (uid: string, p2pRequestId: string) => {
+    const result = await approveP2PRequest(uid, p2pRequestId);
+    if (result.success) {
+      console.log('Request approved successfully');
+      // refreshP2PAdsWithUsers();
+      // refreshP2PRequestsWithUsers();
+      handleRefresh(uid);
+      bottomSheetRef.current?.close();
+    }
+  }
+
+  // approve request
+  const handleRejectP2PRequest = async (uid: string, p2pRequestId: string) => {
+    const result = await rejectP2PRequest(uid, p2pRequestId);
+    if (result.success) {
+      console.log('Request rejected successfully');
+      // refreshP2PAdsWithUsers();
+      // refreshP2PRequestsWithUsers();
+      handleRefresh(uid);
+      bottomSheetRef.current?.close();
+    }
   }
 
   // Prepare sections data
@@ -355,7 +465,97 @@ export function P2PAdsScreen() {
         <BottomSheetView style={{
           flex: 1,
         }}>
-          <Text>{p2pRequest?.username || 'Unknown User'}</Text>
+          {/* <Text>{p2pRequest?.username || 'Unknown User'}</Text> */}
+          {!complete && <View>
+            {(user?.uid === p2pRequest?.createdBy) && <TouchableOpacity style={styles.menuItem}
+              onPress={() => setComplete(true)}
+            >
+              <View style={styles.menuItemLeft}>
+                <Ionicons name="shield-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
+                <Text style={styles.menuItemText}>Complete</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
+            </TouchableOpacity>}
+            {(user?.uid === p2pRequest?.createdBy) && <TouchableOpacity style={styles.menuItem}
+              onPress={() => handleCancelP2PRequest(user?.uid!, p2pRequest?.id!)}
+            >
+              <View style={styles.menuItemLeft}>
+                <Ionicons name="shield-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
+                <Text style={styles.menuItemText}>Cancel request</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
+            </TouchableOpacity>}
+            {(user?.uid === p2pRequest?.p2pCreatedBy) && <TouchableOpacity style={styles.menuItem}
+              onPress={() => handleApproveP2PRequest(user?.uid!, p2pRequest?.id!)}
+            >
+              <View style={styles.menuItemLeft}>
+                <Ionicons name="shield-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
+                <Text style={styles.menuItemText}>Approve</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
+            </TouchableOpacity>}
+            {(user?.uid === p2pRequest?.p2pCreatedBy) && <TouchableOpacity style={styles.menuItem}
+              onPress={() => handleRejectP2PRequest(user?.uid!, p2pRequest?.id!)}
+            >
+              <View style={styles.menuItemLeft}>
+                <Ionicons name="shield-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
+                <Text style={styles.menuItemText}>Reject</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
+            </TouchableOpacity>}
+          </View>}
+          {complete && <View style={{
+            flex: 1,
+            paddingHorizontal: 20,
+            paddingVertical: 16,
+            borderBottomWidth: 1,
+            borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+          }}>
+            <View style={{
+              alignItems: 'center',
+              marginBottom: 4,
+            }}>
+              {tempImageUri && (
+                <Image
+                  source={{ uri: tempImageUri }}
+                  style={{ width: 300, height: 300, maxWidth: 3000, maxHeight: 3000, alignItems: 'center' }}
+                />
+              )}
+            </View>
+            <View style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+              {(tempImageUri === null) && <Button
+                title="pick an Image"
+                onPress={() => pickImage()}
+                loading={false}
+                disabled={false}
+                size='small'
+              />}
+              {(tempImageUri != null) && <Button
+                title={isCompleting ? 'Completing...' : 'complete request'}
+                onPress={ async () => {
+                  await uploadImageAndSendMessage(p2pRequest!);
+                  bottomSheetRef.current?.close();
+                }}
+                loading={false}
+                disabled={tempImageUri === null}
+                size='small'
+              />}
+              <RedButton
+                title="cancel"
+                onPress={() => {
+                  setComplete(false);
+                  setTempImageUri(null);
+                }}
+                loading={false}
+                disabled={false}
+                size='small'
+              />
+            </View>
+          </View>}
         </BottomSheetView>
       </BottomSheet>
     </Screen>
@@ -433,5 +633,24 @@ export const styles = StyleSheet.create({
     width: 50,
     // borderRadius: '100%', // This will make it a circle
     // overflow: "hidden",
+  },
+  menuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    borderRadius: 12,
+    marginBottom: 8,
+  },
+  menuItemLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  menuItemText: {
+    color: 'rgba(0, 0, 0, 0.8)',
+    fontSize: 16,
+    marginLeft: 12,
   },
 }); 

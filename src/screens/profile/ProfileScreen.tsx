@@ -92,11 +92,7 @@ export function ProfileScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.menuItem}>
-              <View style={styles.menuItemLeft}>
-                <Ionicons name="shield-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
-                <Text style={styles.menuItemText}>Privacy</Text>
-              </View>
-              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
+              
             </TouchableOpacity>
           </View>
 

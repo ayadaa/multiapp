@@ -253,7 +253,7 @@ export default function P2PRequestCard({ ad, handleRefresh, showBottomSheet }: P
                                 fontSize: 16,
                                 fontWeight: 'bold',
                             }}>
-                                {ad.username}
+                                {user?.uid! === ad.createdBy ? 'You' : ad.username}
                             </Text>
                             <Text style={{
                                 color: 'rgba(0, 0, 0, 0.75)',
