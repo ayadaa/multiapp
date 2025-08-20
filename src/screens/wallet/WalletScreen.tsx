@@ -17,7 +17,7 @@ import {
   RefreshControl
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { useAppSelector } from '../../store/hooks';
 import { clearUser } from '../../store/slices/auth.slice';
 import { Screen } from '../../components/common/Screen';
 import Assets from "../../constants/Assets"
@@ -27,6 +27,8 @@ import { Timestamp } from 'firebase/firestore';
 import { ref } from 'firebase/storage';
 // import { Timestamp } from "firebase-admin/firestore";
 import { useNavigation } from '@react-navigation/native';
+import MiningOffersBottomSheet from '../../components/bottomSheet/MiningOffersBottomSheet'
+import BottomSheet from "@gorhom/bottom-sheet";
 
 const FullWidth = Dimensions.get("screen").width;
 const CardWidth_0 = Math.min(FullWidth, 300) - 20 * 2;
@@ -35,13 +37,19 @@ const CardHeight = CardWidth_0 / 1.8
 
 export function WalletScreen() {
   const navigation = useNavigation<any>();
-  const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
   const { User, isLoadingUser, userError, refreshUser } = useUser(user?.uid || '');
   const { collect } = useWallet();
   // const [time, setTime] = useState<number>(1 * 24 * 60 * 60 * 1000);
   const [time, setTime] = useState<number>(0);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
+
+  const bottomSheetRef = React.useRef<BottomSheet>(null);
+  const snapPoints = React.useMemo(() => ["25%", "50%", "75%"], []);
+
+  const showBottomSheet = React.useCallback(() => {
+    bottomSheetRef.current?.expand();
+  }, []);
 
   // const [minEndTime, setMinEndTime] = useState<number>(User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis());
   // const date = new Date().getTime();
@@ -197,9 +205,9 @@ export function WalletScreen() {
               <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
             </TouchableOpacity>
 
-            <TouchableOpacity 
-            style={styles.menuItem}
-            onPress={}
+            <TouchableOpacity
+              style={styles.menuItem}
+              onPress={showBottomSheet}
             >
               <View style={styles.menuItemLeft}>
                 <Ionicons name="help-circle-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
@@ -224,6 +232,7 @@ export function WalletScreen() {
         </ScrollView>
 
       </View>
+      <MiningOffersBottomSheet bottomSheetRef={bottomSheetRef} snapPoints={snapPoints} />
     </Screen>
   );
 }

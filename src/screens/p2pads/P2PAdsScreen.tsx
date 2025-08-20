@@ -24,7 +24,7 @@ import { useAppSelector } from '../../store/hooks';
 import { Button } from '../../components/common/Button';
 import { RedButton } from '../../components/common/RedButton';
 import P2PRequestCard from '../../components/cards/P2PRequestCard'
-import BottomSheet, { BottomSheetView, BottomSheetBackdrop, BottomSheetFooter } from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 import { launchImagePicker, uploadImageAsync } from "../../screens/ads/imagePickerHelper";
 import { useChats } from '../../hooks/chat/use-chats';
 import { useUser } from '../../hooks/user/use-user';
@@ -55,6 +55,7 @@ export function P2PAdsScreen() {
   } = useP2PAds();
   const loading = isLoadingP2PAdsWithUsers || isLoadingP2PRequestsWithUsers;
   const error = p2pAdsWithUsersError || p2pRequestsWithUsersError;
+
   const bottomSheetRef = React.useRef<BottomSheet>(null);
   const snapPoints = React.useMemo(() => ["25%", "50%", "75%"], []);
   const [p2pRequest, setP2PRequest] = React.useState<(P2PRequest & UserProfile) | null>(null);
@@ -536,7 +537,7 @@ export function P2PAdsScreen() {
               />}
               {(tempImageUri != null) && <Button
                 title={isCompleting ? 'Completing...' : 'complete request'}
-                onPress={ async () => {
+                onPress={async () => {
                   await uploadImageAndSendMessage(p2pRequest!);
                   bottomSheetRef.current?.close();
                 }}

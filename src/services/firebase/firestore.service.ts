@@ -1618,27 +1618,7 @@ export async function getSentChallengeSnaps(userId: string): Promise<ChallengeSn
 /**
  * Create a new ad
  */
-// id: string;
-// title: string;
-// description?: string;
-// createdBy: string;
-// createdAt: Timestamp;
-// typeName: "sale" | "buy";
-// className: string;
-// country: string;
-// city: string;
 export async function createAd(
-  // AdData: {
-  //   title: string;
-  //   description: string;
-  // profilePicture?: string;
-  //   createdBy: string;
-  //   // typeName: "sale" | "buy";
-  //   typeName: string,
-  //   className: string;
-  //   country: string;
-  //   city: string;
-  // }
   AdData: Ad
 ): Promise<string> {
   try {

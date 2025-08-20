@@ -11,10 +11,10 @@ admin.initializeApp();
 const db = admin.firestore();
 
 const miningSpeedOffers = {
-    slow: {cost: 500, speed: 50},
-    medium: {cost: 5000, speed: 600},
-    fast: {cost: 20000, speed: 2500},
-    veryFast: {cost: 50000, speed: 6500},
+    slow: {price: 500, speed: 50},
+    medium: {price: 5000, speed: 600},
+    fast: {price: 20000, speed: 2500},
+    veryFast: {price: 50000, speed: 6500},
 }
 
 const P2PPaymentMethods = {
@@ -25,110 +25,6 @@ const P2PPaymentMethods = {
     firstIraqiBank: 'firstIraqiBank',
     fastPay: 'fastPay',
 }
-
-// export const helloworld = v2.https.onRequest((request, response) => {
-//     const name = request.params[0].replace('/', '');
-//     const items: Indexable = { lamp: 'This is a lamp', chair: 'This is a chair' };
-//     const message = items[name];
-//     response.send(`<h1>${message}</h1>`);
-// });
-
-// export const getUsername = v2.https.onRequest(async (request, response) => {
-//     try {
-//         const uId = request.params[0].replace('/', '');
-//         const docRef = db.collection('users').doc(`${uId}`);
-//         const doc = await docRef.get();
-        
-//         if (doc.exists) {
-//             const userName = doc.data()?.username;
-//             response.status(200).send(userName);
-//         } else {
-//             response.status(404).send('Document not found!');
-//         }
-//     } catch (error) {
-//         response.status(500).send('Error retrieving data');
-//     }
-// });
-
-// export const collection = v2.https.onRequest(async (request, response) => {
-//     try {
-//         const uId = request.params[0].replace('/', '');
-//         const docRef = db.collection('users').doc(`${uId}`);
-
-//         const docTransactionsRef = db.collection('transactions');
-//         const doc = await docRef.get();
-
-//         const referralPercentage = 0.03 // 3%
-//         const referral = doc.data()?.referral
-//         const docReferralRef = db.collection('users').doc(`${referral}`);
-//         const docReferral = await docReferralRef.get();
-        
-//         if (doc.exists) {
-//             const date = new Date()
-//             // const miningEndTime = (doc.data()?.miningEndTime as Timestamp).toDate() || date;
-//             const miningEndTime = (doc.data()?.miningEndTime || Timestamp.fromDate(date)).toDate() as Date;
-//             console.log('miningEndTime', miningEndTime);
-//             const condition = date.getTime() >= miningEndTime.getTime(); 
-//             if (condition) {
-//                 // get balance and mining speed
-//                 const balance = doc.data()?.balance || 0;
-//                 console.log('balance', balance);
-//                 const miningFreeSpeed = 10; // mining free speed
-//                 const miningSpeed = doc.data()?.miningSpeed || miningFreeSpeed;
-//                 console.log('miningSpeed', miningSpeed);
-//                 const newBalance = balance + miningSpeed;
-//                 // time details
-//                 const newMiningStartTime = Timestamp.now();
-//                 const newMiningEndTime = Timestamp.fromMillis(date.getTime() + 24 * 60 * 60 * 1000);
-//                 //update balance and time
-//                 docRef.update({
-//                     miningStartTime: newMiningStartTime,
-//                     miningEndTime: newMiningEndTime,
-//                     balance: newBalance
-//                 });
-//                 //add mining program transaction
-//                 docTransactionsRef.add({
-//                 sender: 'miningProgram',
-//                 receiver: uId,
-//                 amount: miningSpeed,
-//                 createdAt: Timestamp.now(),
-//                 });
-
-//                 //referral program
-//                 if (!referral) {
-//                     // return response
-//                     response.status(200).send(`${newBalance}`);
-//                     return;
-//                 }
-//                 // get referral balance
-//                 const referralBalance = docReferral.data()?.balance || 0;
-//                 const newReferralBalance = referralBalance + (referralPercentage * miningSpeed);
-//                 //update referral balance
-//                 docReferralRef.update({
-//                     balance: newReferralBalance
-//                 });
-//                 //add referral program transaction
-//                 docTransactionsRef.add({
-//                     sender: 'referralProgram',
-//                     senderId: uId,
-//                     receiver: referral,
-//                     amount: miningSpeed * referralPercentage,
-//                     createdAt: Timestamp.now(),
-//                 });
-//                 // return response
-//                 response.status(200).send(`${newBalance}`);
-//                 return
-//             } else {
-//                 response.status(200).send(`${doc.data()?.balance}`);
-//             }
-//         } else {
-//             response.status(404).send('Document not found!');
-//         }
-//     } catch (error) {
-//         console.log(error);
-//         response.status(500).send('Error retrieving data');
-//     }
-// });
 
 export const collectionCall = functions.https.onCall(async (data: {uId: string}, context: any) => {
     try {
@@ -273,7 +169,7 @@ export const updateMiningSpeedCall = functions.https.onCall(async (data: {uid: s
         const doc = await docRef.get();
         const balance = doc.data()?.balance || 0;
         const miningSpeedOffer = miningSpeedOffers[data.offer as 'slow' || 'fast' || 'medium' || 'veryFast'];
-        const cost = miningSpeedOffer.cost;
+        const price = miningSpeedOffer.price;
         
         //receiver
         const receiverId = '4pHLmWkpasdZzunuZHrmhFHlsPJ3' // admin id
@@ -282,10 +178,10 @@ export const updateMiningSpeedCall = functions.https.onCall(async (data: {uid: s
 
         const docTransactionsRef = db.collection('transactions');
 
-        if (doc.exists && docReceiver.exists && balance >= cost) {
+        if (doc.exists && docReceiver.exists && balance >= price) {
             const receiverBalance = docReceiver.data()?.balance || 0;
-            const newBalance = balance - cost;
-            const newReceiverBalance = receiverBalance + cost;
+            const newBalance = balance - price;
+            const newReceiverBalance = receiverBalance + price;
             const speed = miningSpeedOffer.speed;
             const newMiningSpeed = (docReceiver.data()?.miningSpeed) - (-speed);
             //update sender balance and mining speed
@@ -301,7 +197,7 @@ export const updateMiningSpeedCall = functions.https.onCall(async (data: {uid: s
             docTransactionsRef.add({
                 sender: uId,
                 receiver: receiverId,
-                amount: cost,
+                amount: price,
                 createdAt: Timestamp.now(),
             });
             return 'The offer has been successfully purchased!';
