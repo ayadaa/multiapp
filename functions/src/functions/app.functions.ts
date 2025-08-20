@@ -9,11 +9,12 @@ import { Timestamp } from "firebase-admin/firestore";
 admin.initializeApp();
 
 const db = admin.firestore();
+
 const miningSpeedOffers = {
-    slow: {cost: 100, speed: 10},
-    medium: {cost: 500, speed: 50},
-    fast: {cost: 5000, speed: 500},
-    veryFast: {cost: 50000, speed: 5000},
+    slow: {cost: 500, speed: 50},
+    medium: {cost: 5000, speed: 600},
+    fast: {cost: 20000, speed: 2500},
+    veryFast: {cost: 50000, speed: 6500},
 }
 
 const P2PPaymentMethods = {
@@ -271,7 +272,7 @@ export const updateMiningSpeedCall = functions.https.onCall(async (data: {uid: s
         const docRef = db.collection('users').doc(`${uId}`);
         const doc = await docRef.get();
         const balance = doc.data()?.balance || 0;
-        const miningSpeedOffer = miningSpeedOffers[data.offer as 'fast' || 'medium' || 'slow'];
+        const miningSpeedOffer = miningSpeedOffers[data.offer as 'slow' || 'fast' || 'medium' || 'veryFast'];
         const cost = miningSpeedOffer.cost;
         
         //receiver
@@ -286,8 +287,8 @@ export const updateMiningSpeedCall = functions.https.onCall(async (data: {uid: s
             const newBalance = balance - cost;
             const newReceiverBalance = receiverBalance + cost;
             const speed = miningSpeedOffer.speed;
-            const newMiningSpeed = (docReceiver.data()?.miningSpeed || 10) + speed;
-            //update sender balance
+            const newMiningSpeed = (docReceiver.data()?.miningSpeed) - (-speed);
+            //update sender balance and mining speed
             docRef.update({
                 balance: newBalance,
                 miningSpeed: newMiningSpeed

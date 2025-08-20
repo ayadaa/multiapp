@@ -197,10 +197,13 @@ export function WalletScreen() {
               <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.menuItem}>
+            <TouchableOpacity 
+            style={styles.menuItem}
+            onPress={}
+            >
               <View style={styles.menuItemLeft}>
                 <Ionicons name="help-circle-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
-                <Text style={styles.menuItemText}>Help & Support</Text>
+                <Text style={styles.menuItemText}>Update mining speed</Text>
               </View>
               <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
             </TouchableOpacity>

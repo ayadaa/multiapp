@@ -6,12 +6,12 @@ import { Input } from '../common/Input';
 import { Button } from '../common/Button';
 // import { useAuth } from '../../hooks/auth/use-auth';
 // import { signupSchema, type SignupFormData } from '../../utils/validation/auth-schemas';
-
 import { useAppSelector } from '../../store/hooks';
 import { useUser } from '../../hooks/user/use-user';
 import { useWallet } from '../../hooks/wallet/use-wallet';
 import { sendSchema, type SendFormData } from '../../utils/validation/wallet-schemas';
 import { useNavigation } from '@react-navigation/native';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 interface SendFormProps {
   onSuccess?: () => void;
@@ -20,7 +20,7 @@ interface SendFormProps {
 }
 
 export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProps) {
-// export function SendForm() {
+  // export function SendForm() {
   const user = useAppSelector((state) => state.auth.user);
   const { sendAssets, checkAddress, addressCheckLoading, addressExist, error, isLoading } = useWallet();
   const [amountCheckLoading, setAmountCheckLoading] = useState<boolean>(false);
@@ -84,9 +84,9 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
 
   const onSubmit = async (data: SendFormData) => {
     // clearAuthError();
-    
+
     const result = await sendAssets(user?.uid || '', data.address, (data.amount || 0) as number);
-    
+
     if (result.success) {
       reset();
       // onSuccess?.();
@@ -116,7 +116,7 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
   const navigateToScan = () => {
     navigation.navigate('Scan');
   };
-  
+
 
   // const { signup, isLoading, error, clearAuthError, checkUsername, usernameCheckLoading, usernameAvailable } = useAuth();
 
@@ -152,9 +152,9 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
 
   // const onSubmit = async (data: SignupFormData) => {
   //   clearAuthError();
-    
+
   //   const result = await signup(data);
-    
+
   //   if (result.success) {
   //     reset();
   //     onSuccess?.();
@@ -179,10 +179,10 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
           control={control}
           name="address"
           render={({ field: { onChange, onBlur, value } }) => (
-            <View 
-            style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}
+            <View
+              style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}
             >
-              <View 
+              <View
                 style={{
                   flex: 1,
                   // flexDirection: 'row', // This makes the items display in a row
@@ -205,9 +205,9 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
                   autoCapitalize="none"
                   // autoComplete="address-line1" //ayad
                   error={errors.address?.message}
-                  // style={{
-                  //   width: '80%'
-                  // }}
+                // style={{
+                //   width: '80%'
+                // }}
                 />
                 {/* <Button
                   title="Scan"
@@ -218,11 +218,11 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
                   }}
                 /> */}
                 {addressStatus && (
-                  <Text style={{ 
-                    color: addressStatus.color, 
-                    fontSize: 12, 
+                  <Text style={{
+                    color: addressStatus.color,
+                    fontSize: 12,
                     marginTop: 4,
-                    marginLeft: 4 
+                    marginLeft: 4
                   }}>
                     {addressStatus.text}
                   </Text>
@@ -239,16 +239,19 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
                   {addressStatus.text}
                 </Text>
               )} */}
-              <Button
-                  title="Scan"
-                  onPress={navigateToScan}
-                  // style={{
-                  //   // width: '10%',
-                  //   width: 80,
-                  //   height: 40
-                  // }}
-                  size='small'
-                />
+              {/* <Button
+                title="Scan"
+                onPress={navigateToScan}
+                // style={{
+                //   // width: '10%',
+                //   width: 80,
+                //   height: 40
+                // }}
+                size='small'
+              /> */}
+              <AntDesign.Button name="scan1" size={24} color="black" onPress={navigateToScan}>
+                scan
+              </AntDesign.Button>
             </View>
           )}
         />
@@ -270,11 +273,11 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
                 error={errors.amount?.message}
               />
               {amountStatus && (
-                <Text style={{ 
-                  color: amountStatus.color, 
-                  fontSize: 12, 
+                <Text style={{
+                  color: amountStatus.color,
+                  fontSize: 12,
                   marginTop: 4,
-                  marginLeft: 4 
+                  marginLeft: 4
                 }}>
                   {amountStatus.text}
                 </Text>
@@ -434,12 +437,12 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
         </View> */}
 
         {/* Terms */}
-        <Text style={{ 
-          color: 'rgba(255, 255, 255, 0.4)', 
-          fontSize: 12, 
+        <Text style={{
+          color: 'rgba(0, 0, 0, 0.4)',
+          fontSize: 12,
           textAlign: 'center',
           marginTop: 16,
-          paddingHorizontal: 16 
+          paddingHorizontal: 16
         }}>
           By sending assets, you agree to our Terms of Service and Privacy Policy
         </Text>

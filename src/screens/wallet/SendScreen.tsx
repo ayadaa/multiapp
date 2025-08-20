@@ -25,7 +25,7 @@ export function SendScreen() {
   };
 
   return (
-    <Screen backgroundColor="#000000" keyboardAvoidingView>
+    <Screen backgroundColor="#FFFFFF" keyboardAvoidingView>
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
@@ -37,7 +37,7 @@ export function SendScreen() {
               style={{
                 fontSize: 32,
                 fontWeight: 'bold',
-                color: '#FFFFFF',
+                color: '#000000',
                 marginBottom: 8,
               }}
             >
@@ -46,7 +46,7 @@ export function SendScreen() {
             <Text
               style={{
                 fontSize: 16,
-                color: 'rgba(255, 255, 255, 0.6)',
+                color: 'rgba(0, 0, 0, 0.6)',
                 textAlign: 'center',
               }}
             >
