@@ -16,6 +16,7 @@ import { P2PCreateAdScreen } from '../screens/p2pads/P2PCreateAdScreen';
 import P2PCreateRequestScreen from '../screens/p2pads/P2PCreateRequestScreen';
 import { SendScreen } from '../screens/wallet/SendScreen';
 import { ReceiveScreen } from '../screens/wallet/ReceiveScreen';
+import MiningOffersScreen from '../screens/wallet/MiningOffersScreen';
 import QRScannerScreen from '../screens/wallet/QRCodeScannerScreen';
 import GroupChatScreen from '../screens/chat/GroupChatScreen';
 import GroupSettingsScreen from '../screens/chat/GroupSettingsScreen';
@@ -125,6 +126,14 @@ export default function AppStackNavigator() {
       <Stack.Screen
         name="Receive"
         component={ReceiveScreen}
+        options={{
+          headerShown: true,
+        }}
+      />
+
+      <Stack.Screen
+        name="MiningOffers"
+        component={MiningOffersScreen}
         options={{
           headerShown: true,
         }}

@@ -1,5 +1,5 @@
 import { collect, sendAssets, updateMiningSpeed, checkAddressExisting, getMiningSpeedOffers, type MiningSpeedOffers } from '../../services/firebase/wallet.service';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 // import { checkAddressExisting } from '../../services/firebase/wallet.service';
 import { useAppSelector } from '../../store/hooks';
 
@@ -43,6 +43,7 @@ export function useWallet() {
         setMiningSpeedOffersError(null);
 
         try {
+            console.log('start getting mining speed offers')
             const miningSpeedOffersList = await getMiningSpeedOffers();
             setMiningSpeedOffers(miningSpeedOffersList);
             console.log('MiningSpeedOffers', miningSpeedOffersList)
@@ -53,6 +54,11 @@ export function useWallet() {
             setIsLoadingMiningSpeedOffers(false);
         }
     }, []);
+
+    // Load initial data
+    useEffect(() => {
+        refreshMiningSpeedOffers();
+    }, [refreshMiningSpeedOffers]);
 
     return {
         // Data

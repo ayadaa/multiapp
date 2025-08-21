@@ -70,8 +70,9 @@ export type AppStackParamList = {
   CreateGroup: undefined;
   CreateAd: undefined;
   P2PCreateAd: undefined;
-  Send: undefined | {qrData: any};
+  Send: undefined | { qrData: any };
   Receive: undefined;
+  MiningOffers: undefined;
   Scan: undefined;
   AdDetails: Ad;
   P2PCreateRequest: P2PAd & UserProfile;
