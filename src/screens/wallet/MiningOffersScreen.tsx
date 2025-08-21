@@ -52,6 +52,7 @@ export default function MiningOffersScreen() {
                         <TouchableOpacity
                             key={offer.id}
                             onPress={async () => await updateMiningSpeed(user?.uid!, offer.name)}
+                            disabled={offer.price < user?.balance!}
                             style={{
                                 flexDirection: 'row',
                                 alignItems: 'center',
@@ -61,6 +62,21 @@ export default function MiningOffersScreen() {
                                 borderBottomColor: 'rgba(0, 0, 0, 0.1)',
                             }}
                         >
+                            <View style={{
+                                width: 80,
+                                height: 25,
+                                borderRadius: 10,
+                                backgroundColor: 'rgba(0, 200, 100, 0.8)',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                marginRight: 16,
+                            }}>
+                                <Text style={{
+                                    color: 'black',
+                                    fontSize: 16,
+                                    fontWeight: 'bold',
+                                }}>{offer.name}</Text>
+                            </View>
                             <View style={{ flex: 1 }}>
                                 <View style={{
                                     flexDirection: 'row',
@@ -69,33 +85,37 @@ export default function MiningOffersScreen() {
                                     marginBottom: 4,
                                 }}>
                                     <Text style={{
-                                        color: '#000000',
-                                        fontSize: 16,
-                                        fontWeight: 'bold',
+                                        color: 'rgba(0, 0, 0, 1)',
+                                        fontSize: 14,
                                     }}>
-                                        {offer.name}
+                                        price: {offer.price} د.ع
                                     </Text>
                                     <Text style={{
-                                        color: 'rgba(0, 0, 0, 0.75)',
-                                        fontSize: 12,
+                                        color: 'rgba(0, 0, 0, 1)',
+                                        fontSize: 14,
                                     }}>
-                                        {offer.price}
+                                        speed: {offer.speed} 💎 / day
                                     </Text>
                                 </View>
 
-                                <View style={{
+                                {/* <View style={{
                                     flexDirection: 'row',
                                     justifyContent: 'space-between',
                                     alignItems: 'center',
                                 }}>
                                     <Text style={{
-                                        color: 'rgba(0, 0, 0, 0.7)',
+                                        color: 'rgba(0, 0, 0, 0.75)',
                                         fontSize: 14,
-                                        flex: 1,
-                                    }} numberOfLines={1}>
+                                    }}>
+                                        {offer.price}
+                                    </Text>
+                                    <Text style={{
+                                        color: 'rgba(0, 0, 0, 0.75)',
+                                        fontSize: 14,
+                                    }}>
                                         {offer.speed}
                                     </Text>
-                                </View>
+                                </View> */}
                             </View>
                         </TouchableOpacity>
                     ))}</View> : <View>
@@ -114,8 +134,8 @@ const styles = StyleSheet.create({
     },
     content: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        // justifyContent: 'center',
+        // alignItems: 'center',
         backgroundColor: '#fff',
     },
 });
