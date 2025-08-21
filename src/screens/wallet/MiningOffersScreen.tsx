@@ -15,10 +15,11 @@ import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from "@gorhom/botto
 // import { type MiningSpeedOffers } from '../../services/firebase/wallet.service';
 import { useWallet } from '../../hooks/wallet/use-wallet';
 import { useAppSelector } from '../../store/hooks';
-
+import { useUser } from '../../hooks/user/use-user';
 
 export default function MiningOffersScreen() {
     const user = useAppSelector((state) => state.auth.user);
+    const { User, isLoadingUser, userError, refreshUser } = useUser(user?.uid || '');
     const { miningSpeedOffers, updateMiningSpeed, isLoadingMiningSpeedOffers, refreshMiningSpeedOffers } = useWallet();
 
     // Handle refresh
@@ -29,10 +30,6 @@ export default function MiningOffersScreen() {
             console.error('Error refreshing mining speed offers:', error);
         }
     };
-
-    // setTimeout(() => {
-    //     handleRefresh();
-    // }, 1000);
 
     return (
         <View style={styles.container}>
@@ -51,8 +48,11 @@ export default function MiningOffersScreen() {
                     {miningSpeedOffers.length > 0 ? <View> {miningSpeedOffers.map((offer) => (
                         <TouchableOpacity
                             key={offer.id}
-                            onPress={async () => await updateMiningSpeed(user?.uid!, offer.name)}
-                            disabled={offer.price < user?.balance!}
+                            onPress={async () => {
+                                await updateMiningSpeed(user?.uid!, offer.name);
+                                refreshUser();
+                            }}
+                            disabled={(offer.price < User?.balance!) ? false : true}
                             style={{
                                 flexDirection: 'row',
                                 alignItems: 'center',
@@ -60,20 +60,24 @@ export default function MiningOffersScreen() {
                                 paddingVertical: 16,
                                 borderBottomWidth: 1,
                                 borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+                                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                                marginHorizontal: 16,
+                                marginVertical: 2,
+                                borderRadius: 16,
                             }}
                         >
                             <View style={{
-                                width: 80,
+                                width: 70,
                                 height: 25,
                                 borderRadius: 10,
                                 backgroundColor: 'rgba(0, 200, 100, 0.8)',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                marginRight: 16,
+                                marginRight: 10,
                             }}>
                                 <Text style={{
                                     color: 'black',
-                                    fontSize: 16,
+                                    fontSize: 14,
                                     fontWeight: 'bold',
                                 }}>{offer.name}</Text>
                             </View>
@@ -88,34 +92,15 @@ export default function MiningOffersScreen() {
                                         color: 'rgba(0, 0, 0, 1)',
                                         fontSize: 14,
                                     }}>
-                                        price: {offer.price} د.ع
+                                        price: {offer.price} 💎
                                     </Text>
                                     <Text style={{
                                         color: 'rgba(0, 0, 0, 1)',
                                         fontSize: 14,
                                     }}>
-                                        speed: {offer.speed} 💎 / day
+                                        speed: {offer.speed} 💎/day
                                     </Text>
                                 </View>
-
-                                {/* <View style={{
-                                    flexDirection: 'row',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                }}>
-                                    <Text style={{
-                                        color: 'rgba(0, 0, 0, 0.75)',
-                                        fontSize: 14,
-                                    }}>
-                                        {offer.price}
-                                    </Text>
-                                    <Text style={{
-                                        color: 'rgba(0, 0, 0, 0.75)',
-                                        fontSize: 14,
-                                    }}>
-                                        {offer.speed}
-                                    </Text>
-                                </View> */}
                             </View>
                         </TouchableOpacity>
                     ))}</View> : <View>

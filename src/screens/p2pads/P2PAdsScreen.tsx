@@ -266,6 +266,11 @@ export function P2PAdsScreen() {
                 paddingVertical: 16,
                 borderBottomWidth: 1,
                 borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                marginHorizontal: 16,
+                marginVertical: 2,
+                borderRadius: 16,
               }}
             >
               <View style={{
@@ -339,9 +344,9 @@ export function P2PAdsScreen() {
         <View style={styles.header}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>P2P Ads</Text>
-            <Text style={styles.subtitle}>
+            {/* <Text style={styles.subtitle}>
               {p2pAdsWithUsers.length} {p2pAdsWithUsers.length === 1 ? 'ad' : 'ads'}
-            </Text>
+            </Text> */}
           </View>
 
           <TouchableOpacity

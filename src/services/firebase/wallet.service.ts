@@ -84,7 +84,7 @@ export async function getMiningSpeedOffers(): Promise<MiningSpeedOffers[]> {
     try {
         const adsQuery = query(
             collection(db, 'miningSpeedOffers'),
-            orderBy('createdAt', 'desc')
+            orderBy('createdAt', 'asc')
         );
 
         const ads = await getDocs(adsQuery);

@@ -11,10 +11,10 @@ admin.initializeApp();
 const db = admin.firestore();
 
 const miningSpeedOffers = {
-    slow: {price: 100000, speed: 50},
-    medium: {price: 500000, speed: 270},
-    fast: {price: 2000000, speed: 1200},
-    veryFast: {price: 5000000, speed: 3200},
+    slow: {price: 100000, speed: 250},
+    medium: {price: 500000, speed: 1300},
+    fast: {price: 2000000, speed: 5350},
+    veryFast: {price: 5000000, speed: 13700},
 }
 
 const P2PPaymentMethods = {

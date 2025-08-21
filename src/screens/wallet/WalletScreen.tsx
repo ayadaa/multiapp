@@ -156,8 +156,8 @@ export function WalletScreen() {
           {/* card */}
           <View style={styles.card}>
             <View style={styles.balanceSection}>
-              <Text style={styles.username}>{Math.round((User?.balance || 1000) * 1000) / 1000} 💎</Text>
-              <Text style={styles.email}>{Math.round((User?.balance ? User.balance / 10 : 100) * 1000) / 1000} $</Text>
+              <Text style={styles.username}>{Math.round((User?.balance || 0) * 1000) / 1000} 💎</Text>
+              <Text style={styles.email}>{Math.round((User?.balance ? User.balance * 1.35 : 0) * 1000) / 1000} د.ع</Text>
             </View>
             <View style={styles.balanceSection}>
               <Text style={styles.username}>@{user?.username || 'username'}</Text>

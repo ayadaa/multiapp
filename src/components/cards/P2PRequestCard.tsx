@@ -222,6 +222,11 @@ export default function P2PRequestCard({ ad, handleRefresh, showBottomSheet }: P
                         paddingVertical: 16,
                         borderBottomWidth: 1,
                         borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+                        
+                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                        marginHorizontal: 16,
+                        marginVertical: 2,
+                        borderRadius: 16,
                     }}
                     onPress={() => showBottomSheet(ad)}
                 >

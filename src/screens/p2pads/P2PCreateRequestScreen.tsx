@@ -38,54 +38,6 @@ export default function P2PCreateRequestScreen() {
 
   return (
     <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {/* <Image
-          source={{ uri: ad.adPicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
-          style={styles.image}
-          resizeMode="cover"
-        /> */}
-
-        {/* <View style={styles.infoContainer}>
-          <Text style={styles.name}>{ad.title}</Text>
-          <Text style={styles.location}>{ad.className}</Text>
-          <Text style={styles.rooms}>{ad.typeName}</Text>
-          <View style={{ flexDirection: 'row', gap: 4 }}>
-            <Ionicons name="star" size={16} />
-            <Text style={styles.ratings}>
-              {listing.review_scores_rating / 20} · {listing.number_of_reviews} reviews
-            </Text>
-          </View>
-          <Text style={styles.footerPrice}>€{listing.price}</Text>
-
-          <View style={styles.divider} />
-
-          {User == null ?
-          (
-          <View><Text> . . . </Text></View>
-          )
-          :(
-            <View style={styles.hostView}>
-              <Image source={{ uri: listing.host_picture_url }} style={styles.host} />
-
-              <View>
-                <Text style={{ fontWeight: '500', fontSize: 16 }}>{User.username}</Text>
-                <Text>{ad.createdAt? formatTimestamp(ad.createdAt): ''}</Text>
-              </View>
-
-              <TouchableOpacity 
-                onPress={handleSendMessagePress}
-                style={[defaultStyles.btn, { paddingRight: 20, paddingLeft: 20 }]}
-              >
-                <Text style={defaultStyles.btnText}>Send Message</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-
-          <View style={styles.divider} />
-
-          <Text style={styles.description}>{ad.description}</Text>
-        </View> */}
-
         <View style={styles.infoContainer}>
           <View
             // onPress={() => handleAdPress(ad)}
@@ -95,7 +47,7 @@ export default function P2PCreateRequestScreen() {
               paddingHorizontal: 20,
               paddingVertical: 16,
               borderBottomWidth: 1,
-              borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+              borderBottomColor: 'rgba(0, 0, 0, 0.1)',
               // marginBottom: 24
             }}
           >
@@ -125,7 +77,7 @@ export default function P2PCreateRequestScreen() {
                 marginBottom: 4,
               }}>
                 <Text style={{
-                  color: '#FFFFFF',
+                  color: '#000000',
                   fontSize: 16,
                   fontWeight: 'bold',
                 }}>
@@ -135,7 +87,7 @@ export default function P2PCreateRequestScreen() {
                   {ad.username}   {(Math.round(((ad.requests! - ad.approvedRequests!) / ad.requests!) * 100) / 100) * 100} %
                 </Text>
                 <Text style={{
-                  color: 'rgba(255, 255, 255, 0.6)',
+                  color: 'rgba(0, 0, 0, 0.6)',
                   fontSize: 12,
                 }}>
                   {ad.price} IQD
@@ -148,14 +100,14 @@ export default function P2PCreateRequestScreen() {
                 alignItems: 'center',
               }}>
                 <Text style={{
-                  color: 'rgba(255, 255, 255, 0.8)',
+                  color: 'rgba(0, 0, 0, 0.8)',
                   fontSize: 14,
                   // flex: 1,
                 }} numberOfLines={1}>
                   {ad.paymentMethod}  {ad.requests!}
                 </Text>
                 <Text style={{
-                  color: 'rgba(255, 255, 255, 0.8)',
+                  color: 'rgba(0, 0, 0, 0.8)',
                   fontSize: 14,
                   // flex: 1,
                 }} numberOfLines={1}>
@@ -175,7 +127,6 @@ export default function P2PCreateRequestScreen() {
             />
           </View>
         </View>
-      </ScrollView>
     </View>
   );
 };
@@ -184,7 +135,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // backgroundColor: 'white',
-    backgroundColor: '#000000',
+    backgroundColor: '#FFFFFF',
   },
   // image: {
   //   height: IMG_HEIGHT,
