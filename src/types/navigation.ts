@@ -76,6 +76,13 @@ export type AppStackParamList = {
   Scan: undefined;
   AdDetails: Ad;
   P2PCreateRequest: P2PAd & UserProfile;
+  IncomingCall: { caller: UserProfile, callType: string };
+  Call: {
+    user: UserProfile;
+    callType: string;
+    isVideoCall: boolean;
+    isIncoming: boolean;
+  };
   StoryViewer: {
     storyId: string;
     stories: Array<{

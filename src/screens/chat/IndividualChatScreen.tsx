@@ -16,6 +16,8 @@ import BottomSheet, { BottomSheetView, BottomSheetBackdrop, BottomSheetFooter } 
 // import { Text as Text2, View as View2 } from "./bottomSheet/Themed";
 // import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { launchImagePicker, uploadImageAsync } from "../../screens/ads/imagePickerHelper";
+import { ChattingScreenHeaderComponent } from "../../components/chat/ChatScreenHeader";
+import socket from "../../utils/socket";
 
 type ChatStackParamList = {
   IndividualChat: {
@@ -38,11 +40,12 @@ const { width } = Dimensions.get('window');
 export function IndividualChatScreen() {
   const route = useRoute<IndividualChatScreenRouteProp>();
   const navigation = useNavigation<IndividualChatScreenNavigationProp>();
+  const navigation2 = useNavigation<any>();
   const { user } = useAuth();
   const flatListRef = useRef<FlatList<Message>>(null);
   const [messageSent, setMessageSent] = useState<boolean>(false);
   const [tempImageUri, setTempImageUri] = React.useState<string | null>(null);
-
+  const [isOnline, setIsOnline] = useState(false);
   // const insets = useSafeAreaInsets();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ["25%", "50%", "75%"], []);
@@ -75,6 +78,46 @@ export function IndividualChatScreen() {
     ),
     []
   );
+
+  // webRTC
+  useEffect(() => {
+    // socket.on("receive_message", (data) => {
+    //   setMessages((prev) => [data, ...prev]);
+    // });
+
+    // Check connection status
+    setIsOnline(socket.connected);
+
+    socket.on("connect", () => {
+      console.log("✅ Connected to socket server!", socket.id);
+      setIsOnline(true);
+    });
+
+    socket.on("disconnect", () => {
+      console.log("🔴 Disconnected from socket server.");
+      setIsOnline(false);
+    });
+
+    // Listen for incoming calls
+    const incomingCallHandler = ({ callType, caller }: any) => {
+      console.log("Incoming call received", caller, callType);
+      // Navigate to incoming call screen
+      navigation2.navigate("IncomingCall", {
+        caller,
+        callType,
+      });
+    };
+
+    socket.on("incoming_call", incomingCallHandler);
+
+    return () => {
+      // Just remove listeners but don't disconnect
+      // socket.off("receive_message");
+      socket.off("connect");
+      socket.off("disconnect");
+      socket.off("incoming_call", incomingCallHandler);
+    };
+  }, [navigation]);
 
   const handleSheetChanges = useCallback((index: number) => {
     console.log("handleSheetChanges", index);
@@ -176,87 +219,71 @@ export function IndividualChatScreen() {
     />
   );
 
-  const renderHeader = () => (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingHorizontal: 20,
-        paddingVertical: 16,
-        backgroundColor: 'rgba(255, 255, 255, 0.9)',
-        borderBottomWidth: 1,
-        borderBottomColor: 'rgba(0, 0, 0, 0.1)',
-      }}
-    >
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        style={{
-          width: 40,
-          height: 40,
-          borderRadius: 20,
-          backgroundColor: 'rgba(0, 0, 0, 0.2)',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginRight: 16,
-        }}
-      >
-        <Text style={{ color: '#000000', fontSize: 16 }}>←</Text>
-      </TouchableOpacity>
-
-      <View
-        style={{
-          width: 40,
-          height: 40,
-          borderRadius: 20,
-          backgroundColor: 'rgba(0, 132, 255, 0.8)',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginRight: 12,
-        }}
-      >
-        <Text style={{ color: '#000000', fontSize: 16 }}>
-          {otherUser?.username?.charAt(0).toUpperCase() || '?'}
-        </Text>
-      </View>
-
-      <View style={{ flex: 1 }}>
-        <Text
-          style={{
-            color: '#000000',
-            fontSize: 18,
-            fontWeight: 'bold',
-          }}
-        >
-          {otherUser?.username || 'Unknown User'}
-        </Text>
-        <Text
-          style={{
-            color: 'rgba(0, 0, 0, 0.6)',
-            fontSize: 14,
-          }}
-        >
-          {otherUser?.isOnline ? 'Online' : 'Offline'}
-        </Text>
-      </View>
-    </View>
-
-    // <View style={styles.header}>
+  const renderHeader = (isOnline: boolean, user: UserProfile) => (
+    // <View
+    //   style={{
+    //     flexDirection: 'row',
+    //     alignItems: 'center',
+    //     paddingHorizontal: 20,
+    //     paddingVertical: 16,
+    //     backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    //     borderBottomWidth: 1,
+    //     borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+    //   }}
+    // >
     //   <TouchableOpacity
-    //     style={styles.headerBackButton}
     //     onPress={() => navigation.goBack()}
+    //     style={{
+    //       width: 40,
+    //       height: 40,
+    //       borderRadius: 20,
+    //       backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    //       alignItems: 'center',
+    //       justifyContent: 'center',
+    //       marginRight: 16,
+    //     }}
     //   >
-    //     <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
+    //     <Text style={{ color: '#000000', fontSize: 16 }}>←</Text>
     //   </TouchableOpacity>
 
-    //   <View style={styles.headerInfo}>
-    //     <Text style={styles.userName} numberOfLines={1}>
+    //   <View
+    //     style={{
+    //       width: 40,
+    //       height: 40,
+    //       borderRadius: 20,
+    //       backgroundColor: 'rgba(0, 132, 255, 0.8)',
+    //       alignItems: 'center',
+    //       justifyContent: 'center',
+    //       marginRight: 12,
+    //     }}
+    //   >
+    //     <Text style={{ color: '#000000', fontSize: 16 }}>
+    //       {otherUser?.username?.charAt(0).toUpperCase() || '?'}
+    //     </Text>
+    //   </View>
+
+    //   <View style={{ flex: 1 }}>
+    //     <Text
+    //       style={{
+    //         color: '#000000',
+    //         fontSize: 18,
+    //         fontWeight: 'bold',
+    //       }}
+    //     >
     //       {otherUser?.username || 'Unknown User'}
     //     </Text>
-    //     <Text style={styles.onlineState}>
+    //     <Text
+    //       style={{
+    //         color: 'rgba(0, 0, 0, 0.6)',
+    //         fontSize: 14,
+    //       }}
+    //     >
     //       {otherUser?.isOnline ? 'Online' : 'Offline'}
     //     </Text>
     //   </View>
     // </View>
+
+    <ChattingScreenHeaderComponent isOnline={isOnline} user={user} />
   );
 
   const renderEmptyState = () => (
@@ -303,7 +330,7 @@ export function IndividualChatScreen() {
   if (error) {
     return (
       <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
-        {renderHeader()}
+        {renderHeader(isOnline, otherUser)}
         <View
           style={{
             // flex: 1,
@@ -356,7 +383,7 @@ export function IndividualChatScreen() {
     <>
       {/* <View2 style={{ flex: 1, marginBottom: insets.bottom }}> */}
       <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content" style={styles.container}>
-        {renderHeader()}
+        {renderHeader(isOnline, otherUser)}
         <View style={{ flex: 1 }}>
           {loading ? (
             <View

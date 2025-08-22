@@ -44,6 +44,7 @@
       "expo-camera",
       "expo-av",
       "expo-media-library",
+      "@config-plugins/react-native-webrtc",
       [
         "expo-image-picker",
         {

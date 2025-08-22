@@ -23,6 +23,8 @@ import GroupSettingsScreen from '../screens/chat/GroupSettingsScreen';
 import { ChallengeViewerScreen } from '../components/rag/ChallengeViewerScreen';
 import { AppStackParamList } from '../types/navigation';
 import { CardStyleInterpolators } from '@react-navigation/stack';
+import IncomingCallScreen from "../screens/chat/IncomingCallScreen";
+import CallScreen from "../screens/chat/CallScreen";
 
 const Stack = createStackNavigator<AppStackParamList>();
 
@@ -164,6 +166,18 @@ export default function AppStackNavigator() {
           presentation: 'modal',
           gestureEnabled: false,
         }}
+      />
+
+      <Stack.Screen
+        name="IncomingCall"
+        component={IncomingCallScreen}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="Call"
+        component={CallScreen}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );

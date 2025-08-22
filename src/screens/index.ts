@@ -7,6 +7,7 @@ const SCREENS = {
     Stories: 'Stories',
     Wallet: 'Wallet',
     Profile: 'Profile',
+    IncomingCall: 'IncomingCall',
 }
 
 export default SCREENS;
