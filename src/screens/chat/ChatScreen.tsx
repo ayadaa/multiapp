@@ -80,7 +80,7 @@ export function ChatScreen() {
     <View style={{
       paddingHorizontal: 20,
       paddingVertical: 12,
-      backgroundColor: 'rgba(0, 0, 0, 0.06)',
+      // backgroundColor: 'rgba(0, 0, 0, 0.06)',
       borderBottomWidth: 1,
       borderBottomColor: 'rgba(0, 0, 0, 0.1)',
     }}>

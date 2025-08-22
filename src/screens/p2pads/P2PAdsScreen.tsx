@@ -228,7 +228,7 @@ export function P2PAdsScreen() {
     <View style={{
       paddingHorizontal: 20,
       paddingVertical: 12,
-      backgroundColor: 'rgba(0, 0, 0, 0.05)',
+      // backgroundColor: 'rgba(0, 0, 0, 0.05)',
       borderBottomWidth: 1,
       borderBottomColor: 'rgba(0, 0, 0, 0.06)',
     }}>

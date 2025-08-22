@@ -36,16 +36,16 @@ export default function GroupSettingsScreen() {
   const navigation = useNavigation();
   const route = useRoute<GroupSettingsRouteProp>();
   const { groupId } = route.params;
-  
+
   const user = useSelector((state: RootState) => state.auth.user);
   const { friends } = useFriends();
-  const { 
-    groups, 
-    updateGroupName, 
-    addMembersToGroup, 
+  const {
+    groups,
+    updateGroupName,
+    addMembersToGroup,
     removeMemberFromGroup,
     updateGroupSettings,
-    leaveGroup 
+    leaveGroup
   } = useGroups(user?.uid || '');
 
   const [currentGroup, setCurrentGroup] = useState<Group | null>(null);
@@ -70,7 +70,7 @@ export default function GroupSettingsScreen() {
   const loadGroupMembers = useCallback(async (group: Group) => {
     try {
       const memberProfiles: GroupMember[] = [];
-      
+
       for (const participantId of group.participants) {
         const profile = await getUserProfile(participantId);
         if (profile) {
@@ -80,7 +80,7 @@ export default function GroupSettingsScreen() {
           });
         }
       }
-      
+
       setGroupMembers(memberProfiles);
     } catch (error) {
       console.error('Error loading group members:', error);
@@ -92,7 +92,7 @@ export default function GroupSettingsScreen() {
    */
   const handleSaveGroupName = useCallback(async () => {
     if (!currentGroup || !newGroupName.trim()) return;
-    
+
     try {
       setIsLoading(true);
       await updateGroupName(currentGroup.id, newGroupName.trim());
@@ -109,19 +109,19 @@ export default function GroupSettingsScreen() {
    */
   const handleRemoveMember = useCallback(async (memberId: string, memberName: string) => {
     if (!currentGroup || !user) return;
-    
+
     // Check if current user is admin
     if (!currentGroup.admins.includes(user.uid)) {
       Alert.alert('Permission Denied', 'Only group admins can remove members.');
       return;
     }
-    
+
     // Prevent removing yourself
     if (memberId === user.uid) {
       Alert.alert('Cannot Remove Yourself', 'Use "Leave Group" to exit the group.');
       return;
     }
-    
+
     Alert.alert(
       'Remove Member',
       `Are you sure you want to remove ${memberName} from the group?`,
@@ -150,7 +150,7 @@ export default function GroupSettingsScreen() {
    */
   const handleLeaveGroup = useCallback(() => {
     if (!currentGroup || !user) return;
-    
+
     Alert.alert(
       'Leave Group',
       'Are you sure you want to leave this group?',
@@ -180,13 +180,13 @@ export default function GroupSettingsScreen() {
    */
   const handleToggleSetting = useCallback(async (setting: keyof Group['settings'], value: boolean) => {
     if (!currentGroup || !user) return;
-    
+
     // Check if current user is admin
     if (!currentGroup.admins.includes(user.uid)) {
       Alert.alert('Permission Denied', 'Only group admins can change group settings.');
       return;
     }
-    
+
     try {
       await updateGroupSettings(currentGroup.id, {
         ...currentGroup.settings,
@@ -203,11 +203,11 @@ export default function GroupSettingsScreen() {
   const renderMemberItem = useCallback(({ item }: { item: GroupMember }) => {
     const isCurrentUser = item.uid === user?.uid;
     const canRemove = currentGroup?.admins.includes(user?.uid || '') && !isCurrentUser;
-    
+
     // Debug logging
     console.log('Member:', item.username, 'isAdmin:', item.isAdmin, 'uid:', item.uid);
     console.log('Group admins:', currentGroup?.admins);
-    
+
     return (
       <View style={styles.memberItem}>
         <View style={styles.memberInfo}>
@@ -255,7 +255,7 @@ export default function GroupSettingsScreen() {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
+          <Ionicons name="arrow-back" size={24} color="#000000" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Group Settings</Text>
         <View style={{ width: 24 }} />
@@ -326,7 +326,7 @@ export default function GroupSettingsScreen() {
       {isAdmin && (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Group Settings</Text>
-          
+
           <View style={styles.settingItem}>
             <Text style={styles.settingText}>Allow new members</Text>
             <Switch
@@ -336,7 +336,7 @@ export default function GroupSettingsScreen() {
               thumbColor="#FFFFFF"
             />
           </View>
-          
+
           <View style={styles.settingItem}>
             <Text style={styles.settingText}>Only admins can message</Text>
             <Switch
@@ -346,8 +346,8 @@ export default function GroupSettingsScreen() {
               thumbColor="#FFFFFF"
             />
           </View>
-          
-          <View style={styles.settingItem}>
+
+          {/* <View style={styles.settingItem}>
             <Text style={styles.settingText}>Allow snap sharing</Text>
             <Switch
               value={currentGroup.settings.allowSnapSharing}
@@ -355,7 +355,7 @@ export default function GroupSettingsScreen() {
               trackColor={{ false: '#767577', true: '#0084FF' }}
               thumbColor="#FFFFFF"
             />
-          </View>
+          </View> */}
         </View>
       )}
 
@@ -414,10 +414,11 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   nameInput: {
-    backgroundColor: '#1C1C1E',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
     color: '#000000',
     padding: 12,
     borderRadius: 8,
+    borderColor: 'rgba(0, 0, 0, 0.5)',
     fontSize: 16,
   },
   editNameButtons: {
@@ -427,9 +428,11 @@ const styles = StyleSheet.create({
   cancelButton: {
     flex: 1,
     padding: 12,
-    backgroundColor: '#333333',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
     borderRadius: 8,
     alignItems: 'center',
+    borderBottomWidth: 1,
+    borderColor: 'rgba(0, 0, 0, 0.5)',
   },
   cancelButtonText: {
     color: '#000000',
@@ -495,7 +498,7 @@ const styles = StyleSheet.create({
   },
   memberDisplayName: {
     fontSize: 14,
-    color: 'rbga(0, 0, 0, 0.7',
+    color: 'rgba(0, 0, 0, 0.7)',
   },
   adminBadge: {
     backgroundColor: '#0084FF',
@@ -519,7 +522,7 @@ const styles = StyleSheet.create({
   },
   settingText: {
     fontSize: 16,
-    color: '#FFFFFF',
+    color: '#000000',
   },
   leaveGroupButton: {
     backgroundColor: '#FF3B30',
