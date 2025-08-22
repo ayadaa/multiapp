@@ -251,7 +251,7 @@ export default function GroupSettingsScreen() {
   const isAdmin = currentGroup.admins.includes(user?.uid || '');
 
   return (
-    <Screen style={styles.container} keyboardAvoidingView>
+    <Screen backgroundColor='FFFFFF' style={styles.container} keyboardAvoidingView>
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -376,7 +376,7 @@ export default function GroupSettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: '#FFFFFF',
   },
   header: {
     flexDirection: 'row',
@@ -390,7 +390,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: '#000000',
   },
   section: {
     paddingHorizontal: 16,
@@ -401,7 +401,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: '#000000',
     marginBottom: 12,
   },
   sectionHeader: {
@@ -415,7 +415,7 @@ const styles = StyleSheet.create({
   },
   nameInput: {
     backgroundColor: '#1C1C1E',
-    color: '#FFFFFF',
+    color: '#000000',
     padding: 12,
     borderRadius: 8,
     fontSize: 16,
@@ -432,7 +432,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cancelButtonText: {
-    color: '#FFFFFF',
+    color: '#000000',
     fontWeight: '600',
   },
   saveButton: {
@@ -443,7 +443,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   saveButtonText: {
-    color: '#FFFFFF',
+    color: '#000000',
     fontWeight: '600',
   },
   nameDisplayContainer: {
@@ -453,7 +453,7 @@ const styles = StyleSheet.create({
   },
   groupName: {
     fontSize: 16,
-    color: '#FFFFFF',
+    color: '#000000',
   },
   editButton: {
     padding: 8,
@@ -484,18 +484,18 @@ const styles = StyleSheet.create({
   memberAvatarText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: '#000000',
   },
   memberDetails: {
     flex: 1,
   },
   memberName: {
     fontSize: 16,
-    color: '#FFFFFF',
+    color: '#000000',
   },
   memberDisplayName: {
     fontSize: 14,
-    color: '#767577',
+    color: 'rbga(0, 0, 0, 0.7',
   },
   adminBadge: {
     backgroundColor: '#0084FF',
