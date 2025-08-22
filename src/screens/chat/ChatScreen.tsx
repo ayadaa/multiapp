@@ -277,7 +277,7 @@ export function ChatScreen() {
               <Ionicons name="people-outline" size={20} color="#000000" />
             </TouchableOpacity>
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={handleSearchPress}
               style={{
                 width: 40,
@@ -289,7 +289,7 @@ export function ChatScreen() {
               }}
             >
               <Ionicons name="search" size={20} color="#000000" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
 

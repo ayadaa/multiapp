@@ -17,6 +17,7 @@ import { UserCard } from '../../components/friends/UserCard';
 import { FriendRequestCard } from '../../components/friends/FriendRequestCard';
 import { useFriends } from '../../hooks/friends/use-friends';
 import { getUserProfile } from '../../services/firebase/firestore.service';
+import { useNavigation } from '@react-navigation/native';
 
 /**
  * Add Friends screen for searching users and managing friend requests.
@@ -25,6 +26,7 @@ import { getUserProfile } from '../../services/firebase/firestore.service';
  */
 
 export function AddFriendsScreen() {
+  const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState('');
   const [requestingUsers, setRequestingUsers] = useState<Record<string, any>>({});
 
@@ -144,8 +146,18 @@ export function AddFriendsScreen() {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.title}>Add Friends</Text>
+        <View style={styles.headerContainer}>
+          <View style={styles.header}>
+            <TouchableOpacity
+              style={styles.headerBackButton}
+              onPress={() => navigation.goBack()}
+            >
+              <Ionicons name="arrow-back" size={24} color="#000000" />
+            </TouchableOpacity>
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>Add Friends</Text>
+            </View>
+          </View>
           <Text style={styles.subtitle}>Search for friends by username</Text>
         </View>
 
@@ -266,10 +278,31 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  headerContainer: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 16,
+  },
   header: {
     paddingHorizontal: 20,
     paddingTop: 20,
     paddingBottom: 16,
+
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    // paddingHorizontal: 20,
+    // paddingTop: 20,
+    // paddingBottom: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+  },
+  titleContainer: {
+    flex: 1,
+  },
+  headerBackButton: {
+    padding: 8,
+    marginRight: 8,
   },
   title: {
     fontSize: 28,

@@ -20,7 +20,7 @@ import type { UserProfile } from '../../services/firebase/firestore.service'
 import { useAppSelector } from '../../store/hooks';
 import { Button } from '../../components/common/Button';
 import { RedButton } from '../../components/common/RedButton';
-import { styles } from '../../screens/p2pads/P2PAdsScreen3';
+import { styles } from '../../screens/p2pads/P2PAdsScreen';
 import { useChats } from '../../hooks/chat/use-chats';
 import { useUser } from '../../hooks/user/use-user';
 import { useMessages } from '../../hooks/chat/use-messages';
@@ -222,7 +222,7 @@ export default function P2PRequestCard({ ad, handleRefresh, showBottomSheet }: P
                         paddingVertical: 16,
                         borderBottomWidth: 1,
                         borderBottomColor: 'rgba(0, 0, 0, 0.1)',
-                        
+
                         backgroundColor: 'rgba(255, 255, 255, 0.05)',
                         marginHorizontal: 16,
                         marginVertical: 2,

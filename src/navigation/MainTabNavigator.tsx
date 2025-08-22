@@ -3,7 +3,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, Platform } from 'react-native';
 import { ChatScreen } from '../screens/chat/ChatScreen';
 import { CameraStackNavigator } from './CameraStackNavigator';
-import { AdsScreen } from '../screens/ads/AdsScreen';
+// import { AdsScreen } from '../screens/ads/AdsScreen';
+import { AdsScreenWithDrawer } from './Drawer';
 import { P2PAdsScreen } from '../screens/p2pads/P2PAdsScreen';
 import { FriendsStackNavigator } from './FriendsStackNavigator';
 import StoriesScreen from '../screens/stories/StoriesScreen';
@@ -40,48 +41,17 @@ export function MainTabNavigator() {
             fontWeight: '500',
           },
         }}
-        initialRouteName="Chat"
+        initialRouteName="Ads"
       >
         <Tab.Screen
-          name="Chat"
-          component={ChatScreen}
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <Text style={{ 
-                fontSize: 20, 
-                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)' 
-              }}>
-                💬
-              </Text>
-            ),
-            tabBarLabel: 'Chat',
-          }}
-        />
-        
-        <Tab.Screen
-          name="Camera"
-          component={CameraStackNavigator}
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <Text style={{ 
-                fontSize: 24, 
-                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)' 
-              }}>
-                📸
-              </Text>
-            ),
-            tabBarLabel: 'Camera',
-          }}
-        />
-
-        <Tab.Screen
           name="Ads"
-          component={AdsScreen}
+          // component={AdsScreen}
+          component={AdsScreenWithDrawer}
           options={{
             tabBarIcon: ({ focused }) => (
-              <Text style={{ 
-                fontSize: 20, 
-                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)' 
+              <Text style={{
+                fontSize: 20,
+                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'
               }}>
                 🧮
               </Text>
@@ -90,14 +60,63 @@ export function MainTabNavigator() {
           }}
         />
 
+        {/* <Tab.Screen
+          name="Ads"
+          // component={AdsScreen}
+          component={AdsScreenWithDrawer}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <Text style={{
+                fontSize: 20,
+                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'
+              }}>
+                🧮
+              </Text>
+            ),
+            tabBarLabel: 'Ads',
+          }}
+        /> */}
+
+        <Tab.Screen
+          name="Chat"
+          component={ChatScreen}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <Text style={{
+                fontSize: 20,
+                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'
+              }}>
+                💬
+              </Text>
+            ),
+            tabBarLabel: 'Chat',
+          }}
+        />
+
+        {/* <Tab.Screen
+          name="Camera"
+          component={CameraStackNavigator}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <Text style={{
+                fontSize: 24,
+                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'
+              }}>
+                📸
+              </Text>
+            ),
+            tabBarLabel: 'Camera',
+          }}
+        /> */}
+
         <Tab.Screen
           name="P2PAds"
           component={P2PAdsScreen}
           options={{
             tabBarIcon: ({ focused }) => (
-              <Text style={{ 
-                fontSize: 20, 
-                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)' 
+              <Text style={{
+                fontSize: 20,
+                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'
               }}>
                 🧮
               </Text>
@@ -106,46 +125,46 @@ export function MainTabNavigator() {
           }}
         />
 
-        <Tab.Screen
+        {/* <Tab.Screen
           name="Friends"
           component={FriendsStackNavigator}
           options={{
             tabBarIcon: ({ focused }) => (
-              <Text style={{ 
-                fontSize: 20, 
-                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)' 
+              <Text style={{
+                fontSize: 20,
+                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'
               }}>
                 👥
               </Text>
             ),
             tabBarLabel: 'Friends',
           }}
-        />
-        
-        <Tab.Screen
+        /> */}
+
+        {/* <Tab.Screen
           name="Stories"
           component={StoriesScreen}
           options={{
             tabBarIcon: ({ focused }) => (
-              <Text style={{ 
-                fontSize: 20, 
-                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)' 
+              <Text style={{
+                fontSize: 20,
+                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'
               }}>
                 📱
               </Text>
             ),
             tabBarLabel: 'Stories',
           }}
-        />
-        
+        /> */}
+
         <Tab.Screen
           name="Wallet"
           component={WalletScreen}
           options={{
             tabBarIcon: ({ focused }) => (
-              <Text style={{ 
-                fontSize: 20, 
-                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)' 
+              <Text style={{
+                fontSize: 20,
+                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'
               }}>
                 💳
               </Text>
@@ -153,21 +172,21 @@ export function MainTabNavigator() {
             tabBarLabel: 'Wallet',
           }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name="Profile"
           component={ProfileScreen}
           options={{
             tabBarIcon: ({ focused }) => (
-              <Text style={{ 
-                fontSize: 20, 
-                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)' 
+              <Text style={{
+                fontSize: 20,
+                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'
               }}>
                 👤
               </Text>
             ),
             tabBarLabel: 'Profile',
           }}
-        />
+        /> */}
       </Tab.Navigator>
     </Screen>
   );

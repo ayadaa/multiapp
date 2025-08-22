@@ -73,11 +73,21 @@ export function FriendsListScreen() {
     }
   };
 
+  const handleAdsNavigate = () => {
+    navigation.navigate('Ads' as never);
+  };
+
   return (
     <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.headerBackButton}
+            onPress={handleAdsNavigate}
+          >
+            <Ionicons name="arrow-back" size={24} color="#000000" />
+          </TouchableOpacity>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Friends</Text>
             <Text style={styles.subtitle}>
@@ -200,6 +210,10 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+  },
+  headerBackButton: {
+    padding: 8,
+    marginRight: 8,
   },
   titleContainer: {
     flex: 1,

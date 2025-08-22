@@ -16,8 +16,10 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { clearUser } from '../../store/slices/auth.slice';
 import { Screen } from '../../components/common/Screen';
+import { useNavigation } from '@react-navigation/native';
 
 export function ProfileScreen() {
+  const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
 
@@ -44,11 +46,24 @@ export function ProfileScreen() {
     );
   };
 
+  const handleAdsNavigate = () => {
+    navigation.navigate('Ads' as never);
+  };
+
   return (
     <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
       <View style={styles.content}>
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* Header */}
+          {/* Header */}
+          <View style={styles.header0}>
+            <TouchableOpacity
+              style={styles.headerBackButton}
+              onPress={handleAdsNavigate}
+            >
+              <Ionicons name="arrow-back" size={24} color="#000000" />
+            </TouchableOpacity>
+          </View>
           <View style={styles.header}>
             <Text style={styles.headerTitle}>Profile</Text>
           </View>
@@ -92,7 +107,7 @@ export function ProfileScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.menuItem}>
-              
+
             </TouchableOpacity>
           </View>
 
@@ -123,10 +138,23 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
   },
+  header0: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#FFFFFF',
+  },
   header: {
     paddingTop: 60,
     paddingHorizontal: 20,
     paddingBottom: 20,
+  },
+  headerBackButton: {
+    padding: 8,
+    marginRight: 8,
   },
   headerTitle: {
     color: 'Black',

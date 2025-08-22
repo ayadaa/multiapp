@@ -18,12 +18,22 @@ import { useAuth } from '../../hooks/auth/use-auth';
 import type { Ad } from '../../types/ads';
 import type { NavigationProp } from '../../types/navigation';
 // import { formatTimestamp } from '../../functions/formatTimestamp';
+import { FloatingAction } from "react-native-floating-action";
 
 /**
  * Ads List screen displaying all ads.
  * Provides navigation to individual chats and friend management options.
  * Features pull-to-refresh and real-time status indicators.
  */
+
+const actions = [
+  {
+    text: "Add new ad",
+    icon: <Entypo name="add-to-list" size={24} color="white" />,
+    name: "bt_ad",
+    position: 1
+  },
+];
 
 export function AdsScreen() {
   // const navigation = useNavigation();
@@ -76,22 +86,17 @@ export function AdsScreen() {
     <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
       <View style={styles.container}>
         {/* Header */}
-        <View style={styles.header}>
+        {/* <View style={styles.header}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Ads</Text>
-            {/* <Text style={styles.subtitle}>
-              {ads.length} {ads.length === 1 ? 'ad' : 'ads'}
-            </Text> */}
           </View>
-
           <TouchableOpacity
             style={styles.addButton}
             onPress={handleCreateAdPress}
           >
-            {/* <Ionicons name="person-add" size={24} color="white" /> */}
             <Entypo name="add-to-list" size={24} color="white" />
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         {/* Error State */}
         {adsError && (
@@ -215,6 +220,10 @@ export function AdsScreen() {
             </View>
           )}
         </ScrollView>
+        <FloatingAction
+          actions={actions}
+          onPressItem={handleCreateAdPress}
+        />
       </View>
     </Screen>
   );
