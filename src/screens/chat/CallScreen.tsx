@@ -513,6 +513,11 @@ const CallScreen = () => {
     }
   };
 
+  //ayad answer
+  if (isIncoming) {
+    answerCall();
+  }
+
   return (
     <View style={styles.container}>
       {isVideoCall && remoteStream ? (

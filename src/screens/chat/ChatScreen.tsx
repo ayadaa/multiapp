@@ -8,12 +8,28 @@ import { useGroups } from '../../hooks/chat/use-groups';
 import { useAuth } from '../../hooks/auth/use-auth';
 import type { NavigationProp } from '../../types/navigation';
 import type { Group } from '../../services/firebase/firestore.service';
+import { FloatingAction } from "react-native-floating-action";
 
 interface ChatSection {
   title: string;
   data: (ChatWithUser | Group)[];
   type: 'individual' | 'group';
 }
+
+const actions = [
+  {
+    text: "Create new group",
+    icon: <Ionicons name="people-outline" size={20} color="#FFFFFF" />,
+    name: "bt_group",
+    position: 1
+  },
+  // {
+  //   text: "Find new friend",
+  //   icon: <Ionicons name="search" size={20} color="#000000" />,
+  //   name: "bt_friend",
+  //   position: 2
+  // },
+];
 
 export function ChatScreen() {
   const navigation = useNavigation<NavigationProp>();
@@ -23,7 +39,7 @@ export function ChatScreen() {
   const { chats, loading: chatsLoading, error: chatsError, formatTimestamp } = useChats(currentUserId);
   const { groups, loading: groupsLoading, error: groupsError } = useGroups(currentUserId);
 
-  const handleSearchPress = () => {
+  const handleFindFriendPress = () => {
     // Navigate to add friends screen where users can start new chats
     (navigation as any).navigate('Friends');
   };
@@ -278,7 +294,7 @@ export function ChatScreen() {
             </TouchableOpacity>
 
             {/* <TouchableOpacity
-              onPress={handleSearchPress}
+              onPress={handleFindFriendPress}
               style={{
                 width: 40,
                 height: 40,
@@ -374,7 +390,7 @@ export function ChatScreen() {
               </TouchableOpacity>
 
               <TouchableOpacity
-                onPress={handleSearchPress}
+                onPress={handleFindFriendPress}
                 style={{
                   backgroundColor: 'rgba(0, 132, 255, 0.8)',
                   paddingHorizontal: 20,
@@ -403,6 +419,14 @@ export function ChatScreen() {
           />
         )}
       </View>
+      <FloatingAction
+        actions={actions}
+        onPressItem={(name) => {
+          // if (name === 'bt_friend') handleFindFriendPress();
+          // else handleCreateGroupPress();
+          handleCreateGroupPress();
+        }}
+      />
     </Screen>
   );
 } 

@@ -6,9 +6,9 @@ import { CameraStackNavigator } from './CameraStackNavigator';
 // import { AdsScreen } from '../screens/ads/AdsScreen';
 import { AdsScreenWithDrawer } from './Drawer';
 import { P2PAdsScreen } from '../screens/p2pads/P2PAdsScreen';
-import { FriendsStackNavigator } from './FriendsStackNavigator';
-import StoriesScreen from '../screens/stories/StoriesScreen';
-import { ProfileScreen } from '../screens/profile/ProfileScreen';
+// import { FriendsStackNavigator } from './FriendsStackNavigator';
+// import StoriesScreen from '../screens/stories/StoriesScreen';
+// import { ProfileScreen } from '../screens/profile/ProfileScreen';
 import { WalletScreen } from '../screens/wallet/WalletScreen';
 import { MainTabParamList } from '../types/navigation';
 

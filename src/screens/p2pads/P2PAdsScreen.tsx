@@ -28,6 +28,7 @@ import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from "@gorhom/botto
 import { launchImagePicker, uploadImageAsync } from "../../screens/ads/imagePickerHelper";
 import { useChats } from '../../hooks/chat/use-chats';
 import { useUser } from '../../hooks/user/use-user';
+import { FloatingAction } from "react-native-floating-action";
 
 interface P2PAdsSection {
   title: string;
@@ -35,6 +36,15 @@ interface P2PAdsSection {
   data: ((P2PAd & UserProfile) | (P2PRequest & UserProfile))[];
   type: 'p2pRequests' | 'p2pAds';
 }
+
+const actions = [
+  {
+    text: "Add new p2p ad",
+    icon: <Entypo name="add-to-list" size={24} color="white" />,
+    name: "bt_p2pAd",
+    position: 1
+  },
+];
 
 export function P2PAdsScreen() {
   const user = useAppSelector((state) => state.auth.user);
@@ -459,6 +469,10 @@ export function P2PAdsScreen() {
               />
             }
           />)}
+        <FloatingAction
+          actions={actions}
+          onPressItem={handleCreateP2PAdPress}
+        />
       </View>
 
       <BottomSheet

@@ -25,6 +25,7 @@ import { AppStackParamList } from '../types/navigation';
 import { CardStyleInterpolators } from '@react-navigation/stack';
 import IncomingCallScreen from "../screens/chat/IncomingCallScreen";
 import CallScreen from "../screens/chat/CallScreen";
+import { FriendsStackNavigator } from './FriendsStackNavigator';
 
 const Stack = createStackNavigator<AppStackParamList>();
 
@@ -152,6 +153,15 @@ export default function AppStackNavigator() {
       <Stack.Screen
         name="StoryViewer"
         component={StoryViewerScreen}
+        options={{
+          presentation: 'modal',
+          gestureEnabled: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="Friends"
+        component={FriendsStackNavigator}
         options={{
           presentation: 'modal',
           gestureEnabled: false,
