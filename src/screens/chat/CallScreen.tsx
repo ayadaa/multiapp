@@ -514,9 +514,9 @@ const CallScreen = () => {
   };
 
   //ayad answer
-  if (isIncoming) {
-    answerCall();
-  }
+  // if (isIncoming) {
+  //   answerCall();
+  // }
 
   return (
     <View style={styles.container}>
