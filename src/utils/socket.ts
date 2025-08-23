@@ -1,6 +1,7 @@
 import { io } from "socket.io-client";
 
-const socket = io("http://192.168.0.108:3000", {
+// const socket = io("http://192.168.0.108:3000", {
+const socket = io("https://multiapp-server.vercel.app/", {
   transports: ["websocket"],
   forceNew: false,
   autoConnect: false
