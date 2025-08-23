@@ -523,7 +523,8 @@ const CallScreen = () => {
       {isVideoCall && remoteStream ? (
         <View style={styles.videoWrapper}>
           <RTCView
-            streamURL={remoteStream.toURL()}
+            // streamURL={remoteStream.toURL()}
+            streamURL={remoteStream} //ayad: react-native-webrtc-web-shim
             style={styles.video}
             objectFit="cover"
             zOrder={0}
@@ -546,7 +547,8 @@ const CallScreen = () => {
       {isVideoCall && localStream && (
         <View style={styles.localVideoWrapper}>
           <RTCView
-            streamURL={localStream.toURL()}
+            // streamURL={localStream.toURL()}
+            streamURL={localStream} //ayad: react-native-webrtc-web-shim
             style={styles.localVideo}
             objectFit="cover"
             zOrder={1}
