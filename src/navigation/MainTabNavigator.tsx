@@ -1,15 +1,15 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, Platform } from 'react-native';
-import { ChatScreen } from '../screens/chat/ChatScreen';
-import { CameraStackNavigator } from './CameraStackNavigator';
+// import { ChatScreen } from '../screens/chat/ChatScreen';
+// import { CameraStackNavigator } from './CameraStackNavigator';
 // import { AdsScreen } from '../screens/ads/AdsScreen';
-import { AdsScreenWithDrawer } from './Drawer';
-import { P2PAdsScreen } from '../screens/p2pads/P2PAdsScreen';
+import { AdsScreenWithDrawer, ChatScreenWithDrawer, P2PAdsScreenWithDrawer, WalletScreenWithDrawer } from './Drawer';
+// import { P2PAdsScreen } from '../screens/p2pads/P2PAdsScreen';
 // import { FriendsStackNavigator } from './FriendsStackNavigator';
 // import StoriesScreen from '../screens/stories/StoriesScreen';
 // import { ProfileScreen } from '../screens/profile/ProfileScreen';
-import { WalletScreen } from '../screens/wallet/WalletScreen';
+// import { WalletScreen } from '../screens/wallet/WalletScreen';
 import { MainTabParamList } from '../types/navigation';
 
 import { Screen } from '../components/common/Screen';
@@ -79,7 +79,8 @@ export function MainTabNavigator() {
 
         <Tab.Screen
           name="Chat"
-          component={ChatScreen}
+          // component={ChatScreen}
+          component={ChatScreenWithDrawer}
           options={{
             tabBarIcon: ({ focused }) => (
               <Text style={{
@@ -111,7 +112,8 @@ export function MainTabNavigator() {
 
         <Tab.Screen
           name="P2PAds"
-          component={P2PAdsScreen}
+          // component={P2PAdsScreen}
+          component={P2PAdsScreenWithDrawer}
           options={{
             tabBarIcon: ({ focused }) => (
               <Text style={{
@@ -159,7 +161,7 @@ export function MainTabNavigator() {
 
         <Tab.Screen
           name="Wallet"
-          component={WalletScreen}
+          component={WalletScreenWithDrawer}
           options={{
             tabBarIcon: ({ focused }) => (
               <Text style={{

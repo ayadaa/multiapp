@@ -351,21 +351,17 @@ export function P2PAdsScreen() {
     <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
       <View style={styles.container}>
         {/* Header */}
-        <View style={styles.header}>
+        {/* <View style={styles.header}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>P2P Ads</Text>
-            {/* <Text style={styles.subtitle}>
-              {p2pAdsWithUsers.length} {p2pAdsWithUsers.length === 1 ? 'ad' : 'ads'}
-            </Text> */}
           </View>
-
           <TouchableOpacity
             style={styles.addButton}
             onPress={handleCreateP2PAdPress}
           >
             <Entypo name="add-to-list" size={24} color="white" />
           </TouchableOpacity>
-        </View>
+        </View> */}
         {loading ? (
           <View style={{
             flex: 1,

@@ -73,9 +73,9 @@ export function FriendsListScreen() {
     }
   };
 
-  const handleAdsNavigate = () => {
-    navigation.navigate('Ads' as never);
-  };
+  // const handleAdsNavigate = () => {
+  //   navigation.navigate('Ads' as never);
+  // };
 
   return (
     <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
@@ -84,7 +84,8 @@ export function FriendsListScreen() {
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.headerBackButton}
-            onPress={handleAdsNavigate}
+            // onPress={handleAdsNavigate}
+            onPress={() => navigation.goBack()}
           >
             <Ionicons name="arrow-back" size={24} color="#000000" />
           </TouchableOpacity>

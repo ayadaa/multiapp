@@ -1,8 +1,3 @@
-/**
- * Wallet Screen
- * Displays user wallet information and provides many functionality
- */
-
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   View,
@@ -29,6 +24,23 @@ import { ref } from 'firebase/storage';
 import { useNavigation } from '@react-navigation/native';
 // import MiningOffersBottomSheet from '../../components/bottomSheet/MiningOffersBottomSheet'
 // import BottomSheet from "@gorhom/bottom-sheet";
+import { FloatingAction } from "react-native-floating-action";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+
+const actions = [
+  {
+    text: "Send",
+    icon: <MaterialIcons name="call-received" size={24} color="white" style={{ transform: [{ rotate: '180deg' }] }} />,
+    name: "bt_send",
+    position: 1
+  },
+  {
+    text: "Receive",
+    icon: <MaterialIcons name="call-received" size={24} color="white" />,
+    name: "bt_receive",
+    position: 2
+  },
+];
 
 const FullWidth = Dimensions.get("screen").width;
 const CardWidth_0 = Math.min(FullWidth, 300) - 20 * 2;
@@ -126,9 +138,9 @@ export function WalletScreen() {
     <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
       <View style={styles.container}>
         {/* Header */}
-        <View style={styles.header}>
+        {/* <View style={styles.header}>
           <Text style={styles.title}>Wallet</Text>
-        </View>
+        </View> */}
         {/* Error State */}
         {userError && (
           <View style={styles.errorContainer}>
@@ -187,7 +199,7 @@ export function WalletScreen() {
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.menuItem}
               onPress={navigateToSend}
             >
@@ -196,9 +208,9 @@ export function WalletScreen() {
                 <Text style={styles.menuItemText}>Send</Text>
               </View>
               <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.menuItem}
               onPress={navigateToReceive}
             >
@@ -207,7 +219,7 @@ export function WalletScreen() {
                 <Text style={styles.menuItemText}>Receive</Text>
               </View>
               <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <TouchableOpacity
               style={styles.menuItem}
@@ -220,13 +232,13 @@ export function WalletScreen() {
               <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.menuItem}>
+            {/* <TouchableOpacity style={styles.menuItem}>
               <View style={styles.menuItemLeft}>
                 <Ionicons name="shield-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
                 <Text style={styles.menuItemText}>Privacy</Text>
               </View>
               <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           {/* App Info */}
           <View style={styles.appInfo}>
@@ -237,6 +249,17 @@ export function WalletScreen() {
 
       </View>
       {/* <MiningOffersBottomSheet bottomSheetRef={bottomSheetRef} snapPoints={snapPoints} /> */}
+      <FloatingAction
+        actions={actions}
+        onPressItem={(name) => {
+          if (name === "bt_send") {
+            navigateToSend();
+          } else if (name === "bt_receive") {
+            navigateToReceive();
+          }
+        }
+        }
+      />
     </Screen>
   );
 }

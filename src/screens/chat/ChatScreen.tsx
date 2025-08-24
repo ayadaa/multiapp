@@ -262,7 +262,7 @@ export function ChatScreen() {
     <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
       <View style={{ flex: 1 }}>
         {/* Header */}
-        <View style={{
+        {/* <View style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -292,22 +292,8 @@ export function ChatScreen() {
             >
               <Ionicons name="people-outline" size={20} color="#000000" />
             </TouchableOpacity>
-
-            {/* <TouchableOpacity
-              onPress={handleFindFriendPress}
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 20,
-                backgroundColor: 'rgba(0, 0, 0, 0.05)',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <Ionicons name="search" size={20} color="#000000" />
-            </TouchableOpacity> */}
           </View>
-        </View>
+        </View> */}
 
         {/* Content */}
         {loading ? (

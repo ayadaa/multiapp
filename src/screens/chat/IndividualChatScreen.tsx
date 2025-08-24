@@ -220,70 +220,70 @@ export function IndividualChatScreen() {
   );
 
   const renderHeader = (isOnline: boolean, user: UserProfile) => (
-    // <View
-    //   style={{
-    //     flexDirection: 'row',
-    //     alignItems: 'center',
-    //     paddingHorizontal: 20,
-    //     paddingVertical: 16,
-    //     backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    //     borderBottomWidth: 1,
-    //     borderBottomColor: 'rgba(0, 0, 0, 0.1)',
-    //   }}
-    // >
-    //   <TouchableOpacity
-    //     onPress={() => navigation.goBack()}
-    //     style={{
-    //       width: 40,
-    //       height: 40,
-    //       borderRadius: 20,
-    //       backgroundColor: 'rgba(0, 0, 0, 0.2)',
-    //       alignItems: 'center',
-    //       justifyContent: 'center',
-    //       marginRight: 16,
-    //     }}
-    //   >
-    //     <Text style={{ color: '#000000', fontSize: 16 }}>←</Text>
-    //   </TouchableOpacity>
+    <View
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        paddingVertical: 16,
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        borderBottomWidth: 1,
+        borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+      }}
+    >
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={{
+          width: 40,
+          height: 40,
+          borderRadius: 20,
+          backgroundColor: 'rgba(0, 0, 0, 0.2)',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginRight: 16,
+        }}
+      >
+        <Text style={{ color: '#000000', fontSize: 16 }}>←</Text>
+      </TouchableOpacity>
 
-    //   <View
-    //     style={{
-    //       width: 40,
-    //       height: 40,
-    //       borderRadius: 20,
-    //       backgroundColor: 'rgba(0, 132, 255, 0.8)',
-    //       alignItems: 'center',
-    //       justifyContent: 'center',
-    //       marginRight: 12,
-    //     }}
-    //   >
-    //     <Text style={{ color: '#000000', fontSize: 16 }}>
-    //       {otherUser?.username?.charAt(0).toUpperCase() || '?'}
-    //     </Text>
-    //   </View>
+      <View
+        style={{
+          width: 40,
+          height: 40,
+          borderRadius: 20,
+          backgroundColor: 'rgba(0, 132, 255, 0.8)',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginRight: 12,
+        }}
+      >
+        <Text style={{ color: '#000000', fontSize: 16 }}>
+          {otherUser?.username?.charAt(0).toUpperCase() || '?'}
+        </Text>
+      </View>
 
-    //   <View style={{ flex: 1 }}>
-    //     <Text
-    //       style={{
-    //         color: '#000000',
-    //         fontSize: 18,
-    //         fontWeight: 'bold',
-    //       }}
-    //     >
-    //       {otherUser?.username || 'Unknown User'}
-    //     </Text>
-    //     <Text
-    //       style={{
-    //         color: 'rgba(0, 0, 0, 0.6)',
-    //         fontSize: 14,
-    //       }}
-    //     >
-    //       {otherUser?.isOnline ? 'Online' : 'Offline'}
-    //     </Text>
-    //   </View>
-    // </View>
+      <View style={{ flex: 1 }}>
+        <Text
+          style={{
+            color: '#000000',
+            fontSize: 18,
+            fontWeight: 'bold',
+          }}
+        >
+          {otherUser?.username || 'Unknown User'}
+        </Text>
+        <Text
+          style={{
+            color: 'rgba(0, 0, 0, 0.6)',
+            fontSize: 14,
+          }}
+        >
+          {otherUser?.isOnline ? 'Online' : 'Offline'}
+        </Text>
+      </View>
+    </View>
 
-    <ChattingScreenHeaderComponent isOnline={isOnline} user={user} />
+    // <ChattingScreenHeaderComponent isOnline={isOnline} user={user} />
   );
 
   const renderEmptyState = () => (

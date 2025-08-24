@@ -4,8 +4,8 @@ import { useRoute, useNavigation, type RouteProp } from '@react-navigation/nativ
 import { type StackNavigationProp } from '@react-navigation/stack';
 import listingsData from './airbnb-listings.json';
 import { Ionicons } from '@expo/vector-icons';
-import Colors from './AdDetailsColors';
-import { defaultStyles } from './AdDetailsStyle';
+// import Colors from './AdDetailsColors';
+// import { defaultStyles } from './AdDetailsStyle';
 import type { AppStackParamList } from '../../types/navigation';
 // import { formatTimestamp } from '../../functions/formatTimestamp';
 import { useAds } from '../../hooks/ad/use-ads';
@@ -45,7 +45,7 @@ export default function AdDetails() {
   //   return formatTimestamp(tx)
   // }
 
-  
+
   /**
    * Handle send message button press - navigate to chat
    */
@@ -92,26 +92,39 @@ export default function AdDetails() {
 
           {/* User profile details */}
           {User == null ?
-          (
-          <View><Text> . . . </Text></View>
-          )
-          :(
-            <View style={styles.hostView}>
-              <Image source={{ uri: listing.host_picture_url }} style={styles.host} />
+            (
+              <View><Text> . . . </Text></View>
+            )
+            : (
+              <View style={styles.hostView}>
+                <Image source={{ uri: listing.host_picture_url }} style={styles.host} />
 
-              <View>
-                <Text style={{ fontWeight: '500', fontSize: 16 }}>{User.username}</Text>
-                <Text>{ad.createdAt? formatTimestamp(ad.createdAt): ''}</Text>
+                <View>
+                  <Text style={{ fontWeight: '500', fontSize: 16 }}>{User.username}</Text>
+                  <Text>{ad.createdAt ? formatTimestamp(ad.createdAt) : ''}</Text>
+                </View>
+
+                <TouchableOpacity
+                  onPress={handleSendMessagePress}
+                  style={[
+                    {
+                      backgroundColor: '#FF385C',
+                      height: 50,
+                      borderRadius: 8,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    },
+                    { paddingRight: 20, paddingLeft: 20 }
+                  ]}
+                >
+                  <Text style={{
+                    color: '#fff',
+                    fontSize: 16,
+                    fontFamily: 'mon-b',
+                  }}>Send Message</Text>
+                </TouchableOpacity>
               </View>
-
-              <TouchableOpacity 
-                onPress={handleSendMessagePress}
-                style={[defaultStyles.btn, { paddingRight: 20, paddingLeft: 20 }]}
-              >
-                <Text style={defaultStyles.btnText}>Send Message</Text>
-              </TouchableOpacity>
-            </View>
-          )}
+            )}
 
           <View style={styles.divider} />
 
@@ -147,7 +160,7 @@ const styles = StyleSheet.create({
   },
   rooms: {
     fontSize: 16,
-    color: Colors.grey,
+    color: '#5E5D5E',
     marginVertical: 4,
     fontFamily: 'mon',
   },
@@ -157,14 +170,14 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: StyleSheet.hairlineWidth,
-    backgroundColor: Colors.grey,
+    backgroundColor: '#5E5D5E',
     marginVertical: 16,
   },
   host: {
     width: 50,
     height: 50,
     borderRadius: 50,
-    backgroundColor: Colors.grey,
+    backgroundColor: '#5E5D5E',
   },
   hostView: {
     flexDirection: 'row',
@@ -189,7 +202,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
-    color: Colors.primary,
+    color: '#FF385C',
   },
   bar: {
     flexDirection: 'row',
@@ -201,7 +214,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     height: 100,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: Colors.grey,
+    borderColor: '#5E5D5E',
   },
 
   description: {

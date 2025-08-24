@@ -46,9 +46,9 @@ export function ProfileScreen() {
     );
   };
 
-  const handleAdsNavigate = () => {
-    navigation.navigate('Ads' as never);
-  };
+  // const handleAdsNavigate = () => {
+  //   navigation.navigate('Ads' as never);
+  // };
 
   return (
     <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
@@ -59,7 +59,8 @@ export function ProfileScreen() {
           <View style={styles.header0}>
             <TouchableOpacity
               style={styles.headerBackButton}
-              onPress={handleAdsNavigate}
+              // onPress={handleAdsNavigate}
+              onPress={() => navigation.goBack()}
             >
               <Ionicons name="arrow-back" size={24} color="#000000" />
             </TouchableOpacity>
