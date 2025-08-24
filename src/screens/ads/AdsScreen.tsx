@@ -22,6 +22,7 @@ import { FloatingAction } from "react-native-floating-action";
 // import Feather from '@expo/vector-icons/Feather';
 // import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import CategoryFilter, { categories, type Categorie } from '../../components/category/CategoryFilter'
 
 const actions = [
   {
@@ -37,14 +38,9 @@ export function AdsScreen() {
   const navigation = useNavigation<NavigationProp>();
   const navigation2 = useNavigation<any>();
   const { user } = useAuth();
-
-  // const {
-  //   friends,
-  //   isLoadingFriends,
-  //   friendsError,
-  //   refreshFriends,
-  // } = useFriends();
-
+  // const [categories, setCategories] = React.useState([]);
+  // const [selectedCategory, setSelectedCategory] = React.useState<any>(null);
+  const [selectedCategory, setSelectedCategory] = React.useState<string>(categories[0].name);
   const {
     ads,
     isLoadingAds,
@@ -53,7 +49,9 @@ export function AdsScreen() {
     formatTimestamp
   } = useAds(user?.uid || '');
 
-  // const { createChat } = useChats(user?.uid || '');
+  const handleCategorySelect = (category: any) => {
+    setSelectedCategory(category);
+  };
 
   const handleCreateAdPress = () => {
     navigation.navigate('CreateAd' as never); //ayad
@@ -113,6 +111,15 @@ export function AdsScreen() {
               <Text style={styles.retryText}>Retry</Text>
             </TouchableOpacity>
           </View>
+        )}
+
+        {/* Ads categories */}
+        {categories.length > 0 && (
+          <CategoryFilter
+            categories={categories}
+            selectedCategory={selectedCategory}
+            onSelectCategory={handleCategorySelect}
+          />
         )}
 
         {/* Ads List */}
