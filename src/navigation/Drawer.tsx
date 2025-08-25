@@ -148,6 +148,7 @@ export const ChatScreenWithDrawer = () => {
                     drawerLabelStyle: {
                         fontSize: 16,
                     },
+                    headerShown: false
                 }}
             />
             <Drawer.Screen name={SCREENS.Profile} component={ProfileScreen} options={{ headerShown: false }} />
@@ -200,6 +201,7 @@ export const P2PAdsScreenWithDrawer = () => {
                     drawerLabelStyle: {
                         fontSize: 16,
                     },
+                    headerShown: false
                 }}
             />
             <Drawer.Screen name={SCREENS.Profile} component={ProfileScreen} options={{ headerShown: false }} />
@@ -252,6 +254,7 @@ export const WalletScreenWithDrawer = () => {
                     drawerLabelStyle: {
                         fontSize: 16,
                     },
+                    headerShown: false
                 }}
             />
             <Drawer.Screen name={SCREENS.Profile} component={ProfileScreen} options={{ headerShown: false }} />

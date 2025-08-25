@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList, SectionList } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, SectionList, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '../../components/common/Screen';
@@ -33,6 +33,7 @@ const actions = [
 
 export function ChatScreen() {
   const navigation = useNavigation<NavigationProp>();
+  const navigation2 = useNavigation<any>();
   const { user } = useAuth();
   const currentUserId = user?.uid || '';
 
@@ -294,6 +295,23 @@ export function ChatScreen() {
             </TouchableOpacity>
           </View>
         </View> */}
+        {/* Header */}
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.headerDrawerButton}
+            onPress={() => navigation2.toggleDrawer()}
+          >
+            <Text style={{ color: 'Black', fontSize: 20, fontWeight: 'bold', }}> ☰ </Text>
+            {/* <Ionicons name="menu" size={24} color="#000000" /> */}
+            {/* <Entypo name="menu" size={24} color="black" /> */}
+            {/* <Feather name="menu" size={24} color="black" /> */}
+            {/* <MaterialIcons name="menu" size={24} color="black" /> */}
+            {/* <AntDesign name="menuunfold" size={24} color="black" /> */}
+          </TouchableOpacity>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>Chat</Text>
+          </View>
+        </View>
 
         {/* Content */}
         {loading ? (
@@ -416,3 +434,28 @@ export function ChatScreen() {
     </Screen>
   );
 } 
+
+const styles = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 5,
+    paddingTop: 10,
+    paddingBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+  },
+  headerDrawerButton: {
+    padding: 8,
+    marginRight: 8,
+  },
+  titleContainer: {
+    flex: 1,
+  },
+  title: {
+    fontSize: 16,
+    color: 'Black',
+    fontWeight: 'bold',
+    marginBottom: 2,
+  },
+})

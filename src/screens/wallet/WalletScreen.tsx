@@ -141,6 +141,24 @@ export function WalletScreen() {
         {/* <View style={styles.header}>
           <Text style={styles.title}>Wallet</Text>
         </View> */}
+        {/* Header */}
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.headerDrawerButton}
+            onPress={() => navigation.toggleDrawer()}
+          >
+            <Text style={{ color: 'Black', fontSize: 20, fontWeight: 'bold', }}> ☰ </Text>
+            {/* <Ionicons name="menu" size={24} color="#000000" /> */}
+            {/* <Entypo name="menu" size={24} color="black" /> */}
+            {/* <Feather name="menu" size={24} color="black" /> */}
+            {/* <MaterialIcons name="menu" size={24} color="black" /> */}
+            {/* <AntDesign name="menuunfold" size={24} color="black" /> */}
+          </TouchableOpacity>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>Wallet</Text>
+          </View>
+        </View>
+
         {/* Error State */}
         {userError && (
           <View style={styles.errorContainer}>
@@ -273,18 +291,24 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 16,
+    paddingHorizontal: 5,
+    paddingTop: 10,
+    paddingBottom: 8,
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(0, 0, 0, 0.1)',
   },
+  headerDrawerButton: {
+    padding: 8,
+    marginRight: 8,
+  },
+  titleContainer: {
+    flex: 1,
+  },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
+    fontSize: 16,
     color: 'Black',
+    fontWeight: 'bold',
     marginBottom: 2,
   },
   card: {
