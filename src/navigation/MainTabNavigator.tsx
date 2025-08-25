@@ -11,8 +11,9 @@ import { AdsScreenWithDrawer, ChatScreenWithDrawer, P2PAdsScreenWithDrawer, Wall
 // import { ProfileScreen } from '../screens/profile/ProfileScreen';
 // import { WalletScreen } from '../screens/wallet/WalletScreen';
 import { MainTabParamList } from '../types/navigation';
-
-import { Screen } from '../components/common/Screen';
+// import { Screen } from '../components/common/Screen';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
@@ -23,7 +24,7 @@ const Tab = createBottomTabNavigator<MainTabParamList>();
  */
 export function MainTabNavigator() {
   return (
-    <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
+    <SafeAreaView edges={['top', 'bottom']} style={{flex: 1}}>
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
@@ -49,14 +50,15 @@ export function MainTabNavigator() {
           component={AdsScreenWithDrawer}
           options={{
             tabBarIcon: ({ focused }) => (
-              <Text style={{
-                fontSize: 20,
-                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'
-              }}>
-                🧮
-              </Text>
+              // <Text style={{
+              //   fontSize: 20,
+              //   color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'
+              // }}>
+              //   🧮
+              // </Text>
+              <AntDesign name="home" size={20} color={focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'} />
             ),
-            tabBarLabel: 'Ads',
+            tabBarLabel: 'Home',
           }}
         />
 
@@ -83,14 +85,15 @@ export function MainTabNavigator() {
           component={ChatScreenWithDrawer}
           options={{
             tabBarIcon: ({ focused }) => (
-              <Text style={{
-                fontSize: 20,
-                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'
-              }}>
-                💬
-              </Text>
+              // <Text style={{
+              //   fontSize: 20,
+              //   color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'
+              // }}>
+              //   💬
+              // </Text>
+              <AntDesign name="message1" size={20} color={focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'} />
             ),
-            tabBarLabel: 'Chat',
+            tabBarLabel: 'Messages',
           }}
         />
 
@@ -116,14 +119,15 @@ export function MainTabNavigator() {
           component={P2PAdsScreenWithDrawer}
           options={{
             tabBarIcon: ({ focused }) => (
-              <Text style={{
-                fontSize: 20,
-                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'
-              }}>
-                🧮
-              </Text>
+              // <Text style={{
+              //   fontSize: 20,
+              //   color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'
+              // }}>
+              //   🧮
+              // </Text>
+              <AntDesign name="swap" size={20} color={focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'} />
             ),
-            tabBarLabel: 'P2PAds',
+            tabBarLabel: 'Swap',
           }}
         />
 
@@ -164,12 +168,13 @@ export function MainTabNavigator() {
           component={WalletScreenWithDrawer}
           options={{
             tabBarIcon: ({ focused }) => (
-              <Text style={{
-                fontSize: 20,
-                color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'
-              }}>
-                💳
-              </Text>
+              // <Text style={{
+              //   fontSize: 20,
+              //   color: focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'
+              // }}>
+              //   💳
+              // </Text>
+              <AntDesign name="wallet" size={20} color={focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'} />
             ),
             tabBarLabel: 'Wallet',
           }}
@@ -190,6 +195,6 @@ export function MainTabNavigator() {
           }}
         /> */}
       </Tab.Navigator>
-    </Screen>
+    </SafeAreaView>
   );
 } 
