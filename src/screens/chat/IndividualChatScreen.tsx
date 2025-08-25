@@ -16,8 +16,8 @@ import BottomSheet, { BottomSheetView, BottomSheetBackdrop, BottomSheetFooter } 
 // import { Text as Text2, View as View2 } from "./bottomSheet/Themed";
 // import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { launchImagePicker, uploadImageAsync } from "../../screens/ads/imagePickerHelper";
-import { ChattingScreenHeaderComponent } from "../../components/chat/ChatScreenHeader";
-import socket from "../../utils/socket";
+// import { ChattingScreenHeaderComponent } from "../../components/chat/ChatScreenHeader";
+// import socket from "../../utils/socket";
 
 type ChatStackParamList = {
   IndividualChat: {
@@ -80,44 +80,44 @@ export function IndividualChatScreen() {
   );
 
   // webRTC
-  useEffect(() => {
-    // socket.on("receive_message", (data) => {
-    //   setMessages((prev) => [data, ...prev]);
-    // });
+  // useEffect(() => {
+  //   // socket.on("receive_message", (data) => {
+  //   //   setMessages((prev) => [data, ...prev]);
+  //   // });
 
-    // Check connection status
-    setIsOnline(socket.connected);
+  //   // Check connection status
+  //   setIsOnline(socket.connected);
 
-    socket.on("connect", () => {
-      console.log("✅ Connected to socket server!", socket.id);
-      setIsOnline(true);
-    });
+  //   socket.on("connect", () => {
+  //     console.log("✅ Connected to socket server!", socket.id);
+  //     setIsOnline(true);
+  //   });
 
-    socket.on("disconnect", () => {
-      console.log("🔴 Disconnected from socket server.");
-      setIsOnline(false);
-    });
+  //   socket.on("disconnect", () => {
+  //     console.log("🔴 Disconnected from socket server.");
+  //     setIsOnline(false);
+  //   });
 
-    // Listen for incoming calls
-    const incomingCallHandler = ({ callType, caller }: any) => {
-      console.log("Incoming call received", caller, callType);
-      // Navigate to incoming call screen
-      navigation2.navigate("IncomingCall", {
-        caller,
-        callType,
-      });
-    };
+  //   // Listen for incoming calls
+  //   const incomingCallHandler = ({ callType, caller }: any) => {
+  //     console.log("Incoming call received", caller, callType);
+  //     // Navigate to incoming call screen
+  //     navigation2.navigate("IncomingCall", {
+  //       caller,
+  //       callType,
+  //     });
+  //   };
 
-    socket.on("incoming_call", incomingCallHandler);
+  //   socket.on("incoming_call", incomingCallHandler);
 
-    return () => {
-      // Just remove listeners but don't disconnect
-      // socket.off("receive_message");
-      socket.off("connect");
-      socket.off("disconnect");
-      socket.off("incoming_call", incomingCallHandler);
-    };
-  }, [navigation]);
+  //   return () => {
+  //     // Just remove listeners but don't disconnect
+  //     // socket.off("receive_message");
+  //     socket.off("connect");
+  //     socket.off("disconnect");
+  //     socket.off("incoming_call", incomingCallHandler);
+  //   };
+  // }, [navigation]);
 
   const handleSheetChanges = useCallback((index: number) => {
     console.log("handleSheetChanges", index);
