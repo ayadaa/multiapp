@@ -56,10 +56,11 @@ export default function CreateAdScreen() {
   const navigation = useNavigation<NavigationProp>();
   const user = useSelector((state: RootState) => state.auth.user);
 
-  const { createNewAd, refreshAds } = useAds(user?.uid || '');
+  const { createNewAd } = useAds(user?.uid || '');
 
   const [adTitle, setAdTitle] = useState('');
   const [adDescription, setAdDescription] = useState('');
+  const [adPrice, setAdPrice] = useState('');
   const [className, setClassName] = useState('Real estate');
   const [typeName, setTypeName] = useState('sale');
   const [cityName, setCityName] = useState('Bagdad');
@@ -111,6 +112,7 @@ export default function CreateAdScreen() {
       const adId = await createNewAd({
         title: adTitle.trim(),
         description: adDescription.trim(),
+        price: adPrice,
         // adPicture: imageUrl,
         adPicture: url,
         createdBy: user.uid,
@@ -150,90 +152,110 @@ export default function CreateAdScreen() {
       );
     } finally {
       setIsCreating(false);
+      setAdTitle('');
+      setAdDescription('');
+      setAdPrice('');
+      // setClassName('');
+      // setTypeName('');
+      // setCityName('');
     }
   }, [tempImageUri, adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
 
   return (
-    <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
-      <View style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {/* Ad Inputs */}
-          <View style={styles.inputContainer}>
-            {/* image picker */}
-            <Text style={styles.inputLabel}>Image</Text>
-            <TouchableOpacity style={styles.textInput} onPress={pickImage}>
-              <Text style={styles.textInput}>Pick an image</Text>
-            </TouchableOpacity>
-            {/* {image && ( */}
-            {tempImageUri && (
+    <Screen backgroundColor="#FFFFFF">
+      {/* <View style={styles.container}> */}
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+        {/* Ad Inputs */}
+        <View style={styles.inputContainer}>
+          {/* image picker */}
+          <Text style={styles.inputLabel}>Image</Text>
+          <TouchableOpacity style={styles.textInput} onPress={pickImage}>
+            <Text style={styles.textInput}>Pick an image</Text>
+          </TouchableOpacity>
+          {/* {image && ( */}
+          {tempImageUri && (
+            <View style={{ alignItems: 'center' }}>
               <Image
                 source={{ uri: tempImageUri }}
-                style={{ width: 200, height: 200 }}
+                style={{ width: 200, height: 200, alignItems: 'center' }}
               />
-            )}
-            <Text style={styles.inputLabel}>Title</Text>
-            <TextInput
-              style={styles.textInput}
-              value={adTitle}
-              onChangeText={setAdTitle}
-              placeholder="Enter ad title..."
-              placeholderTextColor="rgba(0, 0, 0, 0.4)"
-              maxLength={50}
-            />
-            <Text style={styles.inputLabel}>Description</Text>
-            <TextInput
-              style={styles.textInput}
-              value={adDescription}
-              onChangeText={setAdDescription}
-              placeholder="Enter ad title..."
-              placeholderTextColor="rgba(0, 0, 0, 0.4)"
-              maxLength={500}
-            />
-            <Text style={styles.inputLabel}>Category</Text>
-            <Picker
-              selectedValue={className}
-              style={styles.textInput}
-              onValueChange={(itemValue, itemIndex) =>
-                setClassName(itemValue)
-              }>
-              <Picker.Item label={classNameList.RealEstate} value={classNameList.RealEstate} />
-              <Picker.Item label={classNameList.WorkAndBusiness} value={classNameList.WorkAndBusiness} />
-              <Picker.Item label={classNameList.MobileAndComputer} value={classNameList.MobileAndComputer} />
-            </Picker>
-            <Text style={styles.inputLabel}>Type</Text>
-            <Picker
-              selectedValue={typeName}
-              style={styles.textInput}
-              onValueChange={(itemValue, itemIndex) =>
-                setTypeName(itemValue)
-              }>
-              <Picker.Item label="sale" value="sale" />
-              <Picker.Item label="buy" value="buy" />
-            </Picker>
-            <Text style={styles.inputLabel}>City</Text>
-            <Picker
-              selectedValue={cityName}
-              style={styles.textInput}
-              onValueChange={(itemValue, itemIndex) =>
-                setCityName(itemValue)
-              }>
-              <Picker.Item label={cityNameList.Bagdad} value={cityNameList.Bagdad} />
-              <Picker.Item label={cityNameList.Babylon} value={cityNameList.Babylon} />
-              <Picker.Item label={cityNameList.Karbala} value={cityNameList.Karbala} />
-            </Picker>
-          </View>
+            </View>
 
-          {/* Create Ad Button */}
-          <View style={{ marginTop: 16, paddingHorizontal: 16, paddingVertical: 12 }}>
-            <Button
-              title={isCreating ? 'Creating...' : 'Create Ad'}
-              onPress={uploadImage}
-              disabled={isCreating || !adTitle.trim() || !adDescription.trim() || !typeName.trim() || !className.trim() || !cityName.trim()}
-              style={styles.createButton}
-            />
-          </View>
-        </ScrollView>
-      </View>
+          )}
+          <Text style={styles.inputLabel}>Title</Text>
+          <TextInput
+            style={styles.textInput}
+            value={adTitle}
+            onChangeText={setAdTitle}
+            placeholder="Enter ad title..."
+            placeholderTextColor="rgba(0, 0, 0, 0.4)"
+            maxLength={50}
+          />
+          <Text style={styles.inputLabel}>Description</Text>
+          <TextInput
+            style={styles.textInput}
+            value={adDescription}
+            onChangeText={setAdDescription}
+            placeholder="Enter ad title..."
+            placeholderTextColor="rgba(0, 0, 0, 0.4)"
+            maxLength={500}
+          />
+
+          <Text style={styles.inputLabel}>Price</Text>
+          <TextInput
+            style={styles.textInput}
+            value={adPrice}
+            onChangeText={setAdPrice}
+            placeholder="Enter ad price..."
+            placeholderTextColor="rgba(0, 0, 0, 0.4)"
+            maxLength={500}
+          />
+
+          <Text style={styles.inputLabel}>Category</Text>
+          <Picker
+            selectedValue={className}
+            style={styles.textInput}
+            onValueChange={(itemValue, itemIndex) =>
+              setClassName(itemValue)
+            }>
+            <Picker.Item label={classNameList.RealEstate} value={classNameList.RealEstate} />
+            <Picker.Item label={classNameList.WorkAndBusiness} value={classNameList.WorkAndBusiness} />
+            <Picker.Item label={classNameList.MobileAndComputer} value={classNameList.MobileAndComputer} />
+          </Picker>
+          <Text style={styles.inputLabel}>Type</Text>
+          <Picker
+            selectedValue={typeName}
+            style={styles.textInput}
+            onValueChange={(itemValue, itemIndex) =>
+              setTypeName(itemValue)
+            }>
+            <Picker.Item label="sale" value="sale" />
+            <Picker.Item label="buy" value="buy" />
+          </Picker>
+          <Text style={styles.inputLabel}>City</Text>
+          <Picker
+            selectedValue={cityName}
+            style={styles.textInput}
+            onValueChange={(itemValue, itemIndex) =>
+              setCityName(itemValue)
+            }>
+            <Picker.Item label={cityNameList.Bagdad} value={cityNameList.Bagdad} />
+            <Picker.Item label={cityNameList.Babylon} value={cityNameList.Babylon} />
+            <Picker.Item label={cityNameList.Karbala} value={cityNameList.Karbala} />
+          </Picker>
+        </View>
+
+        {/* Create Ad Button */}
+        <View style={{ marginTop: 16, paddingHorizontal: 16, paddingVertical: 12 }}>
+          <Button
+            title={isCreating ? 'Creating...' : 'Create Ad'}
+            onPress={uploadImage}
+            disabled={isCreating || !adTitle.trim() || !adDescription.trim() || !typeName.trim() || !className.trim() || !cityName.trim() || !adPrice}
+            style={styles.createButton}
+          />
+        </View>
+      </ScrollView>
+      {/* </View> */}
     </Screen>
   );
 }
@@ -254,7 +276,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   textInput: {
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    backgroundColor: 'rgba(255, 255, 255, 1)',
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 12,

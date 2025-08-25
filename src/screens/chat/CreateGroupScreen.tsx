@@ -237,9 +237,10 @@ const styles = StyleSheet.create({
   headerTitle: {
     flex: 1,
     fontSize: 18,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
+    fontWeight: 500,
     color: '#000000',
-    textAlign: 'center',
+    textAlign: 'left',
   },
   headerSpacer: {
     width: 40,

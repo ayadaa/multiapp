@@ -284,16 +284,9 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
   },
   header: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 16,
-
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    // paddingHorizontal: 20,
-    // paddingTop: 20,
-    // paddingBottom: 16,
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(0, 0, 0, 0.1)',
   },
@@ -305,8 +298,9 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
+    fontSize: 18,
+    // fontWeight: 'bold',
+    fontWeight: 500,
     color: 'black',
     marginBottom: 4,
   },
@@ -321,7 +315,7 @@ const styles = StyleSheet.create({
   searchInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    // backgroundColor: 'rgba(0, 0, 0, 0.1)',
     borderRadius: 16,
     paddingHorizontal: 16,
     paddingVertical: 12,

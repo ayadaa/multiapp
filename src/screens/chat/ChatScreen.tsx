@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList, SectionList, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, SectionList, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '../../components/common/Screen';
@@ -192,19 +192,35 @@ export function ChatScreen() {
             borderBottomColor: 'rgba(0, 0, 0, 0.1)',
           }}
         >
-          <View style={{
+          {chat.otherUser?.profilePicture ? <View style={{
             width: 50,
             height: 50,
             borderRadius: 25,
-            backgroundColor: 'rgba(0, 132, 255, 0.8)',
             alignItems: 'center',
             justifyContent: 'center',
             marginRight: 16,
+            overflow: "hidden",
           }}>
-            <Text style={{ fontSize: 18, color: '#000000' }}>
-              {chat.otherUser?.username?.charAt(0).toUpperCase() || '?'}
-            </Text>
+            <Image
+              source={{ uri: chat.otherUser?.profilePicture }}
+              style={{ height: 50, width: 50 }}
+              resizeMode="cover"
+            />
           </View>
+            : <View style={{
+              width: 50,
+              height: 50,
+              borderRadius: 25,
+              backgroundColor: 'rgba(0, 132, 255, 0.8)',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginRight: 16,
+            }}>
+              <Text style={{ fontSize: 18, color: '#000000' }}>
+                {chat.otherUser?.username?.charAt(0).toUpperCase() || '?'}
+              </Text>
+            </View>
+          }
 
           <View style={{ flex: 1 }}>
             <View style={{
@@ -433,7 +449,7 @@ export function ChatScreen() {
       />
     </Screen>
   );
-} 
+}
 
 const styles = StyleSheet.create({
   header: {
@@ -453,9 +469,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontSize: 16,
+    fontSize: 18,
     color: 'Black',
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
+    fontWeight: 500,
     marginBottom: 2,
   },
 })

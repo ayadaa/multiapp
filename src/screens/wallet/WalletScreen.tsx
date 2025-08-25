@@ -244,7 +244,7 @@ export function WalletScreen() {
               onPress={navigateToMiningOffers}
             >
               <View style={styles.menuItemLeft}>
-                <Ionicons name="help-circle-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
+                {/* <Ionicons name="help-circle-outline" size={20} color="rgba(0, 0, 0, 0.8)" /> */}
                 <Text style={styles.menuItemText}>Update mining speed</Text>
               </View>
               <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
@@ -306,9 +306,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontSize: 16,
+    fontSize: 18,
     color: 'Black',
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
+    fontWeight: 500,
     marginBottom: 2,
   },
   card: {

@@ -68,7 +68,7 @@ export function P2PAdsScreen() {
   const error = p2pAdsWithUsersError || p2pRequestsWithUsersError;
 
   const bottomSheetRef = React.useRef<BottomSheet>(null);
-  const snapPoints = React.useMemo(() => ["25%", "50%", "75%"], []);
+  const snapPoints = React.useMemo(() => ["20%", "30%", "40%"], []);
   const [p2pRequest, setP2PRequest] = React.useState<(P2PRequest & UserProfile) | null>(null);
 
   const [complete, setComplete] = React.useState<boolean>(false);
@@ -506,37 +506,37 @@ export function P2PAdsScreen() {
               onPress={() => setComplete(true)}
             >
               <View style={styles.menuItemLeft}>
-                <Ionicons name="shield-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
+                {/* <Ionicons name="shield-outline" size={20} color="rgba(0, 0, 0, 0.8)" /> */}
                 <Text style={styles.menuItemText}>Complete</Text>
               </View>
-              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
+              {/* <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" /> */}
             </TouchableOpacity>}
             {(user?.uid === p2pRequest?.createdBy) && <TouchableOpacity style={styles.menuItem}
               onPress={() => handleCancelP2PRequest(user?.uid!, p2pRequest?.id!)}
             >
               <View style={styles.menuItemLeft}>
-                <Ionicons name="shield-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
+                {/* <Ionicons name="shield-outline" size={20} color="rgba(0, 0, 0, 0.8)" /> */}
                 <Text style={styles.menuItemText}>Cancel request</Text>
               </View>
-              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
+              {/* <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" /> */}
             </TouchableOpacity>}
             {(user?.uid === p2pRequest?.p2pCreatedBy) && <TouchableOpacity style={styles.menuItem}
               onPress={() => handleApproveP2PRequest(user?.uid!, p2pRequest?.id!)}
             >
               <View style={styles.menuItemLeft}>
-                <Ionicons name="shield-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
+                {/* <Ionicons name="shield-outline" size={20} color="rgba(0, 0, 0, 0.8)" /> */}
                 <Text style={styles.menuItemText}>Approve</Text>
               </View>
-              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
+              {/* <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" /> */}
             </TouchableOpacity>}
             {(user?.uid === p2pRequest?.p2pCreatedBy) && <TouchableOpacity style={styles.menuItem}
               onPress={() => handleRejectP2PRequest(user?.uid!, p2pRequest?.id!)}
             >
               <View style={styles.menuItemLeft}>
-                <Ionicons name="shield-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
+                {/* <Ionicons name="shield-outline" size={20} color="rgba(0, 0, 0, 0.8)" /> */}
                 <Text style={styles.menuItemText}>Reject</Text>
               </View>
-              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
+              {/* <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" /> */}
             </TouchableOpacity>}
           </View>}
           {complete && <View style={{
@@ -618,9 +618,10 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontSize: 16,
+    fontSize: 18,
     color: 'Black',
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
+    fontWeight: 500,
     marginBottom: 2,
   },
   subtitle: {

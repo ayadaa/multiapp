@@ -232,22 +232,28 @@ export function IndividualChatScreen() {
       }}
     >
       <TouchableOpacity
+        style={styles.headerBackButton}
         onPress={() => navigation.goBack()}
-        style={{
-          width: 40,
-          height: 40,
-          borderRadius: 20,
-          backgroundColor: 'rgba(0, 0, 0, 0.2)',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginRight: 16,
-        }}
       >
-        <Text style={{ color: '#000000', fontSize: 16 }}>←</Text>
+        <Ionicons name="arrow-back" size={24} color="#000000" />
       </TouchableOpacity>
 
-      <View
-        style={{
+      {otherUser?.profilePicture ? <View style={{
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 12,
+        overflow: "hidden",
+      }}>
+        <Image
+          source={{ uri: otherUser?.profilePicture }}
+          style={{ height: 50, width: 50 }}
+          resizeMode="cover"
+        />
+      </View>
+        : <View style={{
           width: 40,
           height: 40,
           borderRadius: 20,
@@ -255,12 +261,12 @@ export function IndividualChatScreen() {
           alignItems: 'center',
           justifyContent: 'center',
           marginRight: 12,
-        }}
-      >
-        <Text style={{ color: '#000000', fontSize: 16 }}>
-          {otherUser?.username?.charAt(0).toUpperCase() || '?'}
-        </Text>
-      </View>
+        }}>
+          <Text style={{ fontSize: 18, color: '#000000' }}>
+            {otherUser?.username?.charAt(0).toUpperCase() || '?'}
+          </Text>
+        </View>
+      }
 
       <View style={{ flex: 1 }}>
         <Text
@@ -272,14 +278,14 @@ export function IndividualChatScreen() {
         >
           {otherUser?.username || 'Unknown User'}
         </Text>
-        <Text
+        {/* <Text
           style={{
             color: 'rgba(0, 0, 0, 0.6)',
             fontSize: 14,
           }}
         >
           {otherUser?.isOnline ? 'Online' : 'Offline'}
-        </Text>
+        </Text> */}
       </View>
     </View>
 

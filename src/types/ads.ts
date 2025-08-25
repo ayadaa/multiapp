@@ -1,22 +1,23 @@
 import { Timestamp } from 'firebase/firestore';
 
 export interface Ad {
-    id: string;
-    title: string;
-    description: string;
-    adPicture?: string;
-    createdBy: string;
-    createdAt?: Timestamp;
-    className: string;
-    // typeName: "sale" | "buy";
-    typeName: string;
-    country: string;
-    city: string;
-  }
+  id?: string;
+  title: string;
+  description: string;
+  price: string;
+  adPicture?: string;
+  createdBy: string;
+  createdAt?: Timestamp;
+  className: string;
+  // typeName: "sale" | "buy";
+  typeName: string;
+  country: string;
+  city: string;
+}
 
 // export const classNameList = {
-//     RealEstate: 'Real estate', 
-//     WorkAndBusiness: 'Work and business', 
+//     RealEstate: 'Real estate',
+//     WorkAndBusiness: 'Work and business',
 //     MobileAndComputer: 'Mobile and computer'
 // };
 

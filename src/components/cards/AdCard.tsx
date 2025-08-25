@@ -71,8 +71,8 @@ export default function AdCard({ ad }: { ad: Ad }) {
                     )}
                     {true && (
                         <View style={recipeCardStyles.priceContainer}>
-                            <Ionicons name="people-outline" size={14} color={"#9A8478"} />
-                            <Text style={recipeCardStyles.priceText}>{'15000 د.ع'}</Text>
+                            {/* <Ionicons name="people-outline" size={14} color={"#9A8478"} /> */}
+                            <Text style={recipeCardStyles.priceText}>{ad.price || '0'}{' د.ع'}</Text>
                         </View>
                     )}
                 </View>

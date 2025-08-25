@@ -24,7 +24,7 @@ const Tab = createBottomTabNavigator<MainTabParamList>();
  */
 export function MainTabNavigator() {
   return (
-    <SafeAreaView edges={['top', 'bottom']} style={{flex: 1}}>
+    <SafeAreaView edges={['top', 'bottom']} style={{ flex: 1 }}>
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
@@ -56,9 +56,10 @@ export function MainTabNavigator() {
               // }}>
               //   🧮
               // </Text>
-              <AntDesign name="home" size={20} color={focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'} />
+              <AntDesign name="home" size={24} color={focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'} />
             ),
             tabBarLabel: 'Home',
+            tabBarShowLabel: false,
           }}
         />
 
@@ -91,9 +92,10 @@ export function MainTabNavigator() {
               // }}>
               //   💬
               // </Text>
-              <AntDesign name="message1" size={20} color={focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'} />
+              <AntDesign name="message1" size={24} color={focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'} />
             ),
             tabBarLabel: 'Messages',
+            tabBarShowLabel: false,
           }}
         />
 
@@ -125,9 +127,10 @@ export function MainTabNavigator() {
               // }}>
               //   🧮
               // </Text>
-              <AntDesign name="swap" size={20} color={focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'} />
+              <AntDesign name="swap" size={24} color={focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'} />
             ),
             tabBarLabel: 'Swap',
+            tabBarShowLabel: false,
           }}
         />
 
@@ -174,9 +177,10 @@ export function MainTabNavigator() {
               // }}>
               //   💳
               // </Text>
-              <AntDesign name="wallet" size={20} color={focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'} />
+              <AntDesign name="wallet" size={24} color={focused ? '#0084FF' : 'rgba(0, 0, 0, 0.75)'} />
             ),
             tabBarLabel: 'Wallet',
+            tabBarShowLabel: false,
           }}
         />
         {/* <Tab.Screen

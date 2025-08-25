@@ -223,7 +223,7 @@ export function AdsScreen() {
             <FlatList
               data={ads}
               renderItem={({ item }) => <AdCard ad={item} />}
-              keyExtractor={(item) => item.id.toString()}
+              keyExtractor={(item) => item.id?.toString() || '0'}
               numColumns={2}
               columnWrapperStyle={styles.row}
               contentContainerStyle={styles.adsGrid}
@@ -268,9 +268,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontSize: 16,
+    fontSize: 18,
     color: 'Black',
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
+    fontWeight: 500,
     marginBottom: 2,
   },
   subtitle: {

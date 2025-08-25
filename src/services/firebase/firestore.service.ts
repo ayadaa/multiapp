@@ -1,15 +1,15 @@
-import { 
-  doc, 
-  getDoc, 
-  getDocs, 
-  setDoc, 
-  updateDoc, 
-  deleteDoc, 
-  collection, 
-  query, 
-  where, 
-  orderBy, 
-  limit, 
+import {
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+  deleteDoc,
+  collection,
+  query,
+  where,
+  orderBy,
+  limit,
   serverTimestamp,
   onSnapshot,
   Timestamp,
@@ -167,7 +167,7 @@ export interface GroupMessage {
     userId: string;
     readAt: Timestamp;
   }>;
-  type: 'text'| 'textWithImage' | 'snap' | 'system';
+  type: 'text' | 'textWithImage' | 'snap' | 'system';
   systemMessageType?: 'member_added' | 'member_left' | 'name_changed' | 'admin_added';
   metadata?: {
     addedMembers?: string[];
@@ -201,7 +201,7 @@ export async function checkUsernameAvailability(username: string): Promise<boole
       where('username', '==', username),
       limit(1)
     );
-    
+
     const querySnapshot = await getDocs(usersQuery);
     return querySnapshot.empty;
   } catch (error) {
@@ -209,18 +209,18 @@ export async function checkUsernameAvailability(username: string): Promise<boole
     throw new Error('Failed to check username availability');
   }
 }
- 
+
 /**
  * Get user profile by ID
  */
 export async function getUserProfile(userId: string): Promise<UserProfile | null> {
   try {
     const userDoc = await getDoc(doc(db, 'users', userId));
-    
+
     if (userDoc.exists()) {
       return { uid: userDoc.id, ...userDoc.data() } as UserProfile;
     }
-    
+
     return null;
   } catch (error) {
     console.error('Get user profile error:', error);
@@ -239,7 +239,7 @@ export async function searchUsersByUsername(username: string): Promise<UserProfi
       where('username', '<=', username + '\uf8ff'),
       limit(10)
     );
-    
+
     const querySnapshot = await getDocs(usersQuery);
     return querySnapshot.docs.map(doc => ({
       uid: doc.id,
@@ -257,7 +257,7 @@ export async function searchUsersByUsername(username: string): Promise<UserProfi
 export async function sendFriendRequest(fromUserId: string, toUserId: string): Promise<void> {
   try {
     const friendshipId = [fromUserId, toUserId].sort().join('_');
-    
+
     await setDoc(doc(db, 'friendships', friendshipId), {
       userIds: [fromUserId, toUserId],
       status: 'pending',
@@ -307,23 +307,23 @@ export async function getUserFriends(userId: string): Promise<UserProfile[]> {
       where('userIds', 'array-contains', userId),
       where('status', '==', 'accepted')
     );
-    
+
     const querySnapshot = await getDocs(friendshipsQuery);
     const friendIds: string[] = [];
-    
+
     querySnapshot.docs.forEach(doc => {
       const friendship = doc.data() as Friendship;
       const friendId = friendship.userIds.find(id => id !== userId);
       if (friendId) friendIds.push(friendId);
     });
-    
+
     // Get friend profiles
     const friendProfiles: UserProfile[] = [];
     for (const friendId of friendIds) {
       const profile = await getUserProfile(friendId);
       if (profile) friendProfiles.push(profile);
     }
-    
+
     return friendProfiles;
   } catch (error) {
     console.error('Get user friends error:', error);
@@ -342,7 +342,7 @@ export async function getPendingFriendRequests(userId: string): Promise<Friendsh
       where('requestedBy', '!=', userId), //ayad
       where('status', '==', 'pending')
     );
-    
+
     const querySnapshot = await getDocs(requestsQuery);
     return querySnapshot.docs.map(doc => ({
       id: doc.id,
@@ -377,7 +377,7 @@ export async function createOrGetChat(userId1: string, userId2: string): Promise
     const chatId = [userId1, userId2].sort().join('_');
     const chatRef = doc(db, 'chats', chatId);
     const chatDoc = await getDoc(chatRef);
-    
+
     if (!chatDoc.exists()) {
       await setDoc(chatRef, {
         participants: [userId1, userId2],
@@ -385,7 +385,7 @@ export async function createOrGetChat(userId1: string, userId2: string): Promise
         updatedAt: serverTimestamp(),
       });
     }
-    
+
     return chatId;
   } catch (error) {
     console.error('Create or get chat error:', error);
@@ -397,8 +397,8 @@ export async function createOrGetChat(userId1: string, userId2: string): Promise
  * Send a text message to a chat
  */
 export async function sendMessage(
-  chatId: string, 
-  senderId: string, 
+  chatId: string,
+  senderId: string,
   text: string
 ): Promise<string> {
   try {
@@ -410,9 +410,9 @@ export async function sendMessage(
       status: 'sent' as const,
       type: 'text' as const,
     };
-    
+
     await setDoc(messageRef, messageData);
-    
+
     // Update chat's last message
     await updateDoc(doc(db, 'chats', chatId), {
       lastMessage: {
@@ -423,7 +423,7 @@ export async function sendMessage(
       },
       updatedAt: serverTimestamp(),
     });
-    
+
     return messageRef.id;
   } catch (error) {
     console.error('Send message error:', error);
@@ -435,7 +435,7 @@ export async function sendMessage(
  * Send a text message to a chat
  */
 export async function sendMessageWithImage(
-  chatId: string, 
+  chatId: string,
   senderId: string,
   imageUrl: string,
   text: string,
@@ -450,9 +450,9 @@ export async function sendMessageWithImage(
       status: 'sent' as const,
       type: 'textWithImage' as const,
     };
-    
+
     await setDoc(messageRef, messageData);
-    
+
     // Update chat's last message
     await updateDoc(doc(db, 'chats', chatId), {
       lastMessage: {
@@ -464,7 +464,7 @@ export async function sendMessageWithImage(
       },
       updatedAt: serverTimestamp(),
     });
-    
+
     return messageRef.id;
   } catch (error) {
     console.error('Send message error:', error);
@@ -489,9 +489,9 @@ export async function sendSnapMessage(
       status: 'sent' as const,
       type: 'snap' as const,
     };
-    
+
     await setDoc(messageRef, messageData);
-    
+
     // Update chat's last message
     await updateDoc(doc(db, 'chats', chatId), {
       lastMessage: {
@@ -502,7 +502,7 @@ export async function sendSnapMessage(
       },
       updatedAt: serverTimestamp(),
     });
-    
+
     return messageRef.id;
   } catch (error) {
     console.error('Send snap message error:', error);
@@ -522,13 +522,13 @@ export function subscribeToMessages(
       collection(db, 'chats', chatId, 'messages'),
       orderBy('timestamp', 'asc')
     );
-    
+
     return onSnapshot(messagesQuery, (snapshot) => {
       const messages = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
       })) as Message[];
-      
+
       callback(messages);
     });
   } catch (error) {
@@ -550,13 +550,13 @@ export function subscribeToUserChats(
       where('participants', 'array-contains', userId),
       orderBy('updatedAt', 'desc')
     );
-    
+
     return onSnapshot(chatsQuery, (snapshot) => {
       const chats = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
       })) as Chat[];
-      
+
       callback(chats);
     });
   } catch (error) {
@@ -569,17 +569,17 @@ export function subscribeToUserChats(
  * Mark messages as read
  */
 export async function markMessagesAsRead(
-  chatId: string, 
+  chatId: string,
   messageIds: string[]
 ): Promise<void> {
   try {
     const batch = writeBatch(db);
-    
+
     messageIds.forEach(messageId => {
       const messageRef = doc(db, 'chats', chatId, 'messages', messageId);
       batch.update(messageRef, { status: 'read' });
     });
-    
+
     await batch.commit();
   } catch (error) {
     console.error('Mark messages as read error:', error);
@@ -593,11 +593,11 @@ export async function markMessagesAsRead(
 export async function getChat(chatId: string): Promise<Chat | null> {
   try {
     const chatDoc = await getDoc(doc(db, 'chats', chatId));
-    
+
     if (chatDoc.exists()) {
       return { id: chatDoc.id, ...chatDoc.data() } as Chat;
     }
-    
+
     return null;
   } catch (error) {
     console.error('Get chat error:', error);
@@ -619,16 +619,16 @@ export async function createOrAddToStory(
   try {
     // Check if user has an active story (within last 24 hours)
     const now = Timestamp.now();
-    
+
     const activeStoriesQuery = query(
       collection(db, 'stories'),
       where('userId', '==', userId),
       where('expiresAt', '>', now),
       limit(1)
     );
-    
+
     const activeStoriesSnapshot = await getDocs(activeStoriesQuery);
-    
+
     const newSnap: StorySnap = {
       snapId: `snap_${Date.now()}`,
       storageUrl: snapData.storageUrl,
@@ -636,22 +636,22 @@ export async function createOrAddToStory(
       duration: snapData.duration,
       createdAt: Timestamp.now(),
     };
-    
+
     if (!activeStoriesSnapshot.empty) {
       // Add to existing story
       const storyDoc = activeStoriesSnapshot.docs[0];
       const storyData = storyDoc.data() as Story;
-      
+
       await updateDoc(storyDoc.ref, {
         snaps: [...storyData.snaps, newSnap],
       });
-      
+
       return storyDoc.id;
     } else {
       // Create new story
       const storyRef = doc(collection(db, 'stories'));
       const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
-      
+
       await setDoc(storyRef, {
         userId,
         snaps: [newSnap],
@@ -660,7 +660,7 @@ export async function createOrAddToStory(
         viewCount: 0,
         viewers: [],
       });
-      
+
       return storyRef.id;
     }
   } catch (error) {
@@ -677,11 +677,11 @@ export async function getFriendsActiveStories(userId: string): Promise<(Story & 
     // First get user's friends
     const friends = await getUserFriends(userId);
     const friendIds = friends.map(friend => friend.uid);
-    
+
     if (friendIds.length === 0) {
       return [];
     }
-    
+
     // Get active stories from friends
     const now = Timestamp.now();
     const storiesQuery = query(
@@ -690,14 +690,14 @@ export async function getFriendsActiveStories(userId: string): Promise<(Story & 
       where('expiresAt', '>', now),
       orderBy('expiresAt', 'desc')
     );
-    
+
     const storiesSnapshot = await getDocs(storiesQuery);
     const stories: (Story & { username: string })[] = [];
-    
+
     for (const storyDoc of storiesSnapshot.docs) {
       const storyData = { id: storyDoc.id, ...storyDoc.data() } as Story;
       const friend = friends.find(f => f.uid === storyData.userId);
-      
+
       if (friend) {
         stories.push({
           ...storyData,
@@ -705,7 +705,7 @@ export async function getFriendsActiveStories(userId: string): Promise<(Story & 
         });
       }
     }
-    
+
     return stories;
   } catch (error) {
     console.error('Get friends active stories error:', error);
@@ -719,23 +719,23 @@ export async function getFriendsActiveStories(userId: string): Promise<(Story & 
 export async function getUserActiveStory(userId: string): Promise<Story | null> {
   try {
     const now = Timestamp.now();
-    
+
     const storiesQuery = query(
       collection(db, 'stories'),
       where('userId', '==', userId),
       where('expiresAt', '>', now),
       limit(1)
     );
-    
+
     const storiesSnapshot = await getDocs(storiesQuery);
-    
+
     if (storiesSnapshot.empty) {
       return null;
     }
-    
+
     const storyDoc = storiesSnapshot.docs[0];
     const storyData = { id: storyDoc.id, ...storyDoc.data() } as Story;
-    
+
     return storyData;
   } catch (error) {
     console.error('❌ Get user active story error:', error);
@@ -763,9 +763,9 @@ export async function markStoryAsViewed(
       where('viewerId', '==', viewerId),
       limit(1)
     );
-    
+
     const existingViewSnapshot = await getDocs(existingViewQuery);
-    
+
     if (existingViewSnapshot.empty) {
       // Create new view record
       const viewRef = doc(collection(db, 'story_views'));
@@ -775,11 +775,11 @@ export async function markStoryAsViewed(
         viewedAt: serverTimestamp(),
         snapIndex,
       });
-      
+
       // Update story viewer count
       const storyRef = doc(db, 'stories', storyId);
       const storyDoc = await getDoc(storyRef);
-      
+
       if (storyDoc.exists()) {
         const storyData = storyDoc.data() as Story;
         await updateDoc(storyRef, {
@@ -811,14 +811,14 @@ export async function getStoryViewers(storyId: string): Promise<(StoryView & { u
       where('storyId', '==', storyId),
       orderBy('viewedAt', 'desc')
     );
-    
+
     const viewsSnapshot = await getDocs(viewsQuery);
     const viewers: (StoryView & { username: string })[] = [];
-    
+
     for (const viewDoc of viewsSnapshot.docs) {
       const viewData = { id: viewDoc.id, ...viewDoc.data() } as StoryView;
       const userProfile = await getUserProfile(viewData.viewerId);
-      
+
       if (userProfile) {
         viewers.push({
           ...viewData,
@@ -826,7 +826,7 @@ export async function getStoryViewers(storyId: string): Promise<(StoryView & { u
         });
       }
     }
-    
+
     return viewers;
   } catch (error) {
     console.error('Get story viewers error:', error);
@@ -844,28 +844,28 @@ export async function deleteExpiredStories(): Promise<void> {
       collection(db, 'stories'),
       where('expiresAt', '<=', now)
     );
-    
+
     const expiredStoriesSnapshot = await getDocs(expiredStoriesQuery);
     const batch = writeBatch(db);
-    
+
     // Delete story documents
     expiredStoriesSnapshot.docs.forEach(storyDoc => {
       batch.delete(storyDoc.ref);
     });
-    
+
     // Delete associated story views
     for (const storyDoc of expiredStoriesSnapshot.docs) {
       const viewsQuery = query(
         collection(db, 'story_views'),
         where('storyId', '==', storyDoc.id)
       );
-      
+
       const viewsSnapshot = await getDocs(viewsQuery);
       viewsSnapshot.docs.forEach(viewDoc => {
         batch.delete(viewDoc.ref);
       });
     }
-    
+
     await batch.commit();
   } catch (error) {
     console.error('Delete expired stories error:', error);
@@ -886,7 +886,7 @@ export async function createGroup(
 ): Promise<string> {
   try {
     const groupRef = doc(collection(db, 'groups'));
-    
+
     const group: Omit<Group, 'id'> = {
       name: groupData.name,
       ...(groupData.description && { description: groupData.description }),
@@ -900,9 +900,9 @@ export async function createGroup(
         allowSnapSharing: true,
       },
     };
-    
+
     await setDoc(groupRef, group);
-    
+
     // Fetch usernames for the added participants
     const addedUsernames: string[] = [];
     for (const userId of groupData.participants) {
@@ -918,7 +918,7 @@ export async function createGroup(
         addedUsernames.push('Unknown User');
       }
     }
-    
+
     // Send system message about group creation with usernames
     await sendGroupMessage(groupRef.id, {
       senderId: createdBy,
@@ -928,7 +928,7 @@ export async function createGroup(
         addedMembers: addedUsernames,
       },
     });
-    
+
     return groupRef.id;
   } catch (error) {
     console.error('Create group error:', error);
@@ -946,7 +946,7 @@ export async function getUserGroups(userId: string): Promise<Group[]> {
       where('participants', 'array-contains', userId),
       orderBy('lastMessage.timestamp', 'desc')
     );
-    
+
     const groupsSnapshot = await getDocs(groupsQuery);
     return groupsSnapshot.docs.map(doc => ({
       id: doc.id,
@@ -971,13 +971,13 @@ export function subscribeToUserGroups(
       where('participants', 'array-contains', userId),
       orderBy('lastMessage.timestamp', 'desc')
     );
-    
+
     return onSnapshot(groupsQuery, (snapshot) => {
       const groups = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
       })) as Group[];
-      
+
       callback(groups);
     });
   } catch (error) {
@@ -1008,7 +1008,7 @@ export async function sendGroupMessage(
 ): Promise<string> {
   try {
     const messageRef = doc(collection(db, 'groups', groupId, 'messages'));
-    
+
     // Build message object without undefined fields
     const message: any = {
       groupId,
@@ -1034,9 +1034,9 @@ export async function sendGroupMessage(
     if (messageData.metadata) {
       message.metadata = messageData.metadata;
     }
-    
+
     await setDoc(messageRef, message);
-    
+
     // Update group's last message
     const groupRef = doc(db, 'groups', groupId);
     const lastMessage = {
@@ -1045,11 +1045,11 @@ export async function sendGroupMessage(
       timestamp: serverTimestamp() as Timestamp,
       type: messageData.type,
     };
-    
+
     await updateDoc(groupRef, {
       lastMessage,
     });
-    
+
     return messageRef.id;
   } catch (error) {
     console.error('Send group message error:', error);
@@ -1080,7 +1080,7 @@ export async function sendGroupMessageWithImage(
 ): Promise<string> {
   try {
     const messageRef = doc(collection(db, 'groups', groupId, 'messages'));
-    
+
     // Build message object without undefined fields
     const message: any = {
       groupId,
@@ -1109,9 +1109,9 @@ export async function sendGroupMessageWithImage(
     if (messageData.metadata) {
       message.metadata = messageData.metadata;
     }
-    
+
     await setDoc(messageRef, message);
-    
+
     // Update group's last message
     const groupRef = doc(db, 'groups', groupId);
     const lastMessage = {
@@ -1120,11 +1120,11 @@ export async function sendGroupMessageWithImage(
       timestamp: serverTimestamp() as Timestamp,
       type: messageData.type,
     };
-    
+
     await updateDoc(groupRef, {
       lastMessage,
     });
-    
+
     return messageRef.id;
   } catch (error) {
     console.error('Send group message error:', error);
@@ -1144,13 +1144,13 @@ export function subscribeToGroupMessages(
       collection(db, 'groups', groupId, 'messages'),
       orderBy('timestamp', 'asc')
     );
-    
+
     return onSnapshot(messagesQuery, (snapshot) => {
       const messages = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
       })) as GroupMessage[];
-      
+
       callback(messages);
     });
   } catch (error) {
@@ -1170,12 +1170,12 @@ export async function addMembersToGroup(
   try {
     const groupRef = doc(db, 'groups', groupId);
     const batch = writeBatch(db);
-    
+
     // Update group participants
     batch.update(groupRef, {
       participants: arrayUnion(...newMemberIds),
     });
-    
+
     // Send system message
     await sendGroupMessage(groupId, {
       senderId: addedBy,
@@ -1185,7 +1185,7 @@ export async function addMembersToGroup(
         addedMembers: newMemberIds,
       },
     });
-    
+
     await batch.commit();
   } catch (error) {
     console.error('Add members to group error:', error);
@@ -1203,12 +1203,12 @@ export async function removeMemberFromGroup(
 ): Promise<void> {
   try {
     const groupRef = doc(db, 'groups', groupId);
-    
+
     await updateDoc(groupRef, {
       participants: arrayRemove(memberIdToRemove),
       admins: arrayRemove(memberIdToRemove), // Also remove from admins if they were one
     });
-    
+
     // Get the username of the removed member
     let removedUsername = 'Unknown User';
     try {
@@ -1219,7 +1219,7 @@ export async function removeMemberFromGroup(
     } catch (error) {
       console.warn(`Failed to get username for removed user ${memberIdToRemove}:`, error);
     }
-    
+
     // Send system message
     await sendGroupMessage(groupId, {
       senderId: removedBy,
@@ -1263,7 +1263,7 @@ export async function markGroupMessagesAsRead(
 ): Promise<void> {
   try {
     const batch = writeBatch(db);
-    
+
     for (const messageId of messageIds) {
       const messageRef = doc(db, 'groups', groupId, 'messages', messageId);
       batch.update(messageRef, {
@@ -1273,7 +1273,7 @@ export async function markGroupMessagesAsRead(
         }),
       });
     }
-    
+
     await batch.commit();
   } catch (error) {
     console.error('Mark group messages as read error:', error);
@@ -1293,7 +1293,7 @@ export async function storeSnapData(snapData: {
 }): Promise<string> {
   try {
     const snapRef = doc(collection(db, 'snaps'));
-    
+
     // Build snap document with only defined fields
     const snapDocument: any = {
       id: snapRef.id,
@@ -1304,7 +1304,7 @@ export async function storeSnapData(snapData: {
       viewCount: 0,
       viewers: [],
     };
-    
+
     // Only include optional fields if they have values
     if (snapData.duration !== undefined) {
       snapDocument.duration = snapData.duration;
@@ -1312,7 +1312,7 @@ export async function storeSnapData(snapData: {
     if (snapData.expiresAt) {
       snapDocument.expiresAt = Timestamp.fromDate(snapData.expiresAt);
     }
-    
+
     await setDoc(snapRef, snapDocument);
     return snapRef.id;
   } catch (error) {
@@ -1411,7 +1411,7 @@ export async function createMathChallenge(challengeData: {
       ...challengeData,
       createdAt: serverTimestamp() as Timestamp,
     };
-    
+
     await setDoc(challengeRef, challenge);
     return challengeRef.id;
   } catch (error) {
@@ -1439,7 +1439,7 @@ export async function sendChallengeSnap(
       sentAt: serverTimestamp() as Timestamp,
       expiresAt: Timestamp.fromDate(new Date(Date.now() + 24 * 60 * 60 * 1000)), // 24 hours
     };
-    
+
     await setDoc(challengeSnapRef, challengeSnap);
 
     // If chatId provided, also send a chat message
@@ -1452,9 +1452,9 @@ export async function sendChallengeSnap(
         status: 'sent' as const,
         type: 'challenge' as const,
       };
-      
+
       await setDoc(messageRef, messageData);
-      
+
       // Update chat's last message
       await updateDoc(doc(db, 'chats', chatId), {
         lastMessage: {
@@ -1483,7 +1483,7 @@ export async function getMathChallenge(challengeId: string): Promise<MathChallen
     if (!challengeDoc.exists()) {
       return null;
     }
-    
+
     return {
       id: challengeDoc.id,
       ...challengeDoc.data(),
@@ -1503,7 +1503,7 @@ export async function getChallengeSnap(challengeSnapId: string): Promise<Challen
     if (!challengeSnapDoc.exists()) {
       return null;
     }
-    
+
     return {
       id: challengeSnapDoc.id,
       ...challengeSnapDoc.data(),
@@ -1529,7 +1529,7 @@ export async function submitChallengeAnswer(
 
     const challengeSnap = challengeSnapDoc.data() as ChallengeSnap;
     const challenge = await getMathChallenge(challengeSnap.challengeId);
-    
+
     if (!challenge) {
       throw new Error('Challenge not found');
     }
@@ -1581,7 +1581,7 @@ export async function getReceivedChallengeSnaps(userId: string): Promise<Challen
       where('status', 'in', ['sent', 'viewed']),
       orderBy('sentAt', 'desc')
     );
-    
+
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(doc => ({
       id: doc.id,
@@ -1603,7 +1603,7 @@ export async function getSentChallengeSnaps(userId: string): Promise<ChallengeSn
       where('senderId', '==', userId),
       orderBy('sentAt', 'desc')
     );
-    
+
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(doc => ({
       id: doc.id,
@@ -1613,7 +1613,7 @@ export async function getSentChallengeSnaps(userId: string): Promise<ChallengeSn
     console.error('Error getting sent challenge snaps:', error);
     throw new Error('Failed to get sent challenge snaps');
   }
-} 
+}
 
 /**
  * Create a new ad
@@ -1623,10 +1623,11 @@ export async function createAd(
 ): Promise<string> {
   try {
     const adRef = doc(collection(db, 'ads'));
-    
+
     const ad: Omit<Ad, 'id'> = {
       title: AdData.title,
       description: AdData.description,
+      price: AdData.price,
       adPicture: AdData.adPicture,
       createdBy: AdData.createdBy,
       createdAt: serverTimestamp() as Timestamp,
@@ -1635,9 +1636,9 @@ export async function createAd(
       country: AdData.country,
       city: AdData.city
     };
-    
+
     await setDoc(adRef, ad);
-    
+
     return adRef.id;
   } catch (error) {
     console.error('Create ad error:', error);
@@ -1654,7 +1655,7 @@ export async function getAds(): Promise<Ad[]> {
       collection(db, 'ads'),
       orderBy('createdAt', 'desc')
     );
-    
+
     const ads = await getDocs(adsQuery);
     // console.log('ads', ads)
     return ads.docs.map(doc => ({
@@ -1676,7 +1677,7 @@ export async function getAdsByClass(className: string): Promise<Ad[]> {
       collection(db, 'ads'),
       where('className', '==', className)
     );
-    
+
     const ads = await getDocs(adsQuery);
 
     return ads.docs.map(doc => ({
@@ -1695,11 +1696,11 @@ export async function getAdsByClass(className: string): Promise<Ad[]> {
 export async function getAdById(adId: string): Promise<Ad | null> {
   try {
     const adDoc = await getDoc(doc(db, 'ads', adId));
-    
+
     if (adDoc.exists()) {
       return { id: adDoc.id, ...adDoc.data() } as Ad;
     }
-    
+
     return null;
   } catch (error) {
     console.error('Get ad error:', error);

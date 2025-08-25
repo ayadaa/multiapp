@@ -12,8 +12,12 @@ import { ProfileScreen } from '../screens/profile/ProfileScreen';
 import { ChatScreen } from '../screens/chat/ChatScreen';
 import { P2PAdsScreen } from '../screens/p2pads/P2PAdsScreen';
 import { WalletScreen } from '../screens/wallet/WalletScreen';
+import { useAppSelector } from './../store/hooks';
+import { useUser } from './../hooks/user/use-user';
 
 const renderHeader = () => {
+    const user = useAppSelector((state) => state.auth.user);
+    const { User } = useUser(user?.uid || '');
     return (
         <View style={{
             alignItems: 'center',
@@ -28,11 +32,14 @@ const renderHeader = () => {
                 height: 100,
                 width: 100
             }}>
-                <Image source={IMAGES.Icon} style={{ height: 100, width: 100 }} />
+                <Image source={{ uri: User?.profilePicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/chatImages%2Fd4e908d0-cf99-452f-9df5-e26f406cec9f?alt=media&token=9da6b3b3-5694-4e60-9920-23baa72fb73f' }}
+                    style={{ height: 100, width: 100 }}
+                />
             </View>
             <Text
-                style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>
-                Code With Ayad
+                style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}
+            >
+                {User?.username}
             </Text>
         </View>
     );

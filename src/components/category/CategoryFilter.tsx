@@ -1,7 +1,8 @@
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
 // import { Image } from "expo-image";
 // import { homeStyles } from "../assets/styles/home.styles";
-import { MaterialIcons } from '@expo/vector-icons';
+// import { MaterialIcons } from '@expo/vector-icons';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 export interface Categorie {
   id: number;
@@ -12,40 +13,84 @@ export interface Categorie {
 export const categories = [
   {
     id: 1,
-    name: 'Tiny homes',
-    icon: 'home',
+    name: 'Real estate',
+    // icon: 'apartment',
+    icon: 'building',
   },
   {
     id: 2,
-    name: 'Cabins',
-    icon: 'house-siding',
+    name: 'Cars',
+    // icon: 'directions-car',
+    icon: 'car-side',
   },
   {
     id: 3,
-    name: 'Trending',
-    icon: 'local-fire-department',
+    name: 'Electronics',
+    // icon: 'laptop',
+    icon: 'laptop-file',
   },
   {
     id: 4,
-    name: 'Play',
-    icon: 'videogame-asset',
+    name: 'Works',
+    // icon: 'business-center',
+    icon: 'business-time',
   },
   {
     id: 5,
-    name: 'City',
-    icon: 'apartment',
+    name: 'Animals',
+    icon: 'cat',
   },
   {
     id: 6,
-    name: 'Beachfront',
-    icon: 'beach-access',
+    name: 'Fashion',
+    // icon: 'shopping-bag',
+    icon: 'person-dress',
   },
   {
     id: 7,
-    name: 'Countryside',
-    icon: 'nature-people',
-  },
-];
+    name: 'Games',
+    // icon: 'videogame-asset',
+    icon: 'gamepad',
+  }
+]
+
+// export const categories0 = [
+//   {
+//     id: 1,
+//     name: 'Tiny homes',
+//     icon: 'home',
+//   },
+//   {
+//     id: 2,
+//     name: 'Cabins',
+//     icon: 'house-siding',
+//   },
+//   {
+//     id: 3,
+//     name: 'Trending',
+//     icon: 'local-fire-department',
+//   },
+//   {
+//     id: 4,
+//     name: 'Play',
+//     icon: 'videogame-asset',
+//   },
+//   {
+//     id: 5,
+//     name: 'City',
+//     icon: 'apartment',
+//   },
+//   {
+//     id: 6,
+//     name: 'Beachfront',
+//     icon: 'beach-access',
+//   },
+//   {
+//     id: 7,
+//     name: 'Countryside',
+//     icon: 'nature-people',
+//   },
+// ];
 
 export default function CategoryFilter(
   { categories, selectedCategory, onSelectCategory }:
@@ -73,7 +118,8 @@ export default function CategoryFilter(
                 contentFit="cover"
                 transition={300}
               /> */}
-              <MaterialIcons
+              {/* <MaterialIcons */}
+              <FontAwesome6
                 name={category.icon as any}
                 size={24}
                 color={isSelected ? '#000' : '#5E5D5E'}
