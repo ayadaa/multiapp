@@ -23,8 +23,8 @@ import GroupSettingsScreen from '../screens/chat/GroupSettingsScreen';
 import { ChallengeViewerScreen } from '../components/rag/ChallengeViewerScreen';
 import { AppStackParamList } from '../types/navigation';
 import { CardStyleInterpolators } from '@react-navigation/stack';
-import IncomingCallScreen from "../screens/chat/IncomingCallScreen";
-import CallScreen from "../screens/chat/CallScreen";
+// import IncomingCallScreen from "../screens/chat/IncomingCallScreen";
+// import CallScreen from "../screens/chat/CallScreen";
 import { FriendsStackNavigator } from './FriendsStackNavigator';
 
 const Stack = createStackNavigator<AppStackParamList>();
@@ -178,7 +178,7 @@ export default function AppStackNavigator() {
         }}
       />
 
-      <Stack.Screen
+      {/* <Stack.Screen
         name="IncomingCall"
         component={IncomingCallScreen}
         options={{ headerShown: false }}
@@ -188,7 +188,7 @@ export default function AppStackNavigator() {
         name="Call"
         component={CallScreen}
         options={{ headerShown: false }}
-      />
+      /> */}
     </Stack.Navigator>
   );
 } 

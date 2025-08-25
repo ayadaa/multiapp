@@ -260,7 +260,7 @@ export function ChatScreen() {
   };
 
   return (
-    <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
+    <Screen backgroundColor="#FFFFFF">
       <View style={{ flex: 1 }}>
         {/* Header */}
         {/* <View style={{

@@ -81,7 +81,7 @@ export function AdsScreen() {
   // }
 
   return (
-    <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
+    <Screen backgroundColor="#FFFFFF">
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
