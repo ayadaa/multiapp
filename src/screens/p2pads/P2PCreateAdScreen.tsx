@@ -30,7 +30,7 @@ export function P2PCreateAdScreen() {
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
       >
-        <View style={{ flex: 1, padding: 24, justifyContent: 'center' }}>
+        <View style={{ flex: 1, padding: 24 }}>
           {/* Send Form */}
           <P2PCreateAdForm
             onSuccess={handleSendSuccess}

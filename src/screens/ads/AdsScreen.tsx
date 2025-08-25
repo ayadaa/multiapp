@@ -232,19 +232,9 @@ export function AdsScreen() {
           ) : (
             /* Empty State */
             <View style={styles.emptyStateContainer}>
-              <Ionicons name="people-outline" size={80} color="rgba(255, 255, 255, 0.3)" />
-              <Text style={styles.emptyStateTitle}>No Ads Yet</Text>
               <Text style={styles.emptyStateText}>
-                Start by adding some ads.
+                Loading ...
               </Text>
-              <TouchableOpacity
-                style={styles.addAdsButton}
-                onPress={handleCreateAdPress}
-              >
-                {/* <Ionicons name="person-add" size={20} color="white" /> */}
-                <Entypo name="add-to-list" size={24} color="black" />
-                <Text style={styles.addAdsButtonText}>Add Ads</Text>
-              </TouchableOpacity>
             </View>
           )}
         </ScrollView>
