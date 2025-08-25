@@ -1,7 +1,7 @@
 import { Timestamp } from 'firebase/firestore';
 
 export interface Ad {
-    id?: string;
+    id: string;
     title: string;
     description: string;
     adPicture?: string;

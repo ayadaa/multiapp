@@ -7,7 +7,8 @@ import {
   StyleSheet,
   RefreshControl,
   Alert,
-  Image
+  Image,
+  FlatList,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Entypo from '@expo/vector-icons/Entypo';
@@ -23,6 +24,7 @@ import { FloatingAction } from "react-native-floating-action";
 // import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import CategoryFilter, { categories, type Categorie } from '../../components/category/CategoryFilter'
+import AdCard from "../../components/cards/AdCard";
 
 const actions = [
   {
@@ -114,13 +116,13 @@ export function AdsScreen() {
         )}
 
         {/* Ads categories */}
-        {categories.length > 0 && (
+        {/* {categories.length > 0 && (
           <CategoryFilter
             categories={categories}
             selectedCategory={selectedCategory}
             onSelectCategory={handleCategorySelect}
           />
-        )}
+        )} */}
 
         {/* Ads List */}
         <ScrollView
@@ -134,83 +136,99 @@ export function AdsScreen() {
             />
           }
         >
+          {/* Ads categories */}
+          {categories.length > 0 && (
+            <CategoryFilter
+              categories={categories}
+              selectedCategory={selectedCategory}
+              onSelectCategory={handleCategorySelect}
+            />
+          )}
           {ads.length > 0 ? (
-            <View style={styles.adsList}>
-              {ads.map((ad) => (
-                <TouchableOpacity
-                  key={ad.id}
-                  onPress={() => handleAdPress(ad)}
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    paddingHorizontal: 20,
-                    paddingVertical: 16,
-                    borderBottomWidth: 1,
-                    borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+            // <View style={styles.adsList}>
+            //   {ads.map((ad) => (
+            //     <TouchableOpacity
+            //       key={ad.id}
+            //       onPress={() => handleAdPress(ad)}
+            //       style={{
+            //         flexDirection: 'row',
+            //         alignItems: 'center',
+            //         paddingHorizontal: 20,
+            //         paddingVertical: 16,
+            //         borderBottomWidth: 1,
+            //         borderBottomColor: 'rgba(0, 0, 0, 0.1)',
 
-                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                    marginHorizontal: 16,
-                    marginVertical: 2,
-                    borderRadius: 16,
-                  }}
-                >
-                  <View style={{
-                    width: 50,
-                    height: 50,
-                    borderRadius: 25,
-                    // backgroundColor: 'rgba(0, 200, 100, 0.8)',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginRight: 16,
-                  }}>
-                    {/* <Ionicons name="people" size={24} color="#FFFFFF" /> */}
-                    <Image
-                      source={{ uri: ad.adPicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
-                      style={styles.image}
-                      resizeMode="cover"
-                    />
-                  </View>
+            //         backgroundColor: 'rgba(255, 255, 255, 0.05)',
+            //         marginHorizontal: 16,
+            //         marginVertical: 2,
+            //         borderRadius: 16,
+            //       }}
+            //     >
+            //       <View style={{
+            //         width: 50,
+            //         height: 50,
+            //         borderRadius: 25,
+            //         // backgroundColor: 'rgba(0, 200, 100, 0.8)',
+            //         alignItems: 'center',
+            //         justifyContent: 'center',
+            //         marginRight: 16,
+            //       }}>
+            //         {/* <Ionicons name="people" size={24} color="#FFFFFF" /> */}
+            //         <Image
+            //           source={{ uri: ad.adPicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
+            //           style={styles.image}
+            //           resizeMode="cover"
+            //         />
+            //       </View>
 
-                  <View style={{ flex: 1 }}>
-                    <View style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      marginBottom: 4,
-                    }}>
-                      <Text style={{
-                        color: '#000000',
-                        fontSize: 16,
-                        fontWeight: 'bold',
-                      }}>
-                        {ad.title}
-                      </Text>
-                      <Text style={{
-                        color: 'rgba(0, 0, 0, 0.75)',
-                        fontSize: 12,
-                      }}>
-                        {ad.createdAt ? formatTimestamp(ad.createdAt) : ''}
-                      </Text>
-                    </View>
+            //       <View style={{ flex: 1 }}>
+            //         <View style={{
+            //           flexDirection: 'row',
+            //           justifyContent: 'space-between',
+            //           alignItems: 'center',
+            //           marginBottom: 4,
+            //         }}>
+            //           <Text style={{
+            //             color: '#000000',
+            //             fontSize: 16,
+            //             fontWeight: 'bold',
+            //           }}>
+            //             {ad.title}
+            //           </Text>
+            //           <Text style={{
+            //             color: 'rgba(0, 0, 0, 0.75)',
+            //             fontSize: 12,
+            //           }}>
+            //             {ad.createdAt ? formatTimestamp(ad.createdAt) : ''}
+            //           </Text>
+            //         </View>
 
-                    <View style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}>
-                      <Text style={{
-                        color: 'rgba(0, 0, 0, 0.7)',
-                        fontSize: 14,
-                        flex: 1,
-                      }} numberOfLines={1}>
-                        {ad.description.slice(0, 50)} {/* 50 characters */}
-                      </Text>
-                    </View>
-                  </View>
-                </TouchableOpacity>
-
-              ))}
-            </View>
+            //         <View style={{
+            //           flexDirection: 'row',
+            //           justifyContent: 'space-between',
+            //           alignItems: 'center',
+            //         }}>
+            //           <Text style={{
+            //             color: 'rgba(0, 0, 0, 0.7)',
+            //             fontSize: 14,
+            //             flex: 1,
+            //           }} numberOfLines={1}>
+            //             {ad.description.slice(0, 50)} {/* 50 characters */}
+            //           </Text>
+            //         </View>
+            //       </View>
+            //     </TouchableOpacity>
+            //   ))}
+            // </View>
+            <FlatList
+              data={ads}
+              renderItem={({ item }) => <AdCard ad={item} />}
+              keyExtractor={(item) => item.id.toString()}
+              numColumns={2}
+              columnWrapperStyle={styles.row}
+              contentContainerStyle={styles.adsGrid}
+              scrollEnabled={false}
+            />
           ) : (
             /* Empty State */
             <View style={styles.emptyStateContainer}>
@@ -353,5 +371,13 @@ const styles = StyleSheet.create({
   image: {
     height: 64,
     width: 64,
+  },
+  adsGrid: {
+    gap: 16,
+    paddingHorizontal: 10,
+  },
+  row: {
+    justifyContent: "space-between",
+    gap: 16,
   },
 }); 
