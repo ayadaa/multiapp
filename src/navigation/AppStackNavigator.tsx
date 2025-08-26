@@ -26,6 +26,7 @@ import { CardStyleInterpolators } from '@react-navigation/stack';
 // import IncomingCallScreen from "../screens/chat/IncomingCallScreen";
 // import CallScreen from "../screens/chat/CallScreen";
 import { FriendsStackNavigator } from './FriendsStackNavigator';
+import SearchScreen from '../screens/search/SearchScreen';
 
 const Stack = createStackNavigator<AppStackParamList>();
 
@@ -189,6 +190,16 @@ export default function AppStackNavigator() {
         component={CallScreen}
         options={{ headerShown: false }}
       /> */}
+
+      <Stack.Screen
+        name='Search'
+        component={SearchScreen}
+        options={{
+          headerShown: false,
+          presentation: 'modal',
+          gestureEnabled: false,
+        }}
+      />
     </Stack.Navigator>
   );
 } 

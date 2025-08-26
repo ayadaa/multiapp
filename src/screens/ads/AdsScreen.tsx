@@ -25,6 +25,7 @@ import { FloatingAction } from "react-native-floating-action";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import CategoryFilter, { categories, type Categorie } from '../../components/category/CategoryFilter'
 import AdCard from "../../components/cards/AdCard";
+import SearchButton from '../../components/search/SearchButton';
 
 const actions = [
   {
@@ -96,9 +97,10 @@ export function AdsScreen() {
             {/* <MaterialIcons name="menu" size={24} color="black" /> */}
             {/* <AntDesign name="menuunfold" size={24} color="black" /> */}
           </TouchableOpacity>
-          <View style={styles.titleContainer}>
+          {/* <View style={styles.titleContainer}>
             <Text style={styles.title}>Ads</Text>
-          </View>
+          </View> */}
+          <SearchButton />
         </View>
 
         {/* Error State */}
@@ -254,6 +256,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: "space-between", //search
     paddingHorizontal: 5,
     paddingTop: 10,
     paddingBottom: 8,

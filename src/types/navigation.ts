@@ -84,6 +84,7 @@ export type AppStackParamList = {
     isVideoCall: boolean;
     isIncoming: boolean;
   };
+  Search: undefined;
   StoryViewer: {
     storyId: string;
     stories: Array<{
