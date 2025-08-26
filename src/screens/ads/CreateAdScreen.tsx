@@ -42,14 +42,33 @@ import { launchImagePicker, openCamera, uploadImageAsync } from "./imagePickerHe
 
 export const classNameList = {
   RealEstate: 'Real estate',
-  WorkAndBusiness: 'Work and business',
-  MobileAndComputer: 'Mobile and computer'
+  Cars: 'Cars',
+  Electronics: 'Electronics',
+  Works: 'Works',
+  Animals: 'Animals',
+  Fashion: 'Fashion',
+  Games: 'Games',
 };
 
 export const cityNameList = {
   Bagdad: 'Bagdad',
-  Babylon: 'Babylon',
-  Karbala: 'Karbala'
+  Babil: 'Babil',
+  Karbala: 'Karbala',
+  Mosul: 'Mosul',
+  Basra: 'Basra',
+  Kirkuk: 'Kirkuk',
+  Erbil: 'Erbil',
+  Najaf: 'Najaf',
+  Sulaymaniyah: 'Sulaymaniyah',
+  Nasiriyah: 'Nasiriyah',
+  Amarah: 'Amarah',
+  Diwaniyah: 'Diwaniyah',
+  Wasit: 'Wasit',
+  Dohuk: 'Dohuk',
+  Diyala: 'Diyala',
+  AlAnbar: 'Al Anbar',
+  Samawah: 'Samawah',
+  Saladin: 'Saladin',
 }
 
 export default function CreateAdScreen() {
@@ -219,8 +238,12 @@ export default function CreateAdScreen() {
               setClassName(itemValue)
             }>
             <Picker.Item label={classNameList.RealEstate} value={classNameList.RealEstate} />
-            <Picker.Item label={classNameList.WorkAndBusiness} value={classNameList.WorkAndBusiness} />
-            <Picker.Item label={classNameList.MobileAndComputer} value={classNameList.MobileAndComputer} />
+            <Picker.Item label={classNameList.Animals} value={classNameList.Animals} />
+            <Picker.Item label={classNameList.Electronics} value={classNameList.Electronics} />
+            <Picker.Item label={classNameList.Fashion} value={classNameList.Fashion} />
+            <Picker.Item label={classNameList.Games} value={classNameList.Games} />
+            <Picker.Item label={classNameList.Works} value={classNameList.Works} />
+            <Picker.Item label={classNameList.Cars} value={classNameList.Cars} />
           </Picker>
           <Text style={styles.inputLabel}>Type</Text>
           <Picker
