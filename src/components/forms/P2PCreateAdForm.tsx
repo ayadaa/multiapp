@@ -18,12 +18,36 @@ interface SendFormProps {
 }
 
 export const P2PPaymentMethods = {
-  zainCash: 'zainCash',
-  zainCashBusiness: 'zainCashBusiness',
-  alRafidainQiServices: 'alRafidainQiServices',
-  asiaHawala: 'asiaHawala',
-  firstIraqiBank: 'firstIraqiBank',
-  fastPay: 'fastPay',
+  zainCash: 'Zain Cash',
+  zainCashBusiness: 'Zain Cash - Business',
+  alRafidainQiServices: 'Al-Rafidain QiServices',
+  asiaPay: 'AsiaPay',
+  firstIraqiBank: 'First Iraqi Bank (FIB)',
+  fastPay: 'Fast Pay',
+  westernUnion: 'Western Union',
+  moneyGram: 'moneyGram',
+  nationalBankOfIraq: 'National Bank of Iraq',
+  visaDirect: 'Visa Direct',
+  cashInPerson: 'Cash in Person',
+  alJanoobIslamicBank: 'Al Janoob Islamic Bank',
+  alTaif: 'Al-Taif',
+  ashurInternationalBankForInvestment: 'Ashur International Bank for Investment',
+  babylonBank: 'Babylon Bank',
+  commercialBankOfIraq: 'Commercial Bank of Iraq',
+  creditBankOfIraq: 'Credit Bank of Iraq',
+  elafIslamicBank: 'Elaf Islamic Bank',
+  gulfCommercialBank: 'Gulf Commercial Bank',
+  industrialBank: 'Industrial Bank',
+  internationalDevelopmentBankOfIraq: 'International Development Bank of Iraq (IDB)',
+  kurdistanInternationalBank: 'Kurdistan International Bank',
+  mosulBank: 'Mosul Bank',
+  nassPay: 'Nass Pay',
+  nassWallet: 'Nass Wallet',
+  neo: 'Neo',
+  northBank: 'North Bank',
+  rasheedBank: 'Rasheed Bank',
+  sumerBank: 'sumer Bank',
+  switch: 'Switch',
 }
 
 export function P2PCreateAdForm({ onSuccess, onNavigateToP2PAds }: SendFormProps) {
@@ -224,7 +248,31 @@ export function P2PCreateAdForm({ onSuccess, onNavigateToP2PAds }: SendFormProps
               <Picker.Item label={P2PPaymentMethods.alRafidainQiServices} value={P2PPaymentMethods.alRafidainQiServices} />
               <Picker.Item label={P2PPaymentMethods.fastPay} value={P2PPaymentMethods.fastPay} />
               <Picker.Item label={P2PPaymentMethods.firstIraqiBank} value={P2PPaymentMethods.firstIraqiBank} />
-              <Picker.Item label={P2PPaymentMethods.asiaHawala} value={P2PPaymentMethods.asiaHawala} />
+              <Picker.Item label={P2PPaymentMethods.asiaPay} value={P2PPaymentMethods.asiaPay} />
+              <Picker.Item label={P2PPaymentMethods.alJanoobIslamicBank} value={P2PPaymentMethods.alJanoobIslamicBank} />
+              <Picker.Item label={P2PPaymentMethods.alTaif} value={P2PPaymentMethods.alTaif} />
+              <Picker.Item label={P2PPaymentMethods.ashurInternationalBankForInvestment} value={P2PPaymentMethods.ashurInternationalBankForInvestment} />
+              <Picker.Item label={P2PPaymentMethods.babylonBank} value={P2PPaymentMethods.babylonBank} />
+              <Picker.Item label={P2PPaymentMethods.cashInPerson} value={P2PPaymentMethods.cashInPerson} />
+              <Picker.Item label={P2PPaymentMethods.commercialBankOfIraq} value={P2PPaymentMethods.commercialBankOfIraq} />
+              <Picker.Item label={P2PPaymentMethods.creditBankOfIraq} value={P2PPaymentMethods.creditBankOfIraq} />
+              <Picker.Item label={P2PPaymentMethods.elafIslamicBank} value={P2PPaymentMethods.elafIslamicBank} />
+              <Picker.Item label={P2PPaymentMethods.gulfCommercialBank} value={P2PPaymentMethods.gulfCommercialBank} />
+              <Picker.Item label={P2PPaymentMethods.industrialBank} value={P2PPaymentMethods.industrialBank} />
+              <Picker.Item label={P2PPaymentMethods.internationalDevelopmentBankOfIraq} value={P2PPaymentMethods.internationalDevelopmentBankOfIraq} />
+              <Picker.Item label={P2PPaymentMethods.kurdistanInternationalBank} value={P2PPaymentMethods.kurdistanInternationalBank} />
+              <Picker.Item label={P2PPaymentMethods.moneyGram} value={P2PPaymentMethods.moneyGram} />
+              <Picker.Item label={P2PPaymentMethods.mosulBank} value={P2PPaymentMethods.mosulBank} />
+              <Picker.Item label={P2PPaymentMethods.nassPay} value={P2PPaymentMethods.nassPay} />
+              <Picker.Item label={P2PPaymentMethods.nassWallet} value={P2PPaymentMethods.nassWallet} />
+              <Picker.Item label={P2PPaymentMethods.nationalBankOfIraq} value={P2PPaymentMethods.nationalBankOfIraq} />
+              <Picker.Item label={P2PPaymentMethods.neo} value={P2PPaymentMethods.neo} />
+              <Picker.Item label={P2PPaymentMethods.northBank} value={P2PPaymentMethods.northBank} />
+              <Picker.Item label={P2PPaymentMethods.rasheedBank} value={P2PPaymentMethods.rasheedBank} />
+              <Picker.Item label={P2PPaymentMethods.sumerBank} value={P2PPaymentMethods.sumerBank} />
+              <Picker.Item label={P2PPaymentMethods.switch} value={P2PPaymentMethods.switch} />
+              <Picker.Item label={P2PPaymentMethods.visaDirect} value={P2PPaymentMethods.visaDirect} />
+              <Picker.Item label={P2PPaymentMethods.westernUnion} value={P2PPaymentMethods.westernUnion} />
             </Picker>
           </View>
         )}
