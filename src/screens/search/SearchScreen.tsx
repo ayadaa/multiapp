@@ -142,7 +142,7 @@ export default function SearchScreen() {
                 <Text style={styles.loadingText}> (Searching...)</Text>
               )}
             </Text> */}
-            <Text style={styles.loadingText}> Searching...</Text>
+            {isSearching &&<Text style={styles.loadingText}> Searching...</Text>}
             {searchError && (
               <View style={styles.errorContainer}>
                 <Text style={styles.errorText}>{searchError}</Text>
