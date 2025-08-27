@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, RefreshControl, Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, RefreshControl, Image, TextInput } from "react-native";
 import { Screen } from '../../components/common/Screen';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -6,17 +6,39 @@ import { useAds } from '../../hooks/ad/use-ads';
 import { useAuth } from '../../hooks/auth/use-auth';
 import type { Ad } from '../../types/ads';
 import type { NavigationProp } from '../../types/navigation';
+import React from 'react';
+import AdSearchCard from '../../components/cards/AdSearchCard';
 
 export default function SearchScreen() {
   const navigation = useNavigation<NavigationProp>();
+  const [searchQuery, setSearchQuery] = React.useState('');
   const { user } = useAuth();
   const {
     ads,
     isLoadingAds,
     adsError,
     refreshAds,
-    formatTimestamp
+    searchResults,
+    searchAds,
+    isSearching,
+    searchError,
+    clearSearch,
   } = useAds(user?.uid || '');
+
+  // Handle search input changes with debouncing
+  const handleSearchChange = React.useCallback((text: string) => {
+    console.log('Search query length:', searchQuery.length)
+    setSearchQuery(text);
+    if (text.trim().length >= 2) {
+      // Debounce search to avoid too many API calls
+      const timeoutId = setTimeout(() => {
+        searchAds(text);
+      }, 500);
+      return () => clearTimeout(timeoutId);
+    } else if (text.trim().length === 0) {
+      clearSearch();
+    }
+  }, [searchAds, clearSearch]);
 
   // Handle refresh
   const handleRefresh = async () => {
@@ -27,9 +49,9 @@ export default function SearchScreen() {
     }
   }
 
-  const handleAdPress = (ad: Ad) => {
-    navigation.navigate('AdDetails', ad);
-  }
+  // const handleAdPress = (ad: Ad) => {
+  //   navigation.navigate('AdDetails', ad);
+  // }
 
   return (
     <Screen backgroundColor="#FFFFFF">
@@ -45,6 +67,32 @@ export default function SearchScreen() {
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Search</Text>
           </View>
+          {/* Search Section */}
+          {/* <View style={styles.searchContainer}> */}
+          <View style={styles.searchInputContainer}>
+            <Ionicons name="search" size={20} color="rgba(0, 0, 0, 0.6)" />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search ad..."
+              placeholderTextColor="rgba(0, 0, 0, 0.5)"
+              value={searchQuery}
+              onChangeText={handleSearchChange}
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+            {searchQuery.length > 0 && (
+              <TouchableOpacity
+                onPress={() => {
+                  setSearchQuery('');
+                  clearSearch();
+                  console.log('Search query length:', searchQuery.length)
+                }}
+              >
+                <Ionicons name="close-circle" size={20} color="rgba(0, 0, 0, 0.6)" />
+              </TouchableOpacity>
+            )}
+          </View>
+          {/* </View> */}
         </View>
         {/* Error State */}
         {adsError && (
@@ -71,100 +119,39 @@ export default function SearchScreen() {
             />
           }
         >
-          {ads.length > 0 ? (
+          {(searchQuery.length < 2) && (ads.length > 0) &&
             <View style={styles.adsList}>
               {ads.map((ad) => (
-                <TouchableOpacity
-                  key={ad.id}
-                  onPress={() => handleAdPress(ad)}
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    paddingHorizontal: 20,
-                    paddingVertical: 16,
-                    borderBottomWidth: 1,
-                    borderBottomColor: 'rgba(0, 0, 0, 0.1)',
-
-                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                    marginHorizontal: 16,
-                    marginVertical: 2,
-                    borderRadius: 16,
-                  }}
-                >
-                  {ad.adPicture ? <View style={{
-                    width: 50,
-                    height: 50,
-                    // borderRadius: 25,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginRight: 16,
-                  }}>
-                    <Image
-                      source={{ uri: ad.adPicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
-                      style={styles.image}
-                      resizeMode="cover"
-                    />
-                  </View> : <View style={{
-                    width: 50,
-                    height: 50,
-                    // borderRadius: 25,
-                    backgroundColor: 'rgba(0, 132, 255, 0.8)',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginRight: 16,
-                  }}>
-                    <Text style={{ fontSize: 18, color: '#000000' }}>
-                      {ad.title.charAt(0).toUpperCase() || '?'}
-                    </Text>
-                  </View>}
-
-                  <View style={{ flex: 1 }}>
-                    <View style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      marginBottom: 4,
-                    }}>
-                      <Text style={{
-                        color: '#000000',
-                        fontSize: 16,
-                        fontWeight: 'bold',
-                      }}>
-                        {ad.title}
-                      </Text>
-                      <Text style={{
-                        color: 'rgba(0, 0, 0, 0.75)',
-                        fontSize: 12,
-                      }}>
-                        {ad.createdAt ? formatTimestamp(ad.createdAt) : ''}
-                      </Text>
-                    </View>
-
-                    <View style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}>
-                      <Text style={{
-                        color: 'rgba(0, 0, 0, 0.7)',
-                        fontSize: 14,
-                        flex: 1,
-                      }} numberOfLines={1}>
-                        {ad.description.slice(0, 50)} {/* 50 characters */}
-                      </Text>
-                    </View>
-                  </View>
-                </TouchableOpacity>
+                <AdSearchCard key={ad.id} ad={ad} />
               ))}
-            </View>
-          ) : (
-            /* Empty State */
+            </View>}
+
+          {/* Empty State  */}
+          {(searchQuery.length < 2) && (ads.length = 0) &&
             <View style={styles.emptyStateContainer}>
               <Text style={styles.emptyStateText}>
                 Loading ...
               </Text>
-            </View>
-          )}
+            </View>}
+
+          {/* Search result */}
+          {searchQuery.length >= 2 && <View style={styles.adsList}>
+            {/* <Text style={styles.sectionTitle}>
+              Search Results
+              {isSearching && (
+                <Text style={styles.loadingText}> (Searching...)</Text>
+              )}
+            </Text> */}
+            <Text style={styles.loadingText}> Searching...</Text>
+            {searchError && (
+              <View style={styles.errorContainer}>
+                <Text style={styles.errorText}>{searchError}</Text>
+              </View>
+            )}
+            {searchResults.map((ad) => (
+              <AdSearchCard key={ad.id} ad={ad} />
+            ))}
+          </View>}
         </ScrollView>
       </View>
     </Screen>
@@ -197,6 +184,35 @@ const styles = StyleSheet.create({
     color: 'Black',
     fontWeight: 500,
     marginBottom: 2,
+  },
+  searchInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    // backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    borderRadius: 30,
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    borderWidth: 1,
+    borderColor: 'rgba(0, 0, 0, 0.2)',
+  },
+  searchInput: {
+    flex: 1,
+    marginLeft: 12,
+    fontSize: 12,
+    color: 'black',
+    borderWidth: 0, //ayad
+    outlineWidth: 0, //ayad
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: 'black',
+    marginBottom: 12,
+    marginHorizontal: 20,
+  },
+  loadingText: {
+    color: 'rgba(0, 0, 0, 0.6)',
+    fontWeight: 'normal',
   },
   errorContainer: {
     backgroundColor: 'rgba(255, 59, 48, 0.2)',

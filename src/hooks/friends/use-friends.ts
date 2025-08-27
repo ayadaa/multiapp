@@ -52,7 +52,7 @@ export function useFriends(): UseFriendsReturn {
   const [friends, setFriends] = useState<UserProfile[]>([]);
   const [pendingRequests, setPendingRequests] = useState<Friendship[]>([]);
   const [searchResults, setSearchResults] = useState<UserProfile[]>([]);
-  
+   
   // Loading states
   const [isLoadingFriends, setIsLoadingFriends] = useState(false);
   const [isLoadingRequests, setIsLoadingRequests] = useState(false);

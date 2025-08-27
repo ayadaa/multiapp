@@ -2,11 +2,12 @@ import { useState, useEffect, useCallback } from 'react';
 import {
   createAd,
   getAds,
+  searchAdsByTitle,
   getAdsByClass,
   getAdById,
   updateAdTitle,
   updateAdDiscription,
-  updateAd
+  updateAd,
 } from '../../services/firebase/firestore.service';
 import type { Ad } from '../../types/ads';
 import { useAuth } from '../auth/use-auth';
@@ -16,11 +17,16 @@ export function useAds(currentUserId: string) {
 
   // Data state
   const [ads, setAds] = useState<Ad[]>([]);
+  const [searchResults, setSearchResults] = useState<Ad[]>([]);
+
+  // Loading states
   const [isLoadingAds, setIsLoadingAds] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
 
   // Error states
   const [adsError, setAdsError] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [searchError, setSearchError] = useState<string | null>(null);
 
   //format time
   const formatTimestamp = useCallback((timestamp: any): string => {
@@ -90,6 +96,34 @@ export function useAds(currentUserId: string) {
     }
   }, []);
 
+  /**
+     * Search for ads by title
+     */
+  const searchAds = useCallback(async (title: string) => {
+    if (!title.trim()) {
+      setSearchResults([]);
+      return;
+    }
+    setIsSearching(true);
+    setSearchError(null);
+    try {
+      const results = await searchAdsByTitle(title.trim());
+      setSearchResults(results);
+    } catch (error) {
+      console.error('Error searching ads:', error);
+      setSearchError('Failed to search ads');
+      setSearchResults([]);
+    } finally {
+      setIsSearching(false);
+    }
+  }, [ads]);
+
+  // Clear search results
+  const clearSearch = useCallback(() => {
+    setSearchResults([]);
+    setSearchError(null);
+  }, []);
+
   // Load initial data
   useEffect(() => {
     refreshAds();
@@ -98,19 +132,24 @@ export function useAds(currentUserId: string) {
   return {
     // Data
     ads,
+    searchResults,
     // ad,
 
     // Loading states
     isLoadingAds,
+    isSearching,
 
     // Error states
     error,
     adsError,
+    searchError,
 
     // Actions
     createNewAd,
     refreshAds,
+    searchAds,
+    clearSearch,
 
-    formatTimestamp
+    formatTimestamp,
   };
 }

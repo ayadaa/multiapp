@@ -1750,3 +1750,26 @@ export async function updateAd(adId: string, title: string, description: string)
     throw new Error('Failed to update ad');
   }
 }
+
+/**
+ * Search ads by title
+ */
+export async function searchAdsByTitle(title: string): Promise<Ad[]> {
+  try {
+    const adsQuery = query(
+      collection(db, 'ads'),
+      where('title', '>=', title),
+      where('title', '<=', title + '\uf8ff'),
+      limit(10)
+    );
+
+    const querySnapshot = await getDocs(adsQuery);
+    return querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    })) as Ad[];
+  } catch (error) {
+    console.error('Search ads error:', error);
+    throw new Error('Failed to search ads');
+  }
+}

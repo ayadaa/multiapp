@@ -160,7 +160,7 @@ export function AddFriendsScreen() {
           </View>
           <Text style={styles.subtitle}>Search for friends by username</Text>
         </View>
-
+ 
         {/* Search Section */}
         <View style={styles.searchContainer}>
           <View style={styles.searchInputContainer}>
