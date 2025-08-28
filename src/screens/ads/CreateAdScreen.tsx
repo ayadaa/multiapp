@@ -236,7 +236,8 @@ export default function CreateAdScreen() {
             style={styles.textInput}
             onValueChange={(itemValue, itemIndex) =>
               setClassName(itemValue)
-            }>
+            }
+          >
             <Picker.Item label={classNameList.RealEstate} value={classNameList.RealEstate} />
             <Picker.Item label={classNameList.Animals} value={classNameList.Animals} />
             <Picker.Item label={classNameList.Electronics} value={classNameList.Electronics} />

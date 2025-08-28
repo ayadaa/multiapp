@@ -23,7 +23,7 @@ import { FloatingAction } from "react-native-floating-action";
 // import Feather from '@expo/vector-icons/Feather';
 // import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import CategoryFilter, { categories, type Categorie } from '../../components/category/CategoryFilter'
+import CategoryFilter, { categories, type Categorie } from '../../components/ads/CategoryFilter'
 import AdCard from "../../components/cards/AdCard";
 import SearchButton from '../../components/search/SearchButton';
 
@@ -71,11 +71,11 @@ export function AdsScreen() {
     }
   };
 
-  const handleAdPress = (ad: Ad) => {
-    navigation.navigate('AdDetails', ad);
-    // (navigation as any).navigate('AdDetails', ad);
-    // navigation.navigate('AdDetails' as never);
-  };
+  // const handleAdPress = (ad: Ad) => {
+  //   navigation.navigate('AdDetails', ad);
+  //   // (navigation as any).navigate('AdDetails', ad);
+  //   // navigation.navigate('AdDetails' as never);
+  // };
 
   // const handleFormatTimestamp = (tx: any) => {
   //   return formatTimestamp(tx)

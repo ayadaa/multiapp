@@ -8,6 +8,7 @@ import type { Ad } from '../../types/ads';
 import type { NavigationProp } from '../../types/navigation';
 import React from 'react';
 import AdSearchCard from '../../components/cards/AdSearchCard';
+import FilterBar from '../../components/ads/FilterBar';
 
 export default function SearchScreen() {
   const navigation = useNavigation<NavigationProp>();
@@ -119,6 +120,9 @@ export default function SearchScreen() {
             />
           }
         >
+          {/* filter bar */}
+          <FilterBar />
+
           {(searchQuery.length < 2) && (ads.length > 0) &&
             <View style={styles.adsList}>
               {ads.map((ad) => (
@@ -185,15 +189,33 @@ const styles = StyleSheet.create({
     fontWeight: 500,
     marginBottom: 2,
   },
+  // searchInputContainer: {
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   borderRadius: 30,
+  //   paddingHorizontal: 16,
+  //   paddingVertical: 6,
+  //   borderWidth: 1,
+  //   borderColor: 'rgba(0, 0, 0, 0.2)',
+  // },
   searchInputContainer: {
+    backgroundColor: '#fff',
     flexDirection: 'row',
+    gap: 10,
+    padding: 6,
     alignItems: 'center',
-    // backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    width: 280,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: '#c2c2c2',
     borderRadius: 30,
-    paddingHorizontal: 16,
-    paddingVertical: 6,
-    borderWidth: 1,
-    borderColor: 'rgba(0, 0, 0, 0.2)',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOpacity: 0.12,
+    shadowRadius: 8,
+    shadowOffset: {
+        width: 1,
+        height: 1,
+    }
   },
   searchInput: {
     flex: 1,

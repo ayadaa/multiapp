@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-
+ 
 const SearchButton = () => {
     const navigation = useNavigation<any>();
 
@@ -10,7 +10,6 @@ const SearchButton = () => {
     }
 
     return (
-        // <View style={styles.actionRow}>
         <TouchableOpacity onPress={handleSearchPress}>
             <View style={styles.searchBtn}>
                 <Ionicons name="search" size={24} />
@@ -20,19 +19,10 @@ const SearchButton = () => {
                 </View>
             </View>
         </TouchableOpacity>
-        // </View>
     );
 }
 
 const styles = StyleSheet.create({
-    // actionRow: {
-    //     flexDirection: 'row',
-    //     alignItems: 'center',
-    //     justifyContent: 'space-between',
-    //     paddingHorizontal: 24,
-    //     paddingBottom: 16,
-    // },
-
     searchBtn: {
         backgroundColor: '#fff',
         flexDirection: 'row',
