@@ -4,7 +4,7 @@ import { useState } from "react";
 // import { classNameList, cityNameList } from "../../screens/ads/CreateAdScreen";
 
 export const classNameList = {
-  All: 'All',
+  All: 'All classes',
   RealEstate: 'Real estate',
   Cars: 'Cars',
   Electronics: 'Electronics',
@@ -15,7 +15,7 @@ export const classNameList = {
 };
 
 export const cityNameList = {
-  All: 'All',
+  All: 'All cities',
   Bagdad: 'Bagdad',
   Babil: 'Babil',
   Karbala: 'Karbala',
@@ -37,15 +37,15 @@ export const cityNameList = {
 }
 
 const typeNameList = {
-  all: 'all',
+  all: 'All types',
   sale: 'sale',
   buy: 'buy',
 }
 
 export default function FilterBar() {
-  const [className, setClassName] = useState('All');
-  const [cityName, setCityName] = useState('All');
-  const [typeName, setTypeName] = useState('all');
+  const [className, setClassName] = useState('All classes');
+  const [cityName, setCityName] = useState('All cities');
+  const [typeName, setTypeName] = useState('All types');
 
   const renderCalssNamePicker = () => {
     return (
