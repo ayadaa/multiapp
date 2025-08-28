@@ -11,6 +11,7 @@ import {
 } from '../../services/firebase/firestore.service';
 import type { Ad } from '../../types/ads';
 import { useAuth } from '../auth/use-auth';
+import { string } from 'yup';
 
 export function useAds(currentUserId: string) {
   // const { user } = useAuth();
@@ -78,16 +79,15 @@ export function useAds(currentUserId: string) {
   /**
    * Load ads list
    */
-  const refreshAds = useCallback(async () => {
+  const refreshAds = useCallback(async (className = 'All category', cityName = 'All cities', typeName = 'All types') => {
     // if (!user?.uid) return;
-    // console.log('start getting ads')
+    // console.log('start getting ads');
     setIsLoadingAds(true);
     setAdsError(null);
-
     try {
-      const adsList = await getAds();
+      const adsList = await getAds(className, cityName, typeName);
       setAds(adsList);
-      // console.log('ads', ads)
+      // console.log('ads', ads);
     } catch (error) {
       console.error('Error loading ads:', error);
       setAdsError('Failed to load ads');
@@ -99,7 +99,7 @@ export function useAds(currentUserId: string) {
   /**
      * Search for ads by title
      */
-  const searchAds = useCallback(async (title: string) => {
+  const searchAds = useCallback(async (title: string, className = 'All category', cityName = 'All cities', typeName = 'All types') => {
     if (!title.trim()) {
       setSearchResults([]);
       return;
@@ -107,7 +107,7 @@ export function useAds(currentUserId: string) {
     setIsSearching(true);
     setSearchError(null);
     try {
-      const results = await searchAdsByTitle(title.trim());
+      const results = await searchAdsByTitle(title.trim(), className, cityName, typeName);
       setSearchResults(results);
     } catch (error) {
       console.error('Error searching ads:', error);

@@ -6,11 +6,15 @@ import { useAds } from '../../hooks/ad/use-ads';
 import { useAuth } from '../../hooks/auth/use-auth';
 import type { Ad } from '../../types/ads';
 import type { NavigationProp } from '../../types/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 import AdSearchCard from '../../components/cards/AdSearchCard';
 import FilterBar from '../../components/ads/FilterBar';
 
 export default function SearchScreen() {
+  const [className, setClassName] = React.useState('All category');
+  const [cityName, setCityName] = React.useState('All cities');
+  const [typeName, setTypeName] = React.useState('All types');
+
   const navigation = useNavigation<NavigationProp>();
   const [searchQuery, setSearchQuery] = React.useState('');
   const { user } = useAuth();
@@ -27,13 +31,13 @@ export default function SearchScreen() {
   } = useAds(user?.uid || '');
 
   // Handle search input changes with debouncing
-  const handleSearchChange = React.useCallback((text: string) => {
-    console.log('Search query length:', searchQuery.length)
+  const handleSearchChange = React.useCallback((text: string, className = 'All category', cityName = 'All cities', typeName = 'All types') => {
+    // console.log('Search query length:', searchQuery.length)
     setSearchQuery(text);
     if (text.trim().length >= 2) {
       // Debounce search to avoid too many API calls
       const timeoutId = setTimeout(() => {
-        searchAds(text);
+        searchAds(text, className, cityName, typeName);
       }, 500);
       return () => clearTimeout(timeoutId);
     } else if (text.trim().length === 0) {
@@ -42,9 +46,10 @@ export default function SearchScreen() {
   }, [searchAds, clearSearch]);
 
   // Handle refresh
-  const handleRefresh = async () => {
+  const handleRefresh = async (className = 'All category', cityName = 'All cities', typeName = 'All types') => {
+    console.log('handleRefresh called');
     try {
-      await refreshAds();
+      await refreshAds(className, cityName, typeName);
     } catch (error) {
       console.error('Error refreshing ads:', error);
     }
@@ -53,6 +58,12 @@ export default function SearchScreen() {
   // const handleAdPress = (ad: Ad) => {
   //   navigation.navigate('AdDetails', ad);
   // }
+
+  useEffect(() => {
+    if (searchQuery.length == 0) {
+      handleRefresh();
+    }
+  }, [searchQuery]);
 
   return (
     <Screen backgroundColor="#FFFFFF">
@@ -77,7 +88,7 @@ export default function SearchScreen() {
               placeholder="Search ad..."
               placeholderTextColor="rgba(0, 0, 0, 0.5)"
               value={searchQuery}
-              onChangeText={handleSearchChange}
+              onChangeText={(value) => handleSearchChange(value, className, cityName, typeName)}
               autoCapitalize="none"
               autoCorrect={false}
             />
@@ -86,7 +97,8 @@ export default function SearchScreen() {
                 onPress={() => {
                   setSearchQuery('');
                   clearSearch();
-                  console.log('Search query length:', searchQuery.length)
+                  // console.log('Search query length:', searchQuery.length)
+                  // handleRefresh();
                 }}
               >
                 <Ionicons name="close-circle" size={20} color="rgba(0, 0, 0, 0.6)" />
@@ -102,7 +114,7 @@ export default function SearchScreen() {
             <Text style={styles.errorText}>{adsError}</Text>
             <TouchableOpacity
               style={styles.retryButton}
-              onPress={handleRefresh}
+              onPress={() => handleRefresh()}
             >
               <Text style={styles.retryText}>Retry</Text>
             </TouchableOpacity>
@@ -115,13 +127,18 @@ export default function SearchScreen() {
           refreshControl={
             <RefreshControl
               refreshing={isLoadingAds}
-              onRefresh={handleRefresh}
+              onRefresh={() => handleRefresh()}
               tintColor="white"
             />
           }
         >
           {/* filter bar */}
-          <FilterBar />
+          <FilterBar
+            handleRefresh={handleRefresh}
+            className={className} setClassName={setClassName}
+            cityName={cityName} setCityName={setCityName}
+            typeName={typeName} setTypeName={setTypeName}
+          />
 
           {(searchQuery.length < 2) && (ads.length > 0) &&
             <View style={styles.adsList}>
@@ -131,12 +148,14 @@ export default function SearchScreen() {
             </View>}
 
           {/* Empty State  */}
-          {(searchQuery.length < 2) && (ads.length = 0) &&
+          {(searchQuery.length < 2) && (ads.length == 0) &&
             <View style={styles.emptyStateContainer}>
               <Text style={styles.emptyStateText}>
                 Loading ...
+                {/* No ads yet */}
               </Text>
-            </View>}
+            </View>
+          }
 
           {/* Search result */}
           {searchQuery.length >= 2 && <View style={styles.adsList}>
@@ -146,7 +165,7 @@ export default function SearchScreen() {
                 <Text style={styles.loadingText}> (Searching...)</Text>
               )}
             </Text> */}
-            {isSearching &&<Text style={styles.loadingText}> Searching...</Text>}
+            {isSearching && <Text style={styles.loadingText}> Searching...</Text>}
             {searchError && (
               <View style={styles.errorContainer}>
                 <Text style={styles.errorText}>{searchError}</Text>
@@ -213,8 +232,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.12,
     shadowRadius: 8,
     shadowOffset: {
-        width: 1,
-        height: 1,
+      width: 1,
+      height: 1,
     }
   },
   searchInput: {

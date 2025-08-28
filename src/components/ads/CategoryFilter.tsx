@@ -13,21 +13,20 @@ export interface Categorie {
 export const categories = [
   {
     id: 1,
+    name: 'All category',
+    icon: 'square',
+  },
+  {
+    id: 2,
     name: 'Real estate',
     // icon: 'apartment',
     icon: 'building',
   },
   {
-    id: 2,
+    id: 3,
     name: 'Cars',
     // icon: 'directions-car',
     icon: 'car-side',
-  },
-  {
-    id: 3,
-    name: 'Electronics',
-    // icon: 'laptop',
-    icon: 'laptop-file',
   },
   {
     id: 4,
@@ -42,12 +41,18 @@ export const categories = [
   },
   {
     id: 6,
+    name: 'Electronics',
+    // icon: 'laptop',
+    icon: 'laptop-file',
+  },
+  {
+    id: 7,
     name: 'Fashion',
     // icon: 'shopping-bag',
     icon: 'person-dress',
   },
   {
-    id: 7,
+    id: 8,
     name: 'Games',
     // icon: 'videogame-asset',
     icon: 'gamepad',

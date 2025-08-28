@@ -1649,12 +1649,67 @@ export async function createAd(
 /**
  * Get ads
  */
-export async function getAds(): Promise<Ad[]> {
+export async function getAds(className: string, cityName: string, typeName: string): Promise<Ad[]> {
   try {
-    const adsQuery = query(
+    let adsQuery = query(
       collection(db, 'ads'),
       orderBy('createdAt', 'desc')
     );
+
+    if (className != 'All category' && cityName == 'All cities' && typeName == 'All types') {
+      adsQuery = query(
+        collection(db, 'ads'),
+        where('className', '==', className),
+        orderBy('createdAt', 'desc')
+      );
+    }
+    else if (className == 'All category' && cityName != 'All cities' && typeName == 'All types') {
+      adsQuery = query(
+        collection(db, 'ads'),
+        where('city', '==', cityName),
+        orderBy('createdAt', 'desc')
+      );
+    }
+    else if (className == 'All category' && cityName == 'All cities' && typeName != 'All types') {
+      adsQuery = query(
+        collection(db, 'ads'),
+        where('typeName', '==', typeName),
+        orderBy('createdAt', 'desc')
+      );
+    }
+    else if (className != 'All category' && cityName != 'All cities' && typeName == 'All types') {
+      adsQuery = query(
+        collection(db, 'ads'),
+        where('className', '==', className),
+        where('city', '==', cityName),
+        orderBy('createdAt', 'desc')
+      );
+    }
+    else if (className != 'All category' && cityName == 'All cities' && typeName != 'All types') {
+      adsQuery = query(
+        collection(db, 'ads'),
+        where('className', '==', className),
+        where('typeName', '==', typeName),
+        orderBy('createdAt', 'desc')
+      );
+    }
+    else if (className == 'All category' && cityName != 'All cities' && typeName != 'All types') {
+      adsQuery = query(
+        collection(db, 'ads'),
+        where('city', '==', cityName),
+        where('typeName', '==', typeName),
+        orderBy('createdAt', 'desc')
+      );
+    }
+    else if (className != 'All category' && cityName != 'All cities' && typeName != 'All types') {
+      adsQuery = query(
+        collection(db, 'ads'),
+        where('className', '==', className),
+        where('city', '==', cityName),
+        where('typeName', '==', typeName),
+        orderBy('createdAt', 'desc')
+      );
+    }
 
     const ads = await getDocs(adsQuery);
     // console.log('ads', ads)
@@ -1754,14 +1809,91 @@ export async function updateAd(adId: string, title: string, description: string)
 /**
  * Search ads by title
  */
-export async function searchAdsByTitle(title: string): Promise<Ad[]> {
+export async function searchAdsByTitle(title: string, className: string, cityName: string, typeName: string): Promise<Ad[]> {
   try {
-    const adsQuery = query(
+    let adsQuery = query(
       collection(db, 'ads'),
       where('title', '>=', title),
       where('title', '<=', title + '\uf8ff'),
-      limit(10)
+      orderBy('createdAt', 'desc'),
+      limit(30)
     );
+
+    if (className != 'All category' && cityName == 'All cities' && typeName == 'All types') {
+      adsQuery = query(
+        collection(db, 'ads'),
+        where('className', '==', className),
+        where('title', '>=', title),
+        where('title', '<=', title + '\uf8ff'),
+        orderBy('createdAt', 'desc'),
+        limit(30)
+      );
+    }
+    else if (className == 'All category' && cityName != 'All cities' && typeName == 'All types') {
+      adsQuery = query(
+        collection(db, 'ads'),
+        where('city', '==', cityName),
+        where('title', '>=', title),
+        where('title', '<=', title + '\uf8ff'),
+        orderBy('createdAt', 'desc'),
+        limit(30)
+      );
+    }
+    else if (className == 'All category' && cityName == 'All cities' && typeName != 'All types') {
+      adsQuery = query(
+        collection(db, 'ads'),
+        where('typeName', '==', typeName),
+        where('title', '>=', title),
+        where('title', '<=', title + '\uf8ff'),
+        orderBy('createdAt', 'desc'),
+        limit(30)
+      );
+    }
+    else if (className != 'All category' && cityName != 'All cities' && typeName == 'All types') {
+      adsQuery = query(
+        collection(db, 'ads'),
+        where('className', '==', className),
+        where('city', '==', cityName),
+        where('title', '>=', title),
+        where('title', '<=', title + '\uf8ff'),
+        orderBy('createdAt', 'desc'),
+        limit(30)
+      );
+    }
+    else if (className != 'All category' && cityName == 'All cities' && typeName != 'All types') {
+      adsQuery = query(
+        collection(db, 'ads'),
+        where('className', '==', className),
+        where('typeName', '==', typeName),
+        where('title', '>=', title),
+        where('title', '<=', title + '\uf8ff'),
+        orderBy('createdAt', 'desc'),
+        limit(30)
+      );
+    }
+    else if (className == 'All category' && cityName != 'All cities' && typeName != 'All types') {
+      adsQuery = query(
+        collection(db, 'ads'),
+        where('city', '==', cityName),
+        where('typeName', '==', typeName),
+        where('title', '>=', title),
+        where('title', '<=', title + '\uf8ff'),
+        orderBy('createdAt', 'desc'),
+        limit(30)
+      );
+    }
+    else if (className != 'All category' && cityName != 'All cities' && typeName != 'All types') {
+      adsQuery = query(
+        collection(db, 'ads'),
+        where('className', '==', className),
+        where('city', '==', cityName),
+        where('typeName', '==', typeName),
+        where('title', '>=', title),
+        where('title', '<=', title + '\uf8ff'),
+        orderBy('createdAt', 'desc'),
+        limit(30)
+      );
+    }
 
     const querySnapshot = await getDocs(adsQuery);
     return querySnapshot.docs.map(doc => ({

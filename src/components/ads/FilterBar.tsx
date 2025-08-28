@@ -3,8 +3,18 @@ import { Picker } from '@react-native-picker/picker';
 import { useState } from "react";
 // import { classNameList, cityNameList } from "../../screens/ads/CreateAdScreen";
 
+interface FilterBarProp {
+  handleRefresh: (className?: string, cityName?: string, typeName?: string) => void;
+  className: string;
+  setClassName: (value: string) => void;
+  cityName: string;
+  setCityName: (value: string) => void;
+  typeName: string;
+  setTypeName: (value: string) => void;
+}
+
 export const classNameList = {
-  All: 'All classes',
+  All: 'All category',
   RealEstate: 'Real estate',
   Cars: 'Cars',
   Electronics: 'Electronics',
@@ -42,17 +52,20 @@ const typeNameList = {
   buy: 'buy',
 }
 
-export default function FilterBar() {
-  const [className, setClassName] = useState('All classes');
-  const [cityName, setCityName] = useState('All cities');
-  const [typeName, setTypeName] = useState('All types');
+export default function FilterBar({ handleRefresh, className, setClassName, cityName, setCityName, typeName, setTypeName }: FilterBarProp) {
+  // const [className, setClassName] = useState('All category');
+  // const [cityName, setCityName] = useState('All cities');
+  // const [typeName, setTypeName] = useState('All types');
 
   const renderCalssNamePicker = () => {
     return (
       <Picker
         selectedValue={className}
         style={styles.list}
-        onValueChange={(itemValue) => setClassName(itemValue)}
+        onValueChange={(itemValue) => {
+          setClassName(itemValue);
+          handleRefresh(itemValue, cityName, typeName);
+        }}
       >
         <Picker.Item label={classNameList.All} value={classNameList.All} />
         <Picker.Item label={classNameList.RealEstate} value={classNameList.RealEstate} />
@@ -71,7 +84,10 @@ export default function FilterBar() {
       <Picker
         selectedValue={cityName}
         style={styles.list}
-        onValueChange={(itemValue) => setCityName(itemValue)}
+        onValueChange={(itemValue) => {
+          setCityName(itemValue);
+          handleRefresh(className, itemValue, typeName);
+        }}
       >
         <Picker.Item label={cityNameList.All} value={cityNameList.All} />
         <Picker.Item label={cityNameList.Bagdad} value={cityNameList.Bagdad} />
@@ -101,7 +117,10 @@ export default function FilterBar() {
       <Picker
         selectedValue={typeName}
         style={styles.list}
-        onValueChange={(itemValue) => setTypeName(itemValue)}
+        onValueChange={(itemValue) => {
+          setTypeName(itemValue);
+          handleRefresh(className, cityName, itemValue);
+        }}
       >
         <Picker.Item label={typeNameList.all} value={typeNameList.all} />
         <Picker.Item label={typeNameList.sale} value={typeNameList.sale} />
@@ -140,7 +159,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingBottom: 8,
     minWidth: 80,
-    
+
     backgroundColor: 'rgba(255, 255, 255, 1)',
     borderRadius: 12,
     paddingHorizontal: 16,

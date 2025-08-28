@@ -37,6 +37,7 @@ const actions = [
 ];
 
 export function AdsScreen() {
+  // const [className, setClassName] = React.useState('All category');
   // const navigation = useNavigation();
   const navigation = useNavigation<NavigationProp>();
   const navigation2 = useNavigation<any>();
@@ -52,10 +53,6 @@ export function AdsScreen() {
     formatTimestamp
   } = useAds(user?.uid || '');
 
-  const handleCategorySelect = (category: any) => {
-    setSelectedCategory(category);
-  };
-
   const handleCreateAdPress = () => {
     navigation.navigate('CreateAd' as never); //ayad
   };
@@ -63,13 +60,19 @@ export function AdsScreen() {
   /**
    * Handle refresh
    */
-  const handleRefresh = async () => {
+  const handleRefresh = async (className = 'All category') => {
     try {
-      await refreshAds();
+      await refreshAds(className);
     } catch (error) {
       console.error('Error refreshing ads:', error);
     }
-  };
+  }
+
+  const handleCategorySelect = (category: any) => {
+    setSelectedCategory(category);
+    // setClassName(category);
+    handleRefresh(category);
+  }
 
   // const handleAdPress = (ad: Ad) => {
   //   navigation.navigate('AdDetails', ad);
@@ -110,7 +113,7 @@ export function AdsScreen() {
             <Text style={styles.errorText}>{adsError}</Text>
             <TouchableOpacity
               style={styles.retryButton}
-              onPress={handleRefresh}
+              onPress={() => handleRefresh}
             >
               <Text style={styles.retryText}>Retry</Text>
             </TouchableOpacity>
