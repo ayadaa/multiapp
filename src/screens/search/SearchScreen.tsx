@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     marginLeft: 12,
-    fontSize: 12,
+    fontSize: 14,
     color: 'black',
     borderWidth: 0, //ayad
     outlineWidth: 0, //ayad
