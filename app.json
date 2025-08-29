@@ -18,7 +18,8 @@
         "NSCameraUsageDescription": "multiapp needs access to the camera to take photos and videos for math snaps.",
         "NSMicrophoneUsageDescription": "multiapp needs access to the microphone to record videos with audio."
       },
-      "bundleIdentifier": "com.ayadali.multiapp"
+      "bundleIdentifier": "com.ayadali.multiapp",
+      "bitcode": false
     },
     "android": {
       "adaptiveIcon": {
@@ -30,7 +31,12 @@
         "android.permission.RECORD_AUDIO",
         "android.permission.WRITE_EXTERNAL_STORAGE",
         "android.permission.MODIFY_AUDIO_SETTINGS",
-        "android.permission.READ_EXTERNAL_STORAGE"
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.ACCESS_NETWORK_STATE",
+        "android.permission.INTERNET",
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.WAKE_LOCK",
+        "android.permission.BLUETOOTH"
       ],
       "edgeToEdgeEnabled": true,
       "package": "com.ayadali.multiapp"
@@ -54,7 +60,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "313db8bd-7a89-4e41-a14e-4a3fc4c2b110"
+        "projectId": "d8f01da3-4bc7-4282-8b61-b922fb6e154f"
       }
     }
   }
