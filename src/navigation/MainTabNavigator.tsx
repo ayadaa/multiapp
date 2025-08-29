@@ -14,6 +14,7 @@ import { MainTabParamList } from '../types/navigation';
 // import { Screen } from '../components/common/Screen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { Screen } from '../components/common/Screen';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
@@ -24,7 +25,8 @@ const Tab = createBottomTabNavigator<MainTabParamList>();
  */
 export function MainTabNavigator() {
   return (
-    <SafeAreaView edges={['top', 'bottom']} style={{ flex: 1 }}>
+    // <SafeAreaView edges={['top', 'bottom']} style={{ flex: 1 }}>
+    <Screen backgroundColor="#FFFFFF">
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
@@ -199,6 +201,7 @@ export function MainTabNavigator() {
           }}
         /> */}
       </Tab.Navigator>
-    </SafeAreaView>
+    </Screen>
+    // </SafeAreaView>
   );
 } 

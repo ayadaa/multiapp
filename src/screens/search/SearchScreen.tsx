@@ -8,7 +8,7 @@ import type { Ad } from '../../types/ads';
 import type { NavigationProp } from '../../types/navigation';
 import React, { useEffect } from 'react';
 import AdSearchCard from '../../components/cards/AdSearchCard';
-import FilterBar from '../../components/ads/FilterBar';
+import FilterBar from '../../components/search/FilterBar';
 
 export default function SearchScreen() {
   const [className, setClassName] = React.useState('All category');

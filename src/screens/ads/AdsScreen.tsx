@@ -85,43 +85,43 @@ export function AdsScreen() {
   // }
 
   return (
-    <Screen backgroundColor="#FFFFFF">
-      <View style={styles.container}>
-        {/* Header */}
-        <View style={styles.header}>
-          <TouchableOpacity
-            style={styles.headerDrawerButton}
-            onPress={() => navigation2.toggleDrawer()}
-          >
-            <Text style={{ color: 'Black', fontSize: 20, fontWeight: 'bold', }}> ☰ </Text>
-            {/* <Ionicons name="menu" size={24} color="#000000" /> */}
-            {/* <Entypo name="menu" size={24} color="black" /> */}
-            {/* <Feather name="menu" size={24} color="black" /> */}
-            {/* <MaterialIcons name="menu" size={24} color="black" /> */}
-            {/* <AntDesign name="menuunfold" size={24} color="black" /> */}
-          </TouchableOpacity>
-          {/* <View style={styles.titleContainer}>
+    // <Screen backgroundColor="#FFFFFF">
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.headerDrawerButton}
+          onPress={() => navigation2.toggleDrawer()}
+        >
+          <Text style={{ color: 'Black', fontSize: 20, fontWeight: 'bold', }}> ☰ </Text>
+          {/* <Ionicons name="menu" size={24} color="#000000" /> */}
+          {/* <Entypo name="menu" size={24} color="black" /> */}
+          {/* <Feather name="menu" size={24} color="black" /> */}
+          {/* <MaterialIcons name="menu" size={24} color="black" /> */}
+          {/* <AntDesign name="menuunfold" size={24} color="black" /> */}
+        </TouchableOpacity>
+        {/* <View style={styles.titleContainer}>
             <Text style={styles.title}>Ads</Text>
           </View> */}
-          <SearchButton />
+        <SearchButton />
+      </View>
+
+      {/* Error State */}
+      {adsError && (
+        <View style={styles.errorContainer}>
+          <Ionicons name="alert-circle" size={24} color="#FF3B30" />
+          <Text style={styles.errorText}>{adsError}</Text>
+          <TouchableOpacity
+            style={styles.retryButton}
+            onPress={() => handleRefresh}
+          >
+            <Text style={styles.retryText}>Retry</Text>
+          </TouchableOpacity>
         </View>
+      )}
 
-        {/* Error State */}
-        {adsError && (
-          <View style={styles.errorContainer}>
-            <Ionicons name="alert-circle" size={24} color="#FF3B30" />
-            <Text style={styles.errorText}>{adsError}</Text>
-            <TouchableOpacity
-              style={styles.retryButton}
-              onPress={() => handleRefresh}
-            >
-              <Text style={styles.retryText}>Retry</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-
-        {/* Ads categories */}
-        {/* {categories.length > 0 && (
+      {/* Ads categories */}
+      {/* {categories.length > 0 && (
           <CategoryFilter
             categories={categories}
             selectedCategory={selectedCategory}
@@ -129,132 +129,133 @@ export function AdsScreen() {
           />
         )} */}
 
-        {/* Ads List */}
-        <ScrollView
-          style={styles.scrollView}
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl
-              refreshing={isLoadingAds}
-              onRefresh={handleRefresh}
-              tintColor="white"
-            />
-          }
-        >
-          {/* Ads categories */}
-          {categories.length > 0 && (
-            <CategoryFilter
-              categories={categories}
-              selectedCategory={selectedCategory}
-              onSelectCategory={handleCategorySelect}
-            />
-          )}
-          {ads.length > 0 ? (
-            // <View style={styles.adsList}>
-            //   {ads.map((ad) => (
-            //     <TouchableOpacity
-            //       key={ad.id}
-            //       onPress={() => handleAdPress(ad)}
-            //       style={{
-            //         flexDirection: 'row',
-            //         alignItems: 'center',
-            //         paddingHorizontal: 20,
-            //         paddingVertical: 16,
-            //         borderBottomWidth: 1,
-            //         borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+      {/* Ads List */}
+      <ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoadingAds}
+            onRefresh={handleRefresh}
+            tintColor="white"
+          />
+        }
+      >
+        {/* Ads categories */}
+        {categories.length > 0 && (
+          <CategoryFilter
+            categories={categories}
+            selectedCategory={selectedCategory}
+            onSelectCategory={handleCategorySelect}
+          />
+        )}
+        {ads.length > 0 ? (
+          // <View style={styles.adsList}>
+          //   {ads.map((ad) => (
+          //     <TouchableOpacity
+          //       key={ad.id}
+          //       onPress={() => handleAdPress(ad)}
+          //       style={{
+          //         flexDirection: 'row',
+          //         alignItems: 'center',
+          //         paddingHorizontal: 20,
+          //         paddingVertical: 16,
+          //         borderBottomWidth: 1,
+          //         borderBottomColor: 'rgba(0, 0, 0, 0.1)',
 
-            //         backgroundColor: 'rgba(255, 255, 255, 0.05)',
-            //         marginHorizontal: 16,
-            //         marginVertical: 2,
-            //         borderRadius: 16,
-            //       }}
-            //     >
-            //       <View style={{
-            //         width: 50,
-            //         height: 50,
-            //         borderRadius: 25,
-            //         // backgroundColor: 'rgba(0, 200, 100, 0.8)',
-            //         alignItems: 'center',
-            //         justifyContent: 'center',
-            //         marginRight: 16,
-            //       }}>
-            //         {/* <Ionicons name="people" size={24} color="#FFFFFF" /> */}
-            //         <Image
-            //           source={{ uri: ad.adPicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
-            //           style={styles.image}
-            //           resizeMode="cover"
-            //         />
-            //       </View>
+          //         backgroundColor: 'rgba(255, 255, 255, 0.05)',
+          //         marginHorizontal: 16,
+          //         marginVertical: 2,
+          //         borderRadius: 16,
+          //       }}
+          //     >
+          //       <View style={{
+          //         width: 50,
+          //         height: 50,
+          //         borderRadius: 25,
+          //         // backgroundColor: 'rgba(0, 200, 100, 0.8)',
+          //         alignItems: 'center',
+          //         justifyContent: 'center',
+          //         marginRight: 16,
+          //       }}>
+          //         {/* <Ionicons name="people" size={24} color="#FFFFFF" /> */}
+          //         <Image
+          //           source={{ uri: ad.adPicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
+          //           style={styles.image}
+          //           resizeMode="cover"
+          //         />
+          //       </View>
 
-            //       <View style={{ flex: 1 }}>
-            //         <View style={{
-            //           flexDirection: 'row',
-            //           justifyContent: 'space-between',
-            //           alignItems: 'center',
-            //           marginBottom: 4,
-            //         }}>
-            //           <Text style={{
-            //             color: '#000000',
-            //             fontSize: 16,
-            //             fontWeight: 'bold',
-            //           }}>
-            //             {ad.title}
-            //           </Text>
-            //           <Text style={{
-            //             color: 'rgba(0, 0, 0, 0.75)',
-            //             fontSize: 12,
-            //           }}>
-            //             {ad.createdAt ? formatTimestamp(ad.createdAt) : ''}
-            //           </Text>
-            //         </View>
+          //       <View style={{ flex: 1 }}>
+          //         <View style={{
+          //           flexDirection: 'row',
+          //           justifyContent: 'space-between',
+          //           alignItems: 'center',
+          //           marginBottom: 4,
+          //         }}>
+          //           <Text style={{
+          //             color: '#000000',
+          //             fontSize: 16,
+          //             fontWeight: 'bold',
+          //           }}>
+          //             {ad.title}
+          //           </Text>
+          //           <Text style={{
+          //             color: 'rgba(0, 0, 0, 0.75)',
+          //             fontSize: 12,
+          //           }}>
+          //             {ad.createdAt ? formatTimestamp(ad.createdAt) : ''}
+          //           </Text>
+          //         </View>
 
-            //         <View style={{
-            //           flexDirection: 'row',
-            //           justifyContent: 'space-between',
-            //           alignItems: 'center',
-            //         }}>
-            //           <Text style={{
-            //             color: 'rgba(0, 0, 0, 0.7)',
-            //             fontSize: 14,
-            //             flex: 1,
-            //           }} numberOfLines={1}>
-            //             {ad.description.slice(0, 50)} {/* 50 characters */}
-            //           </Text>
-            //         </View>
-            //       </View>
-            //     </TouchableOpacity>
-            //   ))}
-            // </View>
-            <FlatList
-              data={ads}
-              renderItem={({ item }) => <AdCard ad={item} />}
-              keyExtractor={(item) => item.id?.toString() || '0'}
-              numColumns={2}
-              columnWrapperStyle={styles.row}
-              contentContainerStyle={styles.adsGrid}
-              scrollEnabled={false}
-            />
-          ) : (
-            /* Empty State */
-            <View style={styles.emptyStateContainer}>
-              <Text style={styles.emptyStateText}>
-                Loading ...
-              </Text>
-            </View>
-          )}
-        </ScrollView>
-        <FloatingAction
-          actions={actions}
-          onPressItem={handleCreateAdPress}
-        />
-      </View>
-    </Screen>
+          //         <View style={{
+          //           flexDirection: 'row',
+          //           justifyContent: 'space-between',
+          //           alignItems: 'center',
+          //         }}>
+          //           <Text style={{
+          //             color: 'rgba(0, 0, 0, 0.7)',
+          //             fontSize: 14,
+          //             flex: 1,
+          //           }} numberOfLines={1}>
+          //             {ad.description.slice(0, 50)} {/* 50 characters */}
+          //           </Text>
+          //         </View>
+          //       </View>
+          //     </TouchableOpacity>
+          //   ))}
+          // </View>
+          <FlatList
+            data={ads}
+            renderItem={({ item }) => <AdCard ad={item} />}
+            keyExtractor={(item) => item.id?.toString() || '0'}
+            numColumns={2}
+            columnWrapperStyle={styles.row}
+            contentContainerStyle={styles.adsGrid}
+            scrollEnabled={false}
+          />
+        ) : (
+          /* Empty State */
+          <View style={styles.emptyStateContainer}>
+            <Text style={styles.emptyStateText}>
+              Loading ...
+            </Text>
+          </View>
+        )}
+      </ScrollView>
+      <FloatingAction
+        actions={actions}
+        onPressItem={handleCreateAdPress}
+      />
+    </View>
+    // </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#FFFFFF',
   },
   header: {
     flexDirection: 'row',

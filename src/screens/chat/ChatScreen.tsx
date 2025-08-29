@@ -276,10 +276,10 @@ export function ChatScreen() {
   };
 
   return (
-    <Screen backgroundColor="#FFFFFF">
-      <View style={{ flex: 1 }}>
-        {/* Header */}
-        {/* <View style={{
+    // <Screen backgroundColor="#FFFFFF">
+    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+      {/* Header */}
+      {/* <View style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -311,134 +311,133 @@ export function ChatScreen() {
             </TouchableOpacity>
           </View>
         </View> */}
-        {/* Header */}
-        <View style={styles.header}>
-          <TouchableOpacity
-            style={styles.headerDrawerButton}
-            onPress={() => navigation2.toggleDrawer()}
-          >
-            <Text style={{ color: 'Black', fontSize: 20, fontWeight: 'bold', }}> ☰ </Text>
-            {/* <Ionicons name="menu" size={24} color="#000000" /> */}
-            {/* <Entypo name="menu" size={24} color="black" /> */}
-            {/* <Feather name="menu" size={24} color="black" /> */}
-            {/* <MaterialIcons name="menu" size={24} color="black" /> */}
-            {/* <AntDesign name="menuunfold" size={24} color="black" /> */}
-          </TouchableOpacity>
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>Chat</Text>
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.headerDrawerButton}
+          onPress={() => navigation2.toggleDrawer()}
+        >
+          <Text style={{ color: 'Black', fontSize: 20, fontWeight: 'bold', }}> ☰ </Text>
+          {/* <Ionicons name="menu" size={24} color="#000000" /> */}
+          {/* <Entypo name="menu" size={24} color="black" /> */}
+          {/* <Feather name="menu" size={24} color="black" /> */}
+          {/* <MaterialIcons name="menu" size={24} color="black" /> */}
+          {/* <AntDesign name="menuunfold" size={24} color="black" /> */}
+        </TouchableOpacity>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Chat</Text>
+        </View>
+      </View>
+
+      {/* Content */}
+      {loading ? (
+        <View style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <Text style={{ color: 'rgba(0, 0, 0, 0.75)', fontSize: 16 }}>
+            Loading chats...
+          </Text>
+        </View>
+      ) : error ? (
+        <View style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingHorizontal: 40,
+        }}>
+          <Text style={{
+            color: '#FF4444',
+            fontSize: 16,
+            textAlign: 'center',
+            marginBottom: 8,
+          }}>
+            Failed to load chats
+          </Text>
+          <Text style={{
+            color: 'rgba(255, 255, 255, 0.6)',
+            fontSize: 14,
+            textAlign: 'center',
+          }}>
+            {error}
+          </Text>
+        </View>
+      ) : sections.length === 0 ? (
+        <View style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingHorizontal: 40,
+        }}>
+          <Ionicons name="chatbubbles-outline" size={64} color="rgba(255, 255, 255, 0.3)" />
+          <Text style={{
+            color: '#000000',
+            fontSize: 20,
+            fontWeight: 'bold',
+            marginTop: 16,
+            marginBottom: 8,
+            textAlign: 'center',
+          }}>
+            No chats yet
+          </Text>
+          <Text style={{
+            color: 'rgba(0, 0, 0, 0.75)',
+            fontSize: 16,
+            textAlign: 'center',
+            marginBottom: 24,
+          }}>
+            Start a conversation with friends or create a group chat
+          </Text>
+
+          <View style={{ flexDirection: 'row', gap: 16 }}>
+            <TouchableOpacity
+              onPress={handleCreateGroupPress}
+              style={{
+                backgroundColor: 'rgba(0, 200, 100, 0.8)',
+                paddingHorizontal: 20,
+                paddingVertical: 12,
+                borderRadius: 25,
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 8,
+              }}
+            >
+              <Ionicons name="people-outline" size={20} color="#000000" />
+              <Text style={{ color: '#000000', fontSize: 16, fontWeight: '600' }}>
+                Create Group
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={handleFindFriendPress}
+              style={{
+                backgroundColor: 'rgba(0, 132, 255, 0.8)',
+                paddingHorizontal: 20,
+                paddingVertical: 12,
+                borderRadius: 25,
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 8,
+              }}
+            >
+              <Ionicons name="search" size={20} color="#000000" />
+              <Text style={{ color: '#000000', fontSize: 16, fontWeight: '600' }}>
+                Find Friends
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
-
-        {/* Content */}
-        {loading ? (
-          <View style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <Text style={{ color: 'rgba(0, 0, 0, 0.75)', fontSize: 16 }}>
-              Loading chats...
-            </Text>
-          </View>
-        ) : error ? (
-          <View style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingHorizontal: 40,
-          }}>
-            <Text style={{
-              color: '#FF4444',
-              fontSize: 16,
-              textAlign: 'center',
-              marginBottom: 8,
-            }}>
-              Failed to load chats
-            </Text>
-            <Text style={{
-              color: 'rgba(255, 255, 255, 0.6)',
-              fontSize: 14,
-              textAlign: 'center',
-            }}>
-              {error}
-            </Text>
-          </View>
-        ) : sections.length === 0 ? (
-          <View style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingHorizontal: 40,
-          }}>
-            <Ionicons name="chatbubbles-outline" size={64} color="rgba(255, 255, 255, 0.3)" />
-            <Text style={{
-              color: '#000000',
-              fontSize: 20,
-              fontWeight: 'bold',
-              marginTop: 16,
-              marginBottom: 8,
-              textAlign: 'center',
-            }}>
-              No chats yet
-            </Text>
-            <Text style={{
-              color: 'rgba(0, 0, 0, 0.75)',
-              fontSize: 16,
-              textAlign: 'center',
-              marginBottom: 24,
-            }}>
-              Start a conversation with friends or create a group chat
-            </Text>
-
-            <View style={{ flexDirection: 'row', gap: 16 }}>
-              <TouchableOpacity
-                onPress={handleCreateGroupPress}
-                style={{
-                  backgroundColor: 'rgba(0, 200, 100, 0.8)',
-                  paddingHorizontal: 20,
-                  paddingVertical: 12,
-                  borderRadius: 25,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 8,
-                }}
-              >
-                <Ionicons name="people-outline" size={20} color="#000000" />
-                <Text style={{ color: '#000000', fontSize: 16, fontWeight: '600' }}>
-                  Create Group
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={handleFindFriendPress}
-                style={{
-                  backgroundColor: 'rgba(0, 132, 255, 0.8)',
-                  paddingHorizontal: 20,
-                  paddingVertical: 12,
-                  borderRadius: 25,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 8,
-                }}
-              >
-                <Ionicons name="search" size={20} color="#000000" />
-                <Text style={{ color: '#000000', fontSize: 16, fontWeight: '600' }}>
-                  Find Friends
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        ) : (
-          <SectionList
-            sections={sections}
-            keyExtractor={(item, index) => `${item.id}-${index}`}
-            renderSectionHeader={renderSectionHeader}
-            renderItem={({ item, section }) => renderChatItem(item, section.type)}
-            showsVerticalScrollIndicator={false}
-            stickySectionHeadersEnabled={false}
-          />
-        )}
-      </View>
+      ) : (
+        <SectionList
+          sections={sections}
+          keyExtractor={(item, index) => `${item.id}-${index}`}
+          renderSectionHeader={renderSectionHeader}
+          renderItem={({ item, section }) => renderChatItem(item, section.type)}
+          showsVerticalScrollIndicator={false}
+          stickySectionHeadersEnabled={false}
+        />
+      )}
       <FloatingAction
         actions={actions}
         onPressItem={(name) => {
@@ -447,7 +446,8 @@ export function ChatScreen() {
           handleCreateGroupPress();
         }}
       />
-    </Screen>
+    </View>
+    // </Screen>
   );
 }
 

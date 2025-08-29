@@ -135,89 +135,89 @@ export function WalletScreen() {
   };
 
   return (
-    <Screen backgroundColor="#FFFFFF">
-      <View style={styles.container}>
-        {/* Header */}
-        {/* <View style={styles.header}>
+    // <Screen backgroundColor="#FFFFFF">
+    <View style={styles.container}>
+      {/* Header */}
+      {/* <View style={styles.header}>
           <Text style={styles.title}>Wallet</Text>
         </View> */}
-        {/* Header */}
-        <View style={styles.header}>
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.headerDrawerButton}
+          onPress={() => navigation.toggleDrawer()}
+        >
+          <Text style={{ color: 'Black', fontSize: 20, fontWeight: 'bold', }}> ☰ </Text>
+          {/* <Ionicons name="menu" size={24} color="#000000" /> */}
+          {/* <Entypo name="menu" size={24} color="black" /> */}
+          {/* <Feather name="menu" size={24} color="black" /> */}
+          {/* <MaterialIcons name="menu" size={24} color="black" /> */}
+          {/* <AntDesign name="menuunfold" size={24} color="black" /> */}
+        </TouchableOpacity>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Wallet</Text>
+        </View>
+      </View>
+
+      {/* Error State */}
+      {userError && (
+        <View style={styles.errorContainer}>
+          <Ionicons name="alert-circle" size={24} color="#FF3B30" />
+          <Text style={styles.errorText}>{userError}</Text>
           <TouchableOpacity
-            style={styles.headerDrawerButton}
-            onPress={() => navigation.toggleDrawer()}
+            style={styles.retryButton}
+            onPress={refreshUser}
           >
-            <Text style={{ color: 'Black', fontSize: 20, fontWeight: 'bold', }}> ☰ </Text>
-            {/* <Ionicons name="menu" size={24} color="#000000" /> */}
-            {/* <Entypo name="menu" size={24} color="black" /> */}
-            {/* <Feather name="menu" size={24} color="black" /> */}
-            {/* <MaterialIcons name="menu" size={24} color="black" /> */}
-            {/* <AntDesign name="menuunfold" size={24} color="black" /> */}
+            <Text style={styles.retryText}>Retry</Text>
           </TouchableOpacity>
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>Wallet</Text>
+        </View>
+      )}
+      <ScrollView
+        style={styles.content}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoadingUser}
+            onRefresh={refreshUser}
+            tintColor="white"
+          />
+        }
+      >
+        {/* card */}
+        <View style={styles.card}>
+          <View style={styles.balanceSection}>
+            <Text style={styles.username}>{Math.round((User?.balance || 0) * 1000) / 1000} 💎</Text>
+            <Text style={styles.email}>{Math.round((User?.balance ? User.balance * 1.35 : 0) * 1000) / 1000} د.ع</Text>
+          </View>
+          <View style={styles.balanceSection}>
+            <Text style={styles.username}>@{user?.username || 'username'}</Text>
+            <Text style={styles.email}>{user?.email || 'email@example.com'}</Text>
           </View>
         </View>
-
-        {/* Error State */}
-        {userError && (
-          <View style={styles.errorContainer}>
-            <Ionicons name="alert-circle" size={24} color="#FF3B30" />
-            <Text style={styles.errorText}>{userError}</Text>
-            <TouchableOpacity
-              style={styles.retryButton}
-              onPress={refreshUser}
-            >
-              <Text style={styles.retryText}>Retry</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-        <ScrollView
-          style={styles.content}
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl
-              refreshing={isLoadingUser}
-              onRefresh={refreshUser}
-              tintColor="white"
-            />
-          }
-        >
-          {/* card */}
-          <View style={styles.card}>
-            <View style={styles.balanceSection}>
-              <Text style={styles.username}>{Math.round((User?.balance || 0) * 1000) / 1000} 💎</Text>
-              <Text style={styles.email}>{Math.round((User?.balance ? User.balance * 1.35 : 0) * 1000) / 1000} د.ع</Text>
+        {/* Menu Items */}
+        <View style={styles.menuSection}>
+          {/*Mining ⛏💎 */}
+          <TouchableOpacity
+            style={styles.menuItem}
+            onPress={() => {
+              // collect(user?.uid || '0')
+              handleCollection();
+            }}
+            disabled={isDisabled}
+          >
+            <View style={styles.menuItemLeft}>
+              <Text style={styles.menuItemText}>Mining ⛏💎 : {User?.miningSpeed || 0} / day</Text>
             </View>
-            <View style={styles.balanceSection}>
-              <Text style={styles.username}>@{user?.username || 'username'}</Text>
-              <Text style={styles.email}>{user?.email || 'email@example.com'}</Text>
+            <View style={styles.menuItemLeft}>
+              {/* <Text style={styles.menuItemText}>Start Mining</Text> */}
+              {/* <Text style={styles.menuItemText}>{getFormattedTime(time)}</Text> */}
+              {/* <Text style={styles.menuItemText}>Collection</Text> */}
+              {(User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis()) - Timestamp.now().toMillis() > 0 && <Text style={styles.menuItemText}>{getFormattedTime(time)}</Text>}
+              {(User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis()) - Timestamp.now().toMillis() <= 0 && <Text style={styles.menuItemText}>Collection</Text>}
             </View>
-          </View>
-          {/* Menu Items */}
-          <View style={styles.menuSection}>
-            {/*Mining ⛏💎 */}
-            <TouchableOpacity
-              style={styles.menuItem}
-              onPress={() => {
-                // collect(user?.uid || '0')
-                handleCollection();
-              }}
-              disabled={isDisabled}
-            >
-              <View style={styles.menuItemLeft}>
-                <Text style={styles.menuItemText}>Mining ⛏💎 : {User?.miningSpeed || 0} / day</Text>
-              </View>
-              <View style={styles.menuItemLeft}>
-                {/* <Text style={styles.menuItemText}>Start Mining</Text> */}
-                {/* <Text style={styles.menuItemText}>{getFormattedTime(time)}</Text> */}
-                {/* <Text style={styles.menuItemText}>Collection</Text> */}
-                {(User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis()) - Timestamp.now().toMillis() > 0 && <Text style={styles.menuItemText}>{getFormattedTime(time)}</Text>}
-                {(User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis()) - Timestamp.now().toMillis() <= 0 && <Text style={styles.menuItemText}>Collection</Text>}
-              </View>
-            </TouchableOpacity>
+          </TouchableOpacity>
 
-            {/* <TouchableOpacity
+          {/* <TouchableOpacity
               style={styles.menuItem}
               onPress={navigateToSend}
             >
@@ -228,7 +228,7 @@ export function WalletScreen() {
               <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
             </TouchableOpacity> */}
 
-            {/* <TouchableOpacity
+          {/* <TouchableOpacity
               style={styles.menuItem}
               onPress={navigateToReceive}
             >
@@ -239,33 +239,31 @@ export function WalletScreen() {
               <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
             </TouchableOpacity> */}
 
-            <TouchableOpacity
-              style={styles.menuItem}
-              onPress={navigateToMiningOffers}
-            >
-              <View style={styles.menuItemLeft}>
-                {/* <Ionicons name="help-circle-outline" size={20} color="rgba(0, 0, 0, 0.8)" /> */}
-                <Text style={styles.menuItemText}>Update mining speed</Text>
-              </View>
-              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
-            </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.menuItem}
+            onPress={navigateToMiningOffers}
+          >
+            <View style={styles.menuItemLeft}>
+              {/* <Ionicons name="help-circle-outline" size={20} color="rgba(0, 0, 0, 0.8)" /> */}
+              <Text style={styles.menuItemText}>Update mining speed</Text>
+            </View>
+            <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
+          </TouchableOpacity>
 
-            {/* <TouchableOpacity style={styles.menuItem}>
+          {/* <TouchableOpacity style={styles.menuItem}>
               <View style={styles.menuItemLeft}>
                 <Ionicons name="shield-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
                 <Text style={styles.menuItemText}>Privacy</Text>
               </View>
               <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
             </TouchableOpacity> */}
-          </View>
-          {/* App Info */}
-          <View style={styles.appInfo}>
-            <Text style={styles.appInfoText}>Snap Factor v1.0</Text>
-            <Text style={styles.appInfoText}>Built with React Native & Firebase</Text>
-          </View>
-        </ScrollView>
-
-      </View>
+        </View>
+        {/* App Info */}
+        <View style={styles.appInfo}>
+          <Text style={styles.appInfoText}>Snap Factor v1.0</Text>
+          <Text style={styles.appInfoText}>Built with React Native & Firebase</Text>
+        </View>
+      </ScrollView>
       {/* <MiningOffersBottomSheet bottomSheetRef={bottomSheetRef} snapPoints={snapPoints} /> */}
       <FloatingAction
         actions={actions}
@@ -278,13 +276,15 @@ export function WalletScreen() {
         }
         }
       />
-    </Screen>
+    </View>
+    // </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#FFFFFF',
   },
   content: {
     flex: 1,
