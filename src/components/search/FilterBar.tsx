@@ -136,9 +136,9 @@ export default function FilterBar({ handleRefresh, className, setClassName, city
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.filterScrollContent}
       >
-        {renderCalssNamePicker()}
-        {renderCityNamePicker()}
-        {renderTypeNamePicker()}
+        <View style={styles.listContainer}>{renderCalssNamePicker()}</View>
+        <View style={styles.listContainer}>{renderCityNamePicker()}</View>
+        <View style={styles.listContainer}>{renderTypeNamePicker()}</View>
       </ScrollView>
     </View>
   );
@@ -146,27 +146,30 @@ export default function FilterBar({ handleRefresh, className, setClassName, city
 
 const styles = StyleSheet.create({
   filterContainer: {
-    marginVertical: 16,
+    marginVertical: 8,
   },
   filterScrollContent: {
     alignItems: 'center',
     gap: 20,
     paddingHorizontal: 16,
   },
+  listContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+    borderRadius: 12,
+    paddingHorizontal: 2,
+    paddingVertical: 1,
+    fontSize: 14,
+    color: '#000000',
+    // borderWidth: 1,
+    borderColor: 'rgba(0, 0, 0, 0.2)',
+  },
   list: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 8,
-    minWidth: 120,
-
-    backgroundColor: 'rgba(255, 255, 255, 1)',
+    // paddingBottom: 2,
+    minWidth: 80,
     borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 14,
-    color: '#000000',
-    borderWidth: 1,
-    borderColor: 'rgba(0, 0, 0, 0.2)',
+    borderColor: 'rgba(255, 255, 255, 1)',
   },
 });

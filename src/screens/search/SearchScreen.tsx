@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, RefreshControl, Image, TextInput } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, RefreshControl, Dimensions, TextInput } from "react-native";
 import { Screen } from '../../components/common/Screen';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -9,6 +9,8 @@ import type { NavigationProp } from '../../types/navigation';
 import React, { useEffect } from 'react';
 import AdSearchCard from '../../components/cards/AdSearchCard';
 import FilterBar from '../../components/search/FilterBar';
+
+// const { width } = Dimensions.get('window');
 
 export default function SearchScreen() {
   const [className, setClassName] = React.useState('All category');
@@ -223,7 +225,8 @@ const styles = StyleSheet.create({
     gap: 10,
     padding: 6,
     alignItems: 'center',
-    width: 280,
+    // width: 280,
+    flex: 2,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: '#c2c2c2',
     borderRadius: 30,

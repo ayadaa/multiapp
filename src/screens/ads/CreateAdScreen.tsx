@@ -231,57 +231,63 @@ export default function CreateAdScreen() {
           />
 
           <Text style={styles.inputLabel}>Category</Text>
-          <Picker
-            selectedValue={className}
-            style={styles.textInput}
-            onValueChange={(itemValue, itemIndex) =>
-              setClassName(itemValue)
-            }
-          >
-            <Picker.Item label={classNameList.RealEstate} value={classNameList.RealEstate} />
-            <Picker.Item label={classNameList.Animals} value={classNameList.Animals} />
-            <Picker.Item label={classNameList.Electronics} value={classNameList.Electronics} />
-            <Picker.Item label={classNameList.Fashion} value={classNameList.Fashion} />
-            <Picker.Item label={classNameList.Games} value={classNameList.Games} />
-            <Picker.Item label={classNameList.Works} value={classNameList.Works} />
-            <Picker.Item label={classNameList.Cars} value={classNameList.Cars} />
-          </Picker>
+          <View style={styles.pickerContainer}>
+            <Picker
+              selectedValue={className}
+              style={styles.picker}
+              onValueChange={(itemValue, itemIndex) =>
+                setClassName(itemValue)
+              }
+            >
+              <Picker.Item label={classNameList.RealEstate} value={classNameList.RealEstate} />
+              <Picker.Item label={classNameList.Animals} value={classNameList.Animals} />
+              <Picker.Item label={classNameList.Electronics} value={classNameList.Electronics} />
+              <Picker.Item label={classNameList.Fashion} value={classNameList.Fashion} />
+              <Picker.Item label={classNameList.Games} value={classNameList.Games} />
+              <Picker.Item label={classNameList.Works} value={classNameList.Works} />
+              <Picker.Item label={classNameList.Cars} value={classNameList.Cars} />
+            </Picker>
+          </View>
           <Text style={styles.inputLabel}>Type</Text>
-          <Picker
-            selectedValue={typeName}
-            style={styles.textInput}
-            onValueChange={(itemValue, itemIndex) =>
-              setTypeName(itemValue)
-            }>
-            <Picker.Item label="sale" value="sale" />
-            <Picker.Item label="buy" value="buy" />
-          </Picker>
+          <View style={styles.pickerContainer}>
+            <Picker
+              selectedValue={typeName}
+              style={styles.picker}
+              onValueChange={(itemValue, itemIndex) =>
+                setTypeName(itemValue)
+              }>
+              <Picker.Item label="sale" value="sale" />
+              <Picker.Item label="buy" value="buy" />
+            </Picker>
+          </View>
           <Text style={styles.inputLabel}>City</Text>
-          <Picker
-            selectedValue={cityName}
-            style={styles.textInput}
-            onValueChange={(itemValue, itemIndex) =>
-              setCityName(itemValue)
-            }>
-            <Picker.Item label={cityNameList.Bagdad} value={cityNameList.Bagdad} />
-            <Picker.Item label={cityNameList.Babil} value={cityNameList.Babil} />
-            <Picker.Item label={cityNameList.Karbala} value={cityNameList.Karbala} />
-            <Picker.Item label={cityNameList.AlAnbar} value={cityNameList.AlAnbar} />
-            <Picker.Item label={cityNameList.Amarah} value={cityNameList.Amarah} />
-            <Picker.Item label={cityNameList.Basra} value={cityNameList.Basra} />
-            <Picker.Item label={cityNameList.Diwaniyah} value={cityNameList.Diwaniyah} />
-            <Picker.Item label={cityNameList.Diyala} value={cityNameList.Diyala} />
-            <Picker.Item label={cityNameList.Dohuk} value={cityNameList.Dohuk} />
-            <Picker.Item label={cityNameList.Erbil} value={cityNameList.Erbil} />
-            <Picker.Item label={cityNameList.Kirkuk} value={cityNameList.Kirkuk} />
-            <Picker.Item label={cityNameList.Mosul} value={cityNameList.Mosul} />
-            <Picker.Item label={cityNameList.Najaf} value={cityNameList.Najaf} />
-            <Picker.Item label={cityNameList.Nasiriyah} value={cityNameList.Nasiriyah} />
-            <Picker.Item label={cityNameList.Saladin} value={cityNameList.Saladin} />
-            <Picker.Item label={cityNameList.Samawah} value={cityNameList.Samawah} />
-            <Picker.Item label={cityNameList.Sulaymaniyah} value={cityNameList.Sulaymaniyah} />
-            <Picker.Item label={cityNameList.Wasit} value={cityNameList.Wasit} />
-          </Picker>
+          <View style={styles.pickerContainer}>
+            <Picker
+              selectedValue={cityName}
+              style={styles.picker}
+              onValueChange={(itemValue, itemIndex) =>
+                setCityName(itemValue)
+              }>
+              <Picker.Item label={cityNameList.Bagdad} value={cityNameList.Bagdad} />
+              <Picker.Item label={cityNameList.Babil} value={cityNameList.Babil} />
+              <Picker.Item label={cityNameList.Karbala} value={cityNameList.Karbala} />
+              <Picker.Item label={cityNameList.AlAnbar} value={cityNameList.AlAnbar} />
+              <Picker.Item label={cityNameList.Amarah} value={cityNameList.Amarah} />
+              <Picker.Item label={cityNameList.Basra} value={cityNameList.Basra} />
+              <Picker.Item label={cityNameList.Diwaniyah} value={cityNameList.Diwaniyah} />
+              <Picker.Item label={cityNameList.Diyala} value={cityNameList.Diyala} />
+              <Picker.Item label={cityNameList.Dohuk} value={cityNameList.Dohuk} />
+              <Picker.Item label={cityNameList.Erbil} value={cityNameList.Erbil} />
+              <Picker.Item label={cityNameList.Kirkuk} value={cityNameList.Kirkuk} />
+              <Picker.Item label={cityNameList.Mosul} value={cityNameList.Mosul} />
+              <Picker.Item label={cityNameList.Najaf} value={cityNameList.Najaf} />
+              <Picker.Item label={cityNameList.Nasiriyah} value={cityNameList.Nasiriyah} />
+              <Picker.Item label={cityNameList.Saladin} value={cityNameList.Saladin} />
+              <Picker.Item label={cityNameList.Samawah} value={cityNameList.Samawah} />
+              <Picker.Item label={cityNameList.Sulaymaniyah} value={cityNameList.Sulaymaniyah} />
+              <Picker.Item label={cityNameList.Wasit} value={cityNameList.Wasit} />
+            </Picker>
+          </View>
         </View>
 
         {/* Create Ad Button */}
@@ -411,5 +417,19 @@ const styles = StyleSheet.create({
   createButton: {
     backgroundColor: '#0084FF',
     paddingVertical: 16,
+  },
+  pickerContainer: {
+    borderWidth: 1,
+    borderColor: 'rgba(0, 0, 0, 0.2)',
+    borderRadius: 12,
+  },
+  picker: {
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+    borderRadius: 12,
+    borderColor: 'rgba(255, 255, 255, 1)',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    fontSize: 16,
+    color: '#000000',
   },
 }); 
