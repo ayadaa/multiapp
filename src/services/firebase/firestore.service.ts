@@ -1764,6 +1764,27 @@ export async function getAdById(adId: string): Promise<Ad | null> {
 }
 
 /**
+ * Get person ads
+ */
+export async function getPersonAds(createdBy: string): Promise<Ad[] | null> {
+  try {
+    const adsQuery = query(
+      collection(db, 'ads'),
+      where('createdBy', '==', createdBy),
+      orderBy('createdAt', 'desc')
+    );
+    const ads = await getDocs(adsQuery);
+    return ads.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    })) as Ad[];
+  } catch (error) {
+    console.error('Get ads error:', error);
+    throw new Error('Failed to get ads');
+  }
+}
+
+/**
  * Update ad title
  */
 export async function updateAdTitle(adId: string, title: string): Promise<void> {

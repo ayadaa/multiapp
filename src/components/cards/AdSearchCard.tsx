@@ -111,9 +111,16 @@ export default function AdSearchCard({ ad }: { ad: Ad }) {
                     <Text style={{
                         color: 'rgba(0, 0, 0, 0.7)',
                         fontSize: 14,
-                        flex: 1,
+                        // flex: 1,
                     }} numberOfLines={1}>
                         {ad.description.slice(0, 50)} {/* 50 characters */}
+                    </Text>
+                    <Text style={{
+                        color: 'rgba(0, 0, 0, 0.7)',
+                        fontSize: 12,
+                        // flex: 1,
+                    }}>
+                        {ad.price} د.ع
                     </Text>
                 </View>
             </View>

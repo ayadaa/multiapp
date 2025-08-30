@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { UserProfile } from '../../services/firebase/firestore.service';
 
@@ -71,11 +71,40 @@ export function UserCard({
     >
       {/* User Avatar */}
       <View style={styles.avatarContainer}>
-        <View style={styles.avatar}>
+        {/* <View style={styles.avatar}>
           <Text style={styles.avatarText}>
             {user.username?.charAt(0).toUpperCase() || '?'}
           </Text>
+        </View> */}
+        {user?.profilePicture ? <View style={{
+          width: 50,
+          height: 50,
+          borderRadius: 25,
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginRight: 16,
+          overflow: "hidden",
+        }}>
+          <Image
+            source={{ uri: user.profilePicture }}
+            style={{ height: 50, width: 50 }}
+            resizeMode="cover"
+          />
         </View>
+          : <View style={{
+            width: 50,
+            height: 50,
+            borderRadius: 25,
+            backgroundColor: 'rgba(0, 132, 255, 0.8)',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginRight: 16,
+          }}>
+            <Text style={{ fontSize: 18, color: '#000000' }}>
+              {user?.username?.charAt(0).toUpperCase() || '?'}
+            </Text>
+          </View>
+        }
       </View>
 
       {/* User Info */}

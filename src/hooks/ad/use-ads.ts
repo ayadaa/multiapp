@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import {
   createAd,
   getAds,
+  getPersonAds,
   searchAdsByTitle,
   getAdsByClass,
   getAdById,
@@ -18,14 +19,17 @@ export function useAds(currentUserId: string) {
 
   // Data state
   const [ads, setAds] = useState<Ad[]>([]);
+  const [personAds, setPersonAds] = useState<Ad[] | null>([]);
   const [searchResults, setSearchResults] = useState<Ad[]>([]);
 
   // Loading states
   const [isLoadingAds, setIsLoadingAds] = useState(false);
+  const [isLoadingPersonAds, setIsLoadingPersonAds] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
 
   // Error states
   const [adsError, setAdsError] = useState<string | null>(null);
+  const [personAdsError, setPersonAdsError] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [searchError, setSearchError] = useState<string | null>(null);
 
@@ -97,6 +101,23 @@ export function useAds(currentUserId: string) {
   }, []);
 
   /**
+   * Load person ads list
+   */
+  const refreshPersonAds = useCallback(async (createdBy = currentUserId) => {
+    setIsLoadingPersonAds(true);
+    setPersonAdsError(null);
+    try {
+      const adsList = await getPersonAds(createdBy);
+      setPersonAds(adsList);
+    } catch (error) {
+      console.error('Error loading ads:', error);
+      setAdsError('Failed to load ads');
+    } finally {
+      setIsLoadingAds(false);
+    }
+  }, []);
+
+  /**
      * Search for ads by title
      */
   const searchAds = useCallback(async (title: string, className = 'All category', cityName = 'All cities', typeName = 'All types') => {
@@ -127,26 +148,31 @@ export function useAds(currentUserId: string) {
   // Load initial data
   useEffect(() => {
     refreshAds();
+    refreshPersonAds();
   }, [refreshAds]);
 
   return {
     // Data
     ads,
+    personAds,
     searchResults,
     // ad,
 
     // Loading states
     isLoadingAds,
+    isLoadingPersonAds,
     isSearching,
 
     // Error states
     error,
     adsError,
+    personAdsError,
     searchError,
 
     // Actions
     createNewAd,
     refreshAds,
+    refreshPersonAds,
     searchAds,
     clearSearch,
 

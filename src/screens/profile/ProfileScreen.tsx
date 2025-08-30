@@ -10,18 +10,31 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
-  ScrollView
+  ScrollView,
+  Image,
+  RefreshControl,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { clearUser } from '../../store/slices/auth.slice';
 import { Screen } from '../../components/common/Screen';
 import { useNavigation } from '@react-navigation/native';
+import { useUser } from '../../hooks/user/use-user';
+import AdSearchCard from '../../components/cards/AdSearchCard';
+import { useAds } from '../../hooks/ad/use-ads';
 
 export function ProfileScreen() {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
+  const { User } = useUser(user?.uid || '');
+
+  const {
+    personAds,
+    isLoadingPersonAds,
+    personAdsError,
+    refreshPersonAds,
+  } = useAds(user?.uid || '');
 
   /**
    * Handle logout with confirmation
@@ -50,10 +63,29 @@ export function ProfileScreen() {
   //   navigation.navigate('Ads' as never);
   // };
 
+  // Handle refresh
+  const handleRefresh = async () => {
+    console.log('handleRefresh called');
+    try {
+      await refreshPersonAds(user?.uid);
+    } catch (error) {
+      console.error('Error refreshing ads:', error);
+    }
+  }
+
   return (
     <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
       <View style={styles.content}>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={isLoadingPersonAds}
+              onRefresh={() => handleRefresh()}
+              tintColor="white"
+            />
+          }
+        >
           {/* Header */}
           {/* Header */}
           <View style={styles.header0}>
@@ -64,17 +96,45 @@ export function ProfileScreen() {
             >
               <Ionicons name="arrow-back" size={24} color="#000000" />
             </TouchableOpacity>
+            <Text style={styles.title}>Profile</Text>
           </View>
-          <View style={styles.header}>
+          {/* <View style={styles.header}>
             <Text style={styles.headerTitle}>Profile</Text>
-          </View>
+          </View> */}
 
           {/* Profile Info */}
           <View style={styles.profileSection}>
             <View style={styles.avatarContainer}>
-              <View style={styles.avatar}>
-                <Ionicons name="person" size={48} color="rgba(0, 0, 0, 0.8)" />
+              {/* <View style={styles.avatar}> */}
+              {/* <Ionicons name="person" size={48} color="rgba(0, 0, 0, 0.8)" /> */}
+              {User?.profilePicture ? <View style={{
+                width: 100,
+                height: 100,
+                borderRadius: 100,
+                alignItems: 'center',
+                justifyContent: 'center',
+                overflow: "hidden",
+              }}>
+                <Image
+                  source={{ uri: User.profilePicture }}
+                  style={{ height: 100, width: 100 }}
+                  resizeMode="cover"
+                />
               </View>
+                : <View style={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: 25,
+                  backgroundColor: 'rgba(0, 132, 255, 0.8)',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                  <Text style={{ fontSize: 18, color: '#000000' }}>
+                    {User?.username.charAt(0).toUpperCase() || '?'}
+                  </Text>
+                </View>
+              }
+              {/* </View> */}
             </View>
 
             <Text style={styles.username}>@{user?.username || 'username'}</Text>
@@ -82,7 +142,7 @@ export function ProfileScreen() {
           </View>
 
           {/* Menu Items */}
-          <View style={styles.menuSection}>
+          {/* <View style={styles.menuSection}>
             <TouchableOpacity style={styles.menuItem}>
               <View style={styles.menuItemLeft}>
                 <Ionicons name="person-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
@@ -110,6 +170,32 @@ export function ProfileScreen() {
             <TouchableOpacity style={styles.menuItem}>
 
             </TouchableOpacity>
+          </View> */}
+
+          {/* Person ads section */}
+          {/* Error State */}
+          {personAdsError && (
+            <View style={styles.errorContainer}>
+              <Ionicons name="alert-circle" size={24} color="#FF3B30" />
+              <Text style={styles.errorText}>{personAdsError}</Text>
+              <TouchableOpacity
+                style={styles.retryButton}
+                onPress={() => handleRefresh()}
+              >
+                <Text style={styles.retryText}>Retry</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+          {/* ads list */}
+          <View style={styles.adsSection}>
+            <Text style={styles.adsHeaderText}>Your ads:</Text>
+            {personAds?.length! > 0 ? <View>
+              {personAds?.map((ad) => (
+                <AdSearchCard key={ad.id} ad={ad} />
+              ))}
+            </View>
+              : <Text>You don't have any ads yet.</Text>
+            }
           </View>
 
           {/* Logout Section */}
@@ -147,6 +233,13 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(0, 0, 0, 0.1)',
     backgroundColor: '#FFFFFF',
+  },
+  title: {
+    fontSize: 18,
+    // fontWeight: 'bold',
+    fontWeight: 500,
+    color: 'Black',
+    marginBottom: 2,
   },
   header: {
     paddingTop: 60,
@@ -216,6 +309,44 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 12,
   },
+  errorContainer: {
+    backgroundColor: 'rgba(255, 59, 48, 0.2)',
+    marginHorizontal: 16,
+    padding: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 59, 48, 0.3)',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  errorText: {
+    color: '#FF3B30',
+    fontSize: 16,
+    textAlign: 'center',
+    marginVertical: 8,
+  },
+  retryButton: {
+    backgroundColor: 'rgba(255, 59, 48, 0.8)',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+    marginTop: 8,
+  },
+  retryText: {
+    color: 'Black',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  adsSection: {
+    marginTop: 20,
+    marginHorizontal: 20,
+  },
+  adsHeaderText: {
+    color: 'rgba(0, 0, 0, 0.8)',
+    fontSize: 16,
+    marginLeft: 12,
+  },
+
   logoutSection: {
     marginTop: 30,
     marginHorizontal: 20,

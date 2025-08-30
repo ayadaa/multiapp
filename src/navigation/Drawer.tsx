@@ -14,6 +14,8 @@ import { P2PAdsScreen } from '../screens/p2pads/P2PAdsScreen';
 import { WalletScreen } from '../screens/wallet/WalletScreen';
 import { useAppSelector } from './../store/hooks';
 import { useUser } from './../hooks/user/use-user';
+import { Ionicons } from '@expo/vector-icons';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
 const renderHeader = () => {
     const user = useAppSelector((state) => state.auth.user);
@@ -26,7 +28,7 @@ const renderHeader = () => {
             borderBottomWidth: 1,
             borderBottomColor: 'rgba(0, 0, 0, 0.1)',
         }}>
-            <View style={{
+            {/* <View style={{
                 borderRadius: '100%',
                 overflow: "hidden",
                 height: 100,
@@ -35,7 +37,34 @@ const renderHeader = () => {
                 <Image source={{ uri: User?.profilePicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/chatImages%2Fd4e908d0-cf99-452f-9df5-e26f406cec9f?alt=media&token=9da6b3b3-5694-4e60-9920-23baa72fb73f' }}
                     style={{ height: 100, width: 100 }}
                 />
+            </View> */}
+            {User?.profilePicture ? <View style={{
+                width: 100,
+                height: 100,
+                borderRadius: 100,
+                alignItems: 'center',
+                justifyContent: 'center',
+                overflow: "hidden",
+            }}>
+                <Image
+                    source={{ uri: User.profilePicture }}
+                    style={{ height: 100, width: 100 }}
+                    resizeMode="cover"
+                />
             </View>
+                : <View style={{
+                    width: 100,
+                    height: 100,
+                    borderRadius: 25,
+                    backgroundColor: 'rgba(0, 132, 255, 0.8)',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}>
+                    <Text style={{ fontSize: 18, color: '#000000' }}>
+                        {User?.username?.charAt(0).toUpperCase() || '?'}
+                    </Text>
+                </View>
+            }
             <Text
                 style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}
             >
@@ -72,6 +101,7 @@ export const AdsScreenWithDrawer = () => {
                         /> */}
                         <DrawerItem
                             label={'Profile'}
+                            icon={({ color, size }) => (<Ionicons name="person" size={20} color="rgba(0, 0, 0, 0.8)" />)}
                             onPress={() => {
                                 props.navigation.navigate(SCREENS.Profile);
                             }}
@@ -84,6 +114,7 @@ export const AdsScreenWithDrawer = () => {
                         />
                         <DrawerItem
                             label={'Friends'}
+                            icon={({ color, size }) => (<FontAwesome5 name="user-friends" size={20} color="rgba(0, 0, 0, 0.8)" />)}
                             onPress={() => {
                                 props.navigation.navigate(SCREENS.Friends);
                             }}

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, SectionList, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { Screen } from '../../components/common/Screen';
+// import { Screen } from '../../components/common/Screen';
 import { useChats, type ChatWithUser } from '../../hooks/chat/use-chats';
 import { useGroups } from '../../hooks/chat/use-groups';
 import { useAuth } from '../../hooks/auth/use-auth';

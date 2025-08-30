@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     paddingVertical: 1,
     fontSize: 14,
     color: '#000000',
-    // borderWidth: 1,
+    borderWidth: 1,
     borderColor: 'rgba(0, 0, 0, 0.2)',
   },
   list: {
