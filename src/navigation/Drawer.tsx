@@ -55,7 +55,7 @@ const renderHeader = () => {
                 : <View style={{
                     width: 100,
                     height: 100,
-                    borderRadius: 25,
+                    borderRadius: 100,
                     backgroundColor: 'rgba(0, 132, 255, 0.8)',
                     alignItems: 'center',
                     justifyContent: 'center',
