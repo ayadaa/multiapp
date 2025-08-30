@@ -194,7 +194,7 @@ export function ProfileScreen() {
                 <AdSearchCard key={ad.id} ad={ad} />
               ))}
             </View>
-              : <Text>You don't have any ads yet.</Text>
+              : <Text style={styles.adsEmptyText}>You don't have any ads yet.</Text>
             }
           </View>
 
@@ -344,6 +344,11 @@ const styles = StyleSheet.create({
   adsHeaderText: {
     color: 'rgba(0, 0, 0, 0.8)',
     fontSize: 16,
+    marginLeft: 12,
+  },
+  adsEmptyText: {
+    color: 'rgba(0, 0, 0, 0.5)',
+    fontSize: 14,
     marginLeft: 12,
   },
 
