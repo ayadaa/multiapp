@@ -1,25 +1,19 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity, Share, ScrollView, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { useRoute, useNavigation, type RouteProp } from '@react-navigation/native';
 import { type StackNavigationProp } from '@react-navigation/stack';
-import listingsData from './airbnb-listings.json';
-import { Ionicons } from '@expo/vector-icons';
-// import Colors from './AdDetailsColors';
-// import { defaultStyles } from './AdDetailsStyle';
 import type { AppStackParamList } from '../../types/navigation';
-// import { formatTimestamp } from '../../functions/formatTimestamp';
 import { useAds } from '../../hooks/ad/use-ads';
 import { useAuth } from '../../hooks/auth/use-auth';
 import { useUser } from '../../hooks/user/use-user';
 import { useChats } from '../../hooks/chat/use-chats';
+import type { Ad } from '../../types/ads';
 
 type AdDetailsScreenRouteProp = RouteProp<AppStackParamList, 'AdDetails'>;
 type AdDetailsScreenNavigationProp = StackNavigationProp<AppStackParamList, 'AdDetails'>;
 
 const { width } = Dimensions.get('window');
 const IMG_HEIGHT = 300;
-
-
 
 export default function AdDetails() {
   const route = useRoute<AdDetailsScreenRouteProp>();
@@ -36,25 +30,14 @@ export default function AdDetails() {
     refreshUser,
   } = useUser(ad.createdBy || '');
 
-  // const { id } = useLocalSearchParams();
-  const id = "9689519"
-  const listing = (listingsData as any[]).find((item) => item.id === id);
-  // const listing = (listingsData as any[])[0]
-
-  // const handleFormatTimestamp = (tx: any) => {
-  //   return formatTimestamp(tx)
-  // }
-
-
   /**
    * Handle send message button press - navigate to chat
    */
   const { createChat } = useChats(user?.uid || '');
+
   const handleSendMessagePress = async () => {
     try {
-      // const { createChat } = useChats(user?.uid || '');
       const chatId = await createChat(ad.createdBy);
-
       if (User) {
         (navigation as any).navigate('IndividualChat', {
           chatId,
@@ -65,7 +48,11 @@ export default function AdDetails() {
       Alert.alert('Error', 'Failed to start chat. Please try again.');
       console.error('Error creating chat:', error);
     }
-  };
+  }
+
+  const handleUpdateAdPress = (ad: Ad) => {
+    navigation.navigate('UpdateAd', ad);
+  }
 
   return (
     <View style={styles.container}>
@@ -75,21 +62,17 @@ export default function AdDetails() {
           style={styles.image}
           resizeMode="cover"
         />
-
         <View style={styles.infoContainer}>
           <Text style={styles.name}>{ad.title}</Text>
           <Text style={styles.location}>{ad.className}</Text>
           <Text style={styles.rooms}>{ad.typeName}</Text>
           <View style={{ flexDirection: 'row', gap: 4 }}>
-            <Ionicons name="star" size={16} />
             <Text style={styles.ratings}>
-              {listing.review_scores_rating / 20} · {listing.number_of_reviews} reviews
+              {ad.city}
             </Text>
           </View>
-          <Text style={styles.footerPrice}>€{listing.price}</Text>
-
+          <Text style={styles.footerPrice}> د.ع {ad.price}</Text>
           <View style={styles.divider} />
-
           {/* User profile details */}
           {User == null ?
             (
@@ -97,25 +80,18 @@ export default function AdDetails() {
             )
             : (
               <View style={styles.hostView}>
-                <Image source={{ uri: listing.host_picture_url }} style={styles.host} />
-
+                {User?.profilePicture ? <Image source={{ uri: User.profilePicture }} style={styles.host} />
+                  : <View style={styles.host}>
+                    <Text>{User?.username?.charAt(0).toUpperCase() || '?'}</Text>
+                  </View>
+                }
                 <View>
                   <Text style={{ fontWeight: '500', fontSize: 16 }}>{User.username}</Text>
                   <Text>{ad.createdAt ? formatTimestamp(ad.createdAt) : ''}</Text>
                 </View>
-
                 <TouchableOpacity
                   onPress={handleSendMessagePress}
-                  style={[
-                    {
-                      backgroundColor: '#FF385C',
-                      height: 50,
-                      borderRadius: 8,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    },
-                    { paddingRight: 20, paddingLeft: 20 }
-                  ]}
+                  style={styles.button}
                 >
                   <Text style={{
                     color: '#fff',
@@ -123,17 +99,25 @@ export default function AdDetails() {
                     fontFamily: 'mon-b',
                   }}>Send Message</Text>
                 </TouchableOpacity>
+                {(user?.uid == ad.createdBy) && <TouchableOpacity
+                  onPress={() => handleUpdateAdPress(ad)}
+                  style={styles.button}
+                >
+                  <Text style={{
+                    color: '#fff',
+                    fontSize: 16,
+                    fontFamily: 'mon-b',
+                  }}>Update Ad</Text>
+                </TouchableOpacity>}
               </View>
             )}
-
           <View style={styles.divider} />
-
           <Text style={styles.description}>{ad.description}</Text>
         </View>
       </ScrollView>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -178,45 +162,27 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 50,
     backgroundColor: '#5E5D5E',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   hostView: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
   },
-  footerText: {
-    height: '100%',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
   footerPrice: {
     fontSize: 18,
     fontFamily: 'mon-sb',
   },
-  roundButton: {
-    width: 40,
+  button: {
+    backgroundColor: '#FF385C',
     height: 40,
-    borderRadius: 50,
-    backgroundColor: 'white',
-    alignItems: 'center',
+    borderRadius: 8,
     justifyContent: 'center',
-    color: '#FF385C',
-  },
-  bar: {
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: 10,
+    paddingRight: 20,
+    paddingLeft: 20
   },
-  header: {
-    backgroundColor: '#fff',
-    height: 100,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: '#5E5D5E',
-  },
-
   description: {
     fontSize: 16,
     marginTop: 10,

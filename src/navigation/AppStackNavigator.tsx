@@ -11,6 +11,7 @@ import { IndividualChatScreen } from '../screens/chat/IndividualChatScreen';
 import StoryViewerScreen from '../screens/stories/StoryViewerScreen';
 import CreateGroupScreen from '../screens/chat/CreateGroupScreen';
 import CreateAdScreen from '../screens/ads/CreateAdScreen';
+import UpdateAdScreen from '../screens/ads/UpdateAdScreen';
 import AdDetails from '../screens/ads/AdDetails';
 import { P2PCreateAdScreen } from '../screens/p2pads/P2PCreateAdScreen';
 import P2PCreateRequestScreen from '../screens/p2pads/P2PCreateRequestScreen';
@@ -98,6 +99,14 @@ export default function AppStackNavigator() {
         name="AdDetails"
         component={AdDetails}
         // component={CreateAdScreen}
+        options={{
+          headerShown: true,
+        }}
+      />
+
+      <Stack.Screen
+        name="UpdateAd"
+        component={UpdateAdScreen}
         options={{
           headerShown: true,
         }}

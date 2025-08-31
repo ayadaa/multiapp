@@ -1815,11 +1815,20 @@ export async function updateAdDiscription(adId: string, description: string): Pr
 /**
  * Update ad
  */
-export async function updateAd(adId: string, title: string, description: string): Promise<void> {
+export async function updateAd(ad: Ad): Promise<void> {
   try {
-    await updateDoc(doc(db, 'ads', adId), {
-      title,
-      description,
+    if (!ad.id) return;
+    await updateDoc(doc(db, 'ads', ad.id), {
+      title: ad.title,
+      description: ad.description,
+      price: ad.price,
+      adPicture: ad.adPicture,
+      createdBy: ad.createdBy,
+      // createdAt: ad.createdAt,
+      typeName: ad.typeName,
+      className: ad.className,
+      country: ad.country,
+      city: ad.city,
     });
   } catch (error) {
     console.error('Update ad error:', error);

@@ -56,25 +56,28 @@ export function useAds(currentUserId: string) {
   /**
    * Create a new ad
    */
-  const createNewAd = useCallback(async (
-    // adData: {
-    //   title: string;
-    //   description: string;
-    //   createdBy: string;
-    //   className: string;
-    //   // typeName: "sale" | "buy";
-    //   typeName: string;
-    //   country: string;
-    //   city: string;
-    // }
-    adData: Ad
-  ): Promise<string> => {
+  const createNewAd = useCallback(async (adData: Ad): Promise<string> => {
     try {
       setError(null);
       const adId = await createAd(adData);
       return adId;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to create ad';
+      setError(errorMessage);
+      throw new Error(errorMessage);
+    }
+  }, [currentUserId]);
+
+  /**
+   * Update an ad
+   */
+  const updateAnAd = useCallback(async (adData: Ad): Promise<string> => {
+    try {
+      setError(null);
+      await updateAd(adData);
+      return 'update completed!';
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to update ad';
       setError(errorMessage);
       throw new Error(errorMessage);
     }
@@ -175,6 +178,7 @@ export function useAds(currentUserId: string) {
     refreshPersonAds,
     searchAds,
     clearSearch,
+    updateAnAd,
 
     formatTimestamp,
   };

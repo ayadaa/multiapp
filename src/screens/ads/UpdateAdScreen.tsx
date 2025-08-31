@@ -9,15 +9,20 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { Screen } from '../../components/common/Screen';
 import { Button } from '../../components/common/Button';
-import { useAds } from '../../hooks/ad/use-ads';
+import { useAds } from '../../hooks/ad/use-ads'; //ayad
 import type { RootState } from '../../store';
 import type { NavigationProp } from '../../types/navigation';
-import { Picker } from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker'; //ayad
 import { launchImagePicker, openCamera, uploadImageAsync } from "./imagePickerHelper";
+import type { AppStackParamList } from '../../types/navigation';
+import { type StackNavigationProp } from '@react-navigation/stack';
+
+type UpdateAdScreenRouteProp = RouteProp<AppStackParamList, 'UpdateAd'>;
+type UpdateAdScreenNavigationProp = StackNavigationProp<AppStackParamList, 'UpdateAd'>;
 
 export const classNameList = {
   RealEstate: 'Real estate',
@@ -50,18 +55,23 @@ export const cityNameList = {
   Saladin: 'Saladin',
 }
 
-export default function CreateAdScreen() {
-  const navigation = useNavigation<NavigationProp>();
+export default function UpdateAdScreen() {
+  // const navigation = useNavigation<NavigationProp>();
+  const route = useRoute<UpdateAdScreenRouteProp>();
+  const navigation = useNavigation<UpdateAdScreenNavigationProp>();
+  const ad = route.params;
+
   const user = useSelector((state: RootState) => state.auth.user);
-  const { createNewAd } = useAds(user?.uid || '');
-  const [adTitle, setAdTitle] = useState('');
-  const [adDescription, setAdDescription] = useState('');
-  const [adPrice, setAdPrice] = useState('');
-  const [className, setClassName] = useState('Real estate');
-  const [typeName, setTypeName] = useState('sale');
-  const [cityName, setCityName] = useState('Bagdad');
-  const [isCreating, setIsCreating] = useState(false);
+  const { updateAnAd } = useAds(user?.uid || '');
+  const [adTitle, setAdTitle] = useState(ad.title);
+  const [adDescription, setAdDescription] = useState(ad.description);
+  const [adPrice, setAdPrice] = useState(ad.price);
+  const [className, setClassName] = useState(ad.className);
+  const [typeName, setTypeName] = useState(ad.typeName);
+  const [cityName, setCityName] = useState(ad.city);
+  const [isUpdateing, setIsUpdateing] = useState(false);
   const [tempImageUri, setTempImageUri] = useState<string | null>(null);
+  const [tempImageUrl, setTempImageUrl] = useState<string | null>(ad.adPicture!);
   const [isLoading, setIsLoading] = useState(false);
 
   const pickImage = useCallback(async () => {
@@ -70,6 +80,7 @@ export default function CreateAdScreen() {
       if (!tempUri) return;
 
       setTempImageUri(tempUri);
+      setTempImageUrl(null);
     } catch (error) {
       console.log(error);
     }
@@ -81,15 +92,20 @@ export default function CreateAdScreen() {
       if (tempImageUri) {
         const uploadUrl = await uploadImageAsync(tempImageUri, true);
         setIsLoading(false);
-        handleCreateAd(uploadUrl)
+        handleUpdateAd(uploadUrl)
+        setTimeout(() => setTempImageUri(null), 500);
+      }
+      else if (tempImageUrl) {
+        setIsLoading(false);
+        handleUpdateAd(tempImageUrl)
         setTimeout(() => setTempImageUri(null), 500);
       }
     } catch (error) {
       console.log(error);
     }
-  }, [tempImageUri, adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
+  }, [tempImageUri, adTitle, adDescription, typeName, className, cityName, user, updateAnAd, navigation]);
 
-  const handleCreateAd = useCallback(async (url: string) => {
+  const handleUpdateAd = useCallback(async (url: string) => {
     if (!adTitle.trim() || !adDescription.trim() || !typeName.trim() || !className.trim() || !cityName.trim()) {
       Alert.alert('Ad Data Required', 'Please enter all data for your ad.');
       console.log('All ad data required!')
@@ -99,13 +115,13 @@ export default function CreateAdScreen() {
       return;
     }
     if (!user) return;
-    setIsCreating(true);
+    setIsUpdateing(true);
     try {
-      const adId = await createNewAd({
+      const adId = await updateAnAd({
+        id: ad.id,
         title: adTitle.trim(),
         description: adDescription.trim(),
         price: adPrice,
-        // adPicture: imageUrl,
         adPicture: url,
         createdBy: user.uid,
         className: className.trim(),
@@ -114,7 +130,6 @@ export default function CreateAdScreen() {
         city: cityName.trim()
       });
       console.log(`adId: ${adId}`)
-      // handleRefresh; // Refresh ads list
       Alert.alert(
         'Ad Created!',
         `"Ad has been created successfully.`,
@@ -141,15 +156,13 @@ export default function CreateAdScreen() {
         [{ text: 'OK' }]
       );
     } finally {
-      setIsCreating(false);
+      setIsUpdateing(false);
+
       setAdTitle('');
       setAdDescription('');
       setAdPrice('');
-      // setClassName('');
-      // setTypeName('');
-      // setCityName('');
     }
-  }, [tempImageUri, adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
+  }, [tempImageUri, adTitle, adDescription, typeName, className, cityName, user, updateAnAd, navigation]);
 
   return (
     <Screen backgroundColor="#FFFFFF">
@@ -163,10 +176,10 @@ export default function CreateAdScreen() {
             <Text style={styles.textInput}>Pick an image</Text>
           </TouchableOpacity>
           {/* {image && ( */}
-          {tempImageUri && (
+          {(tempImageUri || tempImageUrl) && (
             <View style={{ alignItems: 'center' }}>
               <Image
-                source={{ uri: tempImageUri }}
+                source={{ uri: tempImageUri || tempImageUrl || '' }}
                 style={{ width: 200, height: 200, alignItems: 'center' }}
               />
             </View>
@@ -263,9 +276,9 @@ export default function CreateAdScreen() {
         {/* Create Ad Button */}
         <View style={{ marginTop: 16, paddingHorizontal: 16, paddingVertical: 12 }}>
           <Button
-            title={isLoading ? 'Loading...' : isCreating ? 'Creating...' : 'Create Ad'}
+            title={isLoading ? 'Loading...' : isUpdateing ? 'Updateing...' : 'Update Ad'}
             onPress={uploadImage}
-            disabled={isCreating || isLoading || !adTitle.trim() || !adDescription.trim() || !typeName.trim() || !className.trim() || !cityName.trim() || !adPrice}
+            disabled={isUpdateing || isLoading || !adTitle.trim() || !adDescription.trim() || !typeName.trim() || !className.trim() || !cityName.trim() || !adPrice}
             style={styles.createButton}
           />
         </View>
