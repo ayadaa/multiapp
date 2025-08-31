@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import { Screen } from '../../components/common/Screen';
 import { SendForm } from '../../components/forms/SendForm';
@@ -30,7 +30,7 @@ export function SendScreen() {
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
       >
-        <View style={{ flex: 1, padding: 24}}>
+        <View style={{ flex: 1, padding: 24 }}>
           {/* Send Form */}
           <SendForm
             onSuccess={handleSendSuccess}

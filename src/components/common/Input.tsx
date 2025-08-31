@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { TextInput, View, Text, TouchableOpacity, TextInputProps, ViewStyle } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 interface InputProps extends TextInputProps {
   label?: string;
@@ -7,6 +9,7 @@ interface InputProps extends TextInputProps {
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   isPassword?: boolean;
+  isAddress?: boolean;
   containerStyle?: ViewStyle;
 }
 
@@ -28,15 +31,21 @@ export function Input({
   leftIcon,
   rightIcon,
   isPassword = false,
+  isAddress = false,
   containerStyle,
   style,
   ...props
 }: InputProps) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const navigation = useNavigation<any>();
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
+  };
+
+  const navigateToScan = () => {
+    navigation.navigate('Scan');
   };
 
   const inputContainerStyle = {
@@ -99,6 +108,15 @@ export function Input({
             <Text style={{ color: '#0084FF', fontSize: 14, fontWeight: '500' }}>
               {isPasswordVisible ? 'Hide' : 'Show'}
             </Text>
+          </TouchableOpacity>
+        )}
+
+        {isAddress && (
+          <TouchableOpacity
+            onPress={navigateToScan}
+            style={{ marginLeft: 12 }}
+          >
+            <AntDesign name="scan1" size={24} color="black" />
           </TouchableOpacity>
         )}
 

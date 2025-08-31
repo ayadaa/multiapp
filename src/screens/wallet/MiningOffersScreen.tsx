@@ -45,7 +45,7 @@ export default function MiningOffersScreen() {
                         />
                     }
                 >
-                    {miningSpeedOffers.length > 0 ? <View> {miningSpeedOffers.map((offer) => (
+                    {miningSpeedOffers.length > 0 ? <View style={{ marginTop: 7 }}> {miningSpeedOffers.map((offer) => (
                         <TouchableOpacity
                             key={offer.id}
                             onPress={async () => {
@@ -60,9 +60,9 @@ export default function MiningOffersScreen() {
                                 paddingVertical: 16,
                                 borderBottomWidth: 1,
                                 borderBottomColor: 'rgba(0, 0, 0, 0.1)',
-                                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                                backgroundColor: 'rgba(0, 0, 0, 0.05)',
                                 marginHorizontal: 16,
-                                marginVertical: 2,
+                                marginVertical: 7,
                                 borderRadius: 16,
                             }}
                         >

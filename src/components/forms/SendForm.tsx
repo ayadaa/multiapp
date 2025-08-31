@@ -4,14 +4,12 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Input } from '../common/Input';
 import { Button } from '../common/Button';
-// import { useAuth } from '../../hooks/auth/use-auth';
-// import { signupSchema, type SignupFormData } from '../../utils/validation/auth-schemas';
 import { useAppSelector } from '../../store/hooks';
 import { useUser } from '../../hooks/user/use-user';
 import { useWallet } from '../../hooks/wallet/use-wallet';
 import { sendSchema, type SendFormData } from '../../utils/validation/wallet-schemas';
-import { useNavigation } from '@react-navigation/native';
-import AntDesign from '@expo/vector-icons/AntDesign';
+// import { useNavigation } from '@react-navigation/native';
+// import AntDesign from '@expo/vector-icons/AntDesign';
 
 interface SendFormProps {
   onSuccess?: () => void;
@@ -26,7 +24,7 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
   const [amountCheckLoading, setAmountCheckLoading] = useState<boolean>(false);
   const [amountSufficient, setAmountSufficient] = useState<boolean | null>(null);
   const { User, isLoadingUser, userError, refreshUser } = useUser(user?.uid || '');
-  const navigation = useNavigation<any>();
+  // const navigation = useNavigation<any>();
   const {
     control,
     handleSubmit,
@@ -113,9 +111,9 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
 
   const amountStatus = getAmountStatus();
 
-  const navigateToScan = () => {
-    navigation.navigate('Scan');
-  };
+  // const navigateToScan = () => {
+  //   navigation.navigate('Scan');
+  // };
 
   return (
     <View style={{ width: '100%' }}>
@@ -131,14 +129,6 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
               <View
                 style={{
                   flex: 1,
-                  // flexDirection: 'row', // This makes the items display in a row
-                  // justifyContent: 'space-around', // Distributes space evenly between items
-                  // justifyContent: 'space-between', // Distributes space evenly between items
-                  // alignItems: 'center', // Aligns items vertically in the center
-                  // padding: 10,
-                  // backgroundColor: '#f0f0f0',
-                  // width: '100%',
-                  // flex: 1
                   flexDirection: 'column'
                 }}
               >
@@ -148,12 +138,9 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
                   value={value || qrData}
                   onChangeText={onChange}
                   onBlur={onBlur}
+                  isAddress
                   autoCapitalize="none"
-                  // autoComplete="address-line1" //ayad
                   error={errors.address?.message}
-                // style={{
-                //   width: '80%'
-                // }}
                 />
                 {addressStatus && (
                   <Text style={{
@@ -166,9 +153,9 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
                   </Text>
                 )}
               </View>
-              <AntDesign.Button name="scan1" size={24} color="black" onPress={navigateToScan}>
+              {/* <AntDesign.Button name="scan1" size={24} color="black" onPress={navigateToScan}>
                 scan
-              </AntDesign.Button>
+              </AntDesign.Button> */}
             </View>
           )}
         />
