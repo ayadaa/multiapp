@@ -256,6 +256,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
+
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // gap: 10,
   },
   header: {
     flexDirection: 'row',

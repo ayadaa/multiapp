@@ -31,9 +31,9 @@ export function MainTabNavigator() {
         screenOptions={{
           headerShown: false,
           tabBarStyle: {
-            backgroundColor: '#FFFFFF',
-            borderTopWidth: 0,
-            height: Platform.OS === 'ios' ? 85 : 65,
+            // backgroundColor: '#FFFFFF',
+            // borderTopWidth: 0,
+            // height: Platform.OS === 'ios' ? 85 : 65,
             // paddingBottom: Platform.OS === 'ios' ? 25 : 10,
             // paddingTop: 10,
           },
