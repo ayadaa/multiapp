@@ -36,7 +36,7 @@ export function MainTabNavigator() {
             // height: Platform.OS === 'ios' ? 85 : 65,
             // paddingBottom: Platform.OS === 'ios' ? 25 : 10,
             // paddingTop: 10,
-            height: Platform.OS === 'ios' ? 60 : 40,
+            height: Platform.OS === 'ios' ? 50 : 30,
           },
           tabBarActiveTintColor: '#0084FF',
           tabBarInactiveTintColor: 'rgba(0, 0, 0, 0.75)',
