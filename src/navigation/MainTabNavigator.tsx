@@ -25,8 +25,8 @@ const Tab = createBottomTabNavigator<MainTabParamList>();
  */
 export function MainTabNavigator() {
   return (
-    // <SafeAreaView edges={['top', 'bottom']} style={{ flex: 1 }}>
-    <Screen backgroundColor="#FFFFFF">
+    <SafeAreaView edges={['top', 'bottom']} style={{ flex: 1 }}>
+    {/* <Screen backgroundColor="#FFFFFF"> */}
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
@@ -36,6 +36,7 @@ export function MainTabNavigator() {
             // height: Platform.OS === 'ios' ? 85 : 65,
             // paddingBottom: Platform.OS === 'ios' ? 25 : 10,
             // paddingTop: 10,
+            height: Platform.OS === 'ios' ? 60 : 40,
           },
           tabBarActiveTintColor: '#0084FF',
           tabBarInactiveTintColor: 'rgba(0, 0, 0, 0.75)',
@@ -201,7 +202,7 @@ export function MainTabNavigator() {
           }}
         /> */}
       </Tab.Navigator>
-    </Screen>
-    // </SafeAreaView>
+    {/* </Screen> */}
+    </SafeAreaView>
   );
 } 

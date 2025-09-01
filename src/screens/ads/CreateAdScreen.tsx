@@ -18,6 +18,7 @@ import type { RootState } from '../../store';
 import type { NavigationProp } from '../../types/navigation';
 import { Picker } from '@react-native-picker/picker';
 import { launchImagePicker, openCamera, uploadImageAsync } from "./imagePickerHelper";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const classNameList = {
   RealEstate: 'Real estate',
@@ -152,8 +153,9 @@ export default function CreateAdScreen() {
   }, [tempImageUri, adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
 
   return (
-    <Screen backgroundColor="#FFFFFF">
-      {/* <View style={styles.container}> */}
+    // <Screen backgroundColor="#FFFFFF">
+      // <View style={styles.container}>
+      <SafeAreaView edges={['top', 'bottom']} style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
         {/* Ad Inputs */}
         <View style={styles.inputContainer}>
@@ -270,14 +272,16 @@ export default function CreateAdScreen() {
           />
         </View>
       </ScrollView>
-      {/* </View> */}
-    </Screen>
+      </SafeAreaView>
+      // </View>
+    // </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#FFFFFF',
   },
   inputContainer: {
     padding: 16,

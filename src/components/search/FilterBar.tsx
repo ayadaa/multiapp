@@ -155,6 +155,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     backgroundColor: 'rgba(255, 255, 255, 1)',
+    minWidth: 90,
     borderRadius: 12,
     paddingHorizontal: 2,
     paddingVertical: 1,

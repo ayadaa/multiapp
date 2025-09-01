@@ -8,6 +8,7 @@ import React from 'react';
 import {
   View,
   StyleSheet,
+  Text,
 } from 'react-native';
 import { useAppSelector } from '../../store/hooks';
 // import { Screen } from '../../components/common/Screen';
@@ -18,6 +19,7 @@ export function ReceiveScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
+      <Text style={styles.address}>Your Wallet address: {user?.uid}</Text>
         <QRCode
         // value="tteeee"
           value= {user?.uid}
@@ -36,16 +38,17 @@ const styles = StyleSheet.create({
     flex: 1,
     // backgroundColor: '#000000',
     backgroundColor: 'white',
-    // justifyContent: "center", 
-    // alignItems: "center" 
   },
-  // content: {
-  //   flex: 1,
-  // },
   content: {
     flex: 1,
-    justifyContent: 'center',
+    // justifyContent: 'center',
     alignItems: 'center',
+    padding: 24,
     backgroundColor: '#fff',
+  },
+  address: {
+    fontSize: 14,
+    // fontWeight: 'bold',
+    marginBottom: 10,
   },
 });

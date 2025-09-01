@@ -74,8 +74,7 @@ export function ProfileScreen() {
   }
 
   return (
-    <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
-      <View style={styles.content}>
+      <View style={styles.container}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           refreshControl={
@@ -213,7 +212,6 @@ export function ProfileScreen() {
           </View>
         </ScrollView>
       </View>
-    </Screen>
   );
 }
 
@@ -221,9 +219,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-  },
-  content: {
-    flex: 1,
   },
   header0: {
     flexDirection: 'row',

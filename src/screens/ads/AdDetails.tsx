@@ -82,14 +82,14 @@ export default function AdDetails() {
               <View style={styles.hostView}>
                 {User?.profilePicture ? <Image source={{ uri: User.profilePicture }} style={styles.host} />
                   : <View style={styles.host}>
-                    <Text>{User?.username?.charAt(0).toUpperCase() || '?'}</Text>
+                    <Text>{(user?.uid == ad.createdBy)? 'You' : User?.username?.charAt(0).toUpperCase() || '?'}</Text>
                   </View>
                 }
                 <View>
                   <Text style={{ fontWeight: '500', fontSize: 16 }}>{User.username}</Text>
                   <Text>{ad.createdAt ? formatTimestamp(ad.createdAt) : ''}</Text>
                 </View>
-                <TouchableOpacity
+                {(user?.uid != ad.createdBy) && <TouchableOpacity
                   onPress={handleSendMessagePress}
                   style={styles.button}
                 >
@@ -98,7 +98,7 @@ export default function AdDetails() {
                     fontSize: 16,
                     fontFamily: 'mon-b',
                   }}>Send Message</Text>
-                </TouchableOpacity>
+                </TouchableOpacity>}
                 {(user?.uid == ad.createdBy) && <TouchableOpacity
                   onPress={() => handleUpdateAdPress(ad)}
                   style={styles.button}

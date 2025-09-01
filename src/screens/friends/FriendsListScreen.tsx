@@ -78,7 +78,7 @@ export function FriendsListScreen() {
   // };
 
   return (
-    <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
+    // <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
@@ -194,13 +194,14 @@ export function FriendsListScreen() {
           )}
         </ScrollView>
       </View>
-    </Screen>
+    // </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#FFFFFF',
   },
   header: {
     flexDirection: 'row',

@@ -277,7 +277,7 @@ export function ChatScreen() {
 
   return (
     // <Screen backgroundColor="#FFFFFF">
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <View style={styles.container}>
       {/* Header */}
       {/* <View style={{
           flexDirection: 'row',
@@ -452,6 +452,10 @@ export function ChatScreen() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
   header: {
     flexDirection: 'row',
     alignItems: 'center',

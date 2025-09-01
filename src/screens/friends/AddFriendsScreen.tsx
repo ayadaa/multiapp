@@ -140,7 +140,7 @@ export function AddFriendsScreen() {
   }, [clearSearch]);
 
   return (
-    <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
+    // <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -270,13 +270,14 @@ export function AddFriendsScreen() {
           )}
         </ScrollView>
       </KeyboardAvoidingView>
-    </Screen>
+    // </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#FFFFFF',
   },
   headerContainer: {
     paddingHorizontal: 20,
