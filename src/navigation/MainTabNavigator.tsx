@@ -1,20 +1,10 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, Platform } from 'react-native';
-// import { ChatScreen } from '../screens/chat/ChatScreen';
-// import { CameraStackNavigator } from './CameraStackNavigator';
-// import { AdsScreen } from '../screens/ads/AdsScreen';
 import { AdsScreenWithDrawer, ChatScreenWithDrawer, P2PAdsScreenWithDrawer, WalletScreenWithDrawer } from './Drawer';
-// import { P2PAdsScreen } from '../screens/p2pads/P2PAdsScreen';
-// import { FriendsStackNavigator } from './FriendsStackNavigator';
-// import StoriesScreen from '../screens/stories/StoriesScreen';
-// import { ProfileScreen } from '../screens/profile/ProfileScreen';
-// import { WalletScreen } from '../screens/wallet/WalletScreen';
 import { MainTabParamList } from '../types/navigation';
-// import { Screen } from '../components/common/Screen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { Screen } from '../components/common/Screen';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
@@ -26,7 +16,7 @@ const Tab = createBottomTabNavigator<MainTabParamList>();
 export function MainTabNavigator() {
   return (
     <SafeAreaView edges={['top', 'bottom']} style={{ flex: 1 }}>
-    {/* <Screen backgroundColor="#FFFFFF"> */}
+      {/* <Screen backgroundColor="#FFFFFF"> */}
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
@@ -36,7 +26,7 @@ export function MainTabNavigator() {
             // height: Platform.OS === 'ios' ? 85 : 65,
             // paddingBottom: Platform.OS === 'ios' ? 25 : 10,
             // paddingTop: 10,
-            height: Platform.OS === 'ios' ? 50 : 30,
+            height: Platform.OS === 'ios' ? 50 : 35,
           },
           tabBarActiveTintColor: '#0084FF',
           tabBarInactiveTintColor: 'rgba(0, 0, 0, 0.75)',
@@ -202,7 +192,7 @@ export function MainTabNavigator() {
           }}
         /> */}
       </Tab.Navigator>
-    {/* </Screen> */}
+      {/* </Screen> */}
     </SafeAreaView>
   );
 } 

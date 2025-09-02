@@ -20,7 +20,7 @@ import { useUser } from '../../hooks/user/use-user';
 export default function MiningOffersScreen() {
     const user = useAppSelector((state) => state.auth.user);
     const { User, isLoadingUser, userError, refreshUser } = useUser(user?.uid || '');
-    const { miningSpeedOffers, updateMiningSpeed, isLoadingMiningSpeedOffers, refreshMiningSpeedOffers } = useWallet();
+    const { miningSpeedOffers, updateMiningSpeed, isLoadingMiningSpeedOffers, refreshMiningSpeedOffers } = useWallet(user?.uid || '');
 
     // Handle refresh
     const handleRefresh = async () => {
