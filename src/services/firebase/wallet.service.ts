@@ -19,6 +19,14 @@ export interface MiningSpeedOffers {
     discount?: number;
 }
 
+export interface transaction {
+    amount: string;                        
+    createdAt: string;
+    receiver: string;
+    sender: string;
+}
+
+
 const collectionCallable = Functions.httpsCallable(functions, 'collectionCall');
 const sendAssetsCallable = Functions.httpsCallable(functions, 'sendAssetsCall');
 const updateMiningSpeedCallable = Functions.httpsCallable(functions, 'updateMiningSpeedCall');
