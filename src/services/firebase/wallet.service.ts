@@ -6,7 +6,8 @@ import {
     where,
     limit,
     collection,
-    orderBy
+    orderBy,
+    or,
 } from 'firebase/firestore';
 import { functions } from '../../config/firebase';
 import { db } from '../../config/firebase';
@@ -19,21 +20,19 @@ export interface MiningSpeedOffers {
     discount?: number;
 }
 
-export interface transaction {
-    amount: string;                        
+export interface Transaction {
+    id?: string;
+    amount: number;
     createdAt: string;
     receiver: string;
     sender: string;
 }
 
-
 const collectionCallable = Functions.httpsCallable(functions, 'collectionCall');
 const sendAssetsCallable = Functions.httpsCallable(functions, 'sendAssetsCall');
 const updateMiningSpeedCallable = Functions.httpsCallable(functions, 'updateMiningSpeedCall');
 
-/**
- * Check if an address is exist
- */
+// Check if an address is exist
 export async function checkAddressExisting(uId: string): Promise<boolean> {
     try {
         const usersQuery = query(
@@ -106,3 +105,24 @@ export async function getMiningSpeedOffers(): Promise<MiningSpeedOffers[]> {
     }
 }
 
+// get user transactions
+export async function getTransactions(uid: string): Promise<Transaction[]> {
+    try {
+        const adsQuery = query(
+            collection(db, 'transactions'),
+            or(
+                where('receiver', '==', uid),
+                where('sender', '==', uid),
+            ),
+            orderBy('createdAt', 'desc'),
+        );
+        const transactions = await getDocs(adsQuery);
+        return transactions.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        })) as Transaction[];
+    } catch (error) {
+        console.error('Get transactions error:', error);
+        throw new Error('Failed to get transactions');
+    }
+}
