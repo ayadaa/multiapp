@@ -451,8 +451,10 @@ export function MessageBubble({ message, isCurrentUser, chatType = 'individual' 
           borderRadius: 18,
           // paddingHorizontal: 16,
           // paddingVertical: 10,
-          paddingHorizontal: 8,
-          paddingVertical: 5,
+          // paddingHorizontal: 8,
+          // paddingVertical: 5,
+          paddingHorizontal: 32,
+          paddingVertical: 20,
           borderWidth: isCurrentUser ? 0 : 1,
           borderColor: isCurrentUser ? 'transparent' : 'rgba(0, 0, 0, 0.05)',
           // Shadow for depth

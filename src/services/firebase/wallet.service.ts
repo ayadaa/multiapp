@@ -105,3 +105,4 @@ export async function getMiningSpeedOffers(): Promise<MiningSpeedOffers[]> {
         throw new Error('Failed to get miningSpeedOffers');
     }
 }
+
