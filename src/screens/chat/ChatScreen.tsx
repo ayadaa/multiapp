@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, SectionList, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-// import { Screen } from '../../components/common/Screen';
+import { Screen } from '../../components/common/Screen2';
 import { useChats, type ChatWithUser } from '../../hooks/chat/use-chats';
 import { useGroups } from '../../hooks/chat/use-groups';
 import { useAuth } from '../../hooks/auth/use-auth';
@@ -276,8 +276,8 @@ export function ChatScreen() {
   };
 
   return (
-    // <Screen backgroundColor="#FFFFFF">
-    <View style={styles.container}>
+    <Screen>
+      {/* <View style={styles.container}> */}
       {/* Header */}
       {/* <View style={{
           flexDirection: 'row',
@@ -446,8 +446,8 @@ export function ChatScreen() {
           handleCreateGroupPress();
         }}
       />
-    </View>
-    // </Screen>
+      {/* </View> */}
+    </Screen>
   );
 }
 

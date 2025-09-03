@@ -247,7 +247,7 @@ export default function GroupChatScreen() {
   }
 
   return (
-    <Screen backgroundColor='#FFFFFF' style={styles.container}>
+    <Screen backgroundColor="#FFFFFF" statusBarStyle="dark-content" keyboardAvoidingView={true} style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity

@@ -9,11 +9,12 @@ import {
   Alert,
   Image,
   FlatList,
+  StatusBar,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Entypo from '@expo/vector-icons/Entypo';
 import { useNavigation } from '@react-navigation/native';
-import { Screen } from '../../components/common/Screen';
+import { Screen } from '../../components/common/Screen2';
 import { useAds } from '../../hooks/ad/use-ads';
 import { useAuth } from '../../hooks/auth/use-auth';
 import type { Ad } from '../../types/ads';
@@ -85,8 +86,12 @@ export function AdsScreen() {
   // }
 
   return (
-    // <Screen backgroundColor="#FFFFFF">
-    <View style={styles.container}>
+    <Screen>
+    {/* <View style={styles.container}> */}
+      {/* <StatusBar
+        backgroundColor="white" // Set the background color to white
+        barStyle="dark-content" // Set text/icons to dark for better visibility on a white background
+      /> */}
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity
@@ -247,8 +252,8 @@ export function AdsScreen() {
         actions={actions}
         onPressItem={handleCreateAdPress}
       />
-    </View>
-    // </Screen>
+    {/* </View> */}
+    </Screen>
   );
 }
 

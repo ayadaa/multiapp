@@ -251,7 +251,7 @@ export default function GroupSettingsScreen() {
   const isAdmin = currentGroup.admins.includes(user?.uid || '');
 
   return (
-    <Screen backgroundColor='FFFFFF' style={styles.container} keyboardAvoidingView>
+    <Screen backgroundColor="#FFFFFF" statusBarStyle="dark-content" keyboardAvoidingView={true} style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>

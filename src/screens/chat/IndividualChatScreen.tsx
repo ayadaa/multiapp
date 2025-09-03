@@ -388,7 +388,7 @@ export function IndividualChatScreen() {
   return (
     <>
       {/* <View2 style={{ flex: 1, marginBottom: insets.bottom }}> */}
-      <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content" style={styles.container}>
+      <Screen backgroundColor="#FFFFFF" statusBarStyle="dark-content" keyboardAvoidingView={true} style={styles.container}>
         {renderHeader(isOnline, otherUser)}
         <View style={{ flex: 1 }}>
           {loading ? (

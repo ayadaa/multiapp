@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { Screen } from '../../components/common/Screen';
+import { Screen } from '../../components/common/Screen2';
 import { UserCard } from '../../components/friends/UserCard';
 import { useFriends } from '../../hooks/friends/use-friends';
 import { useChats } from '../../hooks/chat/use-chats';
@@ -78,8 +78,8 @@ export function FriendsListScreen() {
   // };
 
   return (
-    // <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
-      <View style={styles.container}>
+    <Screen>
+      {/* <View style={styles.container}> */}
         {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity
@@ -193,8 +193,8 @@ export function FriendsListScreen() {
             </View>
           )}
         </ScrollView>
-      </View>
-    // </Screen>
+      {/* </View> */}
+    </Screen>
   );
 }
 
