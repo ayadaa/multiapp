@@ -274,13 +274,15 @@ export function P2PCreateAdForm({ onSuccess, onNavigateToP2PAds }: SendFormProps
         </View>
       )}
       {/* Submit Button */}
-      <Button
-        title="Create p2p payment ad"
-        onPress={handleSubmit(onSubmit)}
-        loading={isLoading}
-        disabled={!isValid || amountSufficient === false}
-        style={styles.createButton}
-      />
+      <View style={styles.buttonContainer}>
+        <Button
+          title="Create p2p payment ad"
+          onPress={handleSubmit(onSubmit)}
+          loading={isLoading}
+          disabled={!isValid || amountSufficient === false}
+          style={styles.createButton}
+        />
+      </View>
       {/* </View> */}
     </View>
   );
@@ -312,9 +314,19 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(0, 0, 0, 0.2)',
   },
+  buttonContainer: {
+    // position: 'absolute',
+    // bottom: 0,
+    // left: 0,
+    // right: 0,
+    padding: 16,
+    marginTop: 16,
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(0, 0, 0, 0.05)',
+  },
   createButton: {
-    paddingVertical: 16,
-    marginTop: 20,
+    // marginTop: 16,
   },
   pickerContainer: {
     borderWidth: 1,

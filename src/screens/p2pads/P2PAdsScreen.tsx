@@ -419,15 +419,7 @@ export function P2PAdsScreen() {
             marginBottom: 8,
             textAlign: 'center',
           }}>
-            No chats yet
-          </Text>
-          <Text style={{
-            color: 'rgba(0, 0, 0, 0.75)',
-            fontSize: 16,
-            textAlign: 'center',
-            marginBottom: 24,
-          }}>
-            Start a conversation with friends or create a group chat
+            No p2p ad yet
           </Text>
 
           <View style={{ flexDirection: 'row', gap: 16 }}>
@@ -446,24 +438,6 @@ export function P2PAdsScreen() {
               <Entypo name="add-to-list" size={24} color="white" />
               <Text style={{ color: '#000000', fontSize: 16, fontWeight: '600' }}>
                 Create p2p ad
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={handleCreateP2PAdPress}
-              style={{
-                backgroundColor: 'rgba(0, 132, 255, 0.8)',
-                paddingHorizontal: 20,
-                paddingVertical: 12,
-                borderRadius: 25,
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 8,
-              }}
-            >
-              <Ionicons name="search" size={20} color="#000000" />
-              <Text style={{ color: '#000000', fontSize: 16, fontWeight: '600' }}>
-                Find Friends
               </Text>
             </TouchableOpacity>
           </View>

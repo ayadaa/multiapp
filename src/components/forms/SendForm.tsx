@@ -20,7 +20,7 @@ interface SendFormProps {
 export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProps) {
   // export function SendForm() {
   const user = useAppSelector((state) => state.auth.user);
-  const { sendAssets, checkAddress, addressCheckLoading, addressExist, error, isLoading } = useWallet();
+  const { sendAssets, checkAddress, addressCheckLoading, addressExist, error, isLoading } = useWallet(user?.uid!);
   const [amountCheckLoading, setAmountCheckLoading] = useState<boolean>(false);
   const [amountSufficient, setAmountSufficient] = useState<boolean | null>(null);
   const { User, isLoadingUser, userError, refreshUser } = useUser(user?.uid || '');

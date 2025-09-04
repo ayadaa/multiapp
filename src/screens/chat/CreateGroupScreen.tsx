@@ -149,7 +149,7 @@ export default function CreateGroupScreen() {
   };
 
   return (
-    <Screen backgroundColor="#FFFFFF" statusBarStyle="dark-content" keyboardAvoidingView={true} style={styles.container}>
+    <Screen keyboardAvoidingView={true}>
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity
@@ -353,7 +353,7 @@ const styles = StyleSheet.create({
     borderTopColor: 'rgba(0, 0, 0, 0.05)',
   },
   createButton: {
-    backgroundColor: '#0084FF',
-    paddingVertical: 16,
+    // backgroundColor: '#0084FF',
+    // marginTop: 16,
   },
 }); 

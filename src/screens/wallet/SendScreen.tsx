@@ -26,19 +26,19 @@ export function SendScreen() {
 
   return (
     <Screen backgroundColor="#FFFFFF" statusBarStyle="dark-content" keyboardAvoidingView={true}>
-      <ScrollView
+      {/* <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
-      >
-        <View style={{ flex: 1, padding: 24 }}>
-          {/* Send Form */}
-          <SendForm
-            onSuccess={handleSendSuccess}
-            onNavigateToWallet={navigateToWallet}
-            qrData={qrData}
-          />
-        </View>
-      </ScrollView>
+      > */}
+      <View style={{ flex: 1, padding: 24 }}>
+        {/* Send Form */}
+        <SendForm
+          onSuccess={handleSendSuccess}
+          onNavigateToWallet={navigateToWallet}
+          qrData={qrData}
+        />
+      </View>
+      {/* </ScrollView> */}
     </Screen>
   );
 } 

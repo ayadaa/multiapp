@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { Screen } from '../../components/common/Screen2';
+import { Screen } from '../../components/common/Screen';
 import { Button } from '../../components/common/Button';
 import { useAds } from '../../hooks/ad/use-ads'; //ayad
 import type { RootState } from '../../store';
@@ -165,7 +165,7 @@ export default function UpdateAdScreen() {
   }, [tempImageUri, adTitle, adDescription, typeName, className, cityName, user, updateAnAd, navigation]);
 
   return (
-    <Screen keyboardAvoidingView>
+    <Screen keyboardAvoidingView={true}>
       {/* <View style={styles.container}> */}
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
         {/* Ad Inputs */}

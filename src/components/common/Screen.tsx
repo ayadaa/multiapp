@@ -25,8 +25,8 @@ interface ScreenProps {
 export function Screen({
   children,
   style,
-  backgroundColor = '#000000',
-  statusBarStyle = 'light-content',
+  backgroundColor = '#FFFFFF',
+  statusBarStyle = 'dark-content',
   edges = ['top', 'bottom'],
   keyboardAvoidingView = false,
 }: ScreenProps) {

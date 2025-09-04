@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { Screen } from '../../components/common/Screen2';
+import { Screen } from '../../components/common/Screen';
 import { Button } from '../../components/common/Button';
 import { useAds } from '../../hooks/ad/use-ads';
 import type { RootState } from '../../store';
@@ -153,7 +153,7 @@ export default function CreateAdScreen() {
   }, [tempImageUri, adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
 
   return (
-    <Screen keyboardAvoidingView>
+    <Screen keyboardAvoidingView={true}>
       {/* <View style={styles.container}> */}
       {/* <SafeAreaView edges={['top', 'bottom']} style={styles.container}> */}
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
   },
   createButton: {
     // backgroundColor: '#0084FF',
-    paddingVertical: 16,
+    // marginTop: 16,
   },
   pickerContainer: {
     borderWidth: 1,

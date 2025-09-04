@@ -25,7 +25,7 @@ export function P2PCreateAdScreen() {
   };
 
   return (
-    <Screen keyboardAvoidingView>
+    <Screen keyboardAvoidingView={true}>
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}

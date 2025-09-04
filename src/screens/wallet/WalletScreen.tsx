@@ -215,19 +215,7 @@ export function WalletScreen() {
             {transactions.length > 0 && <View style={{ marginTop: 3 }}> {transactions.map((transaction) => (
               <View
                 key={transaction.id}
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  paddingHorizontal: 20,
-                  paddingVertical: 16,
-                  borderBottomWidth: 1,
-                  borderBottomColor: 'rgba(0, 0, 0, 0.06)',
-                  backgroundColor: 'rgba(0, 0, 0, 0.03)',
-                  // marginHorizontal: 16,
-                  marginVertical: 2,
-                  borderRadius: 16,
-                  height: 25,
-                }}
+                style={styles.transactionItem}
               >
                 <View style={[{
                   width: 70,
@@ -420,6 +408,19 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     // backgroundColor: 'rgba(0, 0, 0, 0.01)',
     // borderBottomColor: 'rgba(0, 0, 0, 0.08)',
+  },
+  transactionItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(0, 0, 0, 0.06)',
+    backgroundColor: 'rgba(0, 0, 0, 0.03)',
+    // marginHorizontal: 16,
+    marginVertical: 2,
+    borderRadius: 16,
+    height: 40,
   },
 
   errorContainer: {

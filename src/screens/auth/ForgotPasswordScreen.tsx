@@ -3,7 +3,7 @@ import { View, Text, KeyboardAvoidingView, Platform, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Screen } from '../../components/common/Screen2';
+import { Screen } from '../../components/common/Screen';
 import { Input } from '../../components/common/Input';
 import { Button } from '../../components/common/Button';
 import { useAuth } from '../../hooks/auth/use-auth';
