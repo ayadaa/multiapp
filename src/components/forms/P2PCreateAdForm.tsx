@@ -314,6 +314,7 @@ const styles = StyleSheet.create({
   },
   createButton: {
     paddingVertical: 16,
+    marginTop: 20,
   },
   pickerContainer: {
     borderWidth: 1,

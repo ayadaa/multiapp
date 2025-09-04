@@ -61,7 +61,7 @@ export default function FilterBar({ handleRefresh, className, setClassName, city
     return (
       <Picker
         selectedValue={className}
-        style={styles.list}
+        style={styles.picker}
         onValueChange={(itemValue) => {
           setClassName(itemValue);
           handleRefresh(itemValue, cityName, typeName);
@@ -83,7 +83,7 @@ export default function FilterBar({ handleRefresh, className, setClassName, city
     return (
       <Picker
         selectedValue={cityName}
-        style={styles.list}
+        style={styles.picker}
         onValueChange={(itemValue) => {
           setCityName(itemValue);
           handleRefresh(className, itemValue, typeName);
@@ -116,7 +116,7 @@ export default function FilterBar({ handleRefresh, className, setClassName, city
     return (
       <Picker
         selectedValue={typeName}
-        style={styles.list}
+        style={styles.picker}
         onValueChange={(itemValue) => {
           setTypeName(itemValue);
           handleRefresh(className, cityName, itemValue);
@@ -136,9 +136,9 @@ export default function FilterBar({ handleRefresh, className, setClassName, city
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.filterScrollContent}
       >
-        <View style={styles.listContainer}>{renderCalssNamePicker()}</View>
-        <View style={styles.listContainer}>{renderCityNamePicker()}</View>
-        <View style={styles.listContainer}>{renderTypeNamePicker()}</View>
+        <View style={styles.pickerContainer}>{renderCalssNamePicker()}</View>
+        <View style={styles.pickerContainer}>{renderCityNamePicker()}</View>
+        <View style={styles.pickerContainer}>{renderTypeNamePicker()}</View>
       </ScrollView>
     </View>
   );
@@ -153,9 +153,9 @@ const styles = StyleSheet.create({
     gap: 20,
     paddingHorizontal: 16,
   },
-  listContainer: {
+  pickerContainer: {
     backgroundColor: 'rgba(255, 255, 255, 1)',
-    minWidth: 90,
+    minWidth: 115,
     borderRadius: 12,
     paddingHorizontal: 2,
     paddingVertical: 1,
@@ -164,13 +164,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(0, 0, 0, 0.2)',
   },
-  list: {
+  picker: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     // paddingBottom: 2,
-    minWidth: 80,
+    // minWidth: 80,
     borderRadius: 12,
-    borderColor: 'rgba(255, 255, 255, 1)',
+    borderWidth: 1,
+    borderColor: 'rgba(0, 0, 0, 0.2)',
   },
 });
