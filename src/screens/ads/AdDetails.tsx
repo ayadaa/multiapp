@@ -8,6 +8,7 @@ import { useAuth } from '../../hooks/auth/use-auth';
 import { useUser } from '../../hooks/user/use-user';
 import { useChats } from '../../hooks/chat/use-chats';
 import type { Ad } from '../../types/ads';
+import { Screen } from '../../components/common/Screen2';
 
 type AdDetailsScreenRouteProp = RouteProp<AppStackParamList, 'AdDetails'>;
 type AdDetailsScreenNavigationProp = StackNavigationProp<AppStackParamList, 'AdDetails'>;
@@ -55,7 +56,7 @@ export default function AdDetails() {
   }
 
   return (
-    <View style={styles.container}>
+    <Screen>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Image
           source={{ uri: ad.adPicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
@@ -82,7 +83,7 @@ export default function AdDetails() {
               <View style={styles.hostView}>
                 {User?.profilePicture ? <Image source={{ uri: User.profilePicture }} style={styles.host} />
                   : <View style={styles.host}>
-                    <Text>{(user?.uid == ad.createdBy)? 'You' : User?.username?.charAt(0).toUpperCase() || '?'}</Text>
+                    <Text>{(user?.uid == ad.createdBy) ? 'You' : User?.username?.charAt(0).toUpperCase() || '?'}</Text>
                   </View>
                 }
                 <View>
@@ -115,7 +116,7 @@ export default function AdDetails() {
           <Text style={styles.description}>{ad.description}</Text>
         </View>
       </ScrollView>
-    </View>
+    </Screen>
   );
 }
 

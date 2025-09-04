@@ -4,7 +4,7 @@ import { useRoute, useNavigation, type RouteProp } from '@react-navigation/nativ
 // import { type StackNavigationProp } from '@react-navigation/stack';
 // import listingsData from './airbnb-listings.json';
 // import { Ionicons } from '@expo/vector-icons';
-import Colors from './AdDetailsColors';
+// import Colors from './AdDetailsColors';
 // import { defaultStyles } from './AdDetailsStyle';
 import type { AppStackParamList } from '../../types/navigation';
 // import { useAds } from '../../hooks/ad/use-ads';
@@ -12,6 +12,7 @@ import type { AppStackParamList } from '../../types/navigation';
 // import { useUser } from '../../hooks/user/use-user';
 // import { useChats } from '../../hooks/chat/use-chats';
 import { P2PCreateRequestForm } from '../../components/forms/P2PCreateRequestForm';
+import { Screen } from '../../components/common/Screen2';
 
 type AdDetailsScreenRouteProp = RouteProp<AppStackParamList, 'P2PCreateRequest'>;
 // type AdDetailsScreenNavigationProp = StackNavigationProp<AppStackParamList, 'P2PCreateRequest'>;
@@ -37,97 +38,97 @@ export default function P2PCreateRequestScreen() {
   // } = useUser(ad.createdBy || '');
 
   return (
-    <View style={styles.container}>
-        <View style={styles.infoContainer}>
-          <View
-            // onPress={() => handleAdPress(ad)}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              paddingHorizontal: 20,
-              paddingVertical: 16,
-              borderBottomWidth: 1,
-              borderBottomColor: 'rgba(0, 0, 0, 0.1)',
-              // marginBottom: 24
-            }}
-          >
-            <View style={{
-              width: 50,
-              height: 50,
-              borderRadius: 25,
-              // backgroundColor: 'rgba(0, 200, 100, 0.8)',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginRight: 16,
-              overflow: "hidden",
+    <Screen>
+      {/* <View style={styles.infoContainer}> */}
+      <View
+        // onPress={() => handleAdPress(ad)}
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 20,
+          paddingVertical: 16,
+          borderBottomWidth: 1,
+          borderBottomColor: 'rgba(5, 4, 4, 0.1)',
+          // marginBottom: 24
+        }}
+      >
+        <View style={{
+          width: 50,
+          height: 50,
+          borderRadius: 25,
+          // backgroundColor: 'rgba(0, 200, 100, 0.8)',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginRight: 16,
+          overflow: "hidden",
+        }}>
+          {/* <Ionicons name="people" size={24} color="#FFFFFF" /> */}
+          <Image
+            source={{ uri: ad.profilePicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
+            style={styles.image}
+            resizeMode="cover"
+          />
+        </View>
+
+        <View style={{ flex: 1 }}>
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: 4,
+          }}>
+            <Text style={{
+              color: '#000000',
+              fontSize: 16,
+              fontWeight: 'bold',
             }}>
-              {/* <Ionicons name="people" size={24} color="#FFFFFF" /> */}
-              <Image
-                source={{ uri: ad.profilePicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
-                style={styles.image}
-                resizeMode="cover"
-              />
-            </View>
-
-            <View style={{ flex: 1 }}>
-              <View style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: 4,
-              }}>
-                <Text style={{
-                  color: '#000000',
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                }}>
-                  {/* {ad.creatorUsername} */}
-                  {/* {ad.username} */}
-                  {/* {ad.username}   {((ad.requests! - ad.completeRequests!) / ad.requests!) * 100} % */}
-                  {ad.username}   {(Math.round(((ad.requests! - ad.approvedRequests!) / ad.requests!) * 100) / 100) * 100} %
-                </Text>
-                <Text style={{
-                  color: 'rgba(0, 0, 0, 0.6)',
-                  fontSize: 12,
-                }}>
-                  {ad.price} IQD
-                </Text>
-              </View>
-
-              <View style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-                <Text style={{
-                  color: 'rgba(0, 0, 0, 0.8)',
-                  fontSize: 14,
-                  // flex: 1,
-                }} numberOfLines={1}>
-                  {ad.paymentMethod}  {ad.requests!}
-                </Text>
-                <Text style={{
-                  color: 'rgba(0, 0, 0, 0.8)',
-                  fontSize: 14,
-                  // flex: 1,
-                }} numberOfLines={1}>
-                  {ad.amount} 💎
-                </Text>
-              </View>
-            </View>
+              {/* {ad.creatorUsername} */}
+              {/* {ad.username} */}
+              {/* {ad.username}   {((ad.requests! - ad.completeRequests!) / ad.requests!) * 100} % */}
+              {ad.username}   {(Math.round(((ad.requests! - ad.approvedRequests!) / ad.requests!) * 100) / 100) * 100} %
+            </Text>
+            <Text style={{
+              color: 'rgba(0, 0, 0, 0.6)',
+              fontSize: 12,
+            }}>
+              {ad.price} IQD
+            </Text>
           </View>
-          <View
-            style={{
-              paddingHorizontal: 20,
-              paddingVertical: 16,
-            }}
-          >
-            <P2PCreateRequestForm
-              ad={ad}
-            />
+
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+            <Text style={{
+              color: 'rgba(0, 0, 0, 0.8)',
+              fontSize: 14,
+              // flex: 1,
+            }} numberOfLines={1}>
+              {ad.paymentMethod}  {ad.requests!}
+            </Text>
+            <Text style={{
+              color: 'rgba(0, 0, 0, 0.8)',
+              fontSize: 14,
+              // flex: 1,
+            }} numberOfLines={1}>
+              {ad.amount} 💎
+            </Text>
           </View>
         </View>
-    </View>
+      </View>
+      <View
+        style={{
+          paddingHorizontal: 20,
+          paddingVertical: 16,
+        }}
+      >
+        <P2PCreateRequestForm
+          ad={ad}
+        />
+      </View>
+      {/* </View> */}
+    </Screen>
   );
 };
 
@@ -157,7 +158,7 @@ const styles = StyleSheet.create({
   },
   rooms: {
     fontSize: 16,
-    color: Colors.grey,
+    color: '#5E5D5E',
     marginVertical: 4,
     fontFamily: 'mon',
   },
@@ -167,14 +168,14 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: StyleSheet.hairlineWidth,
-    backgroundColor: Colors.grey,
+    backgroundColor: '#5E5D5E',
     marginVertical: 16,
   },
   host: {
     width: 50,
     height: 50,
     borderRadius: 50,
-    backgroundColor: Colors.grey,
+    backgroundColor: '#5E5D5E',
   },
   hostView: {
     flexDirection: 'row',
@@ -199,7 +200,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
-    color: Colors.primary,
+    color: '#FF385C',
   },
   bar: {
     flexDirection: 'row',
@@ -211,7 +212,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     height: 100,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: Colors.grey,
+    borderColor: '#5E5D5E',
   },
 
   description: {

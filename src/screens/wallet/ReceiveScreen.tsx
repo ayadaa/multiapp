@@ -3,6 +3,7 @@
  * Displays user wallet QR code
  */
 import QRCode from 'react-native-qrcode-svg';
+import { Screen } from '../../components/common/Screen';
 
 import React from 'react';
 import {
@@ -13,23 +14,23 @@ import {
 import { useAppSelector } from '../../store/hooks';
 // import { Screen } from '../../components/common/Screen';
 
-export function ReceiveScreen() {  
+export function ReceiveScreen() {
   const user = useAppSelector((state) => state.auth.user);
 
   return (
-    <View style={styles.container}>
+    <Screen backgroundColor="#FFFFFF" statusBarStyle="dark-content" keyboardAvoidingView={true} style={styles.container}>
       <View style={styles.content}>
-      <Text style={styles.address}>Your Wallet address: {user?.uid}</Text>
+        <Text style={styles.address}>Your Wallet address: {user?.uid}</Text>
         <QRCode
-        // value="tteeee"
-          value= {user?.uid}
+          // value="tteeee"
+          value={user?.uid}
           size={200}
-          // logo={require('../assets/logo.png')}
-          // logoSize={30}
-          // logoBackgroundColor='transparent'
+        // logo={require('../assets/logo.png')}
+        // logoSize={30}
+        // logoBackgroundColor='transparent'
         />
       </View>
-    </View>
+    </Screen>
   );
 }
 

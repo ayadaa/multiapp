@@ -68,7 +68,7 @@ export default function SearchScreen() {
   }, [searchQuery]);
 
   return (
-    <Screen backgroundColor="#FFFFFF">
+    <Screen backgroundColor="#FFFFFF" statusBarStyle="dark-content" keyboardAvoidingView={true} style={styles.container}>
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>

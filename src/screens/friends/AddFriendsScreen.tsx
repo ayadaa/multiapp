@@ -12,7 +12,7 @@ import {
   Platform
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Screen } from '../../components/common/Screen';
+import { Screen } from '../../components/common/Screen2';
 import { UserCard } from '../../components/friends/UserCard';
 import { FriendRequestCard } from '../../components/friends/FriendRequestCard';
 import { useFriends } from '../../hooks/friends/use-friends';
@@ -140,137 +140,137 @@ export function AddFriendsScreen() {
   }, [clearSearch]);
 
   return (
-    // <Screen backgroundColor="#FFFFFF" statusBarStyle="light-content">
-      <KeyboardAvoidingView
+    <Screen keyboardAvoidingView>
+      {/* <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
-        {/* Header */}
-        <View style={styles.headerContainer}>
-          <View style={styles.header}>
+      > */}
+      {/* Header */}
+      <View style={styles.headerContainer}>
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.headerBackButton}
+            onPress={() => navigation.goBack()}
+          >
+            <Ionicons name="arrow-back" size={24} color="#000000" />
+          </TouchableOpacity>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>Add Friends</Text>
+          </View>
+        </View>
+        <Text style={styles.subtitle}>Search for friends by username</Text>
+      </View>
+
+      {/* Search Section */}
+      <View style={styles.searchContainer}>
+        <View style={styles.searchInputContainer}>
+          <Ionicons name="search" size={20} color="rgba(0, 0, 0, 0.6)" />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search username..."
+            placeholderTextColor="rgba(0, 0, 0, 0.5)"
+            value={searchQuery}
+            onChangeText={handleSearchChange}
+            autoCapitalize="none"
+            autoCorrect={false}
+          />
+          {searchQuery.length > 0 && (
             <TouchableOpacity
-              style={styles.headerBackButton}
-              onPress={() => navigation.goBack()}
+              onPress={() => {
+                setSearchQuery('');
+                clearSearch();
+              }}
             >
-              <Ionicons name="arrow-back" size={24} color="#000000" />
+              <Ionicons name="close-circle" size={20} color="rgba(0, 0, 0, 0.6)" />
             </TouchableOpacity>
-            <View style={styles.titleContainer}>
-              <Text style={styles.title}>Add Friends</Text>
-            </View>
-          </View>
-          <Text style={styles.subtitle}>Search for friends by username</Text>
+          )}
         </View>
- 
-        {/* Search Section */}
-        <View style={styles.searchContainer}>
-          <View style={styles.searchInputContainer}>
-            <Ionicons name="search" size={20} color="rgba(0, 0, 0, 0.6)" />
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Search username..."
-              placeholderTextColor="rgba(0, 0, 0, 0.5)"
-              value={searchQuery}
-              onChangeText={handleSearchChange}
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-            {searchQuery.length > 0 && (
-              <TouchableOpacity
-                onPress={() => {
-                  setSearchQuery('');
-                  clearSearch();
-                }}
-              >
-                <Ionicons name="close-circle" size={20} color="rgba(0, 0, 0, 0.6)" />
-              </TouchableOpacity>
+      </View>
+
+      <ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={false}
+            onRefresh={refreshRequests}
+            tintColor="black"
+          />
+        }
+      >
+        {/* Search Results */}
+        {searchQuery.length >= 2 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>
+              Search Results
+              {isSearching && (
+                <Text style={styles.loadingText}> (Searching...)</Text>
+              )}
+            </Text>
+
+            {searchError && (
+              <View style={styles.errorContainer}>
+                <Text style={styles.errorText}>{searchError}</Text>
+              </View>
             )}
+
+            {searchResults.length === 0 && !isSearching && !searchError && (
+              <View style={styles.emptyContainer}>
+                <Text style={styles.emptyText}>No users found</Text>
+              </View>
+            )}
+
+            {searchResults.map((user) => (
+              <UserCard
+                key={user.uid}
+                user={user}
+                actionType="addFriend"
+                isLoading={isSendingRequest}
+                onActionPress={() => handleSendRequest(user.uid)}
+              />
+            ))}
           </View>
-        </View>
+        )}
 
-        <ScrollView
-          style={styles.scrollView}
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl
-              refreshing={false}
-              onRefresh={refreshRequests}
-              tintColor="black"
-            />
-          }
-        >
-          {/* Search Results */}
-          {searchQuery.length >= 2 && (
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>
-                Search Results
-                {isSearching && (
-                  <Text style={styles.loadingText}> (Searching...)</Text>
-                )}
-              </Text>
+        {/* Friend Requests */}
+        {pendingRequests.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>
+              Friend Requests ({pendingRequests.length})
+            </Text>
 
-              {searchError && (
-                <View style={styles.errorContainer}>
-                  <Text style={styles.errorText}>{searchError}</Text>
-                </View>
-              )}
+            {requestsError && (
+              <View style={styles.errorContainer}>
+                <Text style={styles.errorText}>{requestsError}</Text>
+              </View>
+            )}
 
-              {searchResults.length === 0 && !isSearching && !searchError && (
-                <View style={styles.emptyContainer}>
-                  <Text style={styles.emptyText}>No users found</Text>
-                </View>
-              )}
+            {pendingRequests.map((request) => (
+              <FriendRequestCard
+                key={request.id}
+                request={request}
+                requestingUser={requestingUsers[request.requestedBy] || null}
+                isLoading={isProcessingRequest}
+                onAccept={() => handleAcceptRequest(request.id)}
+                onDecline={() => handleDeclineRequest(request.id)}
+              />
+            ))}
+          </View>
+        )}
 
-              {searchResults.map((user) => (
-                <UserCard
-                  key={user.uid}
-                  user={user}
-                  actionType="addFriend"
-                  isLoading={isSendingRequest}
-                  onActionPress={() => handleSendRequest(user.uid)}
-                />
-              ))}
-            </View>
-          )}
-
-          {/* Friend Requests */}
-          {pendingRequests.length > 0 && (
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>
-                Friend Requests ({pendingRequests.length})
-              </Text>
-
-              {requestsError && (
-                <View style={styles.errorContainer}>
-                  <Text style={styles.errorText}>{requestsError}</Text>
-                </View>
-              )}
-
-              {pendingRequests.map((request) => (
-                <FriendRequestCard
-                  key={request.id}
-                  request={request}
-                  requestingUser={requestingUsers[request.requestedBy] || null}
-                  isLoading={isProcessingRequest}
-                  onAccept={() => handleAcceptRequest(request.id)}
-                  onDecline={() => handleDeclineRequest(request.id)}
-                />
-              ))}
-            </View>
-          )}
-
-          {/* Empty State */}
-          {pendingRequests.length === 0 && searchQuery.length < 2 && (
-            <View style={styles.emptyStateContainer}>
-              <Ionicons name="people" size={60} color="rgba(0, 0, 0, 0.3)" />
-              <Text style={styles.emptyStateTitle}>Find Friends</Text>
-              <Text style={styles.emptyStateText}>
-                Search for friends by their username to send friend requests
-              </Text>
-            </View>
-          )}
-        </ScrollView>
-      </KeyboardAvoidingView>
-    // </Screen>
+        {/* Empty State */}
+        {pendingRequests.length === 0 && searchQuery.length < 2 && (
+          <View style={styles.emptyStateContainer}>
+            <Ionicons name="people" size={60} color="rgba(0, 0, 0, 0.3)" />
+            <Text style={styles.emptyStateTitle}>Find Friends</Text>
+            <Text style={styles.emptyStateText}>
+              Search for friends by their username to send friend requests
+            </Text>
+          </View>
+        )}
+      </ScrollView>
+      {/* </KeyboardAvoidingView> */}
+    </Screen>
   );
 }
 

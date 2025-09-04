@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Screen } from '../../components/common/Screen';
+import { Screen } from '../../components/common/Screen2';
 import { LoginForm } from '../../components/forms/LoginForm';
 import type { AuthStackParamList } from '../../types/navigation';
 
@@ -27,7 +27,7 @@ export function LoginScreen() {
   };
 
   return (
-    <Screen backgroundColor="#FFFFFF" keyboardAvoidingView>
+    <Screen keyboardAvoidingView>
       <View style={{ flex: 1, padding: 24, justifyContent: 'center' }}>
         {/* Header */}
         <View style={{ alignItems: 'center', marginBottom: 48 }}>

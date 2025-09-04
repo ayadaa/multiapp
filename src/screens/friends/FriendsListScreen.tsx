@@ -80,119 +80,119 @@ export function FriendsListScreen() {
   return (
     <Screen>
       {/* <View style={styles.container}> */}
-        {/* Header */}
-        <View style={styles.header}>
-          <TouchableOpacity
-            style={styles.headerBackButton}
-            // onPress={handleAdsNavigate}
-            onPress={() => navigation.goBack()}
-          >
-            <Ionicons name="arrow-back" size={24} color="#000000" />
-          </TouchableOpacity>
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>Friends</Text>
-            <Text style={styles.subtitle}>
-              {friends.length} {friends.length === 1 ? 'friend' : 'friends'}
-            </Text>
-          </View>
-
-          <TouchableOpacity
-            style={styles.addButton}
-            onPress={handleAddFriendsPress}
-          >
-            <Ionicons name="person-add" size={24} color="white" />
-          </TouchableOpacity>
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.headerBackButton}
+          // onPress={handleAdsNavigate}
+          onPress={() => navigation.goBack()}
+        >
+          <Ionicons name="arrow-back" size={24} color="#000000" />
+        </TouchableOpacity>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Friends</Text>
+          <Text style={styles.subtitle}>
+            {friends.length} {friends.length === 1 ? 'friend' : 'friends'}
+          </Text>
         </View>
 
-        {/* Error State */}
-        {friendsError && (
-          <View style={styles.errorContainer}>
-            <Ionicons name="alert-circle" size={24} color="#FF3B30" />
-            <Text style={styles.errorText}>{friendsError}</Text>
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={handleAddFriendsPress}
+        >
+          <Ionicons name="person-add" size={24} color="white" />
+        </TouchableOpacity>
+      </View>
+
+      {/* Error State */}
+      {friendsError && (
+        <View style={styles.errorContainer}>
+          <Ionicons name="alert-circle" size={24} color="#FF3B30" />
+          <Text style={styles.errorText}>{friendsError}</Text>
+          <TouchableOpacity
+            style={styles.retryButton}
+            onPress={handleRefresh}
+          >
+            <Text style={styles.retryText}>Retry</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
+      {/* Friends List */}
+      <ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoadingFriends}
+            onRefresh={handleRefresh}
+            tintColor="Black"
+          />
+        }
+      >
+        {friends.length > 0 ? (
+          <View style={styles.friendsList}>
+            {friends.map((friend) => (
+              <UserCard
+                key={friend.uid}
+                user={friend}
+                actionType="friendStatus"
+                onPress={() => handleFriendPress(friend.uid, friend.username)}
+              />
+            ))}
+          </View>
+        ) : (
+          /* Empty State */
+          <View style={styles.emptyStateContainer}>
+            <Ionicons name="people-outline" size={80} color="rgba(0, 0, 0, 0.7)" />
+            <Text style={styles.emptyStateTitle}>No Friends Yet</Text>
+            <Text style={styles.emptyStateText}>
+              Start by adding some friends to chat and share snaps with them
+            </Text>
             <TouchableOpacity
-              style={styles.retryButton}
-              onPress={handleRefresh}
+              style={styles.addFriendsButton}
+              onPress={handleAddFriendsPress}
             >
-              <Text style={styles.retryText}>Retry</Text>
+              <Ionicons name="person-add" size={20} color="Black" />
+              <Text style={styles.addFriendsButtonText}>Add Friends</Text>
             </TouchableOpacity>
           </View>
         )}
 
-        {/* Friends List */}
-        <ScrollView
-          style={styles.scrollView}
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl
-              refreshing={isLoadingFriends}
-              onRefresh={handleRefresh}
-              tintColor="Black"
-            />
-          }
-        >
-          {friends.length > 0 ? (
-            <View style={styles.friendsList}>
-              {friends.map((friend) => (
-                <UserCard
-                  key={friend.uid}
-                  user={friend}
-                  actionType="friendStatus"
-                  onPress={() => handleFriendPress(friend.uid, friend.username)}
-                />
-              ))}
-            </View>
-          ) : (
-            /* Empty State */
-            <View style={styles.emptyStateContainer}>
-              <Ionicons name="people-outline" size={80} color="rgba(0, 0, 0, 0.7)" />
-              <Text style={styles.emptyStateTitle}>No Friends Yet</Text>
-              <Text style={styles.emptyStateText}>
-                Start by adding some friends to chat and share snaps with them
-              </Text>
-              <TouchableOpacity
-                style={styles.addFriendsButton}
-                onPress={handleAddFriendsPress}
-              >
-                <Ionicons name="person-add" size={20} color="Black" />
-                <Text style={styles.addFriendsButtonText}>Add Friends</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-
-          {/* Online Friends Section */}
-          {friends.filter(f => f.isOnline).length > 0 && (
-            <View style={styles.onlineSection}>
-              <Text style={styles.sectionTitle}>
-                Online Now ({friends.filter(f => f.isOnline).length})
-              </Text>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                style={styles.onlineScrollView}
-              >
-                {friends
-                  .filter(friend => friend.isOnline)
-                  .map((friend) => (
-                    <TouchableOpacity
-                      key={`online-${friend.uid}`}
-                      style={styles.onlineFriendCard}
-                      onPress={() => handleFriendPress(friend.uid, friend.username)}
-                    >
-                      <View style={styles.onlineAvatar}>
-                        <Text style={styles.onlineAvatarText}>
-                          {friend.username.charAt(0).toUpperCase()}
-                        </Text>
-                        <View style={styles.onlineIndicator} />
-                      </View>
-                      <Text style={styles.onlineUsername} numberOfLines={1}>
-                        {friend.username}
+        {/* Online Friends Section */}
+        {friends.filter(f => f.isOnline).length > 0 && (
+          <View style={styles.onlineSection}>
+            <Text style={styles.sectionTitle}>
+              Online Now ({friends.filter(f => f.isOnline).length})
+            </Text>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={styles.onlineScrollView}
+            >
+              {friends
+                .filter(friend => friend.isOnline)
+                .map((friend) => (
+                  <TouchableOpacity
+                    key={`online-${friend.uid}`}
+                    style={styles.onlineFriendCard}
+                    onPress={() => handleFriendPress(friend.uid, friend.username)}
+                  >
+                    <View style={styles.onlineAvatar}>
+                      <Text style={styles.onlineAvatarText}>
+                        {friend.username.charAt(0).toUpperCase()}
                       </Text>
-                    </TouchableOpacity>
-                  ))}
-              </ScrollView>
-            </View>
-          )}
-        </ScrollView>
+                      <View style={styles.onlineIndicator} />
+                    </View>
+                    <Text style={styles.onlineUsername} numberOfLines={1}>
+                      {friend.username}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+            </ScrollView>
+          </View>
+        )}
+      </ScrollView>
       {/* </View> */}
     </Screen>
   );

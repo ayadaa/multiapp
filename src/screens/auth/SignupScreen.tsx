@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Screen } from '../../components/common/Screen';
+import { Screen } from '../../components/common/Screen2';
 import { SignupForm } from '../../components/forms/SignupForm';
 
 /**
@@ -22,7 +22,7 @@ export function SignupScreen() {
   };
 
   return (
-    <Screen backgroundColor="#FFFFFF" keyboardAvoidingView>
+    <Screen keyboardAvoidingView>
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}

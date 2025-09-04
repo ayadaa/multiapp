@@ -16,6 +16,7 @@ import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from "@gorhom/botto
 import { useWallet } from '../../hooks/wallet/use-wallet';
 import { useAppSelector } from '../../store/hooks';
 import { useUser } from '../../hooks/user/use-user';
+import { Screen } from '../../components/common/Screen';
 
 export default function MiningOffersScreen() {
     const user = useAppSelector((state) => state.auth.user);
@@ -32,7 +33,7 @@ export default function MiningOffersScreen() {
     };
 
     return (
-        <View style={styles.container}>
+        <Screen backgroundColor="#FFFFFF" statusBarStyle="dark-content" keyboardAvoidingView={true}>
             <View style={styles.content}>
                 <ScrollView
                     style={{ flex: 1 }}
@@ -108,7 +109,7 @@ export default function MiningOffersScreen() {
                     </View>}
                 </ScrollView>
             </View>
-        </View>
+        </Screen>
     );
 }
 

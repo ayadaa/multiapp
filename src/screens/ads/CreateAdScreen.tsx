@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { Screen } from '../../components/common/Screen';
+import { Screen } from '../../components/common/Screen2';
 import { Button } from '../../components/common/Button';
 import { useAds } from '../../hooks/ad/use-ads';
 import type { RootState } from '../../store';
@@ -153,9 +153,9 @@ export default function CreateAdScreen() {
   }, [tempImageUri, adTitle, adDescription, typeName, className, cityName, user, createNewAd, navigation]);
 
   return (
-    // <Screen backgroundColor="#FFFFFF">
-      // <View style={styles.container}>
-      <SafeAreaView edges={['top', 'bottom']} style={styles.container}>
+    <Screen keyboardAvoidingView>
+      {/* <View style={styles.container}> */}
+      {/* <SafeAreaView edges={['top', 'bottom']} style={styles.container}> */}
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
         {/* Ad Inputs */}
         <View style={styles.inputContainer}>
@@ -272,9 +272,9 @@ export default function CreateAdScreen() {
           />
         </View>
       </ScrollView>
-      </SafeAreaView>
-      // </View>
-    // </Screen>
+      {/* </SafeAreaView> */}
+      {/* </View> */}
+    </Screen>
   );
 }
 
@@ -305,21 +305,27 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(0, 0, 0, 0.2)',
   },
   createButton: {
-    backgroundColor: '#0084FF',
+    // backgroundColor: '#0084FF',
     paddingVertical: 16,
   },
   pickerContainer: {
     borderWidth: 1,
     borderColor: 'rgba(0, 0, 0, 0.2)',
     borderRadius: 12,
-  },
-  picker: {
+
     backgroundColor: 'rgba(255, 255, 255, 1)',
-    borderRadius: 12,
-    borderColor: 'rgba(255, 255, 255, 1)',
     paddingHorizontal: 16,
     paddingVertical: 12,
+  },
+  picker: {
+    // backgroundColor: 'rgba(255, 255, 255, 1)',
+    borderRadius: 12,
+    borderColor: 'rgba(255, 255, 255, 1)',
+    // paddingHorizontal: 16,
+    // paddingVertical: 12,
     fontSize: 16,
     color: '#000000',
+
+    borderWidth: 1,
   },
 });

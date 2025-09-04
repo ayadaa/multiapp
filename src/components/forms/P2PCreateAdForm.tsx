@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Input } from '../common/Input';
@@ -220,29 +220,12 @@ export function P2PCreateAdForm({ onSuccess, onNavigateToP2PAds }: SendFormProps
         render={({ field: { onChange, onBlur, value } }) => (
           <View>
             <Text
-              style={{
-                fontSize: 16,
-                fontWeight: '600',
-                color: '#000000',
-                marginBottom: 8,
-              }}
+              style={styles.inputLabel}
             >Method</Text>
-            <View style={{
-              borderWidth: 1,
-              borderColor: 'rgba(0, 0, 0, 0.5)',
-              borderRadius: 12,
-            }}>
+            <View style={styles.pickerContainer}>
               <Picker
                 selectedValue={value}
-                style={{
-                  backgroundColor: 'rgba(255, 255, 255, 1)',
-                  borderRadius: 12,
-                  borderColor: 'rgba(255, 255, 255, 1)',
-                  paddingHorizontal: 16,
-                  paddingVertical: 12,
-                  fontSize: 16,
-                  color: '#000000',
-                }}
+                style={styles.picker}
                 // onValueChange={onChange}
                 onValueChange={(itemValue) => onChange(itemValue)}
                 onBlur={onBlur}
@@ -296,9 +279,60 @@ export function P2PCreateAdForm({ onSuccess, onNavigateToP2PAds }: SendFormProps
         onPress={handleSubmit(onSubmit)}
         loading={isLoading}
         disabled={!isValid || amountSufficient === false}
-        style={{ marginTop: 16 }}
+        style={styles.createButton}
       />
       {/* </View> */}
     </View>
   );
-} 
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  inputContainer: {
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+  },
+  inputLabel: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#000000',
+    marginBottom: 8,
+  },
+  textInput: {
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    fontSize: 16,
+    color: '#000000',
+    borderWidth: 1,
+    borderColor: 'rgba(0, 0, 0, 0.2)',
+  },
+  createButton: {
+    paddingVertical: 16,
+  },
+  pickerContainer: {
+    borderWidth: 1,
+    borderColor: 'rgba(0, 0, 0, 0.2)',
+    borderRadius: 12,
+
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  picker: {
+    // backgroundColor: 'rgba(255, 255, 255, 1)',
+    borderRadius: 12,
+    borderColor: 'rgba(255, 255, 255, 1)',
+    // paddingHorizontal: 16,
+    // paddingVertical: 12,
+    fontSize: 16,
+    color: '#000000',
+
+    borderWidth: 1,
+  },
+});

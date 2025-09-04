@@ -14,7 +14,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import Entypo from '@expo/vector-icons/Entypo';
 import { useNavigation } from '@react-navigation/native';
-import { Screen } from '../../components/common/Screen';
+import { Screen } from '../../components/common/Screen2';
 import { useP2PAds } from '../../hooks/p2pAd/use-p2pAds';
 // import { useAuth } from '../../hooks/auth/use-auth';
 import type { NavigationProp } from '../../types/navigation';
@@ -349,8 +349,8 @@ export function P2PAdsScreen() {
   }
 
   return (
-    // <Screen backgroundColor="#FFFFFF">
-    <View style={styles.container}>
+    <Screen>
+      {/* <View style={styles.container}> */}
       {/* Header */}
       {/* <View style={styles.header}>
           <View style={styles.titleContainer}>
@@ -591,8 +591,8 @@ export function P2PAdsScreen() {
           </View>}
         </BottomSheetView>
       </BottomSheet>
-    </View>
-    // </Screen>
+      {/* </View> */}
+    </Screen>
   );
 }
 

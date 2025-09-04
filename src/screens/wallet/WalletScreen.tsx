@@ -25,6 +25,7 @@ import { useNavigation } from '@react-navigation/native';
 // import BottomSheet from "@gorhom/bottom-sheet";
 import { FloatingAction } from "react-native-floating-action";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { Screen } from '../../components/common/Screen2';
 
 const actions = [
   {
@@ -120,7 +121,7 @@ export function WalletScreen() {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <Screen>
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity
@@ -225,7 +226,7 @@ export function WalletScreen() {
                   // marginHorizontal: 16,
                   marginVertical: 2,
                   borderRadius: 16,
-                  height: 20,
+                  height: 25,
                 }}
               >
                 <View style={[{
@@ -254,13 +255,13 @@ export function WalletScreen() {
                   }}>
                     <Text style={{
                       color: 'rgba(0, 0, 0, 1)',
-                      fontSize: 14,
+                      fontSize: 12,
                     }}>
                       {transaction.amount} 💎
                     </Text>
                     <Text style={{
                       color: 'rgba(0, 0, 0, 1)',
-                      fontSize: 14,
+                      fontSize: 12,
                     }}>
                       {formatTimestamp(transaction.createdAt)}
                     </Text>
@@ -285,7 +286,7 @@ export function WalletScreen() {
         }
         }
       />
-    </View>
+    </Screen>
   );
 }
 

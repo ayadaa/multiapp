@@ -3,7 +3,7 @@ import { View, Text, KeyboardAvoidingView, Platform, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Screen } from '../../components/common/Screen';
+import { Screen } from '../../components/common/Screen2';
 import { Input } from '../../components/common/Input';
 import { Button } from '../../components/common/Button';
 import { useAuth } from '../../hooks/auth/use-auth';
@@ -60,7 +60,7 @@ export function ForgotPasswordScreen() {
 
   if (emailSent) {
     return (
-      <Screen backgroundColor="#FFFFFF">
+      <Screen>
         <View style={{ flex: 1, padding: 24, justifyContent: 'center' }}>
           <View style={{ alignItems: 'center', marginBottom: 48 }}>
             <Text
@@ -97,7 +97,7 @@ export function ForgotPasswordScreen() {
   }
 
   return (
-    <Screen backgroundColor="#FFFFFF">
+    <Screen>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}

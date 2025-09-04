@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
-import { Screen } from '../../components/common/Screen';
+import { Screen } from '../../components/common/Screen2';
 import { P2PCreateAdForm } from '../../components/forms/P2PCreateAdForm';
 import { type StackNavigationProp } from '@react-navigation/stack';
 import type { AppStackParamList } from '../../types/navigation';
@@ -25,7 +25,7 @@ export function P2PCreateAdScreen() {
   };
 
   return (
-    <Screen backgroundColor="#FFFFFF" keyboardAvoidingView>
+    <Screen keyboardAvoidingView>
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}

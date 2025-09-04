@@ -25,7 +25,7 @@ export function SendScreen() {
   };
 
   return (
-    <Screen backgroundColor="#FFFFFF" keyboardAvoidingView>
+    <Screen backgroundColor="#FFFFFF" statusBarStyle="dark-content" keyboardAvoidingView={true}>
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}

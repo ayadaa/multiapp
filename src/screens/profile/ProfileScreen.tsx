@@ -17,7 +17,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { clearUser } from '../../store/slices/auth.slice';
-import { Screen } from '../../components/common/Screen';
+import { Screen } from '../../components/common/Screen2';
 import { useNavigation } from '@react-navigation/native';
 import { useUser } from '../../hooks/user/use-user';
 import AdSearchCard from '../../components/cards/AdSearchCard';
@@ -74,74 +74,74 @@ export function ProfileScreen() {
   }
 
   return (
-      <View style={styles.container}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl
-              refreshing={isLoadingPersonAds}
-              onRefresh={() => handleRefresh()}
-              tintColor="white"
-            />
-          }
-        >
-          {/* Header */}
-          {/* Header */}
-          <View style={styles.header0}>
-            <TouchableOpacity
-              style={styles.headerBackButton}
-              // onPress={handleAdsNavigate}
-              onPress={() => navigation.goBack()}
-            >
-              <Ionicons name="arrow-back" size={24} color="#000000" />
-            </TouchableOpacity>
-            <Text style={styles.title}>Profile</Text>
-          </View>
-          {/* <View style={styles.header}>
+    <Screen>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoadingPersonAds}
+            onRefresh={() => handleRefresh()}
+            tintColor="white"
+          />
+        }
+      >
+        {/* Header */}
+        {/* Header */}
+        <View style={styles.header0}>
+          <TouchableOpacity
+            style={styles.headerBackButton}
+            // onPress={handleAdsNavigate}
+            onPress={() => navigation.goBack()}
+          >
+            <Ionicons name="arrow-back" size={24} color="#000000" />
+          </TouchableOpacity>
+          <Text style={styles.title}>Profile</Text>
+        </View>
+        {/* <View style={styles.header}>
             <Text style={styles.headerTitle}>Profile</Text>
           </View> */}
 
-          {/* Profile Info */}
-          <View style={styles.profileSection}>
-            <View style={styles.avatarContainer}>
-              {/* <View style={styles.avatar}> */}
-              {/* <Ionicons name="person" size={48} color="rgba(0, 0, 0, 0.8)" /> */}
-              {User?.profilePicture ? <View style={{
+        {/* Profile Info */}
+        <View style={styles.profileSection}>
+          <View style={styles.avatarContainer}>
+            {/* <View style={styles.avatar}> */}
+            {/* <Ionicons name="person" size={48} color="rgba(0, 0, 0, 0.8)" /> */}
+            {User?.profilePicture ? <View style={{
+              width: 100,
+              height: 100,
+              borderRadius: 100,
+              alignItems: 'center',
+              justifyContent: 'center',
+              overflow: "hidden",
+            }}>
+              <Image
+                source={{ uri: User.profilePicture }}
+                style={{ height: 100, width: 100 }}
+                resizeMode="cover"
+              />
+            </View>
+              : <View style={{
                 width: 100,
                 height: 100,
                 borderRadius: 100,
+                backgroundColor: 'rgba(0, 132, 255, 0.8)',
                 alignItems: 'center',
                 justifyContent: 'center',
-                overflow: "hidden",
               }}>
-                <Image
-                  source={{ uri: User.profilePicture }}
-                  style={{ height: 100, width: 100 }}
-                  resizeMode="cover"
-                />
+                <Text style={{ fontSize: 18, color: '#000000' }}>
+                  {User?.username.charAt(0).toUpperCase() || '?'}
+                </Text>
               </View>
-                : <View style={{
-                  width: 100,
-                  height: 100,
-                  borderRadius: 100,
-                  backgroundColor: 'rgba(0, 132, 255, 0.8)',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                  <Text style={{ fontSize: 18, color: '#000000' }}>
-                    {User?.username.charAt(0).toUpperCase() || '?'}
-                  </Text>
-                </View>
-              }
-              {/* </View> */}
-            </View>
-
-            <Text style={styles.username}>@{user?.username || 'username'}</Text>
-            <Text style={styles.email}>{user?.email || 'email@example.com'}</Text>
+            }
+            {/* </View> */}
           </View>
 
-          {/* Menu Items */}
-          {/* <View style={styles.menuSection}>
+          <Text style={styles.username}>@{user?.username || 'username'}</Text>
+          <Text style={styles.email}>{user?.email || 'email@example.com'}</Text>
+        </View>
+
+        {/* Menu Items */}
+        {/* <View style={styles.menuSection}>
             <TouchableOpacity style={styles.menuItem}>
               <View style={styles.menuItemLeft}>
                 <Ionicons name="person-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
@@ -171,47 +171,47 @@ export function ProfileScreen() {
             </TouchableOpacity>
           </View> */}
 
-          {/* Person ads section */}
-          {/* Error State */}
-          {personAdsError && (
-            <View style={styles.errorContainer}>
-              <Ionicons name="alert-circle" size={24} color="#FF3B30" />
-              <Text style={styles.errorText}>{personAdsError}</Text>
-              <TouchableOpacity
-                style={styles.retryButton}
-                onPress={() => handleRefresh()}
-              >
-                <Text style={styles.retryText}>Retry</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-          {/* ads list */}
-          <View style={styles.adsSection}>
-            <Text style={styles.adsHeaderText}>Your ads:</Text>
-            {personAds?.length! > 0 ? <View>
-              {personAds?.map((ad) => (
-                <AdSearchCard key={ad.id} ad={ad} />
-              ))}
-            </View>
-              : <Text style={styles.adsEmptyText}>You don't have any ads yet.</Text>
-            }
-          </View>
-
-          {/* Logout Section */}
-          <View style={styles.logoutSection}>
-            <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-              <Ionicons name="log-out-outline" size={20} color="#FF3B30" />
-              <Text style={styles.logoutText}>Logout</Text>
+        {/* Person ads section */}
+        {/* Error State */}
+        {personAdsError && (
+          <View style={styles.errorContainer}>
+            <Ionicons name="alert-circle" size={24} color="#FF3B30" />
+            <Text style={styles.errorText}>{personAdsError}</Text>
+            <TouchableOpacity
+              style={styles.retryButton}
+              onPress={() => handleRefresh()}
+            >
+              <Text style={styles.retryText}>Retry</Text>
             </TouchableOpacity>
           </View>
-
-          {/* App Info */}
-          <View style={styles.appInfo}>
-            <Text style={styles.appInfoText}>MultiApp v1.0</Text>
-            <Text style={styles.appInfoText}>Built with React Native & Firebase</Text>
+        )}
+        {/* ads list */}
+        <View style={styles.adsSection}>
+          <Text style={styles.adsHeaderText}>Your ads:</Text>
+          {personAds?.length! > 0 ? <View>
+            {personAds?.map((ad) => (
+              <AdSearchCard key={ad.id} ad={ad} />
+            ))}
           </View>
-        </ScrollView>
-      </View>
+            : <Text style={styles.adsEmptyText}>You don't have any ads yet.</Text>
+          }
+        </View>
+
+        {/* Logout Section */}
+        <View style={styles.logoutSection}>
+          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+            <Ionicons name="log-out-outline" size={20} color="#FF3B30" />
+            <Text style={styles.logoutText}>Logout</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* App Info */}
+        <View style={styles.appInfo}>
+          <Text style={styles.appInfoText}>MultiApp v1.0</Text>
+          <Text style={styles.appInfoText}>Built with React Native & Firebase</Text>
+        </View>
+      </ScrollView>
+    </Screen>
   );
 }
 

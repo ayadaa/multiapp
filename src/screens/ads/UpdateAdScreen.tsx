@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { Screen } from '../../components/common/Screen';
+import { Screen } from '../../components/common/Screen2';
 import { Button } from '../../components/common/Button';
 import { useAds } from '../../hooks/ad/use-ads'; //ayad
 import type { RootState } from '../../store';
@@ -165,7 +165,7 @@ export default function UpdateAdScreen() {
   }, [tempImageUri, adTitle, adDescription, typeName, className, cityName, user, updateAnAd, navigation]);
 
   return (
-    <Screen backgroundColor="#FFFFFF">
+    <Screen keyboardAvoidingView>
       {/* <View style={styles.container}> */}
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
         {/* Ad Inputs */}
@@ -321,14 +321,20 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(0, 0, 0, 0.2)',
     borderRadius: 12,
-  },
-  picker: {
+
     backgroundColor: 'rgba(255, 255, 255, 1)',
-    borderRadius: 12,
-    borderColor: 'rgba(255, 255, 255, 1)',
     paddingHorizontal: 16,
     paddingVertical: 12,
+  },
+  picker: {
+    // backgroundColor: 'rgba(255, 255, 255, 1)',
+    borderRadius: 12,
+    borderColor: 'rgba(255, 255, 255, 1)',
+    // paddingHorizontal: 16,
+    // paddingVertical: 12,
     fontSize: 16,
     color: '#000000',
+
+    borderWidth: 1,
   },
 });
