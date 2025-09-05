@@ -16,7 +16,7 @@ import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from "@gorhom/botto
 import { useWallet } from '../../hooks/wallet/use-wallet';
 import { useAppSelector } from '../../store/hooks';
 import { useUser } from '../../hooks/user/use-user';
-import { Screen } from '../../components/common/Screen';
+import { Screen } from '../../components/common/Screen2';
 
 export default function MiningOffersScreen() {
     const user = useAppSelector((state) => state.auth.user);
@@ -45,7 +45,7 @@ export default function MiningOffersScreen() {
                     />
                 }
             >
-                {miningSpeedOffers.length > 0 ? <View style={{ marginTop: 2 }}> {miningSpeedOffers.map((offer) => (
+                {miningSpeedOffers.length > 0 ? <View style={{ marginTop: 5 }}> {miningSpeedOffers.map((offer) => (
                     <TouchableOpacity
                         key={offer.id}
                         onPress={async () => {

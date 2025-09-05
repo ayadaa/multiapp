@@ -9,6 +9,7 @@ import { useUser } from '../../hooks/user/use-user';
 import { useChats } from '../../hooks/chat/use-chats';
 import type { Ad } from '../../types/ads';
 import { Screen } from '../../components/common/Screen2';
+import { Ionicons } from '@expo/vector-icons';
 
 type AdDetailsScreenRouteProp = RouteProp<AppStackParamList, 'AdDetails'>;
 type AdDetailsScreenNavigationProp = StackNavigationProp<AppStackParamList, 'AdDetails'>;
@@ -23,13 +24,13 @@ export default function AdDetails() {
   const { user } = useAuth();
   const {
     formatTimestamp
-  } = useAds(user?.uid || '');
+  } = useAds(user?.uid!);
   const {
     User,
     isLoadingUser,
     userError,
     refreshUser,
-  } = useUser(ad.createdBy || '');
+  } = useUser(ad.createdBy!);
 
   /**
    * Handle send message button press - navigate to chat
@@ -94,21 +95,19 @@ export default function AdDetails() {
                   onPress={handleSendMessagePress}
                   style={styles.button}
                 >
-                  <Text style={{
-                    color: '#fff',
-                    fontSize: 16,
-                    fontFamily: 'mon-b',
-                  }}>Send Message</Text>
+                  <View style={styles.buttonLeft}>
+                    <Text style={styles.buttonText}>Send Message</Text>
+                  </View>
+                  <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
                 </TouchableOpacity>}
                 {(user?.uid == ad.createdBy) && <TouchableOpacity
                   onPress={() => handleUpdateAdPress(ad)}
                   style={styles.button}
                 >
-                  <Text style={{
-                    color: '#fff',
-                    fontSize: 16,
-                    fontFamily: 'mon-b',
-                  }}>Update Ad</Text>
+                  <View style={styles.buttonLeft}>
+                    <Text style={styles.buttonText}>Update Ad</Text>
+                  </View>
+                  <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
                 </TouchableOpacity>}
               </View>
             )}
@@ -176,13 +175,31 @@ const styles = StyleSheet.create({
     fontFamily: 'mon-sb',
   },
   button: {
-    backgroundColor: '#FF385C',
+    // backgroundColor: '#FF385C',
     height: 40,
-    borderRadius: 8,
-    justifyContent: 'center',
+    // borderRadius: 8,
+    // justifyContent: 'center',
     alignItems: 'center',
     paddingRight: 20,
-    paddingLeft: 20
+    paddingLeft: 20,
+
+    flexDirection: 'row',
+    // alignItems: 'center',
+    justifyContent: 'space-between',
+    // paddingVertical: 16,
+    // paddingHorizontal: 16,
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    borderRadius: 12,
+    // marginBottom: 8,
+  },
+  buttonLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'rgba(0, 0, 0, 0.8)',
+    fontSize: 16,
+    marginLeft: 12,
   },
   description: {
     fontSize: 16,

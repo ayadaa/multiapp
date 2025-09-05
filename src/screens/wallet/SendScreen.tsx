@@ -25,12 +25,8 @@ export function SendScreen() {
   };
 
   return (
-    <Screen backgroundColor="#FFFFFF" statusBarStyle="dark-content" keyboardAvoidingView={true}>
-      {/* <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
-        showsVerticalScrollIndicator={false}
-      > */}
-      <View style={{ flex: 1, padding: 24 }}>
+    <Screen keyboardAvoidingView={true}>
+      <View style={{ flex: 1, padding: 16 }}>
         {/* Send Form */}
         <SendForm
           onSuccess={handleSendSuccess}
@@ -38,7 +34,6 @@ export function SendScreen() {
           qrData={qrData}
         />
       </View>
-      {/* </ScrollView> */}
     </Screen>
   );
 } 

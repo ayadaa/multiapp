@@ -221,9 +221,7 @@ export async function updateUserProfile(User: UpdateProfileFormData): Promise<vo
     // const user = useAppSelector((state) => state.auth.user);
     const auth = getAuth();
     const user = auth.currentUser;
-
     if (!User.uid || !user || !user.email) return;
-
     // Example of re-authentication if required
     const credential = EmailAuthProvider.credential(user.email, User.password);
     reauthenticateWithCredential(user, credential)
@@ -237,13 +235,10 @@ export async function updateUserProfile(User: UpdateProfileFormData): Promise<vo
       .catch((error) => {
         console.error("Error updating email:", error);
       });
-
-
     // Update user profile with username
     await updateProfile(user, {
       displayName: User.username,
     });
-
     // Update user document in Firestore
     await updateDoc(doc(db, 'users', User.uid), {
       profilePicture: User.profilePicture,

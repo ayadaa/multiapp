@@ -118,103 +118,101 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
   return (
     <View style={{ width: '100%' }}>
       {/* Form Fields */}
-      <View style={{ marginBottom: 24 }}>
-        <Controller
-          control={control}
-          name="address"
-          render={({ field: { onChange, onBlur, value } }) => (
+      <Controller
+        control={control}
+        name="address"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <View
+            style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}
+          >
             <View
-              style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}
+              style={{
+                flex: 1,
+                flexDirection: 'column'
+              }}
             >
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: 'column'
-                }}
-              >
-                <Input
-                  label="Address"
-                  placeholder="Place an address"
-                  value={value || qrData}
-                  onChangeText={onChange}
-                  onBlur={onBlur}
-                  isAddress
-                  autoCapitalize="none"
-                  error={errors.address?.message}
-                />
-                {addressStatus && (
-                  <Text style={{
-                    color: addressStatus.color,
-                    fontSize: 12,
-                    marginTop: 4,
-                    marginLeft: 4
-                  }}>
-                    {addressStatus.text}
-                  </Text>
-                )}
-              </View>
-              {/* <AntDesign.Button name="scan1" size={24} color="black" onPress={navigateToScan}>
-                scan
-              </AntDesign.Button> */}
-            </View>
-          )}
-        />
-
-        <Controller
-          control={control}
-          name="amount"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <View>
               <Input
-                label="Amount"
-                placeholder="Place an amount"
-                value={value}
+                label="Address"
+                placeholder="Place an address"
+                value={value || qrData}
                 onChangeText={onChange}
                 onBlur={onBlur}
-                keyboardType="numeric"
+                isAddress
                 autoCapitalize="none"
-                // autoComplete="number" //ayad
-                error={errors.amount?.message}
+                error={errors.address?.message}
               />
-              {amountStatus && (
+              {addressStatus && (
                 <Text style={{
-                  color: amountStatus.color,
+                  color: addressStatus.color,
                   fontSize: 12,
                   marginTop: 4,
                   marginLeft: 4
                 }}>
-                  {amountStatus.text}
+                  {addressStatus.text}
                 </Text>
               )}
             </View>
-          )}
-        />
-        {/* Global Error Message */}
-        {error && (
-          <View style={{ marginTop: 8 }}>
-            <Text style={{ color: '#FF3B30', fontSize: 14, textAlign: 'center' }}>
-              {error}
-            </Text>
+            {/* <AntDesign.Button name="scan1" size={24} color="black" onPress={navigateToScan}>
+                scan
+              </AntDesign.Button> */}
           </View>
         )}
+      />
 
-        {/* Submit Button */}
-        <View style={{
+      <Controller
+        control={control}
+        name="amount"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <View>
+            <Input
+              label="Amount"
+              placeholder="Place an amount"
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              keyboardType="numeric"
+              autoCapitalize="none"
+              // autoComplete="number" //ayad
+              error={errors.amount?.message}
+            />
+            {amountStatus && (
+              <Text style={{
+                color: amountStatus.color,
+                fontSize: 12,
+                marginTop: 4,
+                marginLeft: 4
+              }}>
+                {amountStatus.text}
+              </Text>
+            )}
+          </View>
+        )}
+      />
+      {/* Global Error Message */}
+      {error && (
+        <View style={{ marginTop: 8 }}>
+          <Text style={{ color: '#FF3B30', fontSize: 14, textAlign: 'center' }}>
+            {error}
+          </Text>
+        </View>
+      )}
+
+      {/* Submit Button */}
+      {/* <View style={{
           padding: 16,
           marginTop: 16,
           backgroundColor: 'rgba(255, 255, 255, 1)',
           borderTopWidth: 1,
           borderTopColor: 'rgba(0, 0, 0, 0.05)',
-        }}>
-          <Button
-            title="Send Assets"
-            onPress={handleSubmit(onSubmit)}
-            loading={isLoading}
-            disabled={!isValid || addressExist === false || amountSufficient === false}
-            // style={{ marginTop: 16 }}
-          />
-        </View>
-      </View>
+        }}> */}
+      <Button
+        title="Send Assets"
+        onPress={handleSubmit(onSubmit)}
+        loading={isLoading}
+        disabled={!isValid || addressExist === false || amountSufficient === false}
+        style={{ marginTop: 16 }}
+      />
+      {/* </View> */}
     </View>
   );
 } 

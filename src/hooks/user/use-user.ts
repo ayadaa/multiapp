@@ -1,15 +1,20 @@
 import { useState, useEffect, useCallback } from 'react';
 import { getUserProfile, UserProfile, checkUsernameAvailability, updateUserProfile } from '../../services/firebase/firestore.service';
 import type { UpdateProfileFormData } from '../../utils/validation/auth-schemas';
+import { useAppSelector } from '../../store/hooks';
 
 /**
  * Custom hook for managing user functionality.
  */
 export function useUser(userId: string) {
+    const { user } = useAppSelector((state) => state.auth);
     // Data state
     const [User, setUser] = useState<UserProfile | null>(null);
     const [isLoadingUser, setIsLoadingUser] = useState(false);
     const [updateLoading, setUpdateLoading] = useState(false);
+
+    const [usernameCheckLoading, setUsernameCheckLoading] = useState(false);
+    const [usernameAvailable, setUsernameAvailable] = useState<boolean | null>(null);
 
     // Error states
     const [userError, setUserError] = useState<string | null>(null);
@@ -35,6 +40,31 @@ export function useUser(userId: string) {
             setIsLoadingUser(false);
         }
     }, [getUserProfile]);
+
+    /**
+       * Check if username is available (debounced)
+       */
+    const checkUsername = useCallback(async (username: string) => {
+        if (username.length < 3) {
+            setUsernameAvailable(null);
+            return;
+        }
+
+        setUsernameCheckLoading(true);
+        try {
+            const isAvailable = await checkUsernameAvailability(username);
+            setUsernameAvailable(isAvailable);
+            // if an user chose his current username then this username is available for him.
+            if (username == user?.username) {
+                setUsernameAvailable(true);
+            }
+        } catch (error) {
+            console.error('Username check error:', error);
+            setUsernameAvailable(null);
+        } finally {
+            setUsernameCheckLoading(false);
+        }
+    }, []);
 
     /**
    * Update user profile
@@ -66,12 +96,14 @@ export function useUser(userId: string) {
     }, [refreshUser]);
 
     return {
-        // Data
+        // State
         User,
+        usernameAvailable,
 
         // Loading states
         isLoadingUser,
         updateLoading,
+        usernameCheckLoading,
 
         // Error states
         userError,
@@ -80,5 +112,6 @@ export function useUser(userId: string) {
         // Actions
         refreshUser,
         updateProfile,
+        checkUsername,
     };
 }

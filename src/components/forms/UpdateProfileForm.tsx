@@ -8,9 +8,9 @@ import { Button } from '../common/Button';
 import { useUser } from '../../hooks/user/use-user'; //ayad
 import { updateProfileSchema, type UpdateProfileFormData } from '../../utils/validation/auth-schemas';
 import { launchImagePicker, openCamera, uploadImageAsync } from "../../screens/ads/imagePickerHelper";
-import { useSelector } from 'react-redux';
-import type { RootState } from '../../store';
-import { useAuth } from '../../hooks/auth/use-auth';
+// import { useSelector } from 'react-redux';
+// import type { RootState } from '../../store';
+// import { useAuth } from '../../hooks/auth/use-auth';
 import { UserProfile } from '../../services/firebase/firestore.service';
 
 interface UpdateProfileProps {
@@ -25,10 +25,10 @@ interface UpdateProfileProps {
  */
 export function UpdateProfileForm({ User, onSuccess }: UpdateProfileProps) {
   // const { signup, isLoading, error, clearAuthError, checkUsername, usernameCheckLoading, usernameAvailable } = useAuth();
-  const { checkUsername, usernameCheckLoading, usernameAvailable } = useAuth();
+  // const { checkUsername, usernameCheckLoading, usernameAvailable } = useAuth();
   // const user = useSelector((state: RootState) => state.auth.user);
   // const { User } = useUser(user?.uid!);
-  const { updateProfile, updateError, updateLoading } = useUser(User.uid);
+  const { updateProfile, updateError, updateLoading, checkUsername, usernameCheckLoading, usernameAvailable } = useUser(User.uid);
 
   const {
     control,

@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   pickerContainer: {
     backgroundColor: 'rgba(255, 255, 255, 1)',
     minWidth: 120,
-    height: 50,
+    // height: 60,
     borderRadius: 12,
     paddingHorizontal: 2,
     paddingVertical: 1,
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // paddingBottom: 2,
     // minWidth: 80,
-    height: 50,
+    // height: 60,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: 'rgba(0, 0, 0, 0.2)',
