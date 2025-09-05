@@ -1,16 +1,16 @@
-import { 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
-  signOut, 
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
   updateProfile,
   sendPasswordResetEmail,
-  User as FirebaseUser 
+  User as FirebaseUser
 } from 'firebase/auth';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '../../config/firebase';
 import type { User } from '../../store/slices/auth.slice';
 
-/**
+/** 
  * Firebase Authentication Service
  * Handles user authentication operations including signup, login, and logout.
  * Integrates with Firestore to store user profile data.

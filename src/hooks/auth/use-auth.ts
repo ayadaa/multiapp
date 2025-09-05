@@ -5,7 +5,7 @@ import { signInWithEmail, signUpWithEmail, signOutUser, resetPassword } from '..
 import { checkUsernameAvailability } from '../../services/firebase/firestore.service';
 import type { LoginFormData, SignupFormData, ForgotPasswordFormData } from '../../utils/validation/auth-schemas';
 
-/**
+/** 
  * Comprehensive authentication hook for managing user authentication state and operations.
  * Provides methods for login, signup, logout, password reset, and username validation.
  * Integrates with Redux store and Firebase authentication services.
@@ -13,7 +13,7 @@ import type { LoginFormData, SignupFormData, ForgotPasswordFormData } from '../.
 export function useAuth() {
   const dispatch = useAppDispatch();
   const { user, isLoading, error, isAuthenticated } = useAppSelector((state) => state.auth);
-  
+
   const [usernameCheckLoading, setUsernameCheckLoading] = useState(false);
   const [usernameAvailable, setUsernameAvailable] = useState<boolean | null>(null);
 
@@ -23,7 +23,7 @@ export function useAuth() {
   const login = useCallback(async (data: LoginFormData) => {
     dispatch(setLoading(true));
     dispatch(clearError());
-    
+
     try {
       const user = await signInWithEmail(data);
       dispatch(setUser(user));
@@ -43,7 +43,7 @@ export function useAuth() {
   const signup = useCallback(async (data: SignupFormData) => {
     dispatch(setLoading(true));
     dispatch(clearError());
-    
+
     try {
       // Check username availability first
       const isAvailable = await checkUsernameAvailability(data.username);
@@ -56,7 +56,7 @@ export function useAuth() {
         password: data.password,
         username: data.username,
       });
-      
+
       dispatch(setUser(user));
       return { success: true };
     } catch (error: any) {
@@ -74,7 +74,7 @@ export function useAuth() {
   const forgotPassword = useCallback(async (data: ForgotPasswordFormData) => {
     dispatch(setLoading(true));
     dispatch(clearError());
-    
+
     try {
       await resetPassword(data.email);
       return { success: true };
@@ -139,7 +139,7 @@ export function useAuth() {
     isAuthenticated,
     usernameCheckLoading,
     usernameAvailable,
-    
+
     // Actions
     login,
     signup,

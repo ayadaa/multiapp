@@ -6,23 +6,15 @@ import {
   StyleSheet,
   Alert,
   ScrollView,
-  FlatList,
   Dimensions,
-  Image,
-  RefreshControl
+  RefreshControl,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAppSelector } from '../../store/hooks';
-import { clearUser } from '../../store/slices/auth.slice';
-import Assets from "../../constants/Assets"
 import { useWallet } from '../../hooks/wallet/use-wallet';
 import { useUser } from '../../hooks/user/use-user';
 import { Timestamp } from 'firebase/firestore';
-import { ref } from 'firebase/storage';
-// import { Timestamp } from "firebase-admin/firestore";
 import { useNavigation } from '@react-navigation/native';
-// import MiningOffersBottomSheet from '../../components/bottomSheet/MiningOffersBottomSheet'
-// import BottomSheet from "@gorhom/bottom-sheet";
 import { FloatingAction } from "react-native-floating-action";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Screen } from '../../components/common/Screen2';
@@ -305,27 +297,21 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     color: 'Black',
-    // fontWeight: 'bold',
     fontWeight: 500,
     marginBottom: 2,
   },
   card: {
     paddingTop: 10,
-    // paddingHorizontal: 10,
     paddingBottom: 10,
     marginTop: 10,
     marginHorizontal: 20,
-    // marginBottom: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 16,
     paddingHorizontal: 16,
-    // backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    // borderRadius: 12,
     marginBottom: 8,
     height: CardHeight,
-    // backgroundColor: '#000000',
     backgroundColor: '#0084FF',
     borderColor: '#0084FF',
     borderRadius: 20,
@@ -406,8 +392,6 @@ const styles = StyleSheet.create({
   transactionsContainer: {
     marginVertical: 5,
     marginHorizontal: 20,
-    // backgroundColor: 'rgba(0, 0, 0, 0.01)',
-    // borderBottomColor: 'rgba(0, 0, 0, 0.08)',
   },
   transactionItem: {
     flexDirection: 'row',
@@ -417,12 +401,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(0, 0, 0, 0.06)',
     backgroundColor: 'rgba(0, 0, 0, 0.03)',
-    // marginHorizontal: 16,
     marginVertical: 2,
     borderRadius: 16,
     height: 40,
   },
-
   errorContainer: {
     backgroundColor: 'rgba(255, 59, 48, 0.2)',
     marginHorizontal: 16,
