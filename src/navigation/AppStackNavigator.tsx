@@ -28,6 +28,8 @@ import { CardStyleInterpolators } from '@react-navigation/stack';
 // import CallScreen from "../screens/chat/CallScreen";
 import { FriendsStackNavigator } from './FriendsStackNavigator';
 import SearchScreen from '../screens/search/SearchScreen';
+import { ProfileScreen } from '../screens/profile/ProfileScreen';
+import { UpdateProfileScreen } from '../screens/profile/UpdateProfileScreen';
 
 const Stack = createStackNavigator<AppStackParamList>();
 
@@ -205,6 +207,26 @@ export default function AppStackNavigator() {
         component={SearchScreen}
         options={{
           headerShown: false,
+          presentation: 'modal',
+          gestureEnabled: false,
+        }}
+      />
+
+      <Stack.Screen
+        name='Profile'
+        component={ProfileScreen}
+        options={{
+          headerShown: false,
+          presentation: 'modal',
+          gestureEnabled: false,
+        }}
+      />
+
+      <Stack.Screen
+        name='UpdateProfile'
+        component={UpdateProfileScreen}
+        options={{
+          headerShown: true,
           presentation: 'modal',
           gestureEnabled: false,
         }}

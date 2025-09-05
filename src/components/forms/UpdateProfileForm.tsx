@@ -11,8 +11,10 @@ import { launchImagePicker, openCamera, uploadImageAsync } from "../../screens/a
 import { useSelector } from 'react-redux';
 import type { RootState } from '../../store';
 import { useAuth } from '../../hooks/auth/use-auth';
+import { UserProfile } from '../../services/firebase/firestore.service';
 
 interface UpdateProfileProps {
+  User: UserProfile;
   onSuccess?: () => void;
 }
 
@@ -21,11 +23,12 @@ interface UpdateProfileProps {
  * Uses React Hook Form for form state management and Yup for validation.
  * Integrates with the authentication hook for signup operations.
  */
-export function UpdateProfileForm({ onSuccess }: UpdateProfileProps) {
+export function UpdateProfileForm({ User, onSuccess }: UpdateProfileProps) {
   // const { signup, isLoading, error, clearAuthError, checkUsername, usernameCheckLoading, usernameAvailable } = useAuth();
   const { checkUsername, usernameCheckLoading, usernameAvailable } = useAuth();
-  const user = useSelector((state: RootState) => state.auth.user);
-  const { updateProfile, updateError, updateLoading } = useUser(user?.uid || '');
+  // const user = useSelector((state: RootState) => state.auth.user);
+  // const { User } = useUser(user?.uid!);
+  const { updateProfile, updateError, updateLoading } = useUser(User.uid);
 
   const {
     control,
@@ -37,10 +40,10 @@ export function UpdateProfileForm({ onSuccess }: UpdateProfileProps) {
     resolver: yupResolver(updateProfileSchema),
     mode: 'onBlur',
     defaultValues: {
-      profilePicture: '',
-      email: '',
-      username: '',
-      displayName: '',
+      profilePicture: User?.profilePicture,
+      email: User?.email,
+      username: User?.username,
+      displayName: User?.displayName,
     },
   });
 
@@ -58,10 +61,7 @@ export function UpdateProfileForm({ onSuccess }: UpdateProfileProps) {
   }, [watchedUsername, checkUsername]);
 
   const onSubmit = async (data: UpdateProfileFormData) => {
-    clearAuthError();
-
-    const result = await signup(data);
-
+    const result = await updateProfile(data);
     if (result.success) {
       reset();
       onSuccess?.();
@@ -92,109 +92,107 @@ export function UpdateProfileForm({ onSuccess }: UpdateProfileProps) {
   return (
     <View style={{ width: '100%' }}>
       {/* Form Fields */}
-      <View style={{ marginBottom: 24 }}>
-        {/* profilePicture */}
-        <Controller
-          control={control}
-          name="profilePicture"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <View style={styles.profilePictureContainer}>
-              <Text style={styles.profilePictureText}>Make sure to upload your image</Text>
-              <TouchableOpacity style={styles.avatarPlaceholder} onPress={() => pickImage(onChange)}>
-                {value ? (
-                  <Image source={{ uri: value }} style={styles.avatarImage} />
-                ) : (
-                  <Text style={styles.avatarPlaceholderText}>Pick Image</Text>
-                )}
-              </TouchableOpacity>
-            </View>
-          )}
-        />
+      {/* profilePicture */}
+      <Controller
+        control={control}
+        name="profilePicture"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <View style={styles.profilePictureContainer}>
+            <Text style={styles.profilePictureText}>Make sure to upload your image</Text>
+            <TouchableOpacity style={styles.avatarPlaceholder} onPress={() => pickImage(onChange)}>
+              {value ? (
+                <Image source={{ uri: value }} style={styles.avatarImage} />
+              ) : (
+                <Text style={styles.avatarPlaceholderText}>Pick Image</Text>
+              )}
+            </TouchableOpacity>
+          </View>
+        )}
+      />
 
-        <Controller
-          control={control}
-          name="email"
-          render={({ field: { onChange, onBlur, value } }) => (
+      <Controller
+        control={control}
+        name="email"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            label="Email"
+            placeholder="Enter your email"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            autoComplete="email"
+            error={errors.email?.message}
+          />
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="username"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <View>
             <Input
-              label="Email"
-              placeholder="Enter your email"
+              label="Username"
+              placeholder="Choose a username"
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
-              keyboardType="email-address"
               autoCapitalize="none"
-              autoComplete="email"
-              error={errors.email?.message}
+              autoComplete="username"
+              error={errors.username?.message}
             />
-          )}
-        />
-
-        <Controller
-          control={control}
-          name="username"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <View>
-              <Input
-                label="Username"
-                placeholder="Choose a username"
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                autoCapitalize="none"
-                autoComplete="username"
-                error={errors.username?.message}
-              />
-              {usernameStatus && (
-                <Text style={{
-                  color: usernameStatus.color,
-                  fontSize: 12,
-                  marginTop: 4,
-                  marginLeft: 4
-                }}>
-                  {usernameStatus.text}
-                </Text>
-              )}
-            </View>
-          )}
-        />
-
-        <Controller
-          control={control}
-          name="displayName"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <View>
-              <Input
-                label="Display Name"
-                placeholder="Choose a display name"
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                autoCapitalize="none"
-                autoComplete="name"
-                error={errors.displayName?.message}
-              />
-            </View>
-          )}
-        />
-
-        {/* Global Error Message */}
-        {updateError && (
-          <View style={{ marginTop: 8 }}>
-            <Text style={{ color: '#FF3B30', fontSize: 14, textAlign: 'center' }}>
-              {updateError}
-            </Text>
+            {usernameStatus && (
+              <Text style={{
+                color: usernameStatus.color,
+                fontSize: 12,
+                marginTop: 4,
+                marginLeft: 4
+              }}>
+                {usernameStatus.text}
+              </Text>
+            )}
           </View>
         )}
+      />
 
-        {/* Submit Button */}
-        <Button
-          title="Create Account"
-          onPress={handleSubmit(onSubmit)}
-          loading={updateLoading}
-          disabled={!isValid || usernameAvailable === false}
-          style={{ marginTop: 16 }}
-        />
-      </View>
+      <Controller
+        control={control}
+        name="displayName"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <View>
+            <Input
+              label="Display Name"
+              placeholder="Choose a display name"
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              autoCapitalize="none"
+              autoComplete="name"
+              error={errors.displayName?.message}
+            />
+          </View>
+        )}
+      />
+
+      {/* Global Error Message */}
+      {updateError && (
+        <View style={{ marginTop: 8 }}>
+          <Text style={{ color: '#FF3B30', fontSize: 14, textAlign: 'center' }}>
+            {updateError}
+          </Text>
+        </View>
+      )}
+
+      {/* Submit Button */}
+      <Button
+        title="Update Profile"
+        onPress={handleSubmit(onSubmit)}
+        loading={updateLoading}
+        disabled={!isValid || usernameAvailable === false}
+        style={{ marginTop: 16 }}
+      />
     </View>
   );
 }

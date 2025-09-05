@@ -56,7 +56,6 @@ export const cityNameList = {
 }
 
 export default function UpdateAdScreen() {
-  // const navigation = useNavigation<NavigationProp>();
   const route = useRoute<UpdateAdScreenRouteProp>();
   const navigation = useNavigation<UpdateAdScreenNavigationProp>();
   const ad = route.params;

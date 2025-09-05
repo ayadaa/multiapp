@@ -78,6 +78,8 @@ export type AppStackParamList = {
   UpdateAd: Ad;
   P2PCreateRequest: P2PAd & UserProfile;
   Friends: undefined;
+  Profile: undefined;
+  UpdateProfile: UserProfile;
   IncomingCall: { caller: UserProfile, callType: string };
   Call: {
     user: UserProfile;

@@ -9,6 +9,7 @@ export function useUser(userId: string) {
     // Data state
     const [User, setUser] = useState<UserProfile | null>(null);
     const [isLoadingUser, setIsLoadingUser] = useState(false);
+    const [updateLoading, setUpdateLoading] = useState(false);
 
     // Error states
     const [userError, setUserError] = useState<string | null>(null);
@@ -39,6 +40,7 @@ export function useUser(userId: string) {
    * Update user profile
    */
     const updateProfile = useCallback(async (data: UpdateProfileFormData) => {
+        setUpdateLoading(true);
         try {
             // Check username availability first
             const isAvailable = await checkUsernameAvailability(data.username);
@@ -48,11 +50,13 @@ export function useUser(userId: string) {
             // update user
             setUpdateError(null);
             await updateUserProfile(data);
-            return 'update completed!';
+            return { success: true };
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'Failed to update user';
             setUpdateError(errorMessage);
             throw new Error(errorMessage);
+        } finally {
+            setUpdateLoading(false);
         }
     }, [userId]);
 
@@ -67,6 +71,7 @@ export function useUser(userId: string) {
 
         // Loading states
         isLoadingUser,
+        updateLoading,
 
         // Error states
         userError,

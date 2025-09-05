@@ -211,6 +211,24 @@ export async function checkUsernameAvailability(username: string): Promise<boole
 }
 
 /**
+ * Update user profile
+ */
+export async function updateUserProfile(user: any): Promise<void> {
+  try {
+    if (!user.uid) return;
+    await updateDoc(doc(db, 'users', user.uid), {
+      profilePicture: user.profilePicture,
+      email: user.email,
+      username: user.username,
+      displayName: user.displayName,
+    });
+  } catch (error) {
+    console.error('Update user error:', error);
+    throw new Error('Failed to update user');
+  }
+}
+
+/**
  * Get user profile by ID
  */
 export async function getUserProfile(userId: string): Promise<UserProfile | null> {

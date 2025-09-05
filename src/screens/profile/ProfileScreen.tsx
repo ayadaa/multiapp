@@ -24,7 +24,7 @@ import AdSearchCard from '../../components/cards/AdSearchCard';
 import { useAds } from '../../hooks/ad/use-ads';
 
 export function ProfileScreen() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
   const { User } = useUser(user?.uid || '');
@@ -138,6 +138,19 @@ export function ProfileScreen() {
           {User?.displayName && <Text style={styles.displayName}>{User?.displayName}</Text>}
           <Text style={styles.username}>@{User?.username!}</Text>
           <Text style={styles.email}>{User?.email!}</Text>
+          <TouchableOpacity
+            style={styles.menuItem}
+            onPress={() => {
+              if (User) {
+                navigation.navigate('UpdateProfile', User)
+              }
+            }}
+          >
+            <View style={styles.menuItemLeft}>
+              <Text style={styles.menuItemText}>Update Your Profile</Text>
+            </View>
+            <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
+          </TouchableOpacity>
         </View>
 
         {/* Menu Items */}
