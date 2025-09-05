@@ -20,6 +20,9 @@ import {
 } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import type { Ad } from '../../types/ads';
+import type { UpdateProfileFormData } from '../../utils/validation/auth-schemas';
+// import { useAppSelector } from '../../store/hooks';
+import { updateProfile, getAuth, updateEmail, verifyBeforeUpdateEmail, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 
 /**
  * Firestore Service for database operations.
@@ -213,14 +216,40 @@ export async function checkUsernameAvailability(username: string): Promise<boole
 /**
  * Update user profile
  */
-export async function updateUserProfile(user: any): Promise<void> {
+export async function updateUserProfile(User: UpdateProfileFormData): Promise<void> {
   try {
-    if (!user.uid) return;
-    await updateDoc(doc(db, 'users', user.uid), {
-      profilePicture: user.profilePicture,
-      email: user.email,
-      username: user.username,
-      displayName: user.displayName,
+    // const user = useAppSelector((state) => state.auth.user);
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (!User.uid || !user || !user.email) return;
+
+    // Example of re-authentication if required
+    const credential = EmailAuthProvider.credential(user.email, User.password);
+    reauthenticateWithCredential(user, credential)
+      .then(() => {
+        return verifyBeforeUpdateEmail(user, User.email);
+      })
+      .then(() => {
+        console.log("Verification email sent to new address.");
+        // Inform the user to check their new email for verification
+      })
+      .catch((error) => {
+        console.error("Error updating email:", error);
+      });
+
+
+    // Update user profile with username
+    await updateProfile(user, {
+      displayName: User.username,
+    });
+
+    // Update user document in Firestore
+    await updateDoc(doc(db, 'users', User.uid), {
+      profilePicture: User.profilePicture,
+      email: User.email,
+      username: User.username,
+      displayName: User.displayName,
     });
   } catch (error) {
     console.error('Update user error:', error);

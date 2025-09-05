@@ -27,14 +27,9 @@ export function ProfileScreen() {
   const navigation = useNavigation<any>();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
-  const { User } = useUser(user?.uid || '');
+  const { User } = useUser(user?.uid!);
 
-  const {
-    personAds,
-    isLoadingPersonAds,
-    personAdsError,
-    refreshPersonAds,
-  } = useAds(user?.uid || '');
+  const { personAds, isLoadingPersonAds, personAdsError, refreshPersonAds } = useAds(user?.uid!);
 
   /**
    * Handle logout with confirmation
@@ -129,28 +124,30 @@ export function ProfileScreen() {
                 justifyContent: 'center',
               }}>
                 <Text style={{ fontSize: 18, color: '#000000' }}>
-                  {User?.username.charAt(0).toUpperCase() || '?'}
+                  {user?.username.charAt(0).toUpperCase() || '?'}
                 </Text>
               </View>
             }
             {/* </View> */}
           </View>
           {User?.displayName && <Text style={styles.displayName}>{User?.displayName}</Text>}
-          <Text style={styles.username}>@{User?.username!}</Text>
-          <Text style={styles.email}>{User?.email!}</Text>
-          <TouchableOpacity
-            style={styles.menuItem}
-            onPress={() => {
-              if (User) {
-                navigation.navigate('UpdateProfile', User)
-              }
-            }}
-          >
-            <View style={styles.menuItemLeft}>
-              <Text style={styles.menuItemText}>Update Your Profile</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
-          </TouchableOpacity>
+          <Text style={styles.username}>@{user?.username!}</Text>
+          <Text style={styles.email}>{user?.email!}</Text>
+          <View style={styles.updateButtonContainer}>
+            <TouchableOpacity
+              style={styles.menuItem}
+              onPress={() => {
+                if (User) {
+                  navigation.navigate('UpdateProfile', User)
+                }
+              }}
+            >
+              <View style={styles.menuItemLeft}>
+                <Text style={styles.menuItemText}>Update Your Profile</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* Menu Items */}
@@ -300,7 +297,7 @@ const styles = StyleSheet.create({
     color: 'rgba(0, 0, 0, 0.75)',
     fontSize: 16,
   },
-  menuSection: {
+  updateButtonContainer: {
     marginTop: 20,
     marginHorizontal: 20,
   },

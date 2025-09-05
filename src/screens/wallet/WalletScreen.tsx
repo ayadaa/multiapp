@@ -165,8 +165,8 @@ export function WalletScreen() {
             <Text style={styles.email}>{Math.round((User?.balance ? User.balance * 1.35 : 0) * 1000) / 1000} د.ع</Text>
           </View>
           <View style={styles.balanceSection}>
-            <Text style={styles.username}>@{user?.username || 'username'}</Text>
-            <Text style={styles.email}>{user?.email || 'email@example.com'}</Text>
+            <Text style={styles.username}>@{user?.username!}</Text>
+            <Text style={styles.email}>{user?.email!}</Text>
           </View>
         </View>
         {/* Menu Items */}

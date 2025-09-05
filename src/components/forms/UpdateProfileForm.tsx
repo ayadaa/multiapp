@@ -40,10 +40,12 @@ export function UpdateProfileForm({ User, onSuccess }: UpdateProfileProps) {
     resolver: yupResolver(updateProfileSchema),
     mode: 'onBlur',
     defaultValues: {
+      password: '',
+      uid: User.uid,
       profilePicture: User?.profilePicture,
-      email: User?.email,
-      username: User?.username,
-      displayName: User?.displayName,
+      email: User.email,
+      username: User.username,
+      displayName: User.displayName,
     },
   });
 
@@ -173,6 +175,23 @@ export function UpdateProfileForm({ User, onSuccess }: UpdateProfileProps) {
               error={errors.displayName?.message}
             />
           </View>
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="password"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            label="Password"
+            placeholder="Create a password"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            isPassword
+            autoComplete="new-password"
+            error={errors.password?.message}
+          />
         )}
       />
 

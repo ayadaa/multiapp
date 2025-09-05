@@ -4,8 +4,7 @@ import {
     createDrawerNavigator,
 } from '@react-navigation/drawer';
 import SCREENS from '../screens';
-import { Image, SafeAreaView, Text, View } from 'react-native';
-import IMAGES from '../assets';
+import { Image, Text, View } from 'react-native';
 import { AdsScreen } from '../screens/ads/AdsScreen';
 import { FriendsStackNavigator } from './FriendsStackNavigator';
 import { ProfileScreen } from '../screens/profile/ProfileScreen';
@@ -61,7 +60,7 @@ const renderHeader = () => {
                     justifyContent: 'center',
                 }}>
                     <Text style={{ fontSize: 18, color: '#000000' }}>
-                        {User?.username?.charAt(0).toUpperCase() || '?'}
+                        {user?.username?.charAt(0).toUpperCase() || '?'}
                     </Text>
                 </View>
             }
@@ -73,11 +72,12 @@ const renderHeader = () => {
             <Text
                 style={{ textAlign: 'center', fontSize: 14, fontWeight: 'bold' }}
             >
-                @{User?.username}
+                @{user?.username}
             </Text>
         </View>
     );
 }
+
 const Drawer = createDrawerNavigator();
 
 export const AdsScreenWithDrawer = () => {

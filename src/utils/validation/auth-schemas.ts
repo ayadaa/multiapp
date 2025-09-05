@@ -52,6 +52,17 @@ export const signupSchema = yup.object({
 });
 
 export const updateProfileSchema = yup.object({
+  password: yup
+    .string()
+    .min(8, 'Password must be at least 8 characters')
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+      'Password must contain at least one uppercase letter, one lowercase letter, and one number'
+    )
+    .required('Password is required'),
+  uid: yup
+    .string()
+    .required('uid is required'),
   profilePicture: yup
     .string()
     .required('Profile picture is required'),
