@@ -4,6 +4,7 @@ import { setUser, setError, setLoading, clearError, clearUser } from '../../stor
 import { signInWithEmail, signUpWithEmail, signOutUser, resetPassword } from '../../services/firebase/auth';
 import { checkUsernameAvailability } from '../../services/firebase/firestore.service';
 import type { LoginFormData, SignupFormData, ForgotPasswordFormData } from '../../utils/validation/auth-schemas';
+import { Update } from '@reduxjs/toolkit';
 
 /** 
  * Comprehensive authentication hook for managing user authentication state and operations.

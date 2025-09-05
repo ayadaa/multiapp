@@ -51,6 +51,28 @@ export const signupSchema = yup.object({
     .required('Please confirm your password'),
 });
 
+export const updateProfileSchema = yup.object({
+  profilePicture: yup
+    .string()
+    .required('Profile picture is required'),
+  email: yup
+    .string()
+    .email('Please enter a valid email address')
+    .required('Email is required'),
+  username: yup
+    .string()
+    .min(3, 'Username must be at least 3 characters')
+    .max(20, 'Username cannot exceed 20 characters')
+    .matches(
+      /^[a-zA-Z0-9_]+$/,
+      'Username can only contain letters, numbers, and underscores'
+    )
+    .required('Username is required'),
+  displayName: yup
+    .string()
+    .required('Display name is required'),
+});
+
 export const forgotPasswordSchema = yup.object({
   email: yup
     .string()
@@ -78,5 +100,6 @@ export const changePasswordSchema = yup.object({
 
 export type LoginFormData = yup.InferType<typeof loginSchema>;
 export type SignupFormData = yup.InferType<typeof signupSchema>;
+export type UpdateProfileFormData = yup.InferType<typeof updateProfileSchema>;
 export type ForgotPasswordFormData = yup.InferType<typeof forgotPasswordSchema>;
 export type ChangePasswordFormData = yup.InferType<typeof changePasswordSchema>; 
