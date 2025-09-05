@@ -65,10 +65,15 @@ const renderHeader = () => {
                     </Text>
                 </View>
             }
-            <Text
-                style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}
+            {User?.displayName && <Text
+                style={{ textAlign: 'center', fontSize: 16, fontWeight: 'bold' }}
             >
-                {User?.username}
+                {User?.displayName}
+            </Text>}
+            <Text
+                style={{ textAlign: 'center', fontSize: 14, fontWeight: 'bold' }}
+            >
+                @{User?.username}
             </Text>
         </View>
     );

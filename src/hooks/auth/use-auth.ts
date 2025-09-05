@@ -52,9 +52,11 @@ export function useAuth() {
       }
 
       const user = await signUpWithEmail({
+        profilePicture: data.profilePicture,
         email: data.email,
         password: data.password,
         username: data.username,
+        displayName: data.displayName,
       });
 
       dispatch(setUser(user));

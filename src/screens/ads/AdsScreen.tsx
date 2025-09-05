@@ -14,7 +14,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import Entypo from '@expo/vector-icons/Entypo';
 import { useNavigation } from '@react-navigation/native';
-import { Screen } from '../../components/common/Screen';
+import { Screen } from '../../components/common/Screen2';
 import { useAds } from '../../hooks/ad/use-ads';
 import { useAuth } from '../../hooks/auth/use-auth';
 import type { Ad } from '../../types/ads';

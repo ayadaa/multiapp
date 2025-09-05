@@ -17,9 +17,11 @@ import type { User } from '../../store/slices/auth.slice';
  */
 
 export interface SignupData {
+  profilePicture: string,
   email: string;
   password: string;
   username: string;
+  displayName: string;
 }
 
 export interface LoginData {
@@ -43,7 +45,7 @@ function firebaseUserToAppUser(firebaseUser: FirebaseUser): User {
 /**
  * Sign up a new user with email and password
  */
-export async function signUpWithEmail({ email, password, username }: SignupData): Promise<User> {
+export async function signUpWithEmail({ profilePicture, email, password, username, displayName }: SignupData): Promise<User> {
   try {
     // Create user account
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -57,8 +59,10 @@ export async function signUpWithEmail({ email, password, username }: SignupData)
     // Create user document in Firestore
     await setDoc(doc(db, 'users', firebaseUser.uid), {
       uid: firebaseUser.uid,
+      profilePicture: profilePicture,
       email: firebaseUser.email,
       username: username,
+      displayName: displayName,
       createdAt: serverTimestamp(),
       lastLogin: serverTimestamp(),
     });

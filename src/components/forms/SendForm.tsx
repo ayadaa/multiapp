@@ -199,13 +199,21 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
         )}
 
         {/* Submit Button */}
-        <Button
-          title="Send Assets"
-          onPress={handleSubmit(onSubmit)}
-          loading={isLoading}
-          disabled={!isValid || addressExist === false || amountSufficient === false}
-          style={{ marginTop: 16 }}
-        />
+        <View style={{
+          padding: 16,
+          marginTop: 16,
+          backgroundColor: 'rgba(255, 255, 255, 1)',
+          borderTopWidth: 1,
+          borderTopColor: 'rgba(0, 0, 0, 0.05)',
+        }}>
+          <Button
+            title="Send Assets"
+            onPress={handleSubmit(onSubmit)}
+            loading={isLoading}
+            disabled={!isValid || addressExist === false || amountSufficient === false}
+            // style={{ marginTop: 16 }}
+          />
+        </View>
       </View>
     </View>
   );

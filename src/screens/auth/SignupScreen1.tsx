@@ -22,7 +22,6 @@ import {
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-
 import { useNavigation } from "@react-navigation/native";
 import Button from "../../components/common/Button2";
 

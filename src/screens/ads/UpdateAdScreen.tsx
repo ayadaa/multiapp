@@ -177,7 +177,7 @@ export default function UpdateAdScreen() {
           </TouchableOpacity>
           {/* {image && ( */}
           {(tempImageUri || tempImageUrl) && (
-            <View style={{ alignItems: 'center' }}>
+            <View style={{ alignItems: 'center', marginVertical: 2 }}>
               <Image
                 source={{ uri: tempImageUri || tempImageUrl || '' }}
                 style={{ width: 200, height: 200, alignItems: 'center' }}
@@ -273,13 +273,13 @@ export default function UpdateAdScreen() {
             </Picker>
           </View>
         </View>
-        {/* Create Ad Button */}
+        {/* Update Ad Button */}
         <View style={{ marginTop: 16, paddingHorizontal: 16, paddingVertical: 12 }}>
           <Button
             title={isLoading ? 'Loading...' : isUpdateing ? 'Updateing...' : 'Update Ad'}
             onPress={uploadImage}
             disabled={isUpdateing || isLoading || !adTitle.trim() || !adDescription.trim() || !typeName.trim() || !className.trim() || !cityName.trim() || !adPrice}
-            style={styles.createButton}
+            style={styles.updateButton}
           />
         </View>
       </ScrollView>
@@ -313,9 +313,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(0, 0, 0, 0.2)',
   },
-  createButton: {
-    backgroundColor: '#0084FF',
-    paddingVertical: 16,
+  updateButton: {
+    // backgroundColor: '#0084FF',
+    // paddingVertical: 16,
   },
   pickerContainer: {
     borderWidth: 1,

@@ -135,9 +135,9 @@ export function ProfileScreen() {
             }
             {/* </View> */}
           </View>
-
-          <Text style={styles.username}>@{user?.username || 'username'}</Text>
-          <Text style={styles.email}>{user?.email || 'email@example.com'}</Text>
+          {User?.displayName && <Text style={styles.displayName}>{User?.displayName}</Text>}
+          <Text style={styles.username}>@{User?.username!}</Text>
+          <Text style={styles.email}>{User?.email!}</Text>
         </View>
 
         {/* Menu Items */}
@@ -271,11 +271,17 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'rgba(0, 0, 0, 0.05)',
   },
-  username: {
+  displayName: {
     color: 'Black',
     fontSize: 24,
     fontWeight: '600',
-    marginBottom: 4,
+    // marginBottom: 4,
+  },
+  username: {
+    color: 'Black',
+    fontSize: 20,
+    fontWeight: '600',
+    // marginBottom: 4,
   },
   email: {
     color: 'rgba(0, 0, 0, 0.75)',

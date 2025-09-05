@@ -447,7 +447,8 @@ export function MessageBubble({ message, isCurrentUser, chatType = 'individual' 
         style={{
           backgroundColor: isCurrentUser
             ? 'rgba(0, 132, 255, 0.8)' // Blue for sent messages
-            : 'rgba(0, 0, 0, 0.06)', // Glass effect for received
+            // : 'rgba(0, 0, 0, 0.06)', // Glass effect for received
+            : 'rgba(255, 255, 255, 0.7)', // Glass effect for received
           borderRadius: 18,
           // paddingHorizontal: 16,
           // paddingVertical: 10,
@@ -456,7 +457,8 @@ export function MessageBubble({ message, isCurrentUser, chatType = 'individual' 
           paddingHorizontal: 32,
           paddingVertical: 20,
           borderWidth: isCurrentUser ? 0 : 1,
-          borderColor: isCurrentUser ? 'transparent' : 'rgba(0, 0, 0, 0.05)',
+          // borderColor: isCurrentUser ? 'transparent' : 'rgba(0, 0, 0, 0.05)',
+          borderColor: isCurrentUser ? 'transparent' : 'rgba(255, 255, 255, 0.6)',
           // Shadow for depth
           shadowColor: '#000',
           shadowOffset: { width: 0, height: 2 },

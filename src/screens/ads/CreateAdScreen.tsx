@@ -166,7 +166,7 @@ export default function CreateAdScreen() {
           </TouchableOpacity>
           {/* {image && ( */}
           {tempImageUri && (
-            <View style={{ alignItems: 'center' }}>
+            <View style={{ alignItems: 'center', marginVertical: 2 }}>
               <Image
                 source={{ uri: tempImageUri }}
                 style={{ width: 200, height: 200, alignItems: 'center' }}

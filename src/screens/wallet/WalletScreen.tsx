@@ -403,7 +403,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.03)',
     marginVertical: 2,
     borderRadius: 16,
-    height: 40,
+    height: 50,
   },
   errorContainer: {
     backgroundColor: 'rgba(255, 59, 48, 0.2)',

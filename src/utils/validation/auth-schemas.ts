@@ -18,6 +18,9 @@ export const loginSchema = yup.object({
 });
 
 export const signupSchema = yup.object({
+  profilePicture: yup
+    .string()
+    .required('Profile picture is required'),
   email: yup
     .string()
     .email('Please enter a valid email address')
@@ -31,6 +34,9 @@ export const signupSchema = yup.object({
       'Username can only contain letters, numbers, and underscores'
     )
     .required('Username is required'),
+  displayName: yup
+    .string()
+    .required('Display name is required'),
   password: yup
     .string()
     .min(8, 'Password must be at least 8 characters')
