@@ -8,6 +8,7 @@ const SCREENS = {
     Wallet: 'Wallet',
     Profile: 'Profile',
     IncomingCall: 'IncomingCall',
+    Referral: 'Referral',
 }
 
 export default SCREENS;

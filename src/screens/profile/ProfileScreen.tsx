@@ -147,6 +147,19 @@ export function ProfileScreen() {
               </View>
               <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
             </TouchableOpacity>
+            {/* <TouchableOpacity
+              style={styles.menuItem}
+              onPress={() => {
+                if (User) {
+                  navigation.navigate('Referral')
+                }
+              }}
+            >
+              <View style={styles.menuItemLeft}>
+                <Text style={styles.menuItemText}>Referral program</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
+            </TouchableOpacity> */}
           </View>
         </View>
 

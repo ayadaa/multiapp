@@ -4,6 +4,7 @@ import { LoginScreen } from '../screens/auth/LoginScreen';
 import { SignupScreen } from '../screens/auth/SignupScreen';
 import { ForgotPasswordScreen } from '../screens/auth/ForgotPasswordScreen';
 import { AuthStackParamList } from '../types/navigation';
+import QRScannerScreen from '../screens/wallet/QRCodeScannerScreen';
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 
@@ -22,25 +23,32 @@ export function AuthNavigator() {
       }}
       initialRouteName="Login"
     >
-      <Stack.Screen 
-        name="Login" 
+      <Stack.Screen
+        name="Login"
         component={LoginScreen}
         options={{
           gestureDirection: 'horizontal',
         }}
       />
-      <Stack.Screen 
-        name="Signup" 
+      <Stack.Screen
+        name="Signup"
         component={SignupScreen}
         options={{
           gestureDirection: 'horizontal',
         }}
       />
-      <Stack.Screen 
-        name="ForgotPassword" 
+      <Stack.Screen
+        name="ForgotPassword"
         component={ForgotPasswordScreen}
         options={{
           gestureDirection: 'horizontal',
+        }}
+      />
+      <Stack.Screen
+        name="Scan"
+        component={QRScannerScreen}
+        options={{
+          headerShown: true,
         }}
       />
     </Stack.Navigator>

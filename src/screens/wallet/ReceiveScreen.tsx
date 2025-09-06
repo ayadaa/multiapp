@@ -21,7 +21,7 @@ export function ReceiveScreen() {
     <Screen backgroundColor="#FFFFFF" statusBarStyle="dark-content" keyboardAvoidingView={true} style={styles.container}>
       <View style={styles.content}>
         <Text style={{ fontSize: 14 }}>Your Wallet address:</Text>
-        <Text style={styles.address}>{user?.uid}</Text>
+        <Text selectable={true} style={styles.address}>{user?.uid}</Text>
         <QRCode
           // value="tteeee"
           value={user?.uid}

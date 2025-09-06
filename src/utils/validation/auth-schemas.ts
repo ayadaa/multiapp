@@ -21,6 +21,9 @@ export const signupSchema = yup.object({
   profilePicture: yup
     .string()
     .required('Profile picture is required'),
+  referral: yup
+    .string()
+    .required('Referral is required'),
   email: yup
     .string()
     .email('Please enter a valid email address')

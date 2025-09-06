@@ -13,6 +13,7 @@ export type AuthStackParamList = {
   Login: undefined;
   Signup: undefined;
   ForgotPassword: undefined;
+  Scan: undefined;
 };
 
 export type CameraStackParamList = {
@@ -80,6 +81,7 @@ export type AppStackParamList = {
   Friends: undefined;
   Profile: undefined;
   UpdateProfile: UserProfile;
+  Referral: undefined;
   IncomingCall: { caller: UserProfile, callType: string };
   Call: {
     user: UserProfile;

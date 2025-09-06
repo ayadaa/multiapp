@@ -7,10 +7,12 @@ import { Button } from '../common/Button';
 import { useAuth } from '../../hooks/auth/use-auth';
 import { signupSchema, type SignupFormData } from '../../utils/validation/auth-schemas';
 import { launchImagePicker, openCamera, uploadImageAsync } from "../../screens/ads/imagePickerHelper";
+import { useWallet } from '../../hooks/wallet/use-wallet';
 
 interface SignupFormProps {
   onSuccess?: () => void;
   onNavigateToLogin?: () => void;
+  qrData?: any;
 }
 
 /**
@@ -18,9 +20,9 @@ interface SignupFormProps {
  * Uses React Hook Form for form state management and Yup for validation.
  * Integrates with the authentication hook for signup operations.
  */
-export function SignupForm({ onSuccess, onNavigateToLogin }: SignupFormProps) {
+export function SignupForm({ onSuccess, onNavigateToLogin, qrData }: SignupFormProps) {
   const { signup, isLoading, error, clearAuthError, checkUsername, usernameCheckLoading, usernameAvailable } = useAuth();
-
+  const { checkAddress, addressCheckLoading, addressExist } = useWallet('');
   const {
     control,
     handleSubmit,
@@ -32,6 +34,7 @@ export function SignupForm({ onSuccess, onNavigateToLogin }: SignupFormProps) {
     mode: 'onBlur',
     defaultValues: {
       profilePicture: '',
+      referral: '',
       email: '',
       username: '',
       displayName: '',
@@ -70,9 +73,28 @@ export function SignupForm({ onSuccess, onNavigateToLogin }: SignupFormProps) {
     if (usernameAvailable === true) return { color: '#34C759', text: 'Available' };
     if (usernameAvailable === false) return { color: '#FF3B30', text: 'Taken' };
     return null;
-  };
-
+  }
   const usernameStatus = getUsernameStatus();
+
+  const watchedReferral = watch('referral');
+  const getReferralStatus = () => {
+    if (!watchedReferral || watchedReferral.length < 3) return null;
+    if (addressCheckLoading) return { color: '#007AFF', text: 'Checking...' };
+    if (addressExist === true) return { color: '#34C759', text: 'Exist' };
+    if (addressExist === false) return { color: '#FF3B30', text: 'Not exist' };
+    return null;
+  }
+  const referralStatus = getReferralStatus();
+  // Check address availability when it changes
+  useEffect(() => {
+    if (watchedReferral && watchedReferral.length >= 3) {
+      const timeoutId = setTimeout(() => {
+        checkAddress(watchedReferral);
+      }, 500); // Debounce for 500ms
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [watchedReferral, checkAddress]);
 
   const pickImage = React.useCallback(async (onChange: any) => {
     try {
@@ -103,6 +125,35 @@ export function SignupForm({ onSuccess, onNavigateToLogin }: SignupFormProps) {
                   <Text style={styles.avatarPlaceholderText}>Pick Image</Text>
                 )}
               </TouchableOpacity>
+            </View>
+          )}
+        />
+
+        <Controller
+          control={control}
+          name="referral"
+          render={({ field: { onChange, onBlur, value } }) => (
+            <View>
+              <Input
+                label="Referral"
+                placeholder="Place an referral code"
+                value={value || qrData}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                isAddress
+                autoCapitalize="none"
+                error={errors.referral?.message}
+              />
+              {referralStatus && (
+                <Text style={{
+                  color: referralStatus.color,
+                  fontSize: 12,
+                  marginTop: 4,
+                  marginLeft: 4
+                }}>
+                  {referralStatus.text}
+                </Text>
+              )}
             </View>
           )}
         />

@@ -15,6 +15,8 @@ import { useAppSelector } from './../store/hooks';
 import { useUser } from './../hooks/user/use-user';
 import { Ionicons } from '@expo/vector-icons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import { ReferralScreen } from '../screens/profile/ReferralScreen';
+// import Ionicons from '@expo/vector-icons/Ionicons';
 
 const renderHeader = () => {
     const user = useAppSelector((state) => state.auth.user);
@@ -130,6 +132,19 @@ export const AdsScreenWithDrawer = () => {
                             activeTintColor={'#FFF'}
                             style={{ marginBottom: 2 }}
                         />
+                        <DrawerItem
+                            label={'Referral'}
+                            icon={() => (<Ionicons name="person-add" size={20} color="rgba(0, 0, 0, 0.8)" />)}
+                            onPress={() => {
+                                props.navigation.navigate(SCREENS.Referral);
+                            }}
+                            focused={focused === SCREENS.Referral}
+                            activeBackgroundColor={'rgba(0, 132, 255, 0.8)'}
+                            inactiveBackgroundColor={'lightgray'}
+                            inactiveTintColor={'#000'}
+                            activeTintColor={'#FFF'}
+                            style={{ marginBottom: 2 }}
+                        />
                     </DrawerContentScrollView>
                 );
             }}>
@@ -143,6 +158,7 @@ export const AdsScreenWithDrawer = () => {
             />
             <Drawer.Screen name={SCREENS.Profile} component={ProfileScreen} options={{ headerShown: false }} />
             <Drawer.Screen name={SCREENS.Friends} component={FriendsStackNavigator} options={{ headerShown: false }} />
+            <Drawer.Screen name={SCREENS.Referral} component={ReferralScreen} options={{ headerShown: false }} />
         </Drawer.Navigator>
     );
 };
@@ -183,6 +199,19 @@ export const ChatScreenWithDrawer = () => {
                             activeTintColor={'#FFF'}
                             style={{ marginBottom: 2 }}
                         />
+                        <DrawerItem
+                            label={'Referral'}
+                            icon={() => (<Ionicons name="person-add" size={20} color="rgba(0, 0, 0, 0.8)" />)}
+                            onPress={() => {
+                                props.navigation.navigate(SCREENS.Referral);
+                            }}
+                            focused={focused === SCREENS.Referral}
+                            activeBackgroundColor={'rgba(0, 132, 255, 0.8)'}
+                            inactiveBackgroundColor={'lightgray'}
+                            inactiveTintColor={'#000'}
+                            activeTintColor={'#FFF'}
+                            style={{ marginBottom: 2 }}
+                        />
                     </DrawerContentScrollView>
                 );
             }}>
@@ -196,6 +225,7 @@ export const ChatScreenWithDrawer = () => {
             />
             <Drawer.Screen name={SCREENS.Profile} component={ProfileScreen} options={{ headerShown: false }} />
             <Drawer.Screen name={SCREENS.Friends} component={FriendsStackNavigator} options={{ headerShown: false }} />
+            <Drawer.Screen name={SCREENS.Referral} component={ReferralScreen} options={{ headerShown: false }} />
         </Drawer.Navigator>
     );
 };
@@ -236,6 +266,19 @@ export const P2PAdsScreenWithDrawer = () => {
                             activeTintColor={'#FFF'}
                             style={{ marginBottom: 2 }}
                         />
+                        <DrawerItem
+                            label={'Referral'}
+                            icon={() => (<Ionicons name="person-add" size={20} color="rgba(0, 0, 0, 0.8)" />)}
+                            onPress={() => {
+                                props.navigation.navigate(SCREENS.Referral);
+                            }}
+                            focused={focused === SCREENS.Referral}
+                            activeBackgroundColor={'rgba(0, 132, 255, 0.8)'}
+                            inactiveBackgroundColor={'lightgray'}
+                            inactiveTintColor={'#000'}
+                            activeTintColor={'#FFF'}
+                            style={{ marginBottom: 2 }}
+                        />
                     </DrawerContentScrollView>
                 );
             }}>
@@ -249,6 +292,7 @@ export const P2PAdsScreenWithDrawer = () => {
             />
             <Drawer.Screen name={SCREENS.Profile} component={ProfileScreen} options={{ headerShown: false }} />
             <Drawer.Screen name={SCREENS.Friends} component={FriendsStackNavigator} options={{ headerShown: false }} />
+            <Drawer.Screen name={SCREENS.Referral} component={ReferralScreen} options={{ headerShown: false }} />
         </Drawer.Navigator>
     );
 };
@@ -289,6 +333,19 @@ export const WalletScreenWithDrawer = () => {
                             activeTintColor={'#FFF'}
                             style={{ marginBottom: 2 }}
                         />
+                        <DrawerItem
+                            label={'Referral'}
+                            icon={() => (<Ionicons name="person-add" size={20} color="rgba(0, 0, 0, 0.8)" />)}
+                            onPress={() => {
+                                props.navigation.navigate(SCREENS.Referral);
+                            }}
+                            focused={focused === SCREENS.Referral}
+                            activeBackgroundColor={'rgba(0, 132, 255, 0.8)'}
+                            inactiveBackgroundColor={'lightgray'}
+                            inactiveTintColor={'#000'}
+                            activeTintColor={'#FFF'}
+                            style={{ marginBottom: 2 }}
+                        />
                     </DrawerContentScrollView>
                 );
             }}>
@@ -302,6 +359,7 @@ export const WalletScreenWithDrawer = () => {
             />
             <Drawer.Screen name={SCREENS.Profile} component={ProfileScreen} options={{ headerShown: false }} />
             <Drawer.Screen name={SCREENS.Friends} component={FriendsStackNavigator} options={{ headerShown: false }} />
+            <Drawer.Screen name={SCREENS.Referral} component={ReferralScreen} options={{ headerShown: false }} />
         </Drawer.Navigator>
     );
-};
+}

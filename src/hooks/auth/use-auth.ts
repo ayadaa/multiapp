@@ -54,6 +54,7 @@ export function useAuth() {
 
       const user = await signUpWithEmail({
         profilePicture: data.profilePicture,
+        referral: data.referral,
         email: data.email,
         password: data.password,
         username: data.username,

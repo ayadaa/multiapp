@@ -30,6 +30,7 @@ import { FriendsStackNavigator } from './FriendsStackNavigator';
 import SearchScreen from '../screens/search/SearchScreen';
 import { ProfileScreen } from '../screens/profile/ProfileScreen';
 import { UpdateProfileScreen } from '../screens/profile/UpdateProfileScreen';
+import { ReferralScreen } from '../screens/profile/ReferralScreen';
 
 const Stack = createStackNavigator<AppStackParamList>();
 
@@ -229,6 +230,14 @@ export default function AppStackNavigator() {
           headerShown: true,
           presentation: 'modal',
           gestureEnabled: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="Referral"
+        component={ReferralScreen}
+        options={{
+          headerShown: true,
         }}
       />
     </Stack.Navigator>

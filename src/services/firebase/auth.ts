@@ -18,6 +18,7 @@ import type { User } from '../../store/slices/auth.slice';
 
 export interface SignupData {
   profilePicture: string,
+  referral: string,
   email: string;
   password: string;
   username: string;
@@ -45,7 +46,7 @@ function firebaseUserToAppUser(firebaseUser: FirebaseUser): User {
 /**
  * Sign up a new user with email and password
  */
-export async function signUpWithEmail({ profilePicture, email, password, username, displayName }: SignupData): Promise<User> {
+export async function signUpWithEmail({ profilePicture, referral, email, password, username, displayName }: SignupData): Promise<User> {
   try {
     // Create user account
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -60,6 +61,7 @@ export async function signUpWithEmail({ profilePicture, email, password, usernam
     await setDoc(doc(db, 'users', firebaseUser.uid), {
       uid: firebaseUser.uid,
       profilePicture: profilePicture,
+      referral: referral,
       email: firebaseUser.email,
       username: username,
       displayName: displayName,
