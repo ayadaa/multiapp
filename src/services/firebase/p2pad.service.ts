@@ -20,9 +20,9 @@ const completeP2PRequestCallable = Functions.httpsCallable(functions, 'completeP
 const approveP2PRequestCallable = Functions.httpsCallable(functions, 'approveP2PRequestCall');
 const cancelP2PRequestCallable = Functions.httpsCallable(functions, 'cancelP2PRequestCall');
 const rejectP2PRequestCallable = Functions.httpsCallable(functions, 'rejectP2PRequestCall');
+const getP2PRequestsCallable: any = Functions.httpsCallable(functions, 'getP2PRequestsCall');
 
 // createP2PPaymentCall
-// export async function createP2PPayment(uid: string, creatorUsername: string, amount: number, paymentMethod: string, price: number) {
 export async function createP2PPayment(uid: string, amount: number, paymentMethod: string, price: number) {
     try {
         const result = await createP2PPaymentCallable({ uid: uid, amount: amount, paymentMethod: paymentMethod, price: price });
@@ -106,7 +106,7 @@ export async function rejectP2PRequest(uid: string, p2pRequestId: string) {
     }
 }
 
-// Get p2p ads
+// Get p2p ads 
 export async function getP2PAds(): Promise<P2PAd[]> {
     try {
         const p2pAdsQuery = query(
@@ -175,7 +175,8 @@ export async function getP2PRequests(uId: string): Promise<P2PRequest[]> {
 
 // Get p2p requests with users
 export async function getP2PRequestsWithUsers(uId: string): Promise<(P2PRequest & UserProfile)[]> {
-    const p2pRequests = await getP2PRequests(uId);
+    // const p2pRequests = await getP2PRequests(uId);
+    const p2pRequests: P2PRequest[] = await getP2PRequestsCallable(uId);
     const p2pRequestsWithUsers = <(P2PRequest & UserProfile)[]>[];
     for (let index = 0; index < p2pRequests.length; index++) {
         const request = p2pRequests[index];

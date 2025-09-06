@@ -122,39 +122,27 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
         control={control}
         name="address"
         render={({ field: { onChange, onBlur, value } }) => (
-          <View
-            style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}
-          >
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'column'
-              }}
-            >
-              <Input
-                label="Address"
-                placeholder="Place an address"
-                value={value || qrData}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                isAddress
-                autoCapitalize="none"
-                error={errors.address?.message}
-              />
-              {addressStatus && (
-                <Text style={{
-                  color: addressStatus.color,
-                  fontSize: 12,
-                  marginTop: 4,
-                  marginLeft: 4
-                }}>
-                  {addressStatus.text}
-                </Text>
-              )}
-            </View>
-            {/* <AntDesign.Button name="scan1" size={24} color="black" onPress={navigateToScan}>
-                scan
-              </AntDesign.Button> */}
+          <View>
+            <Input
+              label="Address"
+              placeholder="Place an address"
+              value={value || qrData}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              isAddress
+              autoCapitalize="none"
+              error={errors.address?.message}
+            />
+            {addressStatus && (
+              <Text style={{
+                color: addressStatus.color,
+                fontSize: 12,
+                marginTop: 4,
+                marginLeft: 4
+              }}>
+                {addressStatus.text}
+              </Text>
+            )}
           </View>
         )}
       />

@@ -1,20 +1,22 @@
 import * as functions from "firebase-functions";
 // import * as v2 from "firebase-functions/v2";
 import * as admin from "firebase-admin";
-import { Timestamp } from "firebase-admin/firestore";
+import { Timestamp, Filter } from "firebase-admin/firestore";
+// const { initializeApp } = require('firebase-admin/app');
+// import { Timestamp, getFirestore, Filter } from "firebase-admin/firestore";
 // import type { UserProfile } from "../types/common";
-
 // type Indexable = {[key: string]: any}
 
 admin.initializeApp();
-
 const db = admin.firestore();
+// initializeApp();
+// const db = getFirestore();
 
 const miningSpeedOffers = {
-    slow: {price: 100000, speed: 250},
-    medium: {price: 500000, speed: 1300},
-    fast: {price: 2000000, speed: 5350},
-    veryFast: {price: 5000000, speed: 13700},
+    slow: { price: 100000, speed: 250 },
+    medium: { price: 500000, speed: 1300 },
+    fast: { price: 2000000, speed: 5350 },
+    veryFast: { price: 5000000, speed: 13700 },
 }
 
 const P2PPaymentMethods = {
@@ -26,7 +28,23 @@ const P2PPaymentMethods = {
     fastPay: 'fastPay',
 }
 
-export const collectionCall = functions.https.onCall(async (data: {uId: string}, context: any) => {
+interface P2PRequest {
+    id: string;
+    amount: number;
+    createdAt: Timestamp;
+    createdBy: string;
+    expiresAt: Timestamp;
+    isApproved: boolean;
+    isCanceled: boolean;
+    isCompleted: boolean;
+    isExpired: boolean;
+    isRejected: boolean;
+    p2pCreatedBy: string;
+    p2pPaymentId: string;
+    price: string;
+}
+
+export const collectionCall = functions.https.onCall(async (data: { uId: string }, context: any) => {
     try {
         // const uId = request.params[0].replace('/', '');
         const uId = data.uId
@@ -39,13 +57,13 @@ export const collectionCall = functions.https.onCall(async (data: {uId: string},
         const referral = doc.data()?.referral
         const docReferralRef = db.collection('users').doc(`${referral}`);
         const docReferral = await docReferralRef.get();
-        
+
         if (doc.exists) {
             const date = new Date()
             // const miningEndTime = (doc.data()?.miningEndTime as Timestamp).toDate() || date;
             const miningEndTime = (doc.data()?.miningEndTime || Timestamp.fromDate(date)).toDate() as Date;
             console.log('miningEndTime', miningEndTime);
-            const condition = date.getTime() >= miningEndTime.getTime(); 
+            const condition = date.getTime() >= miningEndTime.getTime();
             if (condition) {
                 // get balance and mining speed
                 const balance = doc.data()?.balance || 0;
@@ -65,10 +83,10 @@ export const collectionCall = functions.https.onCall(async (data: {uId: string},
                 });
                 //add mining program transaction
                 docTransactionsRef.add({
-                sender: 'miningProgram',
-                receiver: uId,
-                amount: miningSpeed,
-                createdAt: Timestamp.now(),
+                    sender: 'miningProgram',
+                    receiver: uId,
+                    amount: miningSpeed,
+                    createdAt: Timestamp.now(),
                 });
 
                 //referral program
@@ -110,7 +128,7 @@ export const collectionCall = functions.https.onCall(async (data: {uId: string},
     }
 });
 
-export const sendAssetsCall = functions.https.onCall(async (data: {sender: string, receiver: string, amount: number}, context: any) => { //sender (uid) receiver (uid)
+export const sendAssetsCall = functions.https.onCall(async (data: { sender: string, receiver: string, amount: number }, context: any) => { //sender (uid) receiver (uid)
     try {
         // sender
         const senderId = data.sender
@@ -127,7 +145,7 @@ export const sendAssetsCall = functions.https.onCall(async (data: {sender: strin
         const docTransactionsRef = db.collection('transactions');
 
         // const receiverBalance = docReceiver.docs[0].data()?.balance || 0;
-        
+
         // if (docSender.exists && docReceiver.size > 0 && senderBalance >= data.amount) {
         if (docSender.exists && docReceiver.exists && senderBalance >= data.amount) {
             const receiverBalance = (docReceiver.data()?.balance) as number || 0;
@@ -162,7 +180,7 @@ export const sendAssetsCall = functions.https.onCall(async (data: {sender: strin
     }
 });
 
-export const updateMiningSpeedCall = functions.https.onCall(async (data: {uid: string, offer: string}, context: any) => { //sender (uid) receiver (uid)
+export const updateMiningSpeedCall = functions.https.onCall(async (data: { uid: string, offer: string }, context: any) => { //sender (uid) receiver (uid)
     try {
         const uId = data.uid
         const docRef = db.collection('users').doc(`${uId}`);
@@ -170,7 +188,7 @@ export const updateMiningSpeedCall = functions.https.onCall(async (data: {uid: s
         const balance = doc.data()?.balance || 0;
         const miningSpeedOffer = miningSpeedOffers[data.offer as 'slow' || 'fast' || 'medium' || 'veryFast'];
         const price = miningSpeedOffer.price;
-        
+
         //receiver
         const receiverId = '4pHLmWkpasdZzunuZHrmhFHlsPJ3' // admin id
         const docReceiverRef = db.collection('users').doc(`${receiverId}`);
@@ -215,7 +233,7 @@ export const updateMiningSpeedCall = functions.https.onCall(async (data: {uid: s
 });
 
 // export const createP2PPaymentCall = functions.https.onCall(async (data: {uid: string, creatorUsername: string, amount: number, paymentMethod: string, price: string}, context: any) => { //sender (uid) receiver (uid)
-export const createP2PPaymentCall = functions.https.onCall(async (data: {uid: string, amount: number, paymentMethod: string, price: string}, context: any) => { //sender (uid) receiver (uid)
+export const createP2PPaymentCall = functions.https.onCall(async (data: { uid: string, amount: number, paymentMethod: string, price: string }, context: any) => { //sender (uid) receiver (uid)
     try {
         const uId = data.uid
         const docRef = db.collection('users').doc(`${uId}`);
@@ -270,7 +288,7 @@ export const createP2PPaymentCall = functions.https.onCall(async (data: {uid: st
     }
 });
 
-export const deactiveateP2PPaymentCall = functions.https.onCall(async (data: {uid: string, p2pPaymentId: string}, context: any) => { //sender (uid) receiver (uid)
+export const deactiveateP2PPaymentCall = functions.https.onCall(async (data: { uid: string, p2pPaymentId: string }, context: any) => { //sender (uid) receiver (uid)
     try {
         const uId = data.uid
         const docRef = db.collection('users').doc(`${uId}`);
@@ -301,7 +319,7 @@ export const deactiveateP2PPaymentCall = functions.https.onCall(async (data: {ui
     }
 });
 
-export const createP2PRequestCall = functions.https.onCall(async (data: {uid: string, p2pPaymentId: string, amount: number}, context: any) => { //sender (uid) receiver (uid)
+export const createP2PRequestCall = functions.https.onCall(async (data: { uid: string, p2pPaymentId: string, amount: number }, context: any) => { //sender (uid) receiver (uid)
     try {
         const uId = data.uid;
         const docRef = db.collection('users').doc(`${uId}`);
@@ -355,7 +373,7 @@ export const createP2PRequestCall = functions.https.onCall(async (data: {uid: st
     }
 });
 
-export const completeP2PRequestCall = functions.https.onCall(async (data: {uid: string, p2pRequestId: string, p2pPicture: string}, context: any) => { //sender (uid) receiver (uid)
+export const completeP2PRequestCall = functions.https.onCall(async (data: { uid: string, p2pRequestId: string, p2pPicture: string }, context: any) => { //sender (uid) receiver (uid)
     try {
         const uId = data.uid;
         const docRef = db.collection('users').doc(`${uId}`);
@@ -391,7 +409,7 @@ export const completeP2PRequestCall = functions.https.onCall(async (data: {uid: 
     }
 });
 
-export const approveP2PRequestCall = functions.https.onCall(async (data: {uid: string, p2pRequestId: string}, context: any) => { //sender (uid) receiver (uid)
+export const approveP2PRequestCall = functions.https.onCall(async (data: { uid: string, p2pRequestId: string }, context: any) => { //sender (uid) receiver (uid)
     try {
         const uId = data.uid;
         const docRef = db.collection('users').doc(`${uId}`);
@@ -441,7 +459,7 @@ export const approveP2PRequestCall = functions.https.onCall(async (data: {uid: s
             docRef.update({
                 approvedRequests: doc.data()?.approvedRequests - (-1),
             });
-            
+
             //add transaction
             docTransactionsRef.add({
                 // sender: senderId,
@@ -467,7 +485,7 @@ export const approveP2PRequestCall = functions.https.onCall(async (data: {uid: s
     }
 });
 
-export const cancelP2PRequestCall = functions.https.onCall(async (data: {uid: string, p2pRequestId: string}, context: any) => { //sender (uid) receiver (uid)
+export const cancelP2PRequestCall = functions.https.onCall(async (data: { uid: string, p2pRequestId: string }, context: any) => { //sender (uid) receiver (uid)
     try {
         const uId = data.uid;
         const docRef = db.collection('users').doc(`${uId}`);
@@ -501,7 +519,7 @@ export const cancelP2PRequestCall = functions.https.onCall(async (data: {uid: st
     }
 });
 
-export const rejectP2PRequestCall = functions.https.onCall(async (data: {uid: string, p2pRequestId: string}, context: any) => { //sender (uid) receiver (uid)
+export const rejectP2PRequestCall = functions.https.onCall(async (data: { uid: string, p2pRequestId: string }, context: any) => { //sender (uid) receiver (uid)
     try {
         const uId = data.uid;
         const docRef = db.collection('users').doc(`${uId}`);
@@ -528,6 +546,39 @@ export const rejectP2PRequestCall = functions.https.onCall(async (data: {uid: st
             return 'You can not update this doc!';
         } else {
             return 'This request is expired!';
+        }
+    } catch (error) {
+        console.log(error);
+        return 'Error retrieving data';
+    }
+});
+
+export const getP2PRequestsCall = functions.https.onCall(async (data: { uid: string }, context: any) => { //sender (uid) receiver (uid)
+    try {
+        const uId = data.uid;
+        const docRef = db.collection('users').doc(`${uId}`);
+        const udoc = await docRef.get();
+
+        const p2pRequestsRef = await db.collection('p2pRequests');
+        const p2pRequestsQuery = p2pRequestsRef
+            .where('isActive', '==', true)
+            .where(Filter.or(
+                p2pRequestsRef.where('createdBy', '==', uId),
+                p2pRequestsRef.where('p2pCreatedBy', '==', uId)
+            ));
+        // p2pRequestsSnapshot
+        await p2pRequestsQuery.get().then((querySnapshot) => {
+            const p2pRequests: P2PRequest[] = [];
+            querySnapshot.forEach((doc) => {
+                const p2pRequest = doc.data() as P2PRequest;
+                p2pRequests.push(p2pRequest);
+            });
+            return p2pRequests;
+        });
+        if (udoc.exists) {
+            return 'The p2p requests has been successfully retrieved!';
+        } else {
+            return 'User not found!';
         }
     } catch (error) {
         console.log(error);

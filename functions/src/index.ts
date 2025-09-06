@@ -40,7 +40,8 @@ export {
   completeP2PRequestCall,
   approveP2PRequestCall,
   cancelP2PRequestCall,
-  rejectP2PRequestCall
+  rejectP2PRequestCall,
+  getP2PRequestsCall
 } from "./functions/app.functions";
 
 
