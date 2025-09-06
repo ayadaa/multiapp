@@ -571,7 +571,18 @@ export const getP2PRequestsCall = functions.https.onCall(async (data: { uid: str
             const p2pRequests: P2PRequest[] = [];
             querySnapshot.forEach((doc) => {
                 const p2pRequest = doc.data() as P2PRequest;
-                p2pRequests.push(p2pRequest);
+                const now = Timestamp.now();
+                if (p2pRequest.expiresAt <= now) {
+                    const docP2PRequestsRef = db.collection('p2pRequests').doc(`${p2pRequest.id}`);
+                    //update the P2P request
+                    docP2PRequestsRef.update({
+                        isExpired: true,
+                        isActive: false,
+                    });
+                }
+                else {
+                    p2pRequests.push(p2pRequest);
+                }
             });
             return p2pRequests;
         });
