@@ -176,7 +176,7 @@ export async function getP2PRequests(uId: string): Promise<P2PRequest[]> {
 // Get p2p requests with users
 export async function getP2PRequestsWithUsers(uId: string): Promise<(P2PRequest & UserProfile)[]> {
     // const p2pRequests = await getP2PRequests(uId);
-    const p2pRequests: P2PRequest[] = await getP2PRequestsCallable(uId);
+    const p2pRequests: P2PRequest[] = await getP2PRequestsCallable({ uid: uId });
     const p2pRequestsWithUsers = <(P2PRequest & UserProfile)[]>[];
     for (let index = 0; index < p2pRequests.length; index++) {
         const request = p2pRequests[index];
