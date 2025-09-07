@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "multiapp",
-    "slug": "multiapp",
+    "name": "numostore",
+    "slug": "numostore",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,10 +15,10 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSCameraUsageDescription": "multiapp needs access to the camera to take photos and videos for math snaps.",
-        "NSMicrophoneUsageDescription": "multiapp needs access to the microphone to record videos with audio."
+        "NSCameraUsageDescription": "numostore needs access to the camera to take photos and videos for math snaps.",
+        "NSMicrophoneUsageDescription": "numostore needs access to the microphone to record videos with audio."
       },
-      "bundleIdentifier": "com.ayadali.multiapp",
+      "bundleIdentifier": "com.ayadali.numostore",
       "bitcode": false
     },
     "android": {
@@ -39,7 +39,7 @@
         "android.permission.BLUETOOTH"
       ],
       "edgeToEdgeEnabled": true,
-      "package": "com.ayadali.multiapp"
+      "package": "com.ayadali.numostore"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -57,11 +57,6 @@
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ]
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "d8f01da3-4bc7-4282-8b61-b922fb6e154f"
-      }
-    }
+    ]
   }
 }
