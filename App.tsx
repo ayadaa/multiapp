@@ -27,7 +27,7 @@ export default function App() {
   // }, []);
   return (
     <Provider store={store}>
-      <StatusBar style="light" backgroundColor="#FFFFFF" />
+      <StatusBar style="dark" backgroundColor="#FFFFFF" />
       <GestureHandlerRootView style={{ flex: 1 }}>
         <AppNavigator />
       </GestureHandlerRootView>
