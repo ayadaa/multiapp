@@ -1,27 +1,27 @@
-import {configureStore} from '@reduxjs/toolkit';
-import createSagaMiddleware from 'redux-saga';
-import rootReducer from './rootReducer';
-import rootSaga from './rootSaga';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {persistStore, persistReducer} from 'redux-persist';
+import { configureStore } from '@reduxjs/toolkit';
+import { authSlice } from './slices/auth.slice';
+import ragReducer from './slices/rag.slice';
 
-const persistConfig = {
-  key: 'root',
-  storage: AsyncStorage,
-  whitelist: ['user', 'todo'],
-};
-
-const sagaMiddleware = createSagaMiddleware();
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-const store = configureStore({
-  reducer: persistedReducer,
-  middleware: [sagaMiddleware],
+/**
+ * Redux store configuration using Redux Toolkit.
+ * Includes auth slice for Phase 0 and RAG slice for Phase 4.
+ * Additional slices will be added in future phases.
+ */
+export const store = configureStore({
+  reducer: {
+    auth: authSlice.reducer,
+    rag: ragReducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore Firebase Timestamp objects in actions/state
+        ignoredActions: ['auth/setUser'],
+        ignoredPaths: ['auth.user.createdAt', 'auth.user.lastLogin'],
+      },
+    }),
+  devTools: __DEV__,
 });
 
-const persistor = persistStore(store);
-
-sagaMiddleware.run(rootSaga);
-
-export {store, persistor};
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch; 
