@@ -2,7 +2,9 @@ import { configureStore } from '@reduxjs/toolkit';
 import { authSlice } from './slices/auth.slice';
 import ragReducer from './slices/rag.slice';
 import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+// import storage from 'redux-persist/lib/storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 /**
  * Redux store configuration using Redux Toolkit.
@@ -12,7 +14,8 @@ import storage from 'redux-persist/lib/storage';
 
 const persistConfig = {
 	key: 'root',
-	storage,
+	// storage,
+  storage: AsyncStorage,
 	version: 1,
 };
 

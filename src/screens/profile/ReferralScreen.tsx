@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
-import { Screen } from '../../components/common/Screen';
+import { Screen } from '../../components/common/Screen2';
 import { useAppSelector } from '../../store/hooks';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
@@ -16,7 +16,7 @@ export function ReferralScreen() {
   const navigation = useNavigation<any>();
 
   return (
-    <Screen backgroundColor="#FFFFFF" statusBarStyle="dark-content" keyboardAvoidingView={true} style={styles.container}>
+    <Screen keyboardAvoidingView={true}>
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(0, 0, 0, 0.1)',
     backgroundColor: '#FFFFFF',
-  },
+  }, 
   headerBackButton: {
     padding: 8,
     marginRight: 8,

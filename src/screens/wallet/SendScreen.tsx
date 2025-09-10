@@ -26,7 +26,7 @@ export function SendScreen() {
 
   return (
     <Screen keyboardAvoidingView={true}>
-      <View style={{ flex: 1, padding: 16 }}>
+      <View style={{ flex: 1, paddingHorizontal: 16 }}>
         {/* Send Form */}
         <SendForm
           onSuccess={handleSendSuccess}
