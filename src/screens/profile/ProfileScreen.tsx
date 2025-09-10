@@ -34,24 +34,27 @@ export function ProfileScreen() {
   /**
    * Handle logout with confirmation
    */
+  // const handleLogout = () => {
+  //   Alert.alert(
+  //     'Logout',
+  //     'Are you sure you want to logout?',
+  //     [
+  //       {
+  //         text: 'Cancel',
+  //         style: 'cancel',
+  //       },
+  //       {
+  //         text: 'Logout',
+  //         style: 'destructive',
+  //         onPress: () => {
+  //           dispatch(clearUser());
+  //         },
+  //       },
+  //     ]
+  //   );
+  // };
   const handleLogout = () => {
-    Alert.alert(
-      'Logout',
-      'Are you sure you want to logout?',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {
-          text: 'Logout',
-          style: 'destructive',
-          onPress: () => {
-            dispatch(clearUser());
-          },
-        },
-      ]
-    );
+    dispatch(clearUser());
   };
 
   // const handleAdsNavigate = () => {
