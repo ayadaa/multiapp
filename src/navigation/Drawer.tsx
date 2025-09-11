@@ -4,7 +4,7 @@ import {
     createDrawerNavigator,
 } from '@react-navigation/drawer';
 import SCREENS from '../screens';
-import { Image, Text, View } from 'react-native';
+import { Image, Text, View, Button } from 'react-native';
 import { AdsScreen } from '../screens/ads/AdsScreen';
 import { FriendsStackNavigator } from './FriendsStackNavigator';
 import { ProfileScreen } from '../screens/profile/ProfileScreen';
@@ -17,10 +17,22 @@ import { Ionicons } from '@expo/vector-icons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { ReferralScreen } from '../screens/profile/ReferralScreen';
 // import Ionicons from '@expo/vector-icons/Ionicons';
+import { useSelector, useDispatch } from 'react-redux';
+import { setLanguage } from '../store/slices/language.slice';
+import i18n from '../language/i18n'; // Import your i18n instance
 
 const renderHeader = () => {
     const user = useAppSelector((state) => state.auth.user);
     const { User } = useUser(user?.uid || '');
+
+    const dispatch = useDispatch();
+    const currentLanguage = useAppSelector((state) => state.language.currentLanguage);
+    i18n.locale = currentLanguage; // handle current language
+
+    const handleChangeLanguage = (lang: string) => {
+        dispatch(setLanguage(lang));
+    };
+
     return (
         <View style={{
             alignItems: 'center',
@@ -76,6 +88,14 @@ const renderHeader = () => {
             >
                 @{user?.username}
             </Text>
+            {/* language */}
+            <View>
+                <Text>{currentLanguage}</Text>
+                <Text>{i18n.t('greeting')}</Text>
+                <Text>{i18n.t('welcomeMessage')}</Text>
+                <Button title="Set English" onPress={() => handleChangeLanguage('en')} />
+                <Button title="Set Arabic" onPress={() => handleChangeLanguage('ar')} />
+            </View>
         </View>
     );
 }

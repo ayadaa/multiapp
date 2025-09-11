@@ -4,7 +4,7 @@ import ragReducer from './slices/rag.slice';
 import { persistStore, persistReducer } from 'redux-persist';
 // import storage from 'redux-persist/lib/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { languageSlice } from './slices/language.slice';
 
 /**
  * Redux store configuration using Redux Toolkit.
@@ -20,11 +20,13 @@ const persistConfig = {
 };
 
 const persistedUserReducer = persistReducer(persistConfig, authSlice.reducer);
+const persistedLanguageReducer = persistReducer(persistConfig, languageSlice.reducer);
 
 export const store = configureStore({
   reducer: {
     auth: persistedUserReducer,
     rag: ragReducer,
+    language: persistedLanguageReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
