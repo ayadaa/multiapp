@@ -10,7 +10,7 @@ const i18n = new I18n({
 });
 
 i18n.enableFallback = true;
-i18n.locale = Localization.getLocales()[0].languageCode || 'en'; // Set initial locale from device
+i18n.locale = Localization.getLocales()[0].languageCode || 'ar'; // Set initial locale from device
 
 // const currentLanguage = () => { 
 //   const language = useAppSelector((state) => state.language.currentLanguage);
@@ -25,5 +25,9 @@ i18n.locale = Localization.getLocales()[0].languageCode || 'en'; // Set initial 
 //   return ;
 // }
 // handleCurrentLanguage();
+
+export const updateLocale = async (langcode: string) => {
+  i18n.locale=langcode.toString();  
+}
 
 export default i18n;

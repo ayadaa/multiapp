@@ -1,6 +1,5 @@
 import { View, ScrollView, StyleSheet } from "react-native";
 import { Picker } from '@react-native-picker/picker';
-import { useState } from "react";
 // import { classNameList, cityNameList } from "../../screens/ads/CreateAdScreen";
 
 interface FilterBarProp {

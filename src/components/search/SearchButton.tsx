@@ -1,7 +1,8 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
- 
+import i18n from '../../language/i18n';
+
 const SearchButton = () => {
     const navigation = useNavigation<any>();
 
@@ -14,8 +15,8 @@ const SearchButton = () => {
             <View style={styles.searchBtn}>
                 <Ionicons name="search" size={24} />
                 <View>
-                    <Text style={{ fontFamily: 'mon-sb' }}>What do you want?</Text>
-                    <Text style={{ color: '#5E5D5E', fontFamily: 'mon' }}>Sale · buy</Text>
+                    <Text style={{ fontFamily: 'mon-sb' }}>{i18n.t('whatDoYouWant')}</Text>
+                    <Text style={{ color: '#5E5D5E', fontFamily: 'mon' }}>{i18n.t('saleBuy')}</Text>
                 </View>
             </View>
         </TouchableOpacity>

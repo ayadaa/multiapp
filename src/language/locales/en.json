@@ -1,4 +1,9 @@
 {
     "greeting": "Hello",
-    "welcomeMessage": "Welcome to our app!"
+    "welcomeMessage": "Welcome to our app!",
+    "profile": "Profile",
+    "friends": "Friends",
+    "referral": "Referral",
+    "whatDoYouWant": "What do you want?",
+    "saleBuy": "Sale · buy"
 }

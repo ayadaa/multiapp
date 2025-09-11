@@ -19,7 +19,8 @@ import { ReferralScreen } from '../screens/profile/ReferralScreen';
 // import Ionicons from '@expo/vector-icons/Ionicons';
 import { useSelector, useDispatch } from 'react-redux';
 import { setLanguage } from '../store/slices/language.slice';
-import i18n from '../language/i18n'; // Import your i18n instance
+import i18n, { updateLocale } from '../language/i18n'; // Import your i18n instance
+import { Picker } from '@react-native-picker/picker';
 
 const renderHeader = () => {
     const user = useAppSelector((state) => state.auth.user);
@@ -31,6 +32,7 @@ const renderHeader = () => {
 
     const handleChangeLanguage = (lang: string) => {
         dispatch(setLanguage(lang));
+        // updateLocale(lang); //ayad
     };
 
     return (
@@ -90,11 +92,30 @@ const renderHeader = () => {
             </Text>
             {/* language */}
             <View>
-                <Text>{currentLanguage}</Text>
+                {/* <Text>{currentLanguage}</Text>
                 <Text>{i18n.t('greeting')}</Text>
                 <Text>{i18n.t('welcomeMessage')}</Text>
                 <Button title="Set English" onPress={() => handleChangeLanguage('en')} />
-                <Button title="Set Arabic" onPress={() => handleChangeLanguage('ar')} />
+                <Button title="Set Arabic" onPress={() => handleChangeLanguage('ar')} /> */}
+                <Picker
+                    selectedValue={currentLanguage}
+                    style={{
+                        flex: 1,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderRadius: 12,
+                        borderWidth: 1,
+                        borderColor: 'rgba(0, 0, 0, 0.2)',
+                        fontSize: 12,
+                        color: '#000000',
+                    }}
+                    onValueChange={(itemValue) => {
+                        handleChangeLanguage(itemValue);
+                    }}
+                >
+                    <Picker.Item label='العربية' value='ar' />
+                    <Picker.Item label='English' value='en' />
+                </Picker>
             </View>
         </View>
     );
@@ -127,7 +148,8 @@ export const AdsScreenWithDrawer = () => {
                             style={{ marginBottom: 2 }}
                         /> */}
                         <DrawerItem
-                            label={'Profile'}
+                            // label={'Profile'}
+                            label={i18n.t('profile')}
                             icon={({ color, size }) => (<Ionicons name="person" size={20} color="rgba(0, 0, 0, 0.8)" />)}
                             onPress={() => {
                                 props.navigation.navigate(SCREENS.Profile);
@@ -140,7 +162,8 @@ export const AdsScreenWithDrawer = () => {
                             style={{ marginBottom: 2 }}
                         />
                         <DrawerItem
-                            label={'Friends'}
+                            // label={'Friends'}
+                            label={i18n.t('friends')}
                             icon={({ color, size }) => (<FontAwesome5 name="user-friends" size={20} color="rgba(0, 0, 0, 0.8)" />)}
                             onPress={() => {
                                 props.navigation.navigate(SCREENS.Friends);
@@ -153,7 +176,8 @@ export const AdsScreenWithDrawer = () => {
                             style={{ marginBottom: 2 }}
                         />
                         <DrawerItem
-                            label={'Referral'}
+                            // label={'Referral'}
+                            label={i18n.t('referral')}
                             icon={() => (<Ionicons name="person-add" size={20} color="rgba(0, 0, 0, 0.8)" />)}
                             onPress={() => {
                                 props.navigation.navigate(SCREENS.Referral);

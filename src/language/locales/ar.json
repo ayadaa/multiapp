@@ -1,4 +1,9 @@
 {
     "greeting": "مرحبا",
-    "welcomeMessage": "مرحبا بك في تطبيقنا!"
+    "welcomeMessage": "مرحبا بك في تطبيقنا!",
+    "profile": "الملف الشخصي",
+    "friends": "الاصدقاء",
+    "referral": "الاحالة",
+    "whatDoYouWant": "ماذا تريد؟",
+    "saleBuy": "بيع · شراء"
 }
