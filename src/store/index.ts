@@ -20,16 +20,16 @@ const persistConfig = {
   // whitelist: ['locale']
 };
 
-const persistLangConfig = {
-	key: 'root',
-	// storage,
-  storage: AsyncStorage,
-	version: 1,
-  whitelist: ['locale']
-};
+// const persistLangConfig = {
+// 	key: 'root',
+// 	// storage,
+//   storage: AsyncStorage,
+// 	version: 1,
+//   whitelist: ['locale']
+// };
 
 const persistedUserReducer = persistReducer(persistConfig, authSlice.reducer);
-const persistedLanguageReducer = persistReducer(persistLangConfig, languageSlice.reducer);
+const persistedLanguageReducer = persistReducer(persistConfig, languageSlice.reducer);
 
 export const store = configureStore({
   reducer: {
