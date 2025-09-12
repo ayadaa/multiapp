@@ -323,12 +323,16 @@ export default function GroupChatScreen() {
       >
         <BottomSheetView style={{
           flex: 1,
+          justifyContent: 'flex-end',
         }}>
           {tempImageUri && (
-            <Image
-              source={{ uri: tempImageUri }}
-              style={{ flex: 1, alignItems: 'center' }}
-            />
+            <View style={{ alignItems: 'center' }}>
+              <Image
+                source={{ uri: tempImageUri }}
+                // style={{ flex: 1, alignItems: 'center' }}
+                style={{ width: 500, height: 500, justifyContent: 'center' }}
+              />
+            </View>
           )}
           <ChatInputSheet
             onSendMessageWithImage={handleSendMessageWithImage2}

@@ -117,7 +117,7 @@ export function ChatInput({
 
       {/* //show bottom sheet */}
       {(text === '') && <TouchableOpacity
-        onPress={onPickImageAndShowBottomSheet}
+        onPress={() => onPickImageAndShowBottomSheet()}
         style={{
           width: 40,
           height: 40,

@@ -312,8 +312,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginBottom: 8,
     height: CardHeight,
-    backgroundColor: '#0084FF',
-    borderColor: '#0084FF',
+    backgroundColor: 'rgba(0, 200, 100, 0.8)',
+    borderColor: 'rgba(0, 200, 100, 0.6)',
     borderRadius: 20,
     shadowColor: '#000',
     shadowOffset: {
@@ -357,13 +357,13 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255, 255, 255, 0.2)',
   },
   username: {
-    color: 'white',
+    color: 'Black',
     fontSize: 24,
     fontWeight: '600',
     marginBottom: 4,
   },
   email: {
-    color: 'rgba(255, 255, 255, 0.6)',
+    color: 'rgba(0, 0, 0, 0.6)',
     fontSize: 16,
   },
   menuSection: {

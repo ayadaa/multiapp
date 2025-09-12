@@ -230,7 +230,7 @@ export default function P2PRequestCard({ ad, handleRefresh, showBottomSheet }: P
                     }}
                     onPress={() => showBottomSheet(ad)}
                 >
-                    <View style={{
+                    {ad.profilePicture ? <View style={{
                         width: 50,
                         height: 50,
                         borderRadius: 25,
@@ -240,11 +240,23 @@ export default function P2PRequestCard({ ad, handleRefresh, showBottomSheet }: P
                         overflow: "hidden",
                     }}>
                         <Image
-                            source={{ uri: ad.profilePicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
+                            source={{ uri: ad.profilePicture }}
                             style={styles.image}
                             resizeMode="cover"
                         />
-                    </View>
+                    </View> : <View style={{
+                        width: 50,
+                        height: 50,
+                        borderRadius: 25,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginRight: 16,
+                        overflow: "hidden",
+                    }}>
+                        <Text style={{ fontSize: 18, color: '#000000' }}>
+                            {ad.username?.charAt(0).toUpperCase() || '?'}
+                        </Text>
+                    </View>}
 
                     <View style={{ flex: 1 }}>
                         <View style={{
@@ -258,7 +270,7 @@ export default function P2PRequestCard({ ad, handleRefresh, showBottomSheet }: P
                                 fontSize: 16,
                                 fontWeight: 'bold',
                             }}>
-                                {user?.uid! === ad.createdBy ? 'You' : ad.username}
+                                {ad.username}
                             </Text>
                             <Text style={{
                                 color: 'rgba(0, 0, 0, 0.75)',

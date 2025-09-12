@@ -93,7 +93,7 @@ const renderHeader = () => {
             <View
                 style={{
                     backgroundColor: 'rgba(255, 255, 255, 1)',
-                    // minWidth: 120,
+                    minWidth: 120,
                     // height: 60,
                     borderRadius: 12,
                     paddingHorizontal: 2,
@@ -106,6 +106,7 @@ const renderHeader = () => {
                     selectedValue={currentLanguage}
                     style={{
                         // flex: 1,
+                        minWidth: 120,
                         alignItems: 'center',
                         justifyContent: 'center',
                         borderRadius: 12,

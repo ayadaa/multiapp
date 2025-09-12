@@ -139,7 +139,7 @@ export function IndividualChatScreen() {
   const pickImageAndShowBottomSheet = React.useCallback(async () => {
     try {
       const tempUri = await launchImagePicker();
-      if (!tempUri) return;
+      if (!tempUri) return console.log('!tempUri');
       setTempImageUri(tempUri);
       showBottomSheet();
     } catch (error) {
@@ -441,13 +441,22 @@ export function IndividualChatScreen() {
         >
           <BottomSheetView style={{
             flex: 1,
+            justifyContent: 'flex-end',
           }}>
             {tempImageUri && (
-              <Image
-                source={{ uri: tempImageUri }}
-                style={{ flex: 1, alignItems: 'center' }}
-              />
+              <View style={{ alignItems: 'center' }}>
+                <Image
+                  source={{ uri: tempImageUri }}
+                  // style={{ flex: 1, alignItems: 'center' }}
+                  style={{ width: 500, height: 500, justifyContent: 'center' }}
+                />
+              </View>
             )}
+            {/* <Image
+              source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/chatImages%2Fd4e908d0-cf99-452f-9df5-e26f406cec9f?alt=media&token=9da6b3b3-5694-4e60-9920-23baa72fb73f' }}
+              // style={{ flex: 1, alignItems: 'center' }}
+              style={{ width: 200, height: 200, alignItems: 'center' }}
+            /> */}
             <ChatInputSheet
               onSendMessageWithImage={handleSendMessageWithImage2}
               sending={sending}

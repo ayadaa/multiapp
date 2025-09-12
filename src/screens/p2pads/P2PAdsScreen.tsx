@@ -2,28 +2,25 @@ import React, { use } from 'react';
 import {
   View,
   Text,
-  ScrollView,
   TouchableOpacity,
   StyleSheet,
   RefreshControl,
   Alert,
   Image,
   SectionList,
-  // Button
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Entypo from '@expo/vector-icons/Entypo';
 import { useNavigation } from '@react-navigation/native';
 import { Screen } from '../../components/common/Screen2';
 import { useP2PAds } from '../../hooks/p2pAd/use-p2pAds';
-// import { useAuth } from '../../hooks/auth/use-auth';
 import type { NavigationProp } from '../../types/navigation';
 import type { P2PAd, P2PRequest } from '../../types/p2pads';
-import type { UserProfile } from '../../services/firebase/firestore.service'
+import type { UserProfile } from '../../services/firebase/firestore.service';
 import { useAppSelector } from '../../store/hooks';
 import { Button } from '../../components/common/Button';
 import { RedButton } from '../../components/common/RedButton';
-import P2PRequestCard from '../../components/cards/P2PRequestCard'
+import P2PRequestCard from '../../components/cards/P2PRequestCard';
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 import { launchImagePicker, uploadImageAsync } from "../../screens/ads/imagePickerHelper";
 import { useChats } from '../../hooks/chat/use-chats';
@@ -534,24 +531,46 @@ export function P2PAdsScreen() {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-              {(tempImageUri === null) && <Button
-                title="pick an Image"
-                onPress={() => pickImage()}
-                loading={false}
-                disabled={false}
-                size='small'
-              />}
-              {(tempImageUri != null) && <Button
-                title={isCompleting ? 'Completing...' : 'complete request'}
-                onPress={async () => {
-                  await uploadImageAndSendMessage(p2pRequest!);
-                  bottomSheetRef.current?.close();
-                }}
-                loading={false}
-                disabled={tempImageUri === null}
-                size='small'
-              />}
-              <RedButton
+              {(tempImageUri === null) &&
+                // <Button
+                // title="pick an image"
+                // onPress={() => pickImage()}
+                // loading={false}
+                // disabled={false}
+                // size='small'
+                // />
+                <TouchableOpacity style={styles.menuItem}
+                  onPress={() => pickImage()}
+                >
+                  <View style={styles.menuItemLeft}>
+                    <Text style={styles.menuItemText}>pick an image</Text>
+                  </View>
+                </TouchableOpacity>
+              }
+              {(tempImageUri != null) &&
+                // <Button
+                // title={isCompleting ? 'Completing...' : 'complete request'}
+                // onPress={async () => {
+                //   await uploadImageAndSendMessage(p2pRequest!);
+                //   bottomSheetRef.current?.close();
+                // }}
+                // loading={false}
+                // disabled={tempImageUri === null}
+                // size='small'
+                // />
+                <TouchableOpacity style={styles.menuItem}
+                  onPress={async () => {
+                    await uploadImageAndSendMessage(p2pRequest!);
+                    bottomSheetRef.current?.close();
+                  }}
+                  disabled={tempImageUri === null}
+                >
+                  <View style={styles.menuItemLeft}>
+                    <Text style={styles.menuItemText}>{isCompleting ? 'Completing...' : 'complete request'}</Text>
+                  </View>
+                </TouchableOpacity>
+              }
+              {/* <RedButton
                 title="cancel"
                 onPress={() => {
                   setComplete(false);
@@ -560,7 +579,17 @@ export function P2PAdsScreen() {
                 loading={false}
                 disabled={false}
                 size='small'
-              />
+              /> */}
+              <TouchableOpacity style={styles.menuItem}
+                onPress={() => {
+                  setComplete(false);
+                  setTempImageUri(null);
+                }}
+              >
+                <View style={styles.menuItemLeft}>
+                  <Text style={styles.menuItemText}>cancel</Text>
+                </View>
+              </TouchableOpacity>
             </View>
           </View>}
         </BottomSheetView>

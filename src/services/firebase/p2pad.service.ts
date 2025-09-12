@@ -180,12 +180,22 @@ export async function getP2PRequestsWithUsers(uId: string): Promise<(P2PRequest 
     const p2pRequestsWithUsers = <(P2PRequest & UserProfile)[]>[];
     for (let index = 0; index < p2pRequests.length; index++) {
         const request = p2pRequests[index];
-        const user = await getUserProfile(request.createdBy);
-        if (user) {
-            if (request.expiresAt.toDate().getTime() > new Date().getTime()) {
-                p2pRequestsWithUsers.push({ ...request, ...user });
+        if (uId == request.p2pCreatedBy) {
+            const user = await getUserProfile(request.createdBy);
+            if (user) {
+                if (request.expiresAt.toDate().getTime() > new Date().getTime()) {
+                    p2pRequestsWithUsers.push({ ...request, ...user });
+                }
+            }
+        } else {
+            const user = await getUserProfile(request.p2pCreatedBy);
+            if (user) {
+                if (request.expiresAt.toDate().getTime() > new Date().getTime()) {
+                    p2pRequestsWithUsers.push({ ...request, ...user });
+                }
             }
         }
+
     }
     console.log('p2p requests with users', p2pRequestsWithUsers);
     return p2pRequestsWithUsers;
