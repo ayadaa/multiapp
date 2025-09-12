@@ -38,6 +38,7 @@
     "expo-secure-store": "~14.2.3",
     "expo-sharing": "~13.1.5",
     "expo-status-bar": "~2.2.3",
+    "fiction-expo-restart": "^2.0.0",
     "firebase": "^11.9.1",
     "i18n-js": "^4.5.1",
     "nativewind": "^4.1.23",

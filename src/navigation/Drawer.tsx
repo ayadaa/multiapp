@@ -24,8 +24,7 @@ import { Picker } from '@react-native-picker/picker';
 
 const renderHeader = () => {
     const user = useAppSelector((state) => state.auth.user);
-    const { User } = useUser(user?.uid || '');
-
+    const { User } = useUser(user?.uid!);
     const dispatch = useDispatch();
     const currentLanguage = useAppSelector((state) => state.language.currentLanguage);
     i18n.locale = currentLanguage; // handle current language
@@ -91,16 +90,22 @@ const renderHeader = () => {
                 @{user?.username}
             </Text>
             {/* language */}
-            <View>
-                {/* <Text>{currentLanguage}</Text>
-                <Text>{i18n.t('greeting')}</Text>
-                <Text>{i18n.t('welcomeMessage')}</Text>
-                <Button title="Set English" onPress={() => handleChangeLanguage('en')} />
-                <Button title="Set Arabic" onPress={() => handleChangeLanguage('ar')} /> */}
+            <View
+                style={{
+                    backgroundColor: 'rgba(255, 255, 255, 1)',
+                    // minWidth: 120,
+                    // height: 60,
+                    borderRadius: 12,
+                    paddingHorizontal: 2,
+                    paddingVertical: 1,
+                    borderWidth: 1,
+                    borderColor: 'rgba(0, 0, 0, 0.2)',
+                }}
+            >
                 <Picker
                     selectedValue={currentLanguage}
                     style={{
-                        flex: 1,
+                        // flex: 1,
                         alignItems: 'center',
                         justifyContent: 'center',
                         borderRadius: 12,
