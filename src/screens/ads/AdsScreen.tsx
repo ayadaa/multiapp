@@ -24,15 +24,6 @@ import AdCard from "../../components/cards/AdCard";
 import SearchButton from '../../components/search/SearchButton';
 import i18n from '../../language/i18n';
 
-// const actions = [
-//   {
-//     text: i18n.t('Add new ad'),
-//     icon: <Entypo name="add-to-list" size={24} color="white" />,
-//     name: "bt_ad",
-//     position: 1
-//   },
-// ];
-
 export function AdsScreen() {
   // const [className, setClassName] = React.useState('All category');
   // const navigation = useNavigation();

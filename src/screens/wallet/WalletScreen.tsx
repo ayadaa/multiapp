@@ -18,21 +18,7 @@ import { useNavigation } from '@react-navigation/native';
 import { FloatingAction } from "react-native-floating-action";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Screen } from '../../components/common/Screen2';
-
-const actions = [
-  {
-    text: "Send",
-    icon: <MaterialIcons name="call-received" size={24} color="white" style={{ transform: [{ rotate: '180deg' }] }} />,
-    name: "bt_send",
-    position: 1
-  },
-  {
-    text: "Receive",
-    icon: <MaterialIcons name="call-received" size={24} color="white" />,
-    name: "bt_receive",
-    position: 2
-  },
-];
+import i18n from '../../language/i18n';
 
 const FullWidth = Dimensions.get("screen").width;
 const CardWidth_0 = Math.min(FullWidth, 300) - 20 * 2;
@@ -46,6 +32,21 @@ export function WalletScreen() {
   const { collect, transactions, isLoadingTransactions, refreshTransactions, transactionsError } = useWallet(user?.uid || '');
   const [time, setTime] = useState<number>(0);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
+
+  const actions = [
+    {
+      text: i18n.t('send'),
+      icon: <MaterialIcons name="call-received" size={24} color="white" style={{ transform: [{ rotate: '180deg' }] }} />,
+      name: "bt_send",
+      position: 1
+    },
+    {
+      text: i18n.t('receive'),
+      icon: <MaterialIcons name="call-received" size={24} color="white" />,
+      name: "bt_receive",
+      position: 2
+    },
+  ];
 
   //set time
   useEffect(() => {
@@ -128,7 +129,7 @@ export function WalletScreen() {
           {/* <AntDesign name="menuunfold" size={24} color="black" /> */}
         </TouchableOpacity>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>Wallet</Text>
+          <Text style={styles.title}>{i18n.t('wallet')}</Text>
         </View>
       </View>
       {/* Error State */}
@@ -140,7 +141,7 @@ export function WalletScreen() {
             style={styles.retryButton}
             onPress={refreshUser}
           >
-            <Text style={styles.retryText}>Retry</Text>
+            <Text style={styles.retryText}>{i18n.t('retry')}</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -162,7 +163,7 @@ export function WalletScreen() {
         <View style={styles.card}>
           <View style={styles.balanceSection}>
             <Text style={styles.username}>{Math.round((User?.balance || 0) * 1000) / 1000} 💎</Text>
-            <Text style={styles.email}>{Math.round((User?.balance ? User.balance * 1.35 : 0) * 1000) / 1000} د.ع</Text>
+            <Text style={styles.email}>{Math.round((User?.balance ? User.balance * 1.35 : 0) * 1000) / 1000} {i18n.t('IQD')}</Text>
           </View>
           <View style={styles.balanceSection}>
             <Text style={styles.username}>@{user?.username!}</Text>
@@ -181,11 +182,11 @@ export function WalletScreen() {
             disabled={isDisabled}
           >
             <View style={styles.menuItemLeft}>
-              <Text style={styles.menuItemText}>Mining ⛏ : {User?.miningSpeed || 0}💎 / day</Text>
+              <Text style={styles.menuItemText}>{i18n.t('mining')} ⛏ : {User?.miningSpeed || 0}💎 / {i18n.t('day')}</Text>
             </View>
             <View style={styles.menuItemLeft}>
               {(User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis()) - Timestamp.now().toMillis() > 0 && <Text style={styles.menuItemText}>{getFormattedTime(time)}</Text>}
-              {(User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis()) - Timestamp.now().toMillis() <= 0 && <Text style={styles.menuItemText}>Collection</Text>}
+              {(User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis()) - Timestamp.now().toMillis() <= 0 && <Text style={styles.menuItemText}>{i18n.t('collection')}</Text>}
             </View>
           </TouchableOpacity>
 
@@ -194,7 +195,7 @@ export function WalletScreen() {
             onPress={navigateToMiningOffers}
           >
             <View style={styles.menuItemLeft}>
-              <Text style={styles.menuItemText}>Update mining speed</Text>
+              <Text style={styles.menuItemText}>{i18n.t('updateMiningSpeed')}</Text>
             </View>
             <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
           </TouchableOpacity>
@@ -203,7 +204,7 @@ export function WalletScreen() {
         {/* Transactions View */}
         <View style={styles.transactionsContainer}>
           <View>
-            <Text>History: </Text>
+            <Text>{i18n.t('transactions')}: </Text>
             {transactions.length > 0 && <View style={{ marginTop: 3 }}> {transactions.map((transaction) => (
               <View
                 key={transaction.id}
@@ -224,7 +225,7 @@ export function WalletScreen() {
                     color: 'black',
                     fontSize: 14,
                     fontWeight: 'bold',
-                  }}>{(transaction.sender == user?.uid) ? 'send' : 'receive'}</Text>
+                  }}>{(transaction.sender == user?.uid) ? i18n.t('send') : i18n.t('receive')}</Text>
                 </View>
                 <View style={{ flex: 1 }}>
                   <View style={{
@@ -251,7 +252,7 @@ export function WalletScreen() {
             ))}</View>}
           </View>
           {isLoadingTransactions && <View>
-            <Text>Loading transactions . . .</Text>
+            <Text>{i18n.t('loadingTransactions')}</Text>
           </View>}
         </View>
       </ScrollView>

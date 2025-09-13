@@ -31,6 +31,7 @@ import SearchScreen from '../screens/search/SearchScreen';
 import { ProfileScreen } from '../screens/profile/ProfileScreen';
 import { UpdateProfileScreen } from '../screens/profile/UpdateProfileScreen';
 import { ReferralScreen } from '../screens/profile/ReferralScreen';
+import i18n from '../language/i18n';
 
 const Stack = createStackNavigator<AppStackParamList>();
 
@@ -95,15 +96,16 @@ export default function AppStackNavigator() {
         component={CreateAdScreen}
         options={{
           headerShown: true,
+          headerTitle: i18n.t('createAd'),
         }}
       />
 
       <Stack.Screen
         name="AdDetails"
         component={AdDetails}
-        // component={CreateAdScreen}
         options={{
           headerShown: true,
+          headerTitle: i18n.t('adDetails'),
         }}
       />
 

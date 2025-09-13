@@ -18,14 +18,15 @@ import type { NavigationProp } from '../../types/navigation';
 import type { P2PAd, P2PRequest } from '../../types/p2pads';
 import type { UserProfile } from '../../services/firebase/firestore.service';
 import { useAppSelector } from '../../store/hooks';
-import { Button } from '../../components/common/Button';
-import { RedButton } from '../../components/common/RedButton';
+// import { Button } from '../../components/common/Button';
+// import { RedButton } from '../../components/common/RedButton';
 import P2PRequestCard from '../../components/cards/P2PRequestCard';
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 import { launchImagePicker, uploadImageAsync } from "../../screens/ads/imagePickerHelper";
 import { useChats } from '../../hooks/chat/use-chats';
 import { useUser } from '../../hooks/user/use-user';
 import { FloatingAction } from "react-native-floating-action";
+import i18n from '../../language/i18n';
 
 interface P2PAdsSection {
   title: string;
@@ -33,15 +34,6 @@ interface P2PAdsSection {
   data: ((P2PAd & UserProfile) | (P2PRequest & UserProfile))[];
   type: 'p2pRequests' | 'p2pAds';
 }
-
-const actions = [
-  {
-    text: "Add new p2p ad",
-    icon: <Entypo name="add-to-list" size={24} color="white" />,
-    name: "bt_p2pAd",
-    position: 1
-  },
-];
 
 export function P2PAdsScreen() {
   const user = useAppSelector((state) => state.auth.user);
@@ -73,6 +65,15 @@ export function P2PAdsScreen() {
   const [isCompleting, setIsCompleting] = React.useState(false);
   const { User } = useUser(user?.uid!);
   const User2 = useUser(p2pRequest?.p2pCreatedBy!);
+
+  const actions = [
+    {
+      text: i18n.t('addNewP2PAd'),
+      icon: <Entypo name="add-to-list" size={24} color="white" />,
+      name: "bt_p2pAd",
+      position: 1
+    },
+  ];
 
   const showBottomSheet = React.useCallback((adRequest: P2PRequest & UserProfile) => {
     setP2PRequest(adRequest);
@@ -219,14 +220,14 @@ export function P2PAdsScreen() {
   const sections: P2PAdsSection[] = [];
   if (p2pRequestsWithUsers.length > 0) {
     sections.push({
-      title: 'P2P Requests',
+      title: i18n.t('p2pRequests'),
       data: p2pRequestsWithUsers,
       type: 'p2pRequests',
     });
   }
   if (p2pAdsWithUsers.length > 0) {
     sections.push({
-      title: 'P2P Ads',
+      title: i18n.t('p2pAds'),
       data: p2pAdsWithUsers,
       type: 'p2pAds',
     });
@@ -374,7 +375,7 @@ export function P2PAdsScreen() {
           {/* <AntDesign name="menuunfold" size={24} color="black" /> */}
         </TouchableOpacity>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>P2P ads</Text>
+          <Text style={styles.title}>{i18n.t('p2pAds')}</Text>
         </View>
       </View>
 
@@ -434,7 +435,7 @@ export function P2PAdsScreen() {
             >
               <Entypo name="add-to-list" size={24} color="white" />
               <Text style={{ color: '#000000', fontSize: 16, fontWeight: '600' }}>
-                Create p2p ad
+                {i18n.t('addNewP2PAd')}
               </Text>
             </TouchableOpacity>
           </View>
@@ -443,7 +444,7 @@ export function P2PAdsScreen() {
         <SectionList
           sections={sections}
           keyExtractor={(item, index) => `${item.id}-${index}`}
-          renderSectionHeader={renderSectionHeader}
+          renderSectionHeader={p2pRequestsWithUsers.length > 0 ? renderSectionHeader : undefined}
           renderItem={({ item, section }) => renderP2PItem(item, section.type)}
           showsVerticalScrollIndicator={false}
           stickySectionHeadersEnabled={false}
@@ -476,7 +477,7 @@ export function P2PAdsScreen() {
             >
               <View style={styles.menuItemLeft}>
                 {/* <Ionicons name="shield-outline" size={20} color="rgba(0, 0, 0, 0.8)" /> */}
-                <Text style={styles.menuItemText}>Complete</Text>
+                <Text style={styles.menuItemText}>{i18n.t('complete')}</Text>
               </View>
               {/* <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" /> */}
             </TouchableOpacity>}
@@ -485,7 +486,7 @@ export function P2PAdsScreen() {
             >
               <View style={styles.menuItemLeft}>
                 {/* <Ionicons name="shield-outline" size={20} color="rgba(0, 0, 0, 0.8)" /> */}
-                <Text style={styles.menuItemText}>Cancel request</Text>
+                <Text style={styles.menuItemText}>{i18n.t('cancelRequest')}</Text>
               </View>
               {/* <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" /> */}
             </TouchableOpacity>}
@@ -494,7 +495,7 @@ export function P2PAdsScreen() {
             >
               <View style={styles.menuItemLeft}>
                 {/* <Ionicons name="shield-outline" size={20} color="rgba(0, 0, 0, 0.8)" /> */}
-                <Text style={styles.menuItemText}>Approve</Text>
+                <Text style={styles.menuItemText}>{i18n.t('approve')}</Text>
               </View>
               {/* <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" /> */}
             </TouchableOpacity>}
@@ -503,7 +504,7 @@ export function P2PAdsScreen() {
             >
               <View style={styles.menuItemLeft}>
                 {/* <Ionicons name="shield-outline" size={20} color="rgba(0, 0, 0, 0.8)" /> */}
-                <Text style={styles.menuItemText}>Reject</Text>
+                <Text style={styles.menuItemText}>{i18n.t('reject')}</Text>
               </View>
               {/* <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" /> */}
             </TouchableOpacity>}

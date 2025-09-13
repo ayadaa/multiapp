@@ -6,6 +6,7 @@ import type { Ad } from '../../types/ads';
 import { useNavigation } from '@react-navigation/native';
 import type { NavigationProp } from '../../types/navigation';
 // import { formatTimestamp } from '../../hooks/ad/use-ads';
+import i18n from '../../language/i18n';
 
 const { width } = Dimensions.get("window");
 const cardWidth = (width - 48) / 2;
@@ -72,7 +73,7 @@ export default function AdCard({ ad }: { ad: Ad }) {
                     {true && (
                         <View style={recipeCardStyles.priceContainer}>
                             {/* <Ionicons name="people-outline" size={14} color={"#9A8478"} /> */}
-                            <Text style={recipeCardStyles.priceText}>{ad.price || '0'}{' د.ع'}</Text>
+                            <Text style={recipeCardStyles.priceText}>{ad.price || '0'}{' '}{i18n.t('IQD')}</Text>
                         </View>
                     )}
                 </View>

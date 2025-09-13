@@ -226,7 +226,8 @@ export const ChatScreenWithDrawer = () => {
                     <DrawerContentScrollView {...props}>
                         {renderHeader()}
                         <DrawerItem
-                            label={'Profile'}
+                            label={i18n.t('profile')}
+                            icon={({ color, size }) => (<Ionicons name="person" size={20} color="rgba(0, 0, 0, 0.8)" />)}
                             onPress={() => {
                                 props.navigation.navigate(SCREENS.Profile);
                             }}
@@ -238,7 +239,8 @@ export const ChatScreenWithDrawer = () => {
                             style={{ marginBottom: 2 }}
                         />
                         <DrawerItem
-                            label={'Friends'}
+                            label={i18n.t('friends')}
+                            icon={({ color, size }) => (<FontAwesome5 name="user-friends" size={20} color="rgba(0, 0, 0, 0.8)" />)}
                             onPress={() => {
                                 props.navigation.navigate(SCREENS.Friends);
                             }}
@@ -250,7 +252,7 @@ export const ChatScreenWithDrawer = () => {
                             style={{ marginBottom: 2 }}
                         />
                         <DrawerItem
-                            label={'Referral'}
+                            label={i18n.t('referral')}
                             icon={() => (<Ionicons name="person-add" size={20} color="rgba(0, 0, 0, 0.8)" />)}
                             onPress={() => {
                                 props.navigation.navigate(SCREENS.Referral);
@@ -293,7 +295,8 @@ export const P2PAdsScreenWithDrawer = () => {
                     <DrawerContentScrollView {...props}>
                         {renderHeader()}
                         <DrawerItem
-                            label={'Profile'}
+                            label={i18n.t('profile')}
+                            icon={({ color, size }) => (<Ionicons name="person" size={20} color="rgba(0, 0, 0, 0.8)" />)}
                             onPress={() => {
                                 props.navigation.navigate(SCREENS.Profile);
                             }}
@@ -305,7 +308,8 @@ export const P2PAdsScreenWithDrawer = () => {
                             style={{ marginBottom: 2 }}
                         />
                         <DrawerItem
-                            label={'Friends'}
+                            label={i18n.t('friends')}
+                            icon={({ color, size }) => (<FontAwesome5 name="user-friends" size={20} color="rgba(0, 0, 0, 0.8)" />)}
                             onPress={() => {
                                 props.navigation.navigate(SCREENS.Friends);
                             }}
@@ -317,7 +321,7 @@ export const P2PAdsScreenWithDrawer = () => {
                             style={{ marginBottom: 2 }}
                         />
                         <DrawerItem
-                            label={'Referral'}
+                            label={i18n.t('referral')}
                             icon={() => (<Ionicons name="person-add" size={20} color="rgba(0, 0, 0, 0.8)" />)}
                             onPress={() => {
                                 props.navigation.navigate(SCREENS.Referral);
@@ -360,7 +364,8 @@ export const WalletScreenWithDrawer = () => {
                     <DrawerContentScrollView {...props}>
                         {renderHeader()}
                         <DrawerItem
-                            label={'Profile'}
+                            label={i18n.t('profile')}
+                            icon={({ color, size }) => (<Ionicons name="person" size={20} color="rgba(0, 0, 0, 0.8)" />)}
                             onPress={() => {
                                 props.navigation.navigate(SCREENS.Profile);
                             }}
@@ -372,7 +377,8 @@ export const WalletScreenWithDrawer = () => {
                             style={{ marginBottom: 2 }}
                         />
                         <DrawerItem
-                            label={'Friends'}
+                            label={i18n.t('friends')}
+                            icon={({ color, size }) => (<FontAwesome5 name="user-friends" size={20} color="rgba(0, 0, 0, 0.8)" />)}
                             onPress={() => {
                                 props.navigation.navigate(SCREENS.Friends);
                             }}
@@ -384,7 +390,7 @@ export const WalletScreenWithDrawer = () => {
                             style={{ marginBottom: 2 }}
                         />
                         <DrawerItem
-                            label={'Referral'}
+                            label={i18n.t('referral')}
                             icon={() => (<Ionicons name="person-add" size={20} color="rgba(0, 0, 0, 0.8)" />)}
                             onPress={() => {
                                 props.navigation.navigate(SCREENS.Referral);

@@ -9,27 +9,13 @@ import { useAuth } from '../../hooks/auth/use-auth';
 import type { NavigationProp } from '../../types/navigation';
 import type { Group } from '../../services/firebase/firestore.service';
 import { FloatingAction } from "react-native-floating-action";
+import i18n from '../../language/i18n';
 
 interface ChatSection {
   title: string;
   data: (ChatWithUser | Group)[];
   type: 'individual' | 'group';
 }
-
-const actions = [
-  {
-    text: "Create new group",
-    icon: <Ionicons name="people-outline" size={20} color="#FFFFFF" />,
-    name: "bt_group",
-    position: 1
-  },
-  // {
-  //   text: "Find new friend",
-  //   icon: <Ionicons name="search" size={20} color="#000000" />,
-  //   name: "bt_friend",
-  //   position: 2
-  // },
-];
 
 export function ChatScreen() {
   const navigation = useNavigation<NavigationProp>();
@@ -39,6 +25,21 @@ export function ChatScreen() {
 
   const { chats, loading: chatsLoading, error: chatsError, formatTimestamp } = useChats(currentUserId);
   const { groups, loading: groupsLoading, error: groupsError } = useGroups(currentUserId);
+
+  const actions = [
+    {
+      text: i18n.t('createNewGroup'),
+      icon: <Ionicons name="people-outline" size={20} color="#FFFFFF" />,
+      name: "bt_group",
+      position: 1
+    },
+    // {
+    //   text: "Find new friend",
+    //   icon: <Ionicons name="search" size={20} color="#000000" />,
+    //   name: "bt_friend",
+    //   position: 2
+    // },
+  ];
 
   const handleFindFriendPress = () => {
     // Navigate to add friends screen where users can start new chats
@@ -76,7 +77,7 @@ export function ChatScreen() {
 
   if (groups.length > 0) {
     sections.push({
-      title: 'Groups',
+      title: i18n.t('groups'),
       data: groups,
       type: 'group',
     });
@@ -84,7 +85,7 @@ export function ChatScreen() {
 
   if (chats.length > 0) {
     sections.push({
-      title: 'Direct Messages',
+      title: i18n.t('directMessages'),
       data: chats,
       type: 'individual',
     });
@@ -325,7 +326,7 @@ export function ChatScreen() {
           {/* <AntDesign name="menuunfold" size={24} color="black" /> */}
         </TouchableOpacity>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>Chat</Text>
+          <Text style={styles.title}>{i18n.t('messages')}</Text>
         </View>
       </View>
 
@@ -432,7 +433,7 @@ export function ChatScreen() {
         <SectionList
           sections={sections}
           keyExtractor={(item, index) => `${item.id}-${index}`}
-          renderSectionHeader={renderSectionHeader}
+          // renderSectionHeader={renderSectionHeader}
           renderItem={({ item, section }) => renderChatItem(item, section.type)}
           showsVerticalScrollIndicator={false}
           stickySectionHeadersEnabled={false}

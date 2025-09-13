@@ -169,19 +169,6 @@ export function P2PCreateRequestForm({ ad, onSuccess, onNavigateToP2PAds }: Crea
           style={{ marginTop: 16 }}
         />
       </View>
-      {/* Footer Actions */}
-      <View style={{ alignItems: 'center' }}>
-        {/* Terms */}
-        <Text style={{
-          color: 'rgba(255, 255, 255, 0.4)',
-          fontSize: 12,
-          textAlign: 'center',
-          marginTop: 16,
-          paddingHorizontal: 16
-        }}>
-          By create p2p request, you agree to our Terms of Service and Privacy Policy.
-        </Text>
-      </View>
     </View>
   );
 } 
