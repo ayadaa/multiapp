@@ -9,6 +9,7 @@ import type { NavigationProp } from '../../types/navigation';
 import React, { useEffect } from 'react';
 import AdSearchCard from '../../components/cards/AdSearchCard';
 import FilterBar from '../../components/search/FilterBar';
+import i18n from "../../language/i18n";
 
 // const { width } = Dimensions.get('window');
 
@@ -79,7 +80,7 @@ export default function SearchScreen() {
             <Ionicons name="arrow-back" size={24} color="#000000" />
           </TouchableOpacity>
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Search</Text>
+            <Text style={styles.title}>{i18n.t('search')}</Text>
           </View>
           {/* Search Section */}
           {/* <View style={styles.searchContainer}> */}
@@ -87,7 +88,7 @@ export default function SearchScreen() {
             <Ionicons name="search" size={20} color="rgba(0, 0, 0, 0.6)" />
             <TextInput
               style={styles.searchInput}
-              placeholder="Search ad..."
+              placeholder={i18n.t('searchAd')}
               placeholderTextColor="rgba(0, 0, 0, 0.5)"
               value={searchQuery}
               onChangeText={(value) => handleSearchChange(value, className, cityName, typeName)}
@@ -118,7 +119,7 @@ export default function SearchScreen() {
               style={styles.retryButton}
               onPress={() => handleRefresh()}
             >
-              <Text style={styles.retryText}>Retry</Text>
+              <Text style={styles.retryText}>{i18n.t('retry')}</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -153,7 +154,7 @@ export default function SearchScreen() {
           {(searchQuery.length < 2) && (ads.length == 0) &&
             <View style={styles.emptyStateContainer}>
               <Text style={styles.emptyStateText}>
-                Loading ...
+                {i18n.t('loading')}
                 {/* No ads yet */}
               </Text>
             </View>

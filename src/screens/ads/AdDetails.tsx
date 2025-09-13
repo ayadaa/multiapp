@@ -10,6 +10,8 @@ import { useChats } from '../../hooks/chat/use-chats';
 import type { Ad } from '../../types/ads';
 import { Screen } from '../../components/common/Screen2';
 import { Ionicons } from '@expo/vector-icons';
+import i18n from '../../language/i18n';
+import Feather from '@expo/vector-icons/Feather';
 
 type AdDetailsScreenRouteProp = RouteProp<AppStackParamList, 'AdDetails'>;
 type AdDetailsScreenNavigationProp = StackNavigationProp<AppStackParamList, 'AdDetails'>;
@@ -31,11 +33,9 @@ export default function AdDetails() {
     userError,
     refreshUser,
   } = useUser(ad.createdBy!);
-
-  /**
-   * Handle send message button press - navigate to chat
-   */
-  const { createChat } = useChats(user?.uid || '');
+  const { createChat } = useChats(user?.uid!);
+  const langcode = i18n.locale;
+  const isRTL = langcode == 'ar';
 
   const handleSendMessagePress = async () => {
     try {
@@ -66,14 +66,13 @@ export default function AdDetails() {
         />
         <View style={styles.infoContainer}>
           <Text style={styles.name}>{ad.title}</Text>
-          <Text style={styles.location}>{ad.className}</Text>
-          <Text style={styles.rooms}>{ad.typeName}</Text>
-          <View style={{ flexDirection: 'row', gap: 4 }}>
-            <Text style={styles.ratings}>
-              {ad.city}
-            </Text>
+          <Text style={styles.location}>{i18n.t(ad.className)}</Text>
+          <Text style={styles.rooms}>{i18n.t(ad.typeName)}</Text>
+          <View style={isRTL ? { flexDirection: 'row-reverse' } : { flexDirection: 'row' }}>
+            <Text style={styles.city}>{i18n.t(ad.city)}</Text>
+            <Feather name="map-pin" size={20} color="black" style={{ marginHorizontal: 10 }} />
           </View>
-          <Text style={styles.footerPrice}> د.ع {ad.price}</Text>
+          <Text style={styles.footerPrice}>{ad.price}{' '}{i18n.t('IQD')}</Text>
           <View style={styles.divider} />
           {/* User profile details */}
           {User == null ?
@@ -84,7 +83,7 @@ export default function AdDetails() {
               <View style={styles.hostView}>
                 {User?.profilePicture ? <Image source={{ uri: User.profilePicture }} style={styles.host} />
                   : <View style={styles.host}>
-                    <Text>{(user?.uid == ad.createdBy) ? 'You' : User?.username?.charAt(0).toUpperCase() || '?'}</Text>
+                    <Text>{(user?.uid == ad.createdBy) ? i18n.t('you') : User?.username?.charAt(0).toUpperCase() || '?'}</Text>
                   </View>
                 }
                 <View>
@@ -96,7 +95,7 @@ export default function AdDetails() {
                   style={styles.button}
                 >
                   <View style={styles.buttonLeft}>
-                    <Text style={styles.buttonText}>Send Message</Text>
+                    <Text style={styles.buttonText}>{i18n.t('sendMessage')}</Text>
                   </View>
                   <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
                 </TouchableOpacity>}
@@ -105,7 +104,7 @@ export default function AdDetails() {
                   style={styles.button}
                 >
                   <View style={styles.buttonLeft}>
-                    <Text style={styles.buttonText}>Update Ad</Text>
+                    <Text style={styles.buttonText}>{i18n.t('updateAd')}</Text>
                   </View>
                   <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
                 </TouchableOpacity>}
@@ -148,7 +147,7 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     fontFamily: 'mon',
   },
-  ratings: {
+  city: {
     fontSize: 16,
     fontFamily: 'mon-sb',
   },

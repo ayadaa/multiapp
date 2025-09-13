@@ -4,6 +4,7 @@ import { Image } from "expo-image";
 import type { Ad } from '../../types/ads';
 import { useNavigation } from '@react-navigation/native';
 import type { NavigationProp } from '../../types/navigation';
+import i18n from '../../language/i18n';
 
 export default function AdSearchCard({ ad }: { ad: Ad }) {
     const navigation = useNavigation<NavigationProp>();
@@ -120,7 +121,7 @@ export default function AdSearchCard({ ad }: { ad: Ad }) {
                         fontSize: 12,
                         // flex: 1,
                     }}>
-                        {ad.price} د.ع
+                        {ad.price} {' '} {i18n.t('IQD')}
                     </Text>
                 </View>
             </View>

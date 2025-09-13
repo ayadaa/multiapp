@@ -46,7 +46,7 @@ export const cityNameList = {
   Wasit: 'Wasit',
   Dohuk: 'Dohuk',
   Diyala: 'Diyala',
-  AlAnbar: 'Al Anbar',
+  AlAnbar: 'AlAnbar',
   Samawah: 'Samawah',
   Saladin: 'Saladin',
 }

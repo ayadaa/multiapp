@@ -16,6 +16,14 @@
     "fashion": "Fashion",
     "games": "Games",
 
+    "Real estate": "Real estate",
+    "Cars": "Cars",
+    "Works": "Works",
+    "Animals": "Animals",
+    "Electronics": "Electronics",
+    "Fashion": "Fashion",
+    "Games": "Games",
+
     "addNewAd": "Add new ad",
     "createAd": "Create Ad",
     "image": "Image",
@@ -27,9 +35,12 @@
     "price": "Price",
     "enterAdPrice": "Enter ad price...",
     "category": "Category",
+
+    "allTypes": "All types",
     "type": "Type",
     "sale": "sale",
     "buy": "buy",
+    
     "city": "City",
     "loading": "Loading...",
     "creating": "Creating...",
@@ -40,6 +51,7 @@
     "error": "Error",
     "failedToCreateAd": "Failed to create ad. Please try again.",
 
+    "allCities": "All cities",
     "Bagdad": "Bagdad",
     "Babil": "Babil",
     "Karbala": "Karbala",
@@ -55,11 +67,17 @@
     "Wasit": "Wasit",
     "Dohuk": "Dohuk",
     "Diyala": "Diyala",
-    "AlAnbar": "Al Anbar",
+    "AlAnbar": "AlAnbar",
     "Samawah": "Samawah",
     "Saladin": "Saladin",
 
     "adDetails": "Ad Details",
+    "you": "You",
+    "sendMessage": "Send Message",
+    "updateAd": "Update Ad",
+
+    "search": "Search",
+    "searchAd": "Search ad...",
 
     "messages": "Messages",
     "groups": "Groups",

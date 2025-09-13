@@ -1,6 +1,7 @@
 import { View, ScrollView, StyleSheet } from "react-native";
 import { Picker } from '@react-native-picker/picker';
 // import { classNameList, cityNameList } from "../../screens/ads/CreateAdScreen";
+import i18n from '../../language/i18n';
 
 interface FilterBarProp {
   handleRefresh: (className?: string, cityName?: string, typeName?: string) => void;
@@ -66,14 +67,14 @@ export default function FilterBar({ handleRefresh, className, setClassName, city
           handleRefresh(itemValue, cityName, typeName);
         }}
       >
-        <Picker.Item label={classNameList.All} value={classNameList.All} />
-        <Picker.Item label={classNameList.RealEstate} value={classNameList.RealEstate} />
-        <Picker.Item label={classNameList.Animals} value={classNameList.Animals} />
-        <Picker.Item label={classNameList.Electronics} value={classNameList.Electronics} />
-        <Picker.Item label={classNameList.Fashion} value={classNameList.Fashion} />
-        <Picker.Item label={classNameList.Games} value={classNameList.Games} />
-        <Picker.Item label={classNameList.Works} value={classNameList.Works} />
-        <Picker.Item label={classNameList.Cars} value={classNameList.Cars} />
+        <Picker.Item label={i18n.t('allCategory')} value={classNameList.All} />
+        <Picker.Item label={i18n.t('realEstate')} value={classNameList.RealEstate} />
+        <Picker.Item label={i18n.t('animals')} value={classNameList.Animals} />
+        <Picker.Item label={i18n.t('electronics')} value={classNameList.Electronics} />
+        <Picker.Item label={i18n.t('fashion')} value={classNameList.Fashion} />
+        <Picker.Item label={i18n.t('games')} value={classNameList.Games} />
+        <Picker.Item label={i18n.t('works')} value={classNameList.Works} />
+        <Picker.Item label={i18n.t('cars')} value={classNameList.Cars} />
       </Picker>
     );
   }
@@ -88,25 +89,25 @@ export default function FilterBar({ handleRefresh, className, setClassName, city
           handleRefresh(className, itemValue, typeName);
         }}
       >
-        <Picker.Item label={cityNameList.All} value={cityNameList.All} />
-        <Picker.Item label={cityNameList.Bagdad} value={cityNameList.Bagdad} />
-        <Picker.Item label={cityNameList.Babil} value={cityNameList.Babil} />
-        <Picker.Item label={cityNameList.Karbala} value={cityNameList.Karbala} />
-        <Picker.Item label={cityNameList.AlAnbar} value={cityNameList.AlAnbar} />
-        <Picker.Item label={cityNameList.Amarah} value={cityNameList.Amarah} />
-        <Picker.Item label={cityNameList.Basra} value={cityNameList.Basra} />
-        <Picker.Item label={cityNameList.Diwaniyah} value={cityNameList.Diwaniyah} />
-        <Picker.Item label={cityNameList.Diyala} value={cityNameList.Diyala} />
-        <Picker.Item label={cityNameList.Dohuk} value={cityNameList.Dohuk} />
-        <Picker.Item label={cityNameList.Erbil} value={cityNameList.Erbil} />
-        <Picker.Item label={cityNameList.Kirkuk} value={cityNameList.Kirkuk} />
-        <Picker.Item label={cityNameList.Mosul} value={cityNameList.Mosul} />
-        <Picker.Item label={cityNameList.Najaf} value={cityNameList.Najaf} />
-        <Picker.Item label={cityNameList.Nasiriyah} value={cityNameList.Nasiriyah} />
-        <Picker.Item label={cityNameList.Saladin} value={cityNameList.Saladin} />
-        <Picker.Item label={cityNameList.Samawah} value={cityNameList.Samawah} />
-        <Picker.Item label={cityNameList.Sulaymaniyah} value={cityNameList.Sulaymaniyah} />
-        <Picker.Item label={cityNameList.Wasit} value={cityNameList.Wasit} />
+        <Picker.Item label={i18n.t('allCities')} value={cityNameList.All} />
+        <Picker.Item label={i18n.t('Bagdad')} value={cityNameList.Bagdad} />
+        <Picker.Item label={i18n.t('Babil')} value={cityNameList.Babil} />
+        <Picker.Item label={i18n.t('Karbala')} value={cityNameList.Karbala} />
+        <Picker.Item label={i18n.t('AlAnbar')} value={cityNameList.AlAnbar} />
+        <Picker.Item label={i18n.t('Amarah')} value={cityNameList.Amarah} />
+        <Picker.Item label={i18n.t('Basra')} value={cityNameList.Basra} />
+        <Picker.Item label={i18n.t('Diwaniyah')} value={cityNameList.Diwaniyah} />
+        <Picker.Item label={i18n.t('Diyala')} value={cityNameList.Diyala} />
+        <Picker.Item label={i18n.t('Dohuk')} value={cityNameList.Dohuk} />
+        <Picker.Item label={i18n.t('Erbil')} value={cityNameList.Erbil} />
+        <Picker.Item label={i18n.t('Kirkuk')} value={cityNameList.Kirkuk} />
+        <Picker.Item label={i18n.t('Mosul')} value={cityNameList.Mosul} />
+        <Picker.Item label={i18n.t('Najaf')} value={cityNameList.Najaf} />
+        <Picker.Item label={i18n.t('Nasiriyah')} value={cityNameList.Nasiriyah} />
+        <Picker.Item label={i18n.t('Saladin')} value={cityNameList.Saladin} />
+        <Picker.Item label={i18n.t('Samawah')} value={cityNameList.Samawah} />
+        <Picker.Item label={i18n.t('Sulaymaniyah')} value={cityNameList.Sulaymaniyah} />
+        <Picker.Item label={i18n.t('Wasit')} value={cityNameList.Wasit} />
       </Picker>
     );
   }
@@ -121,9 +122,9 @@ export default function FilterBar({ handleRefresh, className, setClassName, city
           handleRefresh(className, cityName, itemValue);
         }}
       >
-        <Picker.Item label={typeNameList.all} value={typeNameList.all} />
-        <Picker.Item label={typeNameList.sale} value={typeNameList.sale} />
-        <Picker.Item label={typeNameList.buy} value={typeNameList.buy} />
+        <Picker.Item label={i18n.t('allTypes')} value={typeNameList.all} />
+        <Picker.Item label={i18n.t('sale')} value={typeNameList.sale} />
+        <Picker.Item label={i18n.t('buy')} value={typeNameList.buy} />
       </Picker>
     );
   }
