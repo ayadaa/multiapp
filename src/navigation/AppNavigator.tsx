@@ -21,6 +21,11 @@ export function AppNavigator() {
   const currentLanguage = useAppSelector((state) => state.language.currentLanguage);
   i18n.locale = currentLanguage; // handle current language
 
+  // React.useEffect(() => {
+  //   const currentLanguage = useAppSelector((state) => state.language.currentLanguage);
+  //   i18n.locale = currentLanguage; // handle current language
+  // }, [i18n.locale]);
+
   return (
     <NavigationContainer>
       {isAuthenticated ? <AppStackNavigator /> : <AuthNavigator />}

@@ -6,10 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   RefreshControl,
-  Alert,
-  Image,
   FlatList,
-  StatusBar,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Entypo from '@expo/vector-icons/Entypo';
@@ -17,25 +14,24 @@ import { useNavigation } from '@react-navigation/native';
 import { Screen } from '../../components/common/Screen2';
 import { useAds } from '../../hooks/ad/use-ads';
 import { useAuth } from '../../hooks/auth/use-auth';
-import type { Ad } from '../../types/ads';
 import type { NavigationProp } from '../../types/navigation';
 // import { formatTimestamp } from '../../functions/formatTimestamp';
 import { FloatingAction } from "react-native-floating-action";
 // import Feather from '@expo/vector-icons/Feather';
 // import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import AntDesign from '@expo/vector-icons/AntDesign';
 import CategoryFilter, { categories, type Categorie } from '../../components/ads/CategoryFilter'
 import AdCard from "../../components/cards/AdCard";
 import SearchButton from '../../components/search/SearchButton';
+import i18n from '../../language/i18n';
 
-const actions = [
-  {
-    text: "Add new ad",
-    icon: <Entypo name="add-to-list" size={24} color="white" />,
-    name: "bt_ad",
-    position: 1
-  },
-];
+// const actions = [
+//   {
+//     text: i18n.t('Add new ad'),
+//     icon: <Entypo name="add-to-list" size={24} color="white" />,
+//     name: "bt_ad",
+//     position: 1
+//   },
+// ];
 
 export function AdsScreen() {
   // const [className, setClassName] = React.useState('All category');
@@ -53,6 +49,15 @@ export function AdsScreen() {
     refreshAds,
     formatTimestamp
   } = useAds(user?.uid || '');
+
+  const actions = [
+    {
+      text: i18n.t('addNewAd'),
+      icon: <Entypo name="add-to-list" size={24} color="white" />,
+      name: "bt_ad",
+      position: 1
+    },
+  ];
 
   const handleCreateAdPress = () => {
     navigation.navigate('CreateAd' as never); //ayad
@@ -149,7 +154,7 @@ export function AdsScreen() {
         {/* Ads categories */}
         {categories.length > 0 && (
           <CategoryFilter
-            categories={categories}
+            // categories={categories}
             selectedCategory={selectedCategory}
             onSelectCategory={handleCategorySelect}
           />

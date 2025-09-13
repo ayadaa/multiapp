@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from "react-nati
 // import { homeStyles } from "../assets/styles/home.styles";
 // import { MaterialIcons } from '@expo/vector-icons';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import i18n from '../../language/i18n';
 
 export interface Categorie {
   id: number;
@@ -10,6 +11,7 @@ export interface Categorie {
   icon: string;
 }
 
+// categoris in english language
 export const categories = [
   {
     id: 1,
@@ -59,56 +61,74 @@ export const categories = [
   }
 ]
 
-// export const categories0 = [
-//   {
-//     id: 1,
-//     name: 'Tiny homes',
-//     icon: 'home',
-//   },
-//   {
-//     id: 2,
-//     name: 'Cabins',
-//     icon: 'house-siding',
-//   },
-//   {
-//     id: 3,
-//     name: 'Trending',
-//     icon: 'local-fire-department',
-//   },
-//   {
-//     id: 4,
-//     name: 'Play',
-//     icon: 'videogame-asset',
-//   },
-//   {
-//     id: 5,
-//     name: 'City',
-//     icon: 'apartment',
-//   },
-//   {
-//     id: 6,
-//     name: 'Beachfront',
-//     icon: 'beach-access',
-//   },
-//   {
-//     id: 7,
-//     name: 'Countryside',
-//     icon: 'nature-people',
-//   },
-// ];
-
 export default function CategoryFilter(
-  { categories, selectedCategory, onSelectCategory }:
-    { categories: Categorie[]; selectedCategory: string; onSelectCategory: any }
+  // { categories, selectedCategory, onSelectCategory }:
+  //   { categories: Categorie[]; selectedCategory: string; onSelectCategory: any }
+  { selectedCategory, onSelectCategory }:
+    { selectedCategory: string; onSelectCategory: any }
 ) {
+  // const langcode = i18n.locale;
+  // const isRTL = langcode == 'ar';
+
+  // categoris labe in multi languages
+  const categoriesLable = [
+    {
+      id: 1,
+      name: i18n.t('allCategory'),
+      icon: 'square',
+    },
+    {
+      id: 2,
+      name: i18n.t('realEstate'),
+      // icon: 'apartment',
+      icon: 'building',
+    },
+    {
+      id: 3,
+      name: i18n.t('cars'),
+      // icon: 'directions-car',
+      icon: 'car-side',
+    },
+    {
+      id: 4,
+      name: i18n.t('works'),
+      // icon: 'business-center',
+      icon: 'business-time',
+    },
+    {
+      id: 5,
+      name: i18n.t('animals'),
+      icon: 'cat',
+    },
+    {
+      id: 6,
+      name: i18n.t('electronics'),
+      // icon: 'laptop',
+      icon: 'laptop-file',
+    },
+    {
+      id: 7,
+      name: i18n.t('fashion'),
+      // icon: 'shopping-bag',
+      icon: 'person-dress',
+    },
+    {
+      id: 8,
+      name: i18n.t('games'),
+      // icon: 'videogame-asset',
+      icon: 'gamepad',
+    }
+  ]
+
   return (
     <View style={styles.categoryFilterContainer}>
       <ScrollView
         horizontal
+        // style={isRTL ? { flexDirection: 'row-reverse' } : { flexDirection: 'row' }}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.categoryFilterScrollContent}
       >
-        {categories.map((category: Categorie) => {
+        {categories.map((category: Categorie, index) => {
           const isSelected = selectedCategory === category.name;
           return (
             <TouchableOpacity
@@ -132,7 +152,7 @@ export default function CategoryFilter(
               <Text
                 style={[styles.categoryText, isSelected && styles.selectedCategoryText]}
               >
-                {category.name}
+                {categoriesLable[index].name}
               </Text>
             </TouchableOpacity>
           );

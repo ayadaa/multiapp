@@ -4,7 +4,7 @@ import {
     createDrawerNavigator,
 } from '@react-navigation/drawer';
 import SCREENS from '../screens';
-import { Image, Text, View, Button } from 'react-native';
+import { Image, Text, View } from 'react-native';
 import { AdsScreen } from '../screens/ads/AdsScreen';
 import { FriendsStackNavigator } from './FriendsStackNavigator';
 import { ProfileScreen } from '../screens/profile/ProfileScreen';

@@ -10,8 +10,8 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider, useDispatch } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 // import { persistor, store } from './src/redux/store';
-import { I18nManager } from 'react-native';
-import i18n from './src/language/i18n'; // Import your i18n instance
+// import { I18nManager } from 'react-native';
+// import i18n from './src/language/i18n'; // Import your i18n instance
 // import { useAppSelector } from './src/store/hooks';
 
 /**
@@ -31,19 +31,19 @@ export default function App() {
 
   //   return () => unsubscribe();
   // }, []);
-  
+
   // const currentLanguage = useAppSelector((state) => state.language.currentLanguage);
   // i18n.locale = currentLanguage; // handle current language
 
-  React.useEffect(() => {
-    const isRTL = i18n.locale === 'ar'; // Example: Check for Arabic
-    if (I18nManager.isRTL !== isRTL) {
-      I18nManager.forceRTL(isRTL);
-      // Restart the app to apply RTL changes (platform-specific behavior)
-      // You might need a more robust solution for production,
-      // potentially involving a library like `react-native-restart`
-    }
-  }, [i18n.locale]);
+  // React.useEffect(() => {
+  //   const isRTL = i18n.locale === 'ar'; // Example: Check for Arabic
+  //   if (I18nManager.isRTL !== isRTL) {
+  //     I18nManager.forceRTL(isRTL);
+  //     // Restart the app to apply RTL changes (platform-specific behavior)
+  //     // You might need a more robust solution for production,
+  //     // potentially involving a library like `react-native-restart`
+  //   }
+  // }, [i18n.locale]);
 
   return (
     // <Provider store={store}>

@@ -6,19 +6,34 @@ import i18n from '../../language/i18n';
 const SearchButton = () => {
     const navigation = useNavigation<any>();
 
+    const langcode = i18n.locale;
+    const isRTL = langcode == 'ar';
+
     const handleSearchPress = () => {
         navigation.navigate('Search' as never);
+        // console.log('isRTL', isRTL)
     }
 
     return (
-        <TouchableOpacity onPress={handleSearchPress}>
-            <View style={styles.searchBtn}>
+        <TouchableOpacity
+            onPress={handleSearchPress}
+            style={[
+                styles.searchBtn,
+                isRTL ? { flexDirection: 'row-reverse' } : { flexDirection: 'row' }
+            ]}
+        >
+            {/* <View style={[
+                styles.searchBtn,
+                I18nManager.isRTL ? { justifyContent: 'flex-end' } : { justifyContent: 'flex-start' }
+            ]}> */}
+            <View>
                 <Ionicons name="search" size={24} />
-                <View>
-                    <Text style={{ fontFamily: 'mon-sb' }}>{i18n.t('whatDoYouWant')}</Text>
-                    <Text style={{ color: '#5E5D5E', fontFamily: 'mon' }}>{i18n.t('saleBuy')}</Text>
-                </View>
             </View>
+            <View>
+                <Text style={{ fontFamily: 'mon-sb' }}>{i18n.t('whatDoYouWant')}</Text>
+                <Text style={{ color: '#5E5D5E', fontFamily: 'mon' }}>{i18n.t('saleBuy')}</Text>
+            </View>
+            {/* </View> */}
         </TouchableOpacity>
     );
 }
@@ -26,7 +41,8 @@ const SearchButton = () => {
 const styles = StyleSheet.create({
     searchBtn: {
         backgroundColor: '#fff',
-        flexDirection: 'row',
+        // flexDirection: 'row',
+        justifyContent: 'flex-start',
         gap: 10,
         padding: 6,
         alignItems: 'center',

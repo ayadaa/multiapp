@@ -5,5 +5,16 @@
     "friends": "Friends",
     "referral": "Referral",
     "whatDoYouWant": "What do you want?",
-    "saleBuy": "Sale · buy"
+    "saleBuy": "Sale · buy",
+
+    "allCategory": "All category",
+    "realEstate": "Real estate",
+    "cars": "Cars",
+    "works": "Works",
+    "animals": "Animals",
+    "electronics": "Electronics",
+    "fashion": "Fashion",
+    "games": "Games",
+
+    "addNewAd": "Add new ad"
 }

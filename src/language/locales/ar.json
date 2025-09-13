@@ -5,5 +5,16 @@
     "friends": "الاصدقاء",
     "referral": "الاحالة",
     "whatDoYouWant": "ماذا تريد؟",
-    "saleBuy": "بيع · شراء"
+    "saleBuy": "بيع · شراء",
+
+    "allCategory": "جميع الاصناف",
+    "realEstate": "عقارات",
+    "cars": "سيارات",
+    "works": "اعمال",
+    "animals": "حيوانات",
+    "electronics": "الكترونيات",
+    "fashion": "موضة",
+    "games": "العاب",
+
+    "addNewAd": "أضافة اعلان جديد"
 }
