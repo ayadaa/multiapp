@@ -9,13 +9,17 @@ const i18n = new I18n({
   // Add other languages as needed
 });
 
+// Set the locale based on the device's locale
+const deviceLanguage = Localization.getLocales()[0].languageCode || 'ar'; // Set initial locale from device
+i18n.locale = deviceLanguage;
+
+// Enable fallback to default locale if a specific translation is missing
 i18n.enableFallback = true;
-const languageCode = Localization.getLocales()[0].languageCode || 'ar'; // Set initial locale from device
-i18n.locale = languageCode;
+i18n.defaultLocale = 'ar'; // Set a default locale
 
 // Set RTL layout for the entire app if the current locale is RTL
-const isRTL = languageCode == 'ar';
-I18nManager.forceRTL(isRTL);
+const isRTL = deviceLanguage == 'ar';
+// I18nManager.forceRTL(isRTL);
 I18nManager.allowRTL(true); // Allow RTL for the app
 
 // Set the locale based on the user's device preferences

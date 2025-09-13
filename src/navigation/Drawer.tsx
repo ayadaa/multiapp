@@ -17,22 +17,23 @@ import { Ionicons } from '@expo/vector-icons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { ReferralScreen } from '../screens/profile/ReferralScreen';
 // import Ionicons from '@expo/vector-icons/Ionicons';
-import { useSelector, useDispatch } from 'react-redux';
-import { setLanguage } from '../store/slices/language.slice';
-import i18n, { updateLocale } from '../language/i18n'; // Import your i18n instance
-import { Picker } from '@react-native-picker/picker';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { setLanguage } from '../store/slices/language.slice';
+// import i18n, { updateLocale } from '../language/i18n'; // Import your i18n instance
+// import { Picker } from '@react-native-picker/picker';
+import i18n from '../language/i18n'; // Import your i18n instance
 
 const renderHeader = () => {
     const user = useAppSelector((state) => state.auth.user);
     const { User } = useUser(user?.uid!);
-    const dispatch = useDispatch();
-    const currentLanguage = useAppSelector((state) => state.language.currentLanguage);
-    i18n.locale = currentLanguage; // handle current language
+    // const dispatch = useDispatch();
+    // const currentLanguage = useAppSelector((state) => state.language.currentLanguage);
+    // i18n.locale = currentLanguage; // handle current language
 
-    const handleChangeLanguage = (lang: string) => {
-        dispatch(setLanguage(lang));
-        // updateLocale(lang); //ayad
-    };
+    // const handleChangeLanguage = (lang: string) => {
+    //     dispatch(setLanguage(lang));
+    //     // updateLocale(lang); //ayad
+    // };
 
     return (
         <View style={{
@@ -90,7 +91,7 @@ const renderHeader = () => {
                 @{user?.username}
             </Text>
             {/* language */}
-            <View
+            {/* <View
                 style={{
                     backgroundColor: 'rgba(255, 255, 255, 1)',
                     minWidth: 120,
@@ -105,7 +106,6 @@ const renderHeader = () => {
                 <Picker
                     selectedValue={currentLanguage}
                     style={{
-                        // flex: 1,
                         minWidth: 120,
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -122,7 +122,7 @@ const renderHeader = () => {
                     <Picker.Item label='العربية' value='ar' />
                     <Picker.Item label='English' value='en' />
                 </Picker>
-            </View>
+            </View> */}
         </View>
     );
 }

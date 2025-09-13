@@ -22,15 +22,25 @@ import { useNavigation } from '@react-navigation/native';
 import { useUser } from '../../hooks/user/use-user';
 import AdSearchCard from '../../components/cards/AdSearchCard';
 import { useAds } from '../../hooks/ad/use-ads';
+import { useSelector, useDispatch } from 'react-redux';
+import { setLanguage } from '../../store/slices/language.slice';
+import i18n, { updateLocale } from '../../language/i18n'; // Import your i18n instance
+import { Picker } from '@react-native-picker/picker';
 
 export function ProfileScreen() {
   const navigation = useNavigation<any>();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
   const { User } = useUser(user?.uid!);
-
   const { personAds, isLoadingPersonAds, personAdsError, refreshPersonAds } = useAds(user?.uid!);
+  const dispatch2 = useDispatch();
+  const currentLanguage = useAppSelector((state) => state.language.currentLanguage);
+  i18n.locale = currentLanguage; // handle current language
 
+  const handleChangeLanguage = (lang: string) => {
+    dispatch2(setLanguage(lang));
+    // updateLocale(lang); //ayad
+  };
   /**
    * Handle logout with confirmation
    */
@@ -163,6 +173,40 @@ export function ProfileScreen() {
               </View>
               <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
             </TouchableOpacity> */}
+          </View>
+          {/* language */}
+          <View
+            style={{
+              backgroundColor: 'rgba(255, 255, 255, 1)',
+              minWidth: 120,
+              // height: 60,
+              borderRadius: 12,
+              paddingHorizontal: 2,
+              paddingVertical: 1,
+              borderWidth: 1,
+              borderColor: 'rgba(0, 0, 0, 0.2)',
+            }}
+          >
+            <Picker
+              selectedValue={currentLanguage}
+              style={{
+                // flex: 1,
+                minWidth: 120,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 12,
+                borderWidth: 1,
+                borderColor: 'rgba(0, 0, 0, 0.2)',
+                fontSize: 12,
+                color: '#000000',
+              }}
+              onValueChange={(itemValue) => {
+                handleChangeLanguage(itemValue);
+              }}
+            >
+              <Picker.Item label='العربية' value='ar' />
+              <Picker.Item label='English' value='en' />
+            </Picker>
           </View>
         </View>
 

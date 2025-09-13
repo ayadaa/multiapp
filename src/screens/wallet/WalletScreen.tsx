@@ -181,7 +181,7 @@ export function WalletScreen() {
             disabled={isDisabled}
           >
             <View style={styles.menuItemLeft}>
-              <Text style={styles.menuItemText}>Mining ⛏💎 : {User?.miningSpeed || 0} / day</Text>
+              <Text style={styles.menuItemText}>Mining ⛏ : {User?.miningSpeed || 0}💎 / day</Text>
             </View>
             <View style={styles.menuItemLeft}>
               {(User?.miningEndTime ? User.miningEndTime.toMillis() : Timestamp.now().toMillis()) - Timestamp.now().toMillis() > 0 && <Text style={styles.menuItemText}>{getFormattedTime(time)}</Text>}

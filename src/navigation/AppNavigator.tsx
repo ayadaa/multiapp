@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { AuthNavigator } from './AuthNavigator';
 import AppStackNavigator from './AppStackNavigator';
 import { useAppSelector } from '../store/hooks';
+import i18n from '../language/i18n'; // Import your i18n instance
+// import { useAppSelector } from '../store/hooks';
 
 /**
  * Main application navigator that manages the root navigation flow.
@@ -16,6 +18,8 @@ import { useAppSelector } from '../store/hooks';
  */
 export function AppNavigator() {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+  const currentLanguage = useAppSelector((state) => state.language.currentLanguage);
+  i18n.locale = currentLanguage; // handle current language
 
   return (
     <NavigationContainer>
