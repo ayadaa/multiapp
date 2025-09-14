@@ -56,7 +56,7 @@ export function ChatScreen() {
       otherUser: {
         uid: chat.otherUser.uid,
         email: chat.otherUser.email,
-        username: chat.otherUser?.username || 'Unknown User',
+        username: chat.otherUser?.username || i18n.t('unknownUser'),
         displayName: chat.otherUser.displayName,
         profilePicture: chat.otherUser.profilePicture,
         createdAt: chat.otherUser.createdAt,
@@ -235,7 +235,7 @@ export function ChatScreen() {
                 fontSize: 16,
                 fontWeight: 'bold',
               }}>
-                {chat.otherUser?.username || 'Unknown User'}
+                {chat.otherUser?.username || i18n.t('unknownUser')}
               </Text>
               <Text style={{
                 color: 'rgba(0, 0, 0, 0.7)',
@@ -257,7 +257,7 @@ export function ChatScreen() {
               }} numberOfLines={1}>
                 {chat.lastMessage?.type === 'snap'
                   ? '📸 Snap'
-                  : chat.lastMessage?.text || 'No messages yet'
+                  : chat.lastMessage?.text || i18n.t('noMessagesYet')
                 }
               </Text>
               {chat.unreadCount > 0 && (
@@ -338,7 +338,7 @@ export function ChatScreen() {
           justifyContent: 'center',
         }}>
           <Text style={{ color: 'rgba(0, 0, 0, 0.75)', fontSize: 16 }}>
-            Loading chats...
+            {i18n.t('loadingChats')}
           </Text>
         </View>
       ) : error ? (
@@ -354,7 +354,7 @@ export function ChatScreen() {
             textAlign: 'center',
             marginBottom: 8,
           }}>
-            Failed to load chats
+            {i18n.t('failedToLoadChats')}
           </Text>
           <Text style={{
             color: 'rgba(255, 255, 255, 0.6)',
@@ -380,7 +380,7 @@ export function ChatScreen() {
             marginBottom: 8,
             textAlign: 'center',
           }}>
-            No chats yet
+            {i18n.t('noMessagesYet')}
           </Text>
           <Text style={{
             color: 'rgba(0, 0, 0, 0.75)',
@@ -388,7 +388,7 @@ export function ChatScreen() {
             textAlign: 'center',
             marginBottom: 24,
           }}>
-            Start a conversation with friends or create a group chat
+            {i18n.t('startWithFriendsOrGroup')}
           </Text>
 
           <View style={{ flexDirection: 'row', gap: 16 }}>
@@ -406,7 +406,7 @@ export function ChatScreen() {
             >
               <Ionicons name="people-outline" size={20} color="#000000" />
               <Text style={{ color: '#000000', fontSize: 16, fontWeight: '600' }}>
-                Create Group
+                {i18n.t('createGroup')}
               </Text>
             </TouchableOpacity>
 
@@ -424,7 +424,7 @@ export function ChatScreen() {
             >
               <Ionicons name="search" size={20} color="#000000" />
               <Text style={{ color: '#000000', fontSize: 16, fontWeight: '600' }}>
-                Find Friends
+                {i18n.t('findFriends')}
               </Text>
             </TouchableOpacity>
           </View>

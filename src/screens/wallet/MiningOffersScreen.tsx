@@ -105,7 +105,7 @@ export default function MiningOffersScreen() {
                         </View>
                     </TouchableOpacity>
                 ))}</View> : <View>
-                    <Text>Loading offers . . .</Text>
+                    <Text>{i18n.t('loadingOffers')}</Text>
                 </View>}
             </ScrollView>
         </Screen>

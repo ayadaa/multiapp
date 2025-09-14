@@ -122,6 +122,7 @@ export default function AppStackNavigator() {
         component={P2PCreateAdScreen}
         options={{
           headerShown: true,
+          headerTitle: i18n.t('createP2PAd'),
         }}
       />
 
@@ -139,6 +140,7 @@ export default function AppStackNavigator() {
         component={SendScreen}
         options={{
           headerShown: true,
+          headerTitle: i18n.t('send'),
         }}
       />
 
@@ -147,6 +149,7 @@ export default function AppStackNavigator() {
         component={ReceiveScreen}
         options={{
           headerShown: true,
+          headerTitle: i18n.t('receive'),
         }}
       />
 
@@ -164,6 +167,7 @@ export default function AppStackNavigator() {
         component={QRScannerScreen}
         options={{
           headerShown: true,
+          headerTitle: i18n.t('scan'),
         }}
       />
 

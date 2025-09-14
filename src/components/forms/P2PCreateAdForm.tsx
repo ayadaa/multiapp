@@ -11,6 +11,7 @@ import { useP2PAds } from '../../hooks/p2pAd/use-p2pAds';
 import { createP2PPaymentSchema, type CreateP2PPaymentFormData } from '../../utils/validation/p2p-schemas';
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
+import i18n from '../../language/i18n';
 
 interface SendFormProps {
   onSuccess?: () => void;
@@ -99,9 +100,9 @@ export function P2PCreateAdForm({ onSuccess, onNavigateToP2PAds }: SendFormProps
   }, [watchedAmount, checkAmount])
   const getAmountStatus = () => {
     if (!watchedAmount) return null;
-    if (amountCheckLoading) return { color: '#007AFF', text: 'Checking...' };
-    if (amountSufficient === true) return { color: '#34C759', text: 'Your balance is enogh' };
-    if (amountSufficient === false) return { color: '#FF3B30', text: 'Your balance is not enough to send create p2p ad' };
+    if (amountCheckLoading) return { color: '#007AFF', text: i18n.t('checking') };
+    if (amountSufficient === true) return { color: '#34C759', text: i18n.t('yourBalanceIsEnogh') };
+    if (amountSufficient === false) return { color: '#FF3B30', text: i18n.t('yourBalanceIsNotEnoughToCreateP2PAd') };
     return null;
   };
   const amountStatus = getAmountStatus();
@@ -131,9 +132,9 @@ export function P2PCreateAdForm({ onSuccess, onNavigateToP2PAds }: SendFormProps
   }, [watchedPrice, checkPrice])
   const getPriceStatus = () => {
     if (!watchedPrice) return null;
-    if (priceCheckLoading) return { color: '#007AFF', text: 'Checking...' };
-    if (priceSufficient === true) return { color: '#34C759', text: 'Your price is suitable' };
-    if (priceSufficient === false) return { color: '#FF3B30', text: 'Your price is not suitable' };
+    if (priceCheckLoading) return { color: '#007AFF', text: i18n.t('checking') };
+    if (priceSufficient === true) return { color: '#34C759', text: i18n.t('priceIsSuitable') };
+    if (priceSufficient === false) return { color: '#FF3B30', text: i18n.t('priceIsNotSuitable') };
     return null;
   };
   const priceStatus = getPriceStatus();
@@ -161,8 +162,8 @@ export function P2PCreateAdForm({ onSuccess, onNavigateToP2PAds }: SendFormProps
         render={({ field: { onChange, onBlur, value } }) => (
           <View>
             <Input
-              label="Amount"
-              placeholder="Place an amount"
+              label={i18n.t('amount')}
+              placeholder={i18n.t('placeAnAmount')}
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
@@ -191,8 +192,8 @@ export function P2PCreateAdForm({ onSuccess, onNavigateToP2PAds }: SendFormProps
         render={({ field: { onChange, onBlur, value } }) => (
           <View>
             <Input
-              label="Price"
-              placeholder="Place an price"
+              label={i18n.t('price')}
+              placeholder={i18n.t('placeAnPrice')}
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
@@ -221,7 +222,7 @@ export function P2PCreateAdForm({ onSuccess, onNavigateToP2PAds }: SendFormProps
           <View>
             <Text
               style={styles.inputLabel}
-            >Method</Text>
+            >{i18n.t('method')}</Text>
             <View style={styles.pickerContainer}>
               <Picker
                 selectedValue={value}
@@ -230,36 +231,36 @@ export function P2PCreateAdForm({ onSuccess, onNavigateToP2PAds }: SendFormProps
                 onValueChange={(itemValue) => onChange(itemValue)}
                 onBlur={onBlur}
               >
-                <Picker.Item label={P2PPaymentMethods.zainCash} value={P2PPaymentMethods.zainCash} />
-                <Picker.Item label={P2PPaymentMethods.zainCashBusiness} value={P2PPaymentMethods.zainCash} />
-                <Picker.Item label={P2PPaymentMethods.alRafidainQiServices} value={P2PPaymentMethods.alRafidainQiServices} />
-                <Picker.Item label={P2PPaymentMethods.fastPay} value={P2PPaymentMethods.fastPay} />
-                <Picker.Item label={P2PPaymentMethods.firstIraqiBank} value={P2PPaymentMethods.firstIraqiBank} />
-                <Picker.Item label={P2PPaymentMethods.asiaPay} value={P2PPaymentMethods.asiaPay} />
-                <Picker.Item label={P2PPaymentMethods.alJanoobIslamicBank} value={P2PPaymentMethods.alJanoobIslamicBank} />
-                <Picker.Item label={P2PPaymentMethods.alTaif} value={P2PPaymentMethods.alTaif} />
-                <Picker.Item label={P2PPaymentMethods.ashurInternationalBankForInvestment} value={P2PPaymentMethods.ashurInternationalBankForInvestment} />
-                <Picker.Item label={P2PPaymentMethods.babylonBank} value={P2PPaymentMethods.babylonBank} />
-                <Picker.Item label={P2PPaymentMethods.cashInPerson} value={P2PPaymentMethods.cashInPerson} />
-                <Picker.Item label={P2PPaymentMethods.commercialBankOfIraq} value={P2PPaymentMethods.commercialBankOfIraq} />
-                <Picker.Item label={P2PPaymentMethods.creditBankOfIraq} value={P2PPaymentMethods.creditBankOfIraq} />
-                <Picker.Item label={P2PPaymentMethods.elafIslamicBank} value={P2PPaymentMethods.elafIslamicBank} />
-                <Picker.Item label={P2PPaymentMethods.gulfCommercialBank} value={P2PPaymentMethods.gulfCommercialBank} />
-                <Picker.Item label={P2PPaymentMethods.industrialBank} value={P2PPaymentMethods.industrialBank} />
-                <Picker.Item label={P2PPaymentMethods.internationalDevelopmentBankOfIraq} value={P2PPaymentMethods.internationalDevelopmentBankOfIraq} />
-                <Picker.Item label={P2PPaymentMethods.kurdistanInternationalBank} value={P2PPaymentMethods.kurdistanInternationalBank} />
-                <Picker.Item label={P2PPaymentMethods.moneyGram} value={P2PPaymentMethods.moneyGram} />
-                <Picker.Item label={P2PPaymentMethods.mosulBank} value={P2PPaymentMethods.mosulBank} />
-                <Picker.Item label={P2PPaymentMethods.nassPay} value={P2PPaymentMethods.nassPay} />
-                <Picker.Item label={P2PPaymentMethods.nassWallet} value={P2PPaymentMethods.nassWallet} />
-                <Picker.Item label={P2PPaymentMethods.nationalBankOfIraq} value={P2PPaymentMethods.nationalBankOfIraq} />
-                <Picker.Item label={P2PPaymentMethods.neo} value={P2PPaymentMethods.neo} />
-                <Picker.Item label={P2PPaymentMethods.northBank} value={P2PPaymentMethods.northBank} />
-                <Picker.Item label={P2PPaymentMethods.rasheedBank} value={P2PPaymentMethods.rasheedBank} />
-                <Picker.Item label={P2PPaymentMethods.sumerBank} value={P2PPaymentMethods.sumerBank} />
-                <Picker.Item label={P2PPaymentMethods.switch} value={P2PPaymentMethods.switch} />
-                <Picker.Item label={P2PPaymentMethods.visaDirect} value={P2PPaymentMethods.visaDirect} />
-                <Picker.Item label={P2PPaymentMethods.westernUnion} value={P2PPaymentMethods.westernUnion} />
+                <Picker.Item label={i18n.t('zainCash')} value={P2PPaymentMethods.zainCash} />
+                <Picker.Item label={i18n.t('zainCashBusiness')} value={P2PPaymentMethods.zainCash} />
+                <Picker.Item label={i18n.t('alRafidainQiServices')} value={P2PPaymentMethods.alRafidainQiServices} />
+                <Picker.Item label={i18n.t('fastPay')} value={P2PPaymentMethods.fastPay} />
+                <Picker.Item label={i18n.t('firstIraqiBank')} value={P2PPaymentMethods.firstIraqiBank} />
+                <Picker.Item label={i18n.t('asiaPay')} value={P2PPaymentMethods.asiaPay} />
+                <Picker.Item label={i18n.t('alJanoobIslamicBank')} value={P2PPaymentMethods.alJanoobIslamicBank} />
+                <Picker.Item label={i18n.t('alTaif')} value={P2PPaymentMethods.alTaif} />
+                <Picker.Item label={i18n.t('ashurInternationalBankForInvestment')} value={P2PPaymentMethods.ashurInternationalBankForInvestment} />
+                <Picker.Item label={i18n.t('babylonBank')} value={P2PPaymentMethods.babylonBank} />
+                <Picker.Item label={i18n.t('cashInPerson')} value={P2PPaymentMethods.cashInPerson} />
+                <Picker.Item label={i18n.t('commercialBankOfIraq')} value={P2PPaymentMethods.commercialBankOfIraq} />
+                <Picker.Item label={i18n.t('creditBankOfIraq')} value={P2PPaymentMethods.creditBankOfIraq} />
+                <Picker.Item label={i18n.t('elafIslamicBank')} value={P2PPaymentMethods.elafIslamicBank} />
+                <Picker.Item label={i18n.t('gulfCommercialBank')} value={P2PPaymentMethods.gulfCommercialBank} />
+                <Picker.Item label={i18n.t('industrialBank')} value={P2PPaymentMethods.industrialBank} />
+                <Picker.Item label={i18n.t('internationalDevelopmentBankOfIraq')} value={P2PPaymentMethods.internationalDevelopmentBankOfIraq} />
+                <Picker.Item label={i18n.t('kurdistanInternationalBank')} value={P2PPaymentMethods.kurdistanInternationalBank} />
+                <Picker.Item label={i18n.t('moneyGram')} value={P2PPaymentMethods.moneyGram} />
+                <Picker.Item label={i18n.t('mosulBank')} value={P2PPaymentMethods.mosulBank} />
+                <Picker.Item label={i18n.t('nassPay')} value={P2PPaymentMethods.nassPay} />
+                <Picker.Item label={i18n.t('nassWallet')} value={P2PPaymentMethods.nassWallet} />
+                <Picker.Item label={i18n.t('nationalBankOfIraq')} value={P2PPaymentMethods.nationalBankOfIraq} />
+                <Picker.Item label={i18n.t('neo')} value={P2PPaymentMethods.neo} />
+                <Picker.Item label={i18n.t('northBank')} value={P2PPaymentMethods.northBank} />
+                <Picker.Item label={i18n.t('rasheedBank')} value={P2PPaymentMethods.rasheedBank} />
+                <Picker.Item label={i18n.t('sumerBank')} value={P2PPaymentMethods.sumerBank} />
+                <Picker.Item label={i18n.t('switch')} value={P2PPaymentMethods.switch} />
+                <Picker.Item label={i18n.t('visaDirect')} value={P2PPaymentMethods.visaDirect} />
+                <Picker.Item label={i18n.t('westernUnion')} value={P2PPaymentMethods.westernUnion} />
               </Picker>
             </View>
           </View>
@@ -276,7 +277,7 @@ export function P2PCreateAdForm({ onSuccess, onNavigateToP2PAds }: SendFormProps
       {/* Submit Button */}
       <View style={styles.buttonContainer}>
         <Button
-          title="Create p2p payment ad"
+          title={i18n.t('createP2PAd')}
           onPress={handleSubmit(onSubmit)}
           loading={isLoading}
           disabled={!isValid || amountSufficient === false}

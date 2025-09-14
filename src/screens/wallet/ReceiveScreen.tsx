@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { useAppSelector } from '../../store/hooks';
 // import { Screen } from '../../components/common/Screen';
+import i18n from '../../language/i18n';
 
 export function ReceiveScreen() {
   const user = useAppSelector((state) => state.auth.user);
@@ -20,7 +21,7 @@ export function ReceiveScreen() {
   return (
     <Screen backgroundColor="#FFFFFF" statusBarStyle="dark-content" keyboardAvoidingView={true} style={styles.container}>
       <View style={styles.content}>
-        <Text style={{ fontSize: 14 }}>Your Wallet address:</Text>
+        <Text style={{ fontSize: 14 }}>{i18n.t('yourWalletAddress')}</Text>
         <Text selectable={true} style={styles.address}>{user?.uid}</Text>
         <QRCode
           // value="tteeee"

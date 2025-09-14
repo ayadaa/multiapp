@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderBottomWidth: 1,
     backgroundColor: 'rgba(255, 255, 255, 1)',
-    borderBottomColor: 'rgba(0, 0, 0, 0.75)',
+    borderBottomColor: 'rgba(0, 0, 0, 0.1)',
   },
   backButton: {
     padding: 8,

@@ -10,6 +10,7 @@ import { useWallet } from '../../hooks/wallet/use-wallet';
 import { sendSchema, type SendFormData } from '../../utils/validation/wallet-schemas';
 // import { useNavigation } from '@react-navigation/native';
 // import AntDesign from '@expo/vector-icons/AntDesign';
+import i18n from '../../language/i18n';
 
 interface SendFormProps {
   onSuccess?: () => void;
@@ -93,9 +94,9 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
 
   const getAddressStatus = () => {
     if (!watchedAddress || watchedAddress.length < 3) return null;
-    if (addressCheckLoading) return { color: '#007AFF', text: 'Checking...' };
-    if (addressExist === true) return { color: '#34C759', text: 'Exist' };
-    if (addressExist === false) return { color: '#FF3B30', text: 'Not exist' };
+    if (addressCheckLoading) return { color: '#007AFF', text: i18n.t('checking') };
+    if (addressExist === true) return { color: '#34C759', text: i18n.t('addressExist') };
+    if (addressExist === false) return { color: '#FF3B30', text: i18n.t('addressNotExist') };
     return null;
   };
 
@@ -103,9 +104,9 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
 
   const getAmountStatus = () => {
     if (!watchedAmount) return null;
-    if (amountCheckLoading) return { color: '#007AFF', text: 'Checking...' };
-    if (amountSufficient === true) return { color: '#34C759', text: 'Your balance is enogh' };
-    if (amountSufficient === false) return { color: '#FF3B30', text: 'Your balance is not enough to send assets' };
+    if (amountCheckLoading) return { color: '#007AFF', text: i18n.t('checking') };
+    if (amountSufficient === true) return { color: '#34C759', text: i18n.t('yourBalanceIsEnogh') };
+    if (amountSufficient === false) return { color: '#FF3B30', text: i18n.t('yourBalanceIsNotEnough') };
     return null;
   };
 
@@ -124,8 +125,8 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
         render={({ field: { onChange, onBlur, value } }) => (
           <View>
             <Input
-              label="Address"
-              placeholder="Place an address"
+              label={i18n.t('walletAddress')}
+              placeholder={i18n.t('placeAnAddress')}
               value={value || qrData}
               onChangeText={onChange}
               onBlur={onBlur}
@@ -153,8 +154,8 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
         render={({ field: { onChange, onBlur, value } }) => (
           <View>
             <Input
-              label="Amount"
-              placeholder="Place an amount"
+              label={i18n.t('amount')}
+              placeholder={i18n.t('placeAnAmount')}
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
@@ -194,7 +195,7 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
           borderTopColor: 'rgba(0, 0, 0, 0.05)',
         }}> */}
       <Button
-        title="Send Assets"
+        title={i18n.t('Send')}
         onPress={handleSubmit(onSubmit)}
         loading={isLoading}
         disabled={!isValid || addressExist === false || amountSufficient === false}
