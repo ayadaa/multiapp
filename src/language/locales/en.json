@@ -84,6 +84,22 @@
     "directMessages": "Direct Messages",
     "createNewGroup": "Create new group",
 
+    "createGroup": "Create Group",
+    "groupName": "Group Name",
+    "enterGroupName": "Enter group name...",
+    "selectFriends": "Select Friends",
+    "loadingFriends": "Loading friends...",
+    "noFriendsFound": "No friends found",
+    "addFriendsToCreateGroupChats": "Add friends to create group chats",
+    "friendSelected": "friend selected",
+    "friendsSelected": "friends selected",
+    "groupNameRequired": "Group Name Required",
+    "pleaseEnterANameForYourGroup": "Please enter a name for your group",
+    "pleaseSelectAtLeastOneFriendToAddToTheGroup": "Please select at least one friend to add to the group.",
+    "groupCreated": "Group Created!",
+    "hasBeenCreatedSuccessfully": "has been created successfully.",
+    "failedToCreateGroup": "Failed to create group. Please try again.",
+
     "p2pAds": "P2P ads",
     "addNewP2PAd": "Add new P2P ad",
     "p2pRequests": "P2P Requests",
@@ -91,6 +107,16 @@
     "cancelRequest": "Cancel request",
     "approve": "Approve",
     "reject": "Reject",
+
+    "createRequest": "Create request",
+    "amount": "Amount",
+    "placeAnAmount": "Place an amount",
+    "checking": "Checking...",
+    "appropriateAmount": "Appropriate amount",
+    "inappropriateAmount": "Inappropriate amount",
+    "yourBalanceIsNotEnough": "Your balance is not enough to create p2p request",
+    "p2pRequestMessage": "Hello, I have been send for you a p2p request with amount",
+    "failedToStartChat": "Failed to start chat. Please try again.",
 
     "wallet": "Wallet",
     "retry": "Retry",
@@ -102,5 +128,12 @@
     "transactions": "Transactions",
     "send": "Send",
     "receive": "Receive",
-    "loadingTransactions": "Loading transactions . . ."
+    "loadingTransactions": "Loading transactions . . .",
+
+    "miningOffers": "Mining offers",
+    "slow": "Slow",
+    "medium": "Medium",
+    "fast": "Fast",
+    "veryFast": "Very Fast",
+    "speed": "Speed"
 }

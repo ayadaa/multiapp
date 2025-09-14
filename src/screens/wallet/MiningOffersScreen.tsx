@@ -17,6 +17,7 @@ import { useWallet } from '../../hooks/wallet/use-wallet';
 import { useAppSelector } from '../../store/hooks';
 import { useUser } from '../../hooks/user/use-user';
 import { Screen } from '../../components/common/Screen2';
+import i18n from '../../language/i18n';
 
 export default function MiningOffersScreen() {
     const user = useAppSelector((state) => state.auth.user);
@@ -79,7 +80,7 @@ export default function MiningOffersScreen() {
                                 color: 'black',
                                 fontSize: 14,
                                 fontWeight: 'bold',
-                            }}>{offer.name}</Text>
+                            }}>{i18n.t(offer.name)}</Text>
                         </View>
                         <View style={{ flex: 1 }}>
                             <View style={{
@@ -92,13 +93,13 @@ export default function MiningOffersScreen() {
                                     color: 'rgba(0, 0, 0, 1)',
                                     fontSize: 14,
                                 }}>
-                                    price: {offer.price} 💎
+                                    {i18n.t('price')}: {offer.price} 💎
                                 </Text>
                                 <Text style={{
                                     color: 'rgba(0, 0, 0, 1)',
                                     fontSize: 14,
                                 }}>
-                                    speed: {offer.speed} 💎/day
+                                    {i18n.t('speed')}: {offer.speed} 💎 / {i18n.t('day')}
                                 </Text>
                             </View>
                         </View>

@@ -1,8 +1,3 @@
-/**
- * Create Group Screen
- * Allows users to create new group chats by selecting friends and setting group name
- */
-
 import React, { useState, useCallback } from 'react';
 import {
   View,
@@ -24,6 +19,7 @@ import { useGroups } from '../../hooks/chat/use-groups';
 import { type UserProfile } from '../../services/firebase/firestore.service';
 import type { RootState } from '../../store';
 import type { NavigationProp } from '../../types/navigation';
+import i18n from '../../language/i18n';
 
 interface SelectedFriend {
   uid: string;
@@ -67,12 +63,12 @@ export default function CreateGroupScreen() {
    */
   const handleCreateGroup = useCallback(async () => {
     if (!groupName.trim()) {
-      Alert.alert('Group Name Required', 'Please enter a name for your group.');
+      Alert.alert(i18n.t('groupNameRequired'), i18n.t('pleaseEnterANameForYourGroup'));
       return;
     }
 
     if (selectedFriends.length === 0) {
-      Alert.alert('Select Friends', 'Please select at least one friend to add to the group.');
+      Alert.alert(i18n.t('selectFriends'), i18n.t('pleaseSelectAtLeastOneFriendToAddToTheGroup'));
       return;
     }
 
@@ -87,11 +83,11 @@ export default function CreateGroupScreen() {
       });
 
       Alert.alert(
-        'Group Created!',
-        `"${groupName}" has been created successfully.`,
+        i18n.t('groupCreated'),
+        `"${groupName}" ${i18n.t('hasBeenCreatedSuccessfully')}`,
         [
           {
-            text: 'OK',
+            text: i18n.t('ok'),
             onPress: () => {
               // Navigate to the new group chat
               navigation.navigate('GroupChat', { groupId });
@@ -101,9 +97,9 @@ export default function CreateGroupScreen() {
       );
     } catch (error) {
       Alert.alert(
-        'Error',
-        'Failed to create group. Please try again.',
-        [{ text: 'OK' }]
+        i18n.t('error'),
+        i18n.t('failedToCreateGroup'),
+        [{ text: i18n.t('ok') }]
       );
     } finally {
       setIsCreating(false);
@@ -142,7 +138,7 @@ export default function CreateGroupScreen() {
     return (
       <View style={styles.selectedContainer}>
         <Text style={styles.selectedText}>
-          {selectedFriends.length} friend{selectedFriends.length !== 1 ? 's' : ''} selected
+          {selectedFriends.length} {selectedFriends.length !== 1 ? i18n.t('friendsSelected') : i18n.t('friendSelected')}
         </Text>
       </View>
     );
@@ -158,18 +154,18 @@ export default function CreateGroupScreen() {
         >
           <Ionicons name="arrow-back" size={24} color="#000000" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Create Group</Text>
+        <Text style={styles.headerTitle}>{i18n.t('createGroup')}</Text>
         <View style={styles.headerSpacer} />
       </View>
 
       {/* Group Name Input */}
       <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>Group Name</Text>
+        <Text style={styles.inputLabel}>{i18n.t('groupName')}</Text>
         <TextInput
           style={styles.textInput}
           value={groupName}
           onChangeText={setGroupName}
-          placeholder="Enter group name..."
+          placeholder={i18n.t('enterGroupName')}
           placeholderTextColor="#AAAAAA"
           maxLength={50}
         />
@@ -180,18 +176,16 @@ export default function CreateGroupScreen() {
 
       {/* Friends List */}
       <View style={styles.friendsContainer}>
-        <Text style={styles.sectionTitle}>Select Friends</Text>
+        <Text style={styles.sectionTitle}>{i18n.t('selectFriends')}</Text>
 
         {isLoadingFriends ? (
           <View style={styles.loadingContainer}>
-            <Text style={styles.loadingText}>Loading friends...</Text>
+            <Text style={styles.loadingText}>{i18n.t('loadingFriends')}</Text>
           </View>
         ) : friends.length === 0 ? (
           <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>No friends found</Text>
-            <Text style={styles.emptySubtext}>
-              Add friends to create group chats
-            </Text>
+            <Text style={styles.emptyText}>{i18n.t('noFriendsFound')}</Text>
+            <Text style={styles.emptySubtext}>{i18n.t('addFriendsToCreateGroupChats')}</Text>
           </View>
         ) : (
           <FlatList
@@ -207,7 +201,7 @@ export default function CreateGroupScreen() {
       {/* Create Button */}
       <View style={styles.buttonContainer}>
         <Button
-          title={isCreating ? 'Creating...' : 'Create Group'}
+          title={isCreating ? i18n.t('creating') : i18n.t('createGroup')}
           onPress={handleCreateGroup}
           disabled={isCreating || !groupName.trim() || selectedFriends.length === 0}
           style={styles.createButton}

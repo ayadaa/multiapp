@@ -130,6 +130,7 @@ export default function AppStackNavigator() {
         component={P2PCreateRequestScreen}
         options={{
           headerShown: true,
+          headerTitle: i18n.t('createRequest'),
         }}
       />
 
@@ -154,6 +155,7 @@ export default function AppStackNavigator() {
         component={MiningOffersScreen}
         options={{
           headerShown: true,
+          headerTitle: i18n.t('miningOffers'),
         }}
       />
 

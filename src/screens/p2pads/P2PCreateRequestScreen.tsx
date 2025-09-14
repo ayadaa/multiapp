@@ -1,26 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity, Share, ScrollView, Alert } from 'react-native';
 import { useRoute, useNavigation, type RouteProp } from '@react-navigation/native';
-// import { type StackNavigationProp } from '@react-navigation/stack';
-// import listingsData from './airbnb-listings.json';
-// import { Ionicons } from '@expo/vector-icons';
-// import Colors from './AdDetailsColors';
-// import { defaultStyles } from './AdDetailsStyle';
 import type { AppStackParamList } from '../../types/navigation';
-// import { useAds } from '../../hooks/ad/use-ads';
-// import { useAuth } from '../../hooks/auth/use-auth';
-// import { useUser } from '../../hooks/user/use-user';
-// import { useChats } from '../../hooks/chat/use-chats';
 import { P2PCreateRequestForm } from '../../components/forms/P2PCreateRequestForm';
 import { Screen } from '../../components/common/Screen2';
+import i18n from '../../language/i18n';
 
 type AdDetailsScreenRouteProp = RouteProp<AppStackParamList, 'P2PCreateRequest'>;
-// type AdDetailsScreenNavigationProp = StackNavigationProp<AppStackParamList, 'P2PCreateRequest'>;
-
-// const { width } = Dimensions.get('window');
-// const IMG_HEIGHT = 300;
-
-
 
 export default function P2PCreateRequestScreen() {
   const route = useRoute<AdDetailsScreenRouteProp>();
@@ -91,7 +77,7 @@ export default function P2PCreateRequestScreen() {
               color: 'rgba(0, 0, 0, 0.6)',
               fontSize: 12,
             }}>
-              {ad.price} IQD
+              {ad.price} {i18n.t('IQD')}
             </Text>
           </View>
 

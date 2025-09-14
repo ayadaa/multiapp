@@ -84,6 +84,22 @@
     "directMessages": "الرسائل المباشرة",
     "createNewGroup": "انشاء مجموعة جديدة",
 
+    "createGroup": "أنشاء مجموعة",
+    "groupName": "اسم المجموعة",
+    "enterGroupName": "ادخل اسم المجموعة...",
+    "selectFriends": "حدد أصدقاء",
+    "loadingFriends": "جاري تحميل الاصدقاء...",
+    "noFriendsFound": "لايوجد اصدقاء",
+    "addFriendsToCreateGroupChats": "أضف أصدقاء لأنشاء مجموعة دردشة",
+    "friendSelected": "صديق محدد",
+    "friendsSelected": "اصدقاء محددين",
+    "groupNameRequired": "اسم المجموعة مطلوب",
+    "pleaseEnterANameForYourGroup": "يرجى أدخال اسم لمجموعتك.",
+    "pleaseSelectAtLeastOneFriendToAddToTheGroup": "يرجى اختيار على الاقل صديق واحد لأضافته للمجموعة",
+    "groupCreated": "تم أنشاء المجموعة!",
+    "hasBeenCreatedSuccessfully": "تم أنشائها بنجاح.",
+    "failedToCreateGroup": "فشل في أنشاء المجموعة. يرجى المحاولة مرة اخرى.",
+
     "p2pAds": "اعلانات P2P",
     "addNewP2PAd": "أضافة اعلان P2P جديد",
     "p2pRequests": "طلبات P2P",
@@ -91,6 +107,16 @@
     "cancelRequest": "الغاء الطلب",
     "approve": "تم الاستلام",
     "reject": "رفض",
+
+    "createRequest": "أنشاء طلب",
+    "amount": "الكمية",
+    "placeAnAmount": "أضف كمية",
+    "checking": "جاري التحقق...",
+    "appropriateAmount": "الكمية مناسبة",
+    "inappropriateAmount": "الكمية غير مناسبة",
+    "yourBalanceIsNotEnough": "رصيدك لايكفي لأنشاء طلب P2P",
+    "p2pRequestMessage": "مرحبا لقد أرسلت لك طلب p2p بكمية ",
+    "failedToStartChat": "فشل في بدأ المحادثة. يرجى الحاولة مرة أخرى.",
 
     "wallet": "المحفظة",
     "retry": "أعادة المحاولة",
@@ -102,6 +128,12 @@
     "transactions": "المعاملات",
     "send": "ارسال",
     "receive": "استلام",
-    "loadingTransactions": ". . . جاري تحميل المعاملات"
-   
+    "loadingTransactions": ". . . جاري تحميل المعاملات",
+
+    "miningOffers": "عروض التنقيب",
+    "slow": "بطئ",
+    "medium": "متوسط",
+    "fast": "سريع",
+    "veryFast": "سريع جدا",
+    "speed": "السرعة"
 }

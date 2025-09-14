@@ -12,7 +12,8 @@ import { useNavigation } from '@react-navigation/native';
 import type { P2PAd } from '../../types/p2pads';
 import { UserProfile } from '../../services/firebase/firestore.service'
 import { useChats } from '../../hooks/chat/use-chats';
-import { useMessages } from '../../hooks/chat/use-messages';
+// import { useMessages } from '../../hooks/chat/use-messages';
+import i18n from '../../language/i18n';
 
 interface CreateP2PRequestFormProps {
   onSuccess?: () => void;
@@ -24,10 +25,10 @@ export function P2PCreateRequestForm({ ad, onSuccess, onNavigateToP2PAds }: Crea
   const user = useAppSelector((state) => state.auth.user);
   const { createP2PRequest, error, isLoading } = useP2PAds();
   const [amountCheckLoading, setAmountCheckLoading] = useState<boolean>(false);
-  const [priceCheckLoading, setPriceCheckLoading] = useState<boolean>(false);
+  // const [priceCheckLoading, setPriceCheckLoading] = useState<boolean>(false);
   const [amountSufficient, setAmountSufficient] = useState<boolean | null>(null);
   const [balanceSufficient, setPalanceSufficient] = useState<boolean | null>(null);
-  const [priceSufficient, setPriceSufficient] = useState<boolean | null>(null);
+  // const [priceSufficient, setPriceSufficient] = useState<boolean | null>(null);
   const { User, refreshUser } = useUser(user?.uid!);
   const User2 = useUser(ad.createdBy);
   const navigation = useNavigation<any>();
@@ -78,10 +79,10 @@ export function P2PCreateRequestForm({ ad, onSuccess, onNavigateToP2PAds }: Crea
   }, [watchedAmount, checkAmount])
   const getAmountStatus = () => {
     if (!watchedAmount) return null;
-    if (amountCheckLoading) return { color: '#007AFF', text: 'Checking...' };
-    if (amountSufficient === true) return { color: '#34C759', text: 'Appropriate amount' };
-    if (amountSufficient === false) return { color: '#FF3B30', text: 'Inappropriate amount' };
-    if (balanceSufficient === false) return { color: '#FF3B30', text: 'Your balance is not enough to send create p2p request' };
+    if (amountCheckLoading) return { color: '#007AFF', text: i18n.t('checking') };
+    if (amountSufficient === true) return { color: '#34C759', text: i18n.t('appropriateAmount') };
+    if (amountSufficient === false) return { color: '#FF3B30', text: i18n.t('inappropriateAmount') };
+    if (balanceSufficient === false) return { color: '#FF3B30', text: i18n.t('yourBalanceIsNotEnough') };
     return null;
   };
   const amountStatus = getAmountStatus();
@@ -91,7 +92,7 @@ export function P2PCreateRequestForm({ ad, onSuccess, onNavigateToP2PAds }: Crea
   const sendMessage = async (amount: string) => {
     try {
       const chatId = await createChat(ad.createdBy);
-      const message = `Hello, I have been send for you a p2p request with amount ${amount}.`
+      const message = i18n.t('p2pRequestMessage') + `${amount}.`
 
       if (User) {
         (navigation as any).navigate('IndividualChat', {
@@ -101,7 +102,7 @@ export function P2PCreateRequestForm({ ad, onSuccess, onNavigateToP2PAds }: Crea
         });
       }
     } catch (error) {
-      Alert.alert('Error', 'Failed to start chat. Please try again.');
+      Alert.alert(i18n.t('error'), i18n.t('failedToStartChat'));
       console.error('Error creating chat:', error);
     }
   };
@@ -129,8 +130,8 @@ export function P2PCreateRequestForm({ ad, onSuccess, onNavigateToP2PAds }: Crea
           render={({ field: { onChange, onBlur, value } }) => (
             <View>
               <Input
-                label="Amount"
-                placeholder="Place an amount"
+                label={i18n.t('amount')}
+                placeholder={i18n.t('placeAnAmount')}
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -162,7 +163,7 @@ export function P2PCreateRequestForm({ ad, onSuccess, onNavigateToP2PAds }: Crea
         )}
         {/* Submit Button */}
         <Button
-          title="Create p2p request"
+          title={i18n.t('createRequest')}
           onPress={handleSubmit(onSubmit)}
           loading={isLoading}
           disabled={!isValid || amountSufficient === false || balanceSufficient == false}
