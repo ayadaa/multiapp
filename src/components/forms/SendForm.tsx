@@ -195,7 +195,7 @@ export function SendForm({ onSuccess, onNavigateToWallet, qrData }: SendFormProp
           borderTopColor: 'rgba(0, 0, 0, 0.05)',
         }}> */}
       <Button
-        title={i18n.t('Send')}
+        title={i18n.t('send')}
         onPress={handleSubmit(onSubmit)}
         loading={isLoading}
         disabled={!isValid || addressExist === false || amountSufficient === false}
