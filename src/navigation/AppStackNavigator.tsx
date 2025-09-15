@@ -30,7 +30,7 @@ import { FriendsStackNavigator } from './FriendsStackNavigator';
 import SearchScreen from '../screens/search/SearchScreen';
 import { ProfileScreen } from '../screens/profile/ProfileScreen';
 import { UpdateProfileScreen } from '../screens/profile/UpdateProfileScreen';
-import { ReferralScreen } from '../screens/profile/ReferralScreen';
+import { ReferralScreen } from '../screens/referral/ReferralScreen';
 import i18n from '../language/i18n';
 
 const Stack = createStackNavigator<AppStackParamList>();
@@ -238,6 +238,7 @@ export default function AppStackNavigator() {
           headerShown: true,
           presentation: 'modal',
           gestureEnabled: false,
+          headerTitle: i18n.t('updateProfile'),
         }}
       />
 
@@ -246,6 +247,7 @@ export default function AppStackNavigator() {
         component={ReferralScreen}
         options={{
           headerShown: true,
+          headerTitle: i18n.t('referral'),
         }}
       />
     </Stack.Navigator>

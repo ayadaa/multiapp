@@ -189,5 +189,26 @@
     "loadingOffers": "Loading offers . . .",
 
     "scan": "Scan",
-    "yourWalletAddress": "Your Wallet address"
+    "yourWalletAddress": "Your Wallet address",
+
+    "updateProfile": "Update Profile",
+    "yourAds": "Your ads",
+    "youDoNotHaveAnyAdsYet": "You don't have any ads yet.",
+    "logout": "Logout",
+    "cancel": "Cancel",
+    "areYouSureYouWantToLogout": "Are you sure you want to logout?",
+
+    "sendYourReferralCode": "Send your referral code for your frineds and get income about 3% for each collection operation.",
+    "yourReferralCode": "Your referral code",
+    
+    "makeSureToUploadYourImage": "Make sure to upload your image",
+    "pickImage": "pick Image",
+    "email": "Email",
+    "enterYourEmail": "Enter your email",
+    "username": "Username",
+    "chooseAUsername": "Choose a username",
+    "displayName": "Display Name",
+    "chooseADisplayName": "Choose a display name",
+    "password": "Password",
+    "createAPassword": "Create a password"
 }

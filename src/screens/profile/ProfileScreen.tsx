@@ -26,6 +26,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setLanguage } from '../../store/slices/language.slice';
 import i18n, { updateLocale } from '../../language/i18n'; // Import your i18n instance
 import { Picker } from '@react-native-picker/picker';
+// import i18n from '../../language/i18n';
 
 export function ProfileScreen() {
   const navigation = useNavigation<any>();
@@ -46,15 +47,15 @@ export function ProfileScreen() {
    */
   // const handleLogout = () => {
   //   Alert.alert(
-  //     'Logout',
-  //     'Are you sure you want to logout?',
+  //     i18n.t('logout'),
+  //     i18n.t('areYouSureYouWantToLogout'),
   //     [
   //       {
-  //         text: 'Cancel',
+  //         text: i18n.t('cancel'),
   //         style: 'cancel',
   //       },
   //       {
-  //         text: 'Logout',
+  //         text: i18n.t('logout'),
   //         style: 'destructive',
   //         onPress: () => {
   //           dispatch(clearUser());
@@ -103,11 +104,8 @@ export function ProfileScreen() {
           >
             <Ionicons name="arrow-back" size={24} color="#000000" />
           </TouchableOpacity>
-          <Text style={styles.title}>Profile</Text>
+          <Text style={styles.title}>{i18n.t('profile')}</Text>
         </View>
-        {/* <View style={styles.header}>
-            <Text style={styles.headerTitle}>Profile</Text>
-          </View> */}
 
         {/* Profile Info */}
         <View style={styles.profileSection}>
@@ -156,23 +154,10 @@ export function ProfileScreen() {
               }}
             >
               <View style={styles.menuItemLeft}>
-                <Text style={styles.menuItemText}>Update Your Profile</Text>
+                <Text style={styles.menuItemText}>{i18n.t('updateProfile')}</Text>
               </View>
               <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
             </TouchableOpacity>
-            {/* <TouchableOpacity
-              style={styles.menuItem}
-              onPress={() => {
-                if (User) {
-                  navigation.navigate('Referral')
-                }
-              }}
-            >
-              <View style={styles.menuItemLeft}>
-                <Text style={styles.menuItemText}>Referral program</Text>
-              </View>
-              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
-            </TouchableOpacity> */}
           </View>
           {/* language */}
           <View
@@ -210,37 +195,6 @@ export function ProfileScreen() {
           </View>
         </View>
 
-        {/* Menu Items */}
-        {/* <View style={styles.menuSection}>
-            <TouchableOpacity style={styles.menuItem}>
-              <View style={styles.menuItemLeft}>
-                <Ionicons name="person-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
-                <Text style={styles.menuItemText}>Edit Profile</Text>
-              </View>
-              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.menuItem}>
-              <View style={styles.menuItemLeft}>
-                <Ionicons name="settings-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
-                <Text style={styles.menuItemText}>Settings</Text>
-              </View>
-              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.menuItem}>
-              <View style={styles.menuItemLeft}>
-                <Ionicons name="help-circle-outline" size={20} color="rgba(0, 0, 0, 0.8)" />
-                <Text style={styles.menuItemText}>Help & Support</Text>
-              </View>
-              <Ionicons name="chevron-forward" size={16} color="rgba(0, 0, 0, 0.4)" />
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.menuItem}>
-
-            </TouchableOpacity>
-          </View> */}
-
         {/* Person ads section */}
         {/* Error State */}
         {personAdsError && (
@@ -251,19 +205,19 @@ export function ProfileScreen() {
               style={styles.retryButton}
               onPress={() => handleRefresh()}
             >
-              <Text style={styles.retryText}>Retry</Text>
+              <Text style={styles.retryText}>{i18n.t('retry')}</Text>
             </TouchableOpacity>
           </View>
         )}
         {/* ads list */}
         <View style={styles.adsSection}>
-          <Text style={styles.adsHeaderText}>Your ads:</Text>
+          <Text style={styles.adsHeaderText}>{i18n.t('yourAds')}</Text>
           {personAds?.length! > 0 ? <View>
             {personAds?.map((ad) => (
               <AdSearchCard key={ad.id} ad={ad} />
             ))}
           </View>
-            : <Text style={styles.adsEmptyText}>You don't have any ads yet.</Text>
+            : <Text style={styles.adsEmptyText}>{i18n.t('youDoNotHaveAnyAdsYet')}</Text>
           }
         </View>
 
@@ -271,14 +225,8 @@ export function ProfileScreen() {
         <View style={styles.logoutSection}>
           <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
             <Ionicons name="log-out-outline" size={20} color="#FF3B30" />
-            <Text style={styles.logoutText}>Logout</Text>
+            <Text style={styles.logoutText}>{i18n.t('logout')}</Text>
           </TouchableOpacity>
-        </View>
-
-        {/* App Info */}
-        <View style={styles.appInfo}>
-          <Text style={styles.appInfoText}>MultiApp v1.0</Text>
-          <Text style={styles.appInfoText}>Built with React Native & Firebase</Text>
         </View>
       </ScrollView>
     </Screen>

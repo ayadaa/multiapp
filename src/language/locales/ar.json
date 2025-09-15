@@ -177,6 +177,7 @@
 
     "walletAddress": "عنوان المحفظة",
     "placeAnAddress": "أضف عنوانا",
+    "addressExist": "العنوان موجود",
     "addressNotExist": "العنوان غير موجدود",
 
     "miningOffers": "عروض التنقيب",
@@ -188,5 +189,26 @@
     "loadingOffers": "جاري تحميل العروض . . .",
 
     "scan": "مسح ضوئي",
-    "yourWalletAddress": "عنوان محفظتك"
+    "yourWalletAddress": "عنوان محفظتك",
+
+    "updateProfile": "تعديل الملف الشخصي",
+    "yourAds": "اعلااناتك",
+    "youDoNotHaveAnyAdsYet": "ليس لديك اعلاانات الى الان.",
+    "logout": "تسجيل الخروج",
+    "cancel": "الغاء",
+    "areYouSureYouWantToLogout": "هل انت متأكد من انك تريد تسجيل الخروج?",
+
+    "sendYourReferralCode": "ارسل رمز احالتك الى اصدقائك واحصل على عائد يصل الى حوالي 3% من كل عملية تجميع.  ",
+    "yourReferralCode": "رمز احالتك",
+
+    "makeSureToUploadYourImage": "تأكد من تحميل صورتك",
+    "pickImage": "اختر صورة",
+    "email": "البريد الالكتروني",
+    "enterYourEmail": "اضف بريدك الالكتروني",
+    "username": "اسم المستخدم",
+    "chooseAUsername": "اختر اسم مستخدم",
+    "displayName": "الاسم الكامل",
+    "chooseADisplayName": "اختر اسم كامل",
+    "password": "الرمز السري",
+    "createAPassword": "انشأ رمز سري"
 }

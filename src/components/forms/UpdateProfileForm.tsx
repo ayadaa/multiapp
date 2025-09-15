@@ -12,6 +12,7 @@ import { launchImagePicker, openCamera, uploadImageAsync } from "../../screens/a
 // import type { RootState } from '../../store';
 // import { useAuth } from '../../hooks/auth/use-auth';
 import { UserProfile } from '../../services/firebase/firestore.service';
+import i18n from '../../language/i18n';
 
 interface UpdateProfileProps {
   User: UserProfile;
@@ -100,12 +101,12 @@ export function UpdateProfileForm({ User, onSuccess }: UpdateProfileProps) {
         name="profilePicture"
         render={({ field: { onChange, onBlur, value } }) => (
           <View style={styles.profilePictureContainer}>
-            <Text style={styles.profilePictureText}>Make sure to upload your image</Text>
+            <Text style={styles.profilePictureText}>{i18n.t('makeSureToUploadYourImage')}</Text>
             <TouchableOpacity style={styles.avatarPlaceholder} onPress={() => pickImage(onChange)}>
               {value ? (
                 <Image source={{ uri: value }} style={styles.avatarImage} />
               ) : (
-                <Text style={styles.avatarPlaceholderText}>Pick Image</Text>
+                <Text style={styles.avatarPlaceholderText}>{i18n.t('pickImage')}</Text>
               )}
             </TouchableOpacity>
           </View>
@@ -117,8 +118,8 @@ export function UpdateProfileForm({ User, onSuccess }: UpdateProfileProps) {
         name="email"
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
-            label="Email"
-            placeholder="Enter your email"
+            label={i18n.t('email')}
+            placeholder={i18n.t('enterYourEmail')}
             value={value}
             onChangeText={onChange}
             onBlur={onBlur}
@@ -136,8 +137,8 @@ export function UpdateProfileForm({ User, onSuccess }: UpdateProfileProps) {
         render={({ field: { onChange, onBlur, value } }) => (
           <View>
             <Input
-              label="Username"
-              placeholder="Choose a username"
+              label={i18n.t('username')}
+              placeholder={i18n.t('chooseAUsername')}
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
@@ -165,8 +166,8 @@ export function UpdateProfileForm({ User, onSuccess }: UpdateProfileProps) {
         render={({ field: { onChange, onBlur, value } }) => (
           <View>
             <Input
-              label="Display Name"
-              placeholder="Choose a display name"
+              label={i18n.t('displayName')}
+              placeholder={i18n.t('chooseADisplayName')}
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
@@ -183,8 +184,8 @@ export function UpdateProfileForm({ User, onSuccess }: UpdateProfileProps) {
         name="password"
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
-            label="Password"
-            placeholder="Create a password"
+            label={i18n.t('password')}
+            placeholder={i18n.t('createAPassword')}
             value={value}
             onChangeText={onChange}
             onBlur={onBlur}
@@ -206,7 +207,7 @@ export function UpdateProfileForm({ User, onSuccess }: UpdateProfileProps) {
 
       {/* Submit Button */}
       <Button
-        title="Update Profile"
+        title={i18n.t('updateProfile')}
         onPress={handleSubmit(onSubmit)}
         loading={updateLoading}
         disabled={!isValid || usernameAvailable === false}

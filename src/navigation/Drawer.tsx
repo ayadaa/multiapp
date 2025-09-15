@@ -15,7 +15,7 @@ import { useAppSelector } from './../store/hooks';
 import { useUser } from './../hooks/user/use-user';
 import { Ionicons } from '@expo/vector-icons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import { ReferralScreen } from '../screens/profile/ReferralScreen';
+import { ReferralScreen } from '../screens/referral/ReferralScreen';
 // import Ionicons from '@expo/vector-icons/Ionicons';
 // import { useSelector, useDispatch } from 'react-redux';
 // import { setLanguage } from '../store/slices/language.slice';
