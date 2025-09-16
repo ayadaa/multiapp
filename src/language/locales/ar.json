@@ -1,4 +1,12 @@
 {
+    "numoStore": "نمو ستور",
+    "signInToContinue": "سجل الدخول للاستمرار",
+    "enterYourPassword": "ادخل كلمة المرور الخاصة بك",
+    "signIn": "تسجيل الدخول",
+    "forgotPassword": "نسيت كلمة المرور?",
+    "doNotHaveAnAccount": "ليس لديك اي حساب?",
+    "signUp": "تسجيل",
+
     "greeting": "مرحبا",
     "welcomeMessage": "مرحبا بك في تطبيقنا!",
     "profile": "الملف الشخصي",
@@ -84,6 +92,20 @@
     "addFriends": "اضافة اصدقاء",
     "onlineNow": "متصل الان",
 
+    "searchForFriendsByUsername": "ابحث عن اصدقاء بواسطة اسم المستخدم",
+    "searchUsername": "ابحث اسم المستخدم...",
+    "searchResults": "نتيجة البحث",
+    "searching": "جاري البحث...",
+    "noUsersFound": "لايوجد اي مستخدم",
+    "friendRequests": "طلبات الصداقة",
+    "searchForFriendsByTheirUsernameToSendFriendRequests": "ابحث عن اصدقاء بواسطة اسم المستخدم الخاص بهم لأرسال طلب صداقة",
+    "success": "نجح",
+    "friendRequestSent": "تم ارسال طلب الصداقة!",
+    "failedToSendFriendRequest": "فشل في ارسال طلب الصداقة. يرجى المحاولة مرة اخرى.",
+    "friendRequestAccepted": "تم قبول طلب الصداقة!",
+    "failedToAcceptFriendRequest": "فشل في قبول طلب الصداقة. يرجى المحاولة مرة اخرى.",
+    "failedToDeclineFriendRequest": "فشل في رفض طلب الصداقة. يرجى المحاولة مرة اخرى.",
+
     "search": "البحث",
     "searchAd": "البحث عن اعلان...",
 
@@ -121,6 +143,11 @@
     "cancelRequest": "الغاء الطلب",
     "approve": "تم الاستلام",
     "reject": "رفض",
+    "loadingP2PAds": "جاري تحميل اعلانات P2P...",
+    "noP2PAdYet": "لايوجد اعلانات P2P حتى الان",
+    "completing": "جاري اتمام عملية الدفع...",
+    "completeRequest": "اتمام الطلب",
+    "iHaveBeenCompleteSend": "مرحبا لقد اتممت عملية ارسال الاصول لك.",
 
     "createRequest": "أنشاء طلب",
     "amount": "الكمية",

@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Screen } from '../../components/common/Screen';
 import { LoginForm } from '../../components/forms/LoginForm';
 import type { AuthStackParamList } from '../../types/navigation';
+import i18n from '../../language/i18n';
 
 /**
  * Enhanced Login screen component with form validation and error handling.
@@ -39,7 +40,7 @@ export function LoginScreen() {
               marginBottom: 8,
             }}
           >
-            MultiApp
+            {i18n.t('numoStore')}
           </Text>
           <Text
             style={{
@@ -48,7 +49,7 @@ export function LoginScreen() {
               textAlign: 'center',
             }}
           >
-            Sign in to continue
+            {i18n.t('signInToContinue')}
           </Text>
         </View>
 

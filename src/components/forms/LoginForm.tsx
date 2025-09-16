@@ -6,6 +6,7 @@ import { Input } from '../common/Input';
 import { Button } from '../common/Button';
 import { useAuth } from '../../hooks/auth/use-auth';
 import { loginSchema, type LoginFormData } from '../../utils/validation/auth-schemas';
+import i18n from '../../language/i18n';
 
 interface LoginFormProps {
   onSuccess?: () => void;
@@ -55,8 +56,8 @@ export function LoginForm({ onSuccess, onForgotPassword, onNavigateToSignup }: L
           name="email"
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
-              label="Email"
-              placeholder="Enter your email"
+              label={i18n.t('email')}
+              placeholder={i18n.t('enterYourEmail')}
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
@@ -73,8 +74,8 @@ export function LoginForm({ onSuccess, onForgotPassword, onNavigateToSignup }: L
           name="password"
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
-              label="Password"
-              placeholder="Enter your password"
+              label={i18n.t('password')}
+              placeholder={i18n.t('enterYourPassword')}
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
@@ -96,7 +97,7 @@ export function LoginForm({ onSuccess, onForgotPassword, onNavigateToSignup }: L
 
         {/* Submit Button */}
         <Button
-          title="Sign In"
+          title={i18n.t('signIn')}
           onPress={handleSubmit(onSubmit)}
           loading={isLoading}
           disabled={!isValid}
@@ -107,7 +108,7 @@ export function LoginForm({ onSuccess, onForgotPassword, onNavigateToSignup }: L
       {/* Footer Actions */}
       <View style={{ alignItems: 'center' }}>
         <Button
-          title="Forgot Password?"
+          title={i18n.t('forgotPassword')}
           onPress={() => onForgotPassword?.()}
           variant="ghost"
           size="small"
@@ -116,10 +117,10 @@ export function LoginForm({ onSuccess, onForgotPassword, onNavigateToSignup }: L
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text style={{ color: 'rgba(0, 0, 0, 0.75)', fontSize: 14 }}>
-            Don't have an account?{' '}
+            {i18n.t('doNotHaveAnAccount')}{' '}
           </Text>
           <Button
-            title="Sign Up"
+            title={i18n.t('signUp')}
             onPress={() => onNavigateToSignup?.()}
             variant="ghost"
             size="small"

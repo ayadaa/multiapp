@@ -17,12 +17,6 @@ import { useChats } from '../../hooks/chat/use-chats';
 import { useAuth } from '../../hooks/auth/use-auth';
 import i18n from '../../language/i18n';
 
-/**
- * Friends List screen displaying all accepted friends with their online status.
- * Provides navigation to individual chats and friend management options.
- * Features pull-to-refresh and real-time status indicators.
- */
-
 export function FriendsListScreen() {
   const navigation = useNavigation();
   const { user } = useAuth();

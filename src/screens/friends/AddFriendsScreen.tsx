@@ -8,8 +8,6 @@ import {
   StyleSheet,
   Alert,
   RefreshControl,
-  KeyboardAvoidingView,
-  Platform
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Screen } from '../../components/common/Screen2';
@@ -18,12 +16,7 @@ import { FriendRequestCard } from '../../components/friends/FriendRequestCard';
 import { useFriends } from '../../hooks/friends/use-friends';
 import { getUserProfile } from '../../services/firebase/firestore.service';
 import { useNavigation } from '@react-navigation/native';
-
-/**
- * Add Friends screen for searching users and managing friend requests.
- * Provides search functionality, displays pending requests, and allows friend management.
- * Features glassmorphic design with real-time search and request handling.
- */
+import i18n from '../../language/i18n';
 
 export function AddFriendsScreen() {
   const navigation = useNavigation();
@@ -70,9 +63,9 @@ export function AddFriendsScreen() {
   const handleSendRequest = useCallback(async (userId: string) => {
     try {
       await sendRequest(userId);
-      Alert.alert('Success', 'Friend request sent!');
+      Alert.alert(i18n.t('success'), i18n.t('friendRequestSent'));
     } catch (error) {
-      Alert.alert('Error', 'Failed to send friend request. Please try again.');
+      Alert.alert(i18n.t('error'), i18n.t('failedToSendFriendRequest'));
     }
   }, [sendRequest]);
 
@@ -82,9 +75,9 @@ export function AddFriendsScreen() {
   const handleAcceptRequest = useCallback(async (friendshipId: string) => {
     try {
       await acceptRequest(friendshipId);
-      Alert.alert('Success', 'Friend request accepted!');
+      Alert.alert(i18n.t('success'), i18n.t('friendRequestAccepted'));
     } catch (error) {
-      Alert.alert('Error', 'Failed to accept friend request. Please try again.');
+      Alert.alert(i18n.t('error'), i18n.t('failedToAcceptFriendRequest'));
     }
   }, [acceptRequest]);
 
@@ -95,7 +88,7 @@ export function AddFriendsScreen() {
     try {
       await declineRequest(friendshipId);
     } catch (error) {
-      Alert.alert('Error', 'Failed to decline friend request. Please try again.');
+      Alert.alert(i18n.t('error'), i18n.t('failedToDeclineFriendRequest'));
     }
   }, [declineRequest]);
 
@@ -155,10 +148,10 @@ export function AddFriendsScreen() {
             <Ionicons name="arrow-back" size={24} color="#000000" />
           </TouchableOpacity>
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Add Friends</Text>
+            <Text style={styles.title}>{i18n.t('addFriends')}</Text>
           </View>
         </View>
-        <Text style={styles.subtitle}>Search for friends by username</Text>
+        <Text style={styles.subtitle}>{i18n.t('searchForFriendsByUsername')}</Text>
       </View>
 
       {/* Search Section */}
@@ -167,7 +160,7 @@ export function AddFriendsScreen() {
           <Ionicons name="search" size={20} color="rgba(0, 0, 0, 0.6)" />
           <TextInput
             style={styles.searchInput}
-            placeholder="Search username..."
+            placeholder={i18n.t('searchUsername')}
             placeholderTextColor="rgba(0, 0, 0, 0.5)"
             value={searchQuery}
             onChangeText={handleSearchChange}
@@ -202,9 +195,9 @@ export function AddFriendsScreen() {
         {searchQuery.length >= 2 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>
-              Search Results
+              {i18n.t('searchResults')}
               {isSearching && (
-                <Text style={styles.loadingText}> (Searching...)</Text>
+                <Text style={styles.loadingText}>{i18n.t('searching')}</Text>
               )}
             </Text>
 
@@ -213,13 +206,11 @@ export function AddFriendsScreen() {
                 <Text style={styles.errorText}>{searchError}</Text>
               </View>
             )}
-
             {searchResults.length === 0 && !isSearching && !searchError && (
               <View style={styles.emptyContainer}>
-                <Text style={styles.emptyText}>No users found</Text>
+                <Text style={styles.emptyText}>{i18n.t('noUsersFound')}</Text>
               </View>
             )}
-
             {searchResults.map((user) => (
               <UserCard
                 key={user.uid}
@@ -236,7 +227,7 @@ export function AddFriendsScreen() {
         {pendingRequests.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>
-              Friend Requests ({pendingRequests.length})
+              {i18n.t('friendRequests')} ({pendingRequests.length})
             </Text>
 
             {requestsError && (
@@ -262,9 +253,9 @@ export function AddFriendsScreen() {
         {pendingRequests.length === 0 && searchQuery.length < 2 && (
           <View style={styles.emptyStateContainer}>
             <Ionicons name="people" size={60} color="rgba(0, 0, 0, 0.3)" />
-            <Text style={styles.emptyStateTitle}>Find Friends</Text>
+            <Text style={styles.emptyStateTitle}>{i18n.t('findFriends')}</Text>
             <Text style={styles.emptyStateText}>
-              Search for friends by their username to send friend requests
+              {i18n.t('searchForFriendsByTheirUsernameToSendFriendRequests')}
             </Text>
           </View>
         )}

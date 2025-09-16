@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     height: CardHeight,
     backgroundColor: 'rgba(0, 200, 100, 0.8)',
-    borderColor: 'rgba(0, 200, 100, 0.6)',
+    borderColor: 'rgba(0, 200, 100, 0.79)',
     borderRadius: 20,
     shadowColor: '#000',
     shadowOffset: {

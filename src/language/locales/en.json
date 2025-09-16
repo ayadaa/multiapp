@@ -1,4 +1,12 @@
 {
+    "numoStore": "Numo Store",
+    "signInToContinue": "Sign in to continue",
+    "enterYourPassword": "Enter your password",
+    "signIn": "Sign In",
+    "forgotPassword": "Forgot Password?",
+    "doNotHaveAnAccount": "Don't have an account?",
+    "signUp": "Sign Up",
+
     "greeting": "Hello",
     "welcomeMessage": "Welcome to our app!",
     "profile": "Profile",
@@ -84,6 +92,20 @@
     "addFriends": "Add Friends",
     "onlineNow": "Online Now",
 
+    "searchForFriendsByUsername": "Search for friends by username",
+    "searchUsername": "Search username...",
+    "searchResults": "Search Results",
+    "searching": "Searching...",
+    "noUsersFound": "No users found",
+    "friendRequests": "Friend Requests",
+    "searchForFriendsByTheirUsernameToSendFriendRequests": "Search for friends by their username to send friend requests",
+    "success": "Success",
+    "friendRequestSent": "Friend request sent!",
+    "failedToSendFriendRequest": "Failed to send friend request. Please try again.",
+    "friendRequestAccepted": "Friend request accepted!",
+    "failedToAcceptFriendRequest": "Failed to accept friend request. Please try again.",
+    "failedToDeclineFriendRequest": "Failed to decline friend request. Please try again.",
+
     "search": "Search",
     "searchAd": "Search ad...",
 
@@ -121,6 +143,11 @@
     "cancelRequest": "Cancel request",
     "approve": "Approve",
     "reject": "Reject",
+    "loadingP2PAds": "Loading p2p ads...",
+    "noP2PAdYet": "No p2p ad yet",
+    "completing": "Completing...",
+    "completeRequest": "complete request",
+    "iHaveBeenCompleteSend": "Hello, I have been complete send for you an assets.",
 
     "createRequest": "Create request",
     "amount": "Amount",

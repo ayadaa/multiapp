@@ -18,8 +18,6 @@ import type { NavigationProp } from '../../types/navigation';
 import type { P2PAd, P2PRequest } from '../../types/p2pads';
 import type { UserProfile } from '../../services/firebase/firestore.service';
 import { useAppSelector } from '../../store/hooks';
-// import { Button } from '../../components/common/Button';
-// import { RedButton } from '../../components/common/RedButton';
 import P2PRequestCard from '../../components/cards/P2PRequestCard';
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 import { launchImagePicker, uploadImageAsync } from "../../screens/ads/imagePickerHelper";
@@ -164,7 +162,7 @@ export function P2PAdsScreen() {
   const sendMessage = async (imageUrl: string, ad: P2PRequest & UserProfile) => {
     try {
       const chatId = await createChat(ad.p2pCreatedBy);
-      const message = `Hello, I have been complete send for you an assets.`
+      const message = i18n.t('iHaveBeenCompleteSend')
 
       if (User) {
         (navigation as any).navigate('IndividualChat', {
@@ -175,7 +173,7 @@ export function P2PAdsScreen() {
         });
       }
     } catch (error) {
-      Alert.alert('Error', 'Failed to start chat. Please try again.');
+      Alert.alert(i18n.t('error'), i18n.t('failedToStartChat'));
       console.error('Error creating chat:', error);
     }
   }
@@ -316,7 +314,7 @@ export function P2PAdsScreen() {
                     color: 'rgba(0, 0, 0, 0.75)',
                     fontSize: 12,
                   }}>
-                    {ad.price} IQD
+                    {ad.price} {i18n.t('IQD')}
                   </Text>
                 </View>
 
@@ -386,7 +384,7 @@ export function P2PAdsScreen() {
           justifyContent: 'center',
         }}>
           <Text style={{ color: 'rgba(0, 0, 0, 0.75)', fontSize: 16 }}>
-            Loading p2p ads...
+            {i18n.t('loadingP2PAds')}
           </Text>
         </View>
       ) : error ? (
@@ -398,7 +396,7 @@ export function P2PAdsScreen() {
             style={styles.retryButton}
             onPress={() => handleRefresh(user?.uid!)}
           >
-            <Text style={styles.retryText}>Retry</Text>
+            <Text style={styles.retryText}>{i18n.t('retry')}</Text>
           </TouchableOpacity>
         </View>
       ) : sections.length === 0 ? (
@@ -417,7 +415,7 @@ export function P2PAdsScreen() {
             marginBottom: 8,
             textAlign: 'center',
           }}>
-            No p2p ad yet
+            {i18n.t('noP2PAdYet')}
           </Text>
 
           <View style={{ flexDirection: 'row', gap: 16 }}>
@@ -533,32 +531,15 @@ export function P2PAdsScreen() {
               alignItems: 'center',
             }}>
               {(tempImageUri === null) &&
-                // <Button
-                // title="pick an image"
-                // onPress={() => pickImage()}
-                // loading={false}
-                // disabled={false}
-                // size='small'
-                // />
                 <TouchableOpacity style={styles.menuItem}
                   onPress={() => pickImage()}
                 >
                   <View style={styles.menuItemLeft}>
-                    <Text style={styles.menuItemText}>pick an image</Text>
+                    <Text style={styles.menuItemText}>{i18n.t('pickAnImage')}</Text>
                   </View>
                 </TouchableOpacity>
               }
               {(tempImageUri != null) &&
-                // <Button
-                // title={isCompleting ? 'Completing...' : 'complete request'}
-                // onPress={async () => {
-                //   await uploadImageAndSendMessage(p2pRequest!);
-                //   bottomSheetRef.current?.close();
-                // }}
-                // loading={false}
-                // disabled={tempImageUri === null}
-                // size='small'
-                // />
                 <TouchableOpacity style={styles.menuItem}
                   onPress={async () => {
                     await uploadImageAndSendMessage(p2pRequest!);
@@ -567,20 +548,10 @@ export function P2PAdsScreen() {
                   disabled={tempImageUri === null}
                 >
                   <View style={styles.menuItemLeft}>
-                    <Text style={styles.menuItemText}>{isCompleting ? 'Completing...' : 'complete request'}</Text>
+                    <Text style={styles.menuItemText}>{isCompleting ? i18n.t('completing') : i18n.t('completeRequest')}</Text>
                   </View>
                 </TouchableOpacity>
               }
-              {/* <RedButton
-                title="cancel"
-                onPress={() => {
-                  setComplete(false);
-                  setTempImageUri(null);
-                }}
-                loading={false}
-                disabled={false}
-                size='small'
-              /> */}
               <TouchableOpacity style={styles.menuItem}
                 onPress={() => {
                   setComplete(false);
@@ -588,7 +559,7 @@ export function P2PAdsScreen() {
                 }}
               >
                 <View style={styles.menuItemLeft}>
-                  <Text style={styles.menuItemText}>cancel</Text>
+                  <Text style={styles.menuItemText}>{i18n.t('cancel')}</Text>
                 </View>
               </TouchableOpacity>
             </View>
