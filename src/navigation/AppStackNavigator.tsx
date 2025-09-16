@@ -114,6 +114,7 @@ export default function AppStackNavigator() {
         component={UpdateAdScreen}
         options={{
           headerShown: true,
+          headerTitle: i18n.t('updateAd'),
         }}
       />
 

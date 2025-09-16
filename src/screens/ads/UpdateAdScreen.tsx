@@ -20,6 +20,7 @@ import { Picker } from '@react-native-picker/picker'; //ayad
 import { launchImagePicker, openCamera, uploadImageAsync } from "./imagePickerHelper";
 import type { AppStackParamList } from '../../types/navigation';
 import { type StackNavigationProp } from '@react-navigation/stack';
+import i18n from '../../language/i18n';
 
 type UpdateAdScreenRouteProp = RouteProp<AppStackParamList, 'UpdateAd'>;
 type UpdateAdScreenNavigationProp = StackNavigationProp<AppStackParamList, 'UpdateAd'>;
@@ -170,9 +171,9 @@ export default function UpdateAdScreen() {
         {/* Ad Inputs */}
         <View style={styles.inputContainer}>
           {/* image picker */}
-          <Text style={styles.inputLabel}>Image</Text>
+          <Text style={styles.inputLabel}>{i18n.t('image')}</Text>
           <TouchableOpacity style={styles.textInput} onPress={pickImage}>
-            <Text style={styles.textInput}>Pick an image</Text>
+            <Text style={styles.textInput}>{i18n.t('pickAnImage')}</Text>
           </TouchableOpacity>
           {/* {image && ( */}
           {(tempImageUri || tempImageUrl) && (
@@ -182,38 +183,35 @@ export default function UpdateAdScreen() {
                 style={{ width: 200, height: 200, alignItems: 'center' }}
               />
             </View>
-
           )}
-          <Text style={styles.inputLabel}>Title</Text>
+          <Text style={styles.inputLabel}>{i18n.t('title')}</Text>
           <TextInput
             style={styles.textInput}
             value={adTitle}
             onChangeText={setAdTitle}
-            placeholder="Enter ad title..."
+            placeholder={i18n.t('enterAdTitle')}
             placeholderTextColor="rgba(0, 0, 0, 0.4)"
             maxLength={50}
           />
-          <Text style={styles.inputLabel}>Description</Text>
+          <Text style={styles.inputLabel}>{i18n.t('description')}</Text>
           <TextInput
             style={styles.textInput}
             value={adDescription}
             onChangeText={setAdDescription}
-            placeholder="Enter ad title..."
+            placeholder={i18n.t('enterAdDescription')}
             placeholderTextColor="rgba(0, 0, 0, 0.4)"
             maxLength={500}
           />
-
-          <Text style={styles.inputLabel}>Price</Text>
+          <Text style={styles.inputLabel}>{i18n.t('price')}</Text>
           <TextInput
             style={styles.textInput}
             value={adPrice}
             onChangeText={setAdPrice}
-            placeholder="Enter ad price..."
+            placeholder={i18n.t('enterAdPrice')}
             placeholderTextColor="rgba(0, 0, 0, 0.4)"
             maxLength={500}
           />
-
-          <Text style={styles.inputLabel}>Category</Text>
+          <Text style={styles.inputLabel}>{i18n.t('category')}</Text>
           <View style={styles.pickerContainer}>
             <Picker
               selectedValue={className}
@@ -222,16 +220,16 @@ export default function UpdateAdScreen() {
                 setClassName(itemValue)
               }
             >
-              <Picker.Item label={classNameList.RealEstate} value={classNameList.RealEstate} />
-              <Picker.Item label={classNameList.Animals} value={classNameList.Animals} />
-              <Picker.Item label={classNameList.Electronics} value={classNameList.Electronics} />
-              <Picker.Item label={classNameList.Fashion} value={classNameList.Fashion} />
-              <Picker.Item label={classNameList.Games} value={classNameList.Games} />
-              <Picker.Item label={classNameList.Works} value={classNameList.Works} />
-              <Picker.Item label={classNameList.Cars} value={classNameList.Cars} />
+              <Picker.Item label={i18n.t('realEstate')} value={classNameList.RealEstate} />
+              <Picker.Item label={i18n.t('animals')} value={classNameList.Animals} />
+              <Picker.Item label={i18n.t('electronics')} value={classNameList.Electronics} />
+              <Picker.Item label={i18n.t('fashion')} value={classNameList.Fashion} />
+              <Picker.Item label={i18n.t('games')} value={classNameList.Games} />
+              <Picker.Item label={i18n.t('works')} value={classNameList.Works} />
+              <Picker.Item label={i18n.t('cars')} value={classNameList.Cars} />
             </Picker>
           </View>
-          <Text style={styles.inputLabel}>Type</Text>
+          <Text style={styles.inputLabel}>{i18n.t('type')}</Text>
           <View style={styles.pickerContainer}>
             <Picker
               selectedValue={typeName}
@@ -239,11 +237,11 @@ export default function UpdateAdScreen() {
               onValueChange={(itemValue, itemIndex) =>
                 setTypeName(itemValue)
               }>
-              <Picker.Item label="sale" value="sale" />
-              <Picker.Item label="buy" value="buy" />
+              <Picker.Item label={i18n.t('sale')} value="sale" />
+              <Picker.Item label={i18n.t('buy')} value="buy" />
             </Picker>
           </View>
-          <Text style={styles.inputLabel}>City</Text>
+          <Text style={styles.inputLabel}>{i18n.t('city')}</Text>
           <View style={styles.pickerContainer}>
             <Picker
               selectedValue={cityName}
@@ -251,31 +249,31 @@ export default function UpdateAdScreen() {
               onValueChange={(itemValue, itemIndex) =>
                 setCityName(itemValue)
               }>
-              <Picker.Item label={cityNameList.Bagdad} value={cityNameList.Bagdad} />
-              <Picker.Item label={cityNameList.Babil} value={cityNameList.Babil} />
-              <Picker.Item label={cityNameList.Karbala} value={cityNameList.Karbala} />
-              <Picker.Item label={cityNameList.AlAnbar} value={cityNameList.AlAnbar} />
-              <Picker.Item label={cityNameList.Amarah} value={cityNameList.Amarah} />
-              <Picker.Item label={cityNameList.Basra} value={cityNameList.Basra} />
-              <Picker.Item label={cityNameList.Diwaniyah} value={cityNameList.Diwaniyah} />
-              <Picker.Item label={cityNameList.Diyala} value={cityNameList.Diyala} />
-              <Picker.Item label={cityNameList.Dohuk} value={cityNameList.Dohuk} />
-              <Picker.Item label={cityNameList.Erbil} value={cityNameList.Erbil} />
-              <Picker.Item label={cityNameList.Kirkuk} value={cityNameList.Kirkuk} />
-              <Picker.Item label={cityNameList.Mosul} value={cityNameList.Mosul} />
-              <Picker.Item label={cityNameList.Najaf} value={cityNameList.Najaf} />
-              <Picker.Item label={cityNameList.Nasiriyah} value={cityNameList.Nasiriyah} />
-              <Picker.Item label={cityNameList.Saladin} value={cityNameList.Saladin} />
-              <Picker.Item label={cityNameList.Samawah} value={cityNameList.Samawah} />
-              <Picker.Item label={cityNameList.Sulaymaniyah} value={cityNameList.Sulaymaniyah} />
-              <Picker.Item label={cityNameList.Wasit} value={cityNameList.Wasit} />
+              <Picker.Item label={i18n.t('Bagdad')} value={cityNameList.Bagdad} />
+              <Picker.Item label={i18n.t('Babil')} value={cityNameList.Babil} />
+              <Picker.Item label={i18n.t('Karbala')} value={cityNameList.Karbala} />
+              <Picker.Item label={i18n.t('AlAnbar')} value={cityNameList.AlAnbar} />
+              <Picker.Item label={i18n.t('Amarah')} value={cityNameList.Amarah} />
+              <Picker.Item label={i18n.t('Basra')} value={cityNameList.Basra} />
+              <Picker.Item label={i18n.t('Diwaniyah')} value={cityNameList.Diwaniyah} />
+              <Picker.Item label={i18n.t('Diyala')} value={cityNameList.Diyala} />
+              <Picker.Item label={i18n.t('Dohuk')} value={cityNameList.Dohuk} />
+              <Picker.Item label={i18n.t('Erbil')} value={cityNameList.Erbil} />
+              <Picker.Item label={i18n.t('Kirkuk')} value={cityNameList.Kirkuk} />
+              <Picker.Item label={i18n.t('Mosul')} value={cityNameList.Mosul} />
+              <Picker.Item label={i18n.t('Najaf')} value={cityNameList.Najaf} />
+              <Picker.Item label={i18n.t('Nasiriyah')} value={cityNameList.Nasiriyah} />
+              <Picker.Item label={i18n.t('Saladin')} value={cityNameList.Saladin} />
+              <Picker.Item label={i18n.t('Samawah')} value={cityNameList.Samawah} />
+              <Picker.Item label={i18n.t('Sulaymaniyah')} value={cityNameList.Sulaymaniyah} />
+              <Picker.Item label={i18n.t('Wasit')} value={cityNameList.Wasit} />
             </Picker>
           </View>
         </View>
         {/* Update Ad Button */}
         <View style={{ marginTop: 16, paddingHorizontal: 16, paddingVertical: 12 }}>
           <Button
-            title={isLoading ? 'Loading...' : isUpdateing ? 'Updateing...' : 'Update Ad'}
+            title={isLoading ? i18n.t('loading') : isUpdateing ? i18n.t('updateing'): i18n.t('updateAd')}
             onPress={uploadImage}
             disabled={isUpdateing || isLoading || !adTitle.trim() || !adDescription.trim() || !typeName.trim() || !className.trim() || !cityName.trim() || !adPrice}
             style={styles.updateButton}
