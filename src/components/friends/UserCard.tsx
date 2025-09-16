@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { UserProfile } from '../../services/firebase/firestore.service';
+import i18n from '../../language/i18n';
 
 /**
  * Reusable user card component for displaying users in search results and friends lists.

@@ -78,6 +78,12 @@
 
     "updateing": "Updateing...",
 
+    "friend": "Friend",
+    "noFriendsYet": "No Friends Yet",
+    "startByAddingSomeFriends": "Start by adding some friends to chat",
+    "addFriends": "Add Friends",
+    "onlineNow": "Online Now",
+
     "search": "Search",
     "searchAd": "Search ad...",
 

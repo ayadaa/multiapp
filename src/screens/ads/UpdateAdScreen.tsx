@@ -15,7 +15,7 @@ import { Screen } from '../../components/common/Screen';
 import { Button } from '../../components/common/Button';
 import { useAds } from '../../hooks/ad/use-ads'; //ayad
 import type { RootState } from '../../store';
-import type { NavigationProp } from '../../types/navigation';
+// import type { NavigationProp } from '../../types/navigation';
 import { Picker } from '@react-native-picker/picker'; //ayad
 import { launchImagePicker, openCamera, uploadImageAsync } from "./imagePickerHelper";
 import type { AppStackParamList } from '../../types/navigation';

@@ -15,6 +15,7 @@ import { UserCard } from '../../components/friends/UserCard';
 import { useFriends } from '../../hooks/friends/use-friends';
 import { useChats } from '../../hooks/chat/use-chats';
 import { useAuth } from '../../hooks/auth/use-auth';
+import i18n from '../../language/i18n';
 
 /**
  * Friends List screen displaying all accepted friends with their online status.
@@ -90,9 +91,9 @@ export function FriendsListScreen() {
           <Ionicons name="arrow-back" size={24} color="#000000" />
         </TouchableOpacity>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>Friends</Text>
+          <Text style={styles.title}>{i18n.t('friends')}</Text>
           <Text style={styles.subtitle}>
-            {friends.length} {friends.length === 1 ? 'friend' : 'friends'}
+            {friends.length} {friends.length === 1 ? i18n.t('friend') : i18n.t('friends')}
           </Text>
         </View>
 
@@ -145,16 +146,16 @@ export function FriendsListScreen() {
           /* Empty State */
           <View style={styles.emptyStateContainer}>
             <Ionicons name="people-outline" size={80} color="rgba(0, 0, 0, 0.7)" />
-            <Text style={styles.emptyStateTitle}>No Friends Yet</Text>
+            <Text style={styles.emptyStateTitle}>{i18n.t('noFriendsYet')}</Text>
             <Text style={styles.emptyStateText}>
-              Start by adding some friends to chat and share snaps with them
+              {i18n.t('startByAddingSomeFriends')}
             </Text>
             <TouchableOpacity
               style={styles.addFriendsButton}
               onPress={handleAddFriendsPress}
             >
               <Ionicons name="person-add" size={20} color="Black" />
-              <Text style={styles.addFriendsButtonText}>Add Friends</Text>
+              <Text style={styles.addFriendsButtonText}>{i18n.t('addFriends')}</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -163,7 +164,7 @@ export function FriendsListScreen() {
         {friends.filter(f => f.isOnline).length > 0 && (
           <View style={styles.onlineSection}>
             <Text style={styles.sectionTitle}>
-              Online Now ({friends.filter(f => f.isOnline).length})
+              {i18n.t('onlineNow')}  ({friends.filter(f => f.isOnline).length})
             </Text>
             <ScrollView
               horizontal
