@@ -313,8 +313,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginBottom: 8,
     height: CardHeight,
+<<<<<<< HEAD
     backgroundColor: 'rgba(0, 200, 100, 0.8)',
     borderColor: 'rgba(0, 200, 100, 0.79)',
+=======
+    backgroundColor: 'rgba(0, 132, 255, 1)',
+    borderColor: 'rgba(0, 132, 255, 0.95)',
+>>>>>>> 4c15e3ade3ed679de287bc5300eaf3444a278f70
     borderRadius: 20,
     shadowColor: '#000',
     shadowOffset: {
@@ -358,13 +363,13 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255, 255, 255, 0.2)',
   },
   username: {
-    color: 'Black',
+    color: 'white',
     fontSize: 24,
     fontWeight: '600',
     marginBottom: 4,
   },
   email: {
-    color: 'rgba(0, 0, 0, 0.6)',
+    color: 'rgba(255, 255, 255, 0.6)',
     fontSize: 16,
   },
   menuSection: {
