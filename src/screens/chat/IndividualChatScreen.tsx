@@ -18,6 +18,7 @@ import BottomSheet, { BottomSheetView, BottomSheetBackdrop, BottomSheetFooter } 
 import { launchImagePicker, uploadImageAsync } from "../../screens/ads/imagePickerHelper";
 // import { ChattingScreenHeaderComponent } from "../../components/chat/ChatScreenHeader";
 // import socket from "../../utils/socket";
+import i18n from '../../language/i18n';
 
 type ChatStackParamList = {
   IndividualChat: {
@@ -26,21 +27,17 @@ type ChatStackParamList = {
     imageUrl?: string;
     message?: string; //ayad
   };
-};
+}
 
 type IndividualChatScreenRouteProp = RouteProp<ChatStackParamList, 'IndividualChat'>;
 type IndividualChatScreenNavigationProp = StackNavigationProp<ChatStackParamList, 'IndividualChat'>;
 
-const { width } = Dimensions.get('window');
+// const { width } = Dimensions.get('window');
 
-/**
- * Individual chat screen for one-on-one messaging.
- * Features real-time messaging, message status indicators, and glassmorphic UI.
- */
 export function IndividualChatScreen() {
   const route = useRoute<IndividualChatScreenRouteProp>();
   const navigation = useNavigation<IndividualChatScreenNavigationProp>();
-  const navigation2 = useNavigation<any>();
+  // const navigation2 = useNavigation<any>();
   const { user } = useAuth();
   const flatListRef = useRef<FlatList<Message>>(null);
   const [messageSent, setMessageSent] = useState<boolean>(false);
@@ -157,7 +154,7 @@ export function IndividualChatScreen() {
         bottomSheetRef.current?.close();
       }
     } catch (error) {
-      Alert.alert('Error', 'Failed to send message text with image. Please try again.');
+      Alert.alert(i18n.t('error'), i18n.t('failedToSendMessage'));
     }
   };
 
@@ -183,7 +180,7 @@ export function IndividualChatScreen() {
     try {
       await sendTextMessage(text);
     } catch (error) {
-      Alert.alert('Error', 'Failed to send message. Please try again.');
+      Alert.alert(i18n.t('error'), i18n.t('failedToSendMessage'));
     }
   };
 
@@ -191,7 +188,7 @@ export function IndividualChatScreen() {
     try {
       await sendTextWithImageMessage(imageUrl, text);
     } catch (error) {
-      Alert.alert('Error', 'Failed to send message. Please try again.');
+      Alert.alert(i18n.t('error'), i18n.t('failedToSendMessage'));
     }
   };
 
@@ -276,7 +273,7 @@ export function IndividualChatScreen() {
             fontWeight: 'bold',
           }}
         >
-          {otherUser?.username || 'Unknown User'}
+          {otherUser?.username || i18n.t('unknownUser')}
         </Text>
         {/* <Text
           style={{
@@ -319,7 +316,7 @@ export function IndividualChatScreen() {
           marginBottom: 4,
         }}
       >
-        Start a conversation with {otherUser?.username || 'this user'}
+        {i18n.t('startAConversationWith')} {otherUser?.username || i18n.t('thisUser')}
       </Text>
       <Text
         style={{
@@ -328,7 +325,7 @@ export function IndividualChatScreen() {
           textAlign: 'center',
         }}
       >
-        Send a message to get started
+        {i18n.t('sendAMessageToGetStarted')}
       </Text>
     </View>
   );
@@ -353,7 +350,7 @@ export function IndividualChatScreen() {
               marginBottom: 16,
             }}
           >
-            Failed to load messages
+            {i18n.t('failedToLoadMessages')}
           </Text>
           <Text
             style={{
@@ -368,22 +365,6 @@ export function IndividualChatScreen() {
       </Screen>
     );
   }
-
-  // const renderBottomSheetFooter = useCallback(
-  //   (props: any) => (
-  //     <BottomSheetFooter {...props}>
-  //       {/* <View style={{ flex: 1 }}> */}
-  //       <ChatInputSheet
-  //         // imageUri={imageUri}
-  //         onSendMessageWithImage={handleSendMessageWithImage2}
-  //         sending={sending}
-  //         placeholder={`Message ${otherUser?.username || 'user'}...`}
-  //       />
-  //       {/* </View> */}
-  //     </BottomSheetFooter>
-  //   ),
-  //   []
-  // );
 
   return (
     <>
@@ -400,7 +381,7 @@ export function IndividualChatScreen() {
               }}
             >
               <Text style={{ color: 'rgba(0, 0, 0, 0.6)', fontSize: 16 }}>
-                Loading messages...
+                {i18n.t('loadingMessages')}
               </Text>
             </View>
           ) : (
@@ -427,17 +408,14 @@ export function IndividualChatScreen() {
           onSendMessage={handleSendMessage}
           onPickImageAndShowBottomSheet={pickImageAndShowBottomSheet}
           sending={sending}
-          placeholder={`Message ${otherUser?.username || 'user'}...`}
+          placeholder={`${i18n.t('message')} ${otherUser?.username || i18n.t('user')}...`}
         />
-        {/* <Button onPress={showBottomSheet} title='ahow bottom seet' /> */}
-
         <BottomSheet
           snapPoints={snapPoints}
           index={-1}
           backdropComponent={renderBackdrop}
           ref={bottomSheetRef}
           onChange={handleSheetChanges}
-        // footerComponent={renderBottomSheetFooter}
         >
           <BottomSheetView style={{
             flex: 1,
@@ -452,47 +430,14 @@ export function IndividualChatScreen() {
                 />
               </View>
             )}
-            {/* <Image
-              source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/chatImages%2Fd4e908d0-cf99-452f-9df5-e26f406cec9f?alt=media&token=9da6b3b3-5694-4e60-9920-23baa72fb73f' }}
-              // style={{ flex: 1, alignItems: 'center' }}
-              style={{ width: 200, height: 200, alignItems: 'center' }}
-            /> */}
             <ChatInputSheet
               onSendMessageWithImage={handleSendMessageWithImage2}
               sending={sending}
-              placeholder={`Message ${otherUser?.username || 'user'}...`}
+              placeholder={`${i18n.t('message')} ${otherUser?.username || i18n.t('user')}...`}
             />
           </BottomSheetView>
         </BottomSheet>
       </Screen>
-
-      {/* <View style={styles.container}> */}
-      {/* <BottomSheet
-        snapPoints={snapPoints}
-        index={-1}
-        backdropComponent={renderBackdrop}
-        ref={bottomSheetRef}
-        onChange={handleSheetChanges}
-        // footerComponent={renderBottomSheetFooter}
-      >
-        <BottomSheetView style={{
-          flex: 1,
-        }}>
-          {tempImageUri && (
-            <Image
-              source={{ uri: tempImageUri }}
-              style={{ flex: 1, alignItems: 'center' }}
-            />
-          )}
-          <ChatInputSheet
-            onSendMessageWithImage={handleSendMessageWithImage2}
-            sending={sending}
-            placeholder={`Message ${otherUser?.username || 'user'}...`}
-          />
-        </BottomSheetView>
-      </BottomSheet> */}
-      {/* </View> */}
-      {/* </View2> */}
     </>
   );
 }

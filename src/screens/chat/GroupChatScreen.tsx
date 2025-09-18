@@ -1,8 +1,3 @@
-/**
- * Group Chat Screen
- * Handles group messaging with multiple participants, system messages, and read receipts
- */
-
 import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import {
   View,
@@ -29,6 +24,7 @@ import type { AppStackParamList, NavigationProp } from '../../types/navigation';
 import type { GroupMessage, UserProfile } from '../../services/firebase/firestore.service';
 import { launchImagePicker, uploadImageAsync } from "../../screens/ads/imagePickerHelper";
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop, BottomSheetFooter } from "@gorhom/bottom-sheet";
+import i18n from '../../language/i18n';
 
 type GroupChatRouteProp = RouteProp<AppStackParamList, 'GroupChat'>;
 
@@ -105,7 +101,7 @@ export default function GroupChatScreen() {
         bottomSheetRef.current?.close();
       }
     } catch (error) {
-      Alert.alert('Error', 'Failed to send message text with image. Please try again.');
+      Alert.alert(i18n.t('error'), i18n.t('failedToSendMessage'));
     }
   };
 
@@ -142,7 +138,7 @@ export default function GroupChatScreen() {
    */
   const getUsernameById = useCallback((userId: string): string => {
     const participant = participants.find(p => p.uid === userId);
-    return participant?.username || 'Unknown User';
+    return participant?.username || i18n.t('unknownUser');
   }, [participants]);
 
   /**
@@ -156,7 +152,7 @@ export default function GroupChatScreen() {
         flatListRef.current?.scrollToEnd({ animated: true });
       }, 100);
     } catch (error) {
-      Alert.alert('Error', 'Failed to send message. Please try again.');
+      Alert.alert(i18n.t('error'), i18n.t('failedToSendMessage'));
     }
   }, [sendMessage]);
 
@@ -234,12 +230,12 @@ export default function GroupChatScreen() {
     return (
       <Screen style={styles.container}>
         <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>Group not found</Text>
+          <Text style={styles.errorText}>{i18n.t('groupNotFound')}</Text>
           <TouchableOpacity
             style={styles.backButton}
             onPress={() => navigation.goBack()}
           >
-            <Text style={styles.backButtonText}>Go Back</Text>
+            <Text style={styles.backButtonText}>{i18n.t('goBack')}</Text>
           </TouchableOpacity>
         </View>
       </Screen>
@@ -259,10 +255,10 @@ export default function GroupChatScreen() {
 
         <View style={styles.headerInfo}>
           <Text style={styles.groupName} numberOfLines={1}>
-            {currentGroup?.name || 'Loading...'}
+            {currentGroup?.name || i18n.t('loading')}
           </Text>
           <Text style={styles.participantCount}>
-            {loadingParticipants ? 'Loading...' : `${participants.length} members`}
+            {loadingParticipants ? i18n.t('loading') : `${participants.length} ${i18n.t('members')}`}
           </Text>
         </View>
 
@@ -279,7 +275,7 @@ export default function GroupChatScreen() {
         {loading ? (
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color="#0084FF" />
-            <Text style={styles.loadingText}>Loading messages...</Text>
+            <Text style={styles.loadingText}>{i18n.t('loadingMessages')}</Text>
           </View>
         ) : error ? (
           <View style={styles.errorContainer}>
@@ -287,9 +283,9 @@ export default function GroupChatScreen() {
           </View>
         ) : messages.length === 0 ? (
           <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>No messages yet</Text>
+            <Text style={styles.emptyText}>{i18n.t('noMessagesYet')}</Text>
             <Text style={styles.emptySubtext}>
-              Start the conversation with your group!
+              {i18n.t('startTheConversationWithYourGroup')}
             </Text>
           </View>
         ) : (
@@ -312,7 +308,7 @@ export default function GroupChatScreen() {
         onSendMessage={handleSendMessage}
         onPickImageAndShowBottomSheet={pickImageAndShowBottomSheet}
         sending={sending}
-        placeholder={`Message ${currentGroup?.name || 'group'}...`}
+        placeholder={`${i18n.t('message')} ${currentGroup?.name || i18n.t('group')}...`}
       />
       <BottomSheet
         snapPoints={snapPoints}
@@ -337,7 +333,7 @@ export default function GroupChatScreen() {
           <ChatInputSheet
             onSendMessageWithImage={handleSendMessageWithImage2}
             sending={sending}
-            placeholder={`Message ${currentGroup?.name || 'group'}...`}
+            placeholder={`${i18n.t('message')} ${currentGroup?.name || i18n.t('group')}...`}
           />
         </BottomSheetView>
       </BottomSheet>

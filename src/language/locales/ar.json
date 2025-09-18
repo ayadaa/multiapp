@@ -120,6 +120,19 @@
     "startWithFriendsOrGroup": "أبدأ المحادثة مع الاصدقاء او انشأ مجموعة",
     "findFriends": "ايجاد اصدقاء",
 
+    "loadingMessages": "جاري تحميل الرسائل...",
+    "message": "ارسل رسالة ل",
+    "user": "المستخدم",
+    "startAConversationWith": "ابدأ المحادثة مع",
+    "thisUser": "هذا المستخدم",
+    "sendAMessageToGetStarted": "ارسل رسالة للبدأ",
+    "failedToSendMessage": "فشل في ارسال الرسالة. يرجى المحاولة مرة اخرى.",
+    "failedToLoadMessages": "فشل في تحميل الرسائل",
+    "startTheConversationWithYourGroup": "ابدأ المحادثة مع مجموعتك!",
+    "group": "مجموعة",
+
+    "groupNotFound": "المجموعة غير موجودة",
+
     "createGroup": "أنشاء مجموعة",
     "groupName": "اسم المجموعة",
     "enterGroupName": "ادخل اسم المجموعة...",

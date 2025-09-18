@@ -21,7 +21,7 @@ export function ChatScreen() {
   const navigation = useNavigation<NavigationProp>();
   const navigation2 = useNavigation<any>();
   const { user } = useAuth();
-  const currentUserId = user?.uid || '';
+  const currentUserId = user?.uid!;
 
   const { chats, loading: chatsLoading, error: chatsError, formatTimestamp } = useChats(currentUserId);
   const { groups, loading: groupsLoading, error: groupsError } = useGroups(currentUserId);

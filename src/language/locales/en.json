@@ -120,6 +120,21 @@
     "startWithFriendsOrGroup": "Start a conversation with friends or create a group chat",
     "findFriends": "Find Friends",
 
+    "loadingMessages": "Loading messages...",
+    "message": "Message",
+    "user": "user",
+    "startAConversationWith": "Start a conversation with",
+    "thisUser": "this user",
+    "sendAMessageToGetStarted": "Send a message to get started",
+    "failedToSendMessage": "Failed to send message. Please try again.",
+    "failedToLoadMessages": "Failed to load messages",
+    "startTheConversationWithYourGroup": "Start the conversation with your group!",
+    "group": "group",
+
+    "groupNotFound": "Group not found",
+    "goBack": "Go Back",
+    "members": "members",
+
     "createGroup": "Create Group",
     "groupName": "Group Name",
     "enterGroupName": "Enter group name...",
