@@ -260,5 +260,24 @@
     "displayName": "Display Name",
     "chooseADisplayName": "Choose a display name",
     "password": "Password",
-    "createAPassword": "Create a password"
+    "createAPassword": "Create a password",
+    
+    "pleaseEnterAValidEmailAddress": "Please enter a valid email address",
+    "emailIsRequired": "Email is required",
+    "passwordMustBeAtLeast6Characters": "Password must be at least 6 characters",
+    "passwordIsRequired": "Password is required",
+    "profilePictureIsRequired": "Profile picture is required",
+    "referralIsRequired": "Referral is required",
+    "usernameMustBeAtLeast3Characters": "Username must be at least 3 characters",
+    "usernameCannotExceed20Characters": "Username cannot exceed 20 characters",
+    "usernameCanOnlyContainLettersnumbersAndUnderscores": "Username can only contain letters, numbers, and underscores",
+    "usernameIsRequired": "Username is required",
+    "displayNameIsRequired": "Display name is required",
+    "passwordMustBeAtLeast8Characters": "Password must be at least 8 characters",
+    "passwordMustContainUppercaseLowercaseNumber": "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+    "passwordsMustMatch": "Passwords must match",
+    "pleaseConfirmYourPassword": "Please confirm your password",
+    "currentPasswordIsRequired": "Current password is required",
+    "newPasswordIsRequired": "New password is required",
+    "pleaseConfirmYourNewPassword": "Please confirm your new password"
 }

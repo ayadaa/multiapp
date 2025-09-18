@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import i18n from '../../language/i18n';
 
 /**
  * Authentication validation schemas using Yup.
@@ -9,107 +10,107 @@ import * as yup from 'yup';
 export const loginSchema = yup.object({
   email: yup
     .string()
-    .email('Please enter a valid email address')
-    .required('Email is required'),
+    .email(i18n.t('pleaseEnterAValidEmailAddress'))
+    .required(i18n.t('emailIsRequired')),
   password: yup
     .string()
-    .min(6, 'Password must be at least 6 characters')
-    .required('Password is required'),
+    .min(6, i18n.t('passwordMustBeAtLeast6Characters'))
+    .required(i18n.t('passwordIsRequired')),
 });
 
 export const signupSchema = yup.object({
   profilePicture: yup
     .string()
-    .required('Profile picture is required'),
+    .required(i18n.t('profilePictureIsRequired')),
   referral: yup
     .string()
-    .required('Referral is required'),
+    .required(i18n.t('referralIsRequired')),
   email: yup
     .string()
-    .email('Please enter a valid email address')
-    .required('Email is required'),
+    .email(i18n.t('pleaseEnterAValidEmailAddress'))
+    .required(i18n.t('emailIsRequired')),
   username: yup
     .string()
-    .min(3, 'Username must be at least 3 characters')
-    .max(20, 'Username cannot exceed 20 characters')
+    .min(3, i18n.t('usernameMustBeAtLeast3Characters'))
+    .max(20, i18n.t('usernameCannotExceed20Characters'))
     .matches(
       /^[a-zA-Z0-9_]+$/,
-      'Username can only contain letters, numbers, and underscores'
+      i18n.t('usernameCanOnlyContainLettersnumbersAndUnderscores')
     )
-    .required('Username is required'),
+    .required(i18n.t('usernameIsRequired')),
   displayName: yup
     .string()
-    .required('Display name is required'),
+    .required(i18n.t('displayNameIsRequired')),
   password: yup
     .string()
-    .min(8, 'Password must be at least 8 characters')
+    .min(8, i18n.t('passwordMustBeAtLeast8Characters'))
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-      'Password must contain at least one uppercase letter, one lowercase letter, and one number'
+      i18n.t('passwordMustContainUppercaseLowercaseNumber')
     )
-    .required('Password is required'),
+    .required(i18n.t('passwordIsRequired')),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref('password')], 'Passwords must match')
-    .required('Please confirm your password'),
+    .oneOf([yup.ref('password')], i18n.t('passwordsMustMatch'))
+    .required(i18n.t('pleaseConfirmYourPassword')),
 });
 
 export const updateProfileSchema = yup.object({
   password: yup
     .string()
-    .min(8, 'Password must be at least 8 characters')
+    .min(8, i18n.t('passwordMustBeAtLeast8Characters'))
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-      'Password must contain at least one uppercase letter, one lowercase letter, and one number'
+      i18n.t('passwordMustContainUppercaseLowercaseNumber')
     )
-    .required('Password is required'),
+    .required(i18n.t('passwordIsRequired')),
   uid: yup
     .string()
     .required('uid is required'),
   profilePicture: yup
     .string()
-    .required('Profile picture is required'),
+    .required(i18n.t('profilePictureIsRequired')),
   email: yup
     .string()
-    .email('Please enter a valid email address')
-    .required('Email is required'),
+    .email(i18n.t('pleaseEnterAValidEmailAddress'))
+    .required(i18n.t('emailIsRequired')),
   username: yup
     .string()
-    .min(3, 'Username must be at least 3 characters')
-    .max(20, 'Username cannot exceed 20 characters')
+    .min(3, i18n.t('usernameMustBeAtLeast3Characters'))
+    .max(20, i18n.t('usernameCannotExceed20Characters'))
     .matches(
       /^[a-zA-Z0-9_]+$/,
-      'Username can only contain letters, numbers, and underscores'
+      i18n.t('usernameCanOnlyContainLettersnumbersAndUnderscores')
     )
-    .required('Username is required'),
+    .required(i18n.t('usernameIsRequired')),
   displayName: yup
     .string()
-    .required('Display name is required'),
+    .required(i18n.t('displayNameIsRequired')),
 });
 
 export const forgotPasswordSchema = yup.object({
   email: yup
     .string()
-    .email('Please enter a valid email address')
-    .required('Email is required'),
+    .email(i18n.t('pleaseEnterAValidEmailAddress'))
+    .required(i18n.t('emailIsRequired')),
 });
 
 export const changePasswordSchema = yup.object({
   currentPassword: yup
     .string()
-    .required('Current password is required'),
+    .required(i18n.t('currentPasswordIsRequired')),
   newPassword: yup
     .string()
-    .min(8, 'Password must be at least 8 characters')
+    .min(8, i18n.t('passwordMustBeAtLeast8Characters'))
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-      'Password must contain at least one uppercase letter, one lowercase letter, and one number'
+      i18n.t('passwordMustContainUppercaseLowercaseNumber')
     )
-    .required('New password is required'),
+    .required(i18n.t('newPasswordIsRequired')),
   confirmNewPassword: yup
     .string()
-    .oneOf([yup.ref('newPassword')], 'Passwords must match')
-    .required('Please confirm your new password'),
+    .oneOf([yup.ref('newPassword')], i18n.t('passwordsMustMatch'))
+    .required(i18n.t('pleaseConfirmYourNewPassword')),
 });
 
 export type LoginFormData = yup.InferType<typeof loginSchema>;
