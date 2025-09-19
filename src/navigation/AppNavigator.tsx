@@ -4,6 +4,8 @@ import { AuthNavigator } from './AuthNavigator';
 import AppStackNavigator from './AppStackNavigator';
 import { useAppSelector } from '../store/hooks';
 import i18n from '../language/i18n'; // Import your i18n instance
+// import { EmailVerifiedScreen } from '../screens/auth/EmailVerifiedScreen';
+import { EmailVerifiedNavigator } from './EmailVerifiedNavigator'
 // import { useAppSelector } from '../store/hooks';
 
 /**
@@ -18,8 +20,11 @@ import i18n from '../language/i18n'; // Import your i18n instance
  */
 export function AppNavigator() {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+  const isEmailVerified = useAppSelector((state) => state.auth.user?.isEmailVerified);
   const currentLanguage = useAppSelector((state) => state.language.currentLanguage);
   i18n.locale = currentLanguage; // handle current language
+
+  console.log('isEmailVerified', isEmailVerified)
 
   // React.useEffect(() => {
   //   const currentLanguage = useAppSelector((state) => state.language.currentLanguage);
@@ -28,7 +33,8 @@ export function AppNavigator() {
 
   return (
     <NavigationContainer>
-      {isAuthenticated ? <AppStackNavigator /> : <AuthNavigator />}
+      {(isEmailVerified == false) ? <EmailVerifiedNavigator /> : isAuthenticated ? <AppStackNavigator /> : <AuthNavigator />}
+      {/* <EmailVerifiedScreen /> */}
     </NavigationContainer>
   );
 } 

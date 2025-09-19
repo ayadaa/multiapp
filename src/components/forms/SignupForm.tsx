@@ -8,6 +8,8 @@ import { useAuth } from '../../hooks/auth/use-auth';
 import { signupSchema, type SignupFormData } from '../../utils/validation/auth-schemas';
 import { launchImagePicker, openCamera, uploadImageAsync } from "../../screens/ads/imagePickerHelper";
 import { useWallet } from '../../hooks/wallet/use-wallet';
+import i18n from '../../language/i18n';
+import * as yup from 'yup';
 
 interface SignupFormProps {
   onSuccess?: () => void;
@@ -23,6 +25,44 @@ interface SignupFormProps {
 export function SignupForm({ onSuccess, onNavigateToLogin, qrData }: SignupFormProps) {
   const { signup, isLoading, error, clearAuthError, checkUsername, usernameCheckLoading, usernameAvailable } = useAuth();
   const { checkAddress, addressCheckLoading, addressExist } = useWallet('');
+
+  const signupSchema = yup.object({
+    profilePicture: yup
+      .string()
+      .required(i18n.t('profilePictureIsRequired')),
+    referral: yup
+      .string()
+      .required(i18n.t('referralIsRequired')),
+    email: yup
+      .string()
+      .email(i18n.t('pleaseEnterAValidEmailAddress'))
+      .required(i18n.t('emailIsRequired')),
+    username: yup
+      .string()
+      .min(3, i18n.t('usernameMustBeAtLeast3Characters'))
+      .max(20, i18n.t('usernameCannotExceed20Characters'))
+      .matches(
+        /^[a-zA-Z0-9_]+$/,
+        i18n.t('usernameCanOnlyContainLettersnumbersAndUnderscores')
+      )
+      .required(i18n.t('usernameIsRequired')),
+    displayName: yup
+      .string()
+      .required(i18n.t('displayNameIsRequired')),
+    password: yup
+      .string()
+      .min(8, i18n.t('passwordMustBeAtLeast8Characters'))
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+        i18n.t('passwordMustContainUppercaseLowercaseNumber')
+      )
+      .required(i18n.t('passwordIsRequired')),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref('password')], i18n.t('passwordsMustMatch'))
+      .required(i18n.t('pleaseConfirmYourPassword')),
+  });
+
   const {
     control,
     handleSubmit,
@@ -69,9 +109,9 @@ export function SignupForm({ onSuccess, onNavigateToLogin, qrData }: SignupFormP
 
   const getUsernameStatus = () => {
     if (!watchedUsername || watchedUsername.length < 3) return null;
-    if (usernameCheckLoading) return { color: '#007AFF', text: 'Checking...' };
-    if (usernameAvailable === true) return { color: '#34C759', text: 'Available' };
-    if (usernameAvailable === false) return { color: '#FF3B30', text: 'Taken' };
+    if (usernameCheckLoading) return { color: '#007AFF', text: i18n.t('checking') };
+    if (usernameAvailable === true) return { color: '#34C759', text: i18n.t('available') };
+    if (usernameAvailable === false) return { color: '#FF3B30', text: i18n.t('taken') };
     return null;
   }
   const usernameStatus = getUsernameStatus();
@@ -79,9 +119,9 @@ export function SignupForm({ onSuccess, onNavigateToLogin, qrData }: SignupFormP
   const watchedReferral = watch('referral');
   const getReferralStatus = () => {
     if (!watchedReferral || watchedReferral.length < 3) return null;
-    if (addressCheckLoading) return { color: '#007AFF', text: 'Checking...' };
-    if (addressExist === true) return { color: '#34C759', text: 'Exist' };
-    if (addressExist === false) return { color: '#FF3B30', text: 'Not exist' };
+    if (addressCheckLoading) return { color: '#007AFF', text: i18n.t('checking') };
+    if (addressExist === true) return { color: '#34C759', text: i18n.t('exist') };
+    if (addressExist === false) return { color: '#FF3B30', text: i18n.t('notExist') };
     return null;
   }
   const referralStatus = getReferralStatus();
@@ -117,12 +157,12 @@ export function SignupForm({ onSuccess, onNavigateToLogin, qrData }: SignupFormP
           name="profilePicture"
           render={({ field: { onChange, onBlur, value } }) => (
             <View style={styles.profilePictureContainer}>
-              <Text style={styles.profilePictureText}>Make sure to upload your image</Text>
+              <Text style={styles.profilePictureText}>{i18n.t('makeSureToUploadYourImage')}</Text>
               <TouchableOpacity style={styles.avatarPlaceholder} onPress={() => pickImage(onChange)}>
                 {value ? (
                   <Image source={{ uri: value }} style={styles.avatarImage} />
                 ) : (
-                  <Text style={styles.avatarPlaceholderText}>Pick Image</Text>
+                  <Text style={styles.avatarPlaceholderText}>{i18n.t('pickImage')}</Text>
                 )}
               </TouchableOpacity>
             </View>
@@ -135,8 +175,8 @@ export function SignupForm({ onSuccess, onNavigateToLogin, qrData }: SignupFormP
           render={({ field: { onChange, onBlur, value } }) => (
             <View>
               <Input
-                label="Referral"
-                placeholder="Place an referral code"
+                label={i18n.t('referral')}
+                placeholder={i18n.t('placeAnReferralCode')}
                 value={value || qrData}
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -163,8 +203,8 @@ export function SignupForm({ onSuccess, onNavigateToLogin, qrData }: SignupFormP
           name="email"
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
-              label="Email"
-              placeholder="Enter your email"
+              label={i18n.t('email')}
+              placeholder={i18n.t('enterYourEmail')}
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
@@ -182,8 +222,8 @@ export function SignupForm({ onSuccess, onNavigateToLogin, qrData }: SignupFormP
           render={({ field: { onChange, onBlur, value } }) => (
             <View>
               <Input
-                label="Username"
-                placeholder="Choose a username"
+                label={i18n.t('username')}
+                placeholder={i18n.t('chooseAUsername')}
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -211,8 +251,8 @@ export function SignupForm({ onSuccess, onNavigateToLogin, qrData }: SignupFormP
           render={({ field: { onChange, onBlur, value } }) => (
             <View>
               <Input
-                label="Display Name"
-                placeholder="Choose a display name"
+                label={i18n.t('displayName')}
+                placeholder={i18n.t('chooseADisplayName')}
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -229,8 +269,8 @@ export function SignupForm({ onSuccess, onNavigateToLogin, qrData }: SignupFormP
           name="password"
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
-              label="Password"
-              placeholder="Create a password"
+              label={i18n.t('password')}
+              placeholder={i18n.t('createAPassword')}
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
@@ -246,8 +286,8 @@ export function SignupForm({ onSuccess, onNavigateToLogin, qrData }: SignupFormP
           name="confirmPassword"
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
-              label="Confirm Password"
-              placeholder="Confirm your password"
+              label={i18n.t('confirmPassword')}
+              placeholder={i18n.t('confirmYourPassword')}
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
@@ -269,7 +309,7 @@ export function SignupForm({ onSuccess, onNavigateToLogin, qrData }: SignupFormP
 
         {/* Submit Button */}
         <Button
-          title="Create Account"
+          title={i18n.t('createAccount')}
           onPress={handleSubmit(onSubmit)}
           loading={isLoading}
           disabled={!isValid || usernameAvailable === false}
@@ -281,10 +321,10 @@ export function SignupForm({ onSuccess, onNavigateToLogin, qrData }: SignupFormP
       <View style={{ alignItems: 'center' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text style={{ color: 'rgba(0, 0, 0, 0.75)', fontSize: 14 }}>
-            Already have an account?{' '}
+            {i18n.t('alreadyHaveAnAccount') + ' '}
           </Text>
           <Button
-            title="Sign In"
+            title={i18n.t('signIn')}
             onPress={() => onNavigateToLogin?.()}
             variant="ghost"
             size="small"
@@ -299,7 +339,7 @@ export function SignupForm({ onSuccess, onNavigateToLogin, qrData }: SignupFormP
           marginTop: 16,
           paddingHorizontal: 16
         }}>
-          By creating an account, you agree to our Terms of Service and Privacy Policy
+          {i18n.t('byCreatingAnAccountPrivacyPolicy')}
         </Text>
       </View>
     </View>

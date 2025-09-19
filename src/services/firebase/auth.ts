@@ -4,7 +4,8 @@ import {
   signOut,
   updateProfile,
   sendPasswordResetEmail,
-  User as FirebaseUser
+  User as FirebaseUser,
+  sendEmailVerification
 } from 'firebase/auth';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '../../config/firebase';
@@ -40,6 +41,7 @@ function firebaseUserToAppUser(firebaseUser: FirebaseUser): User {
     username: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || '',
     createdAt: new Date(firebaseUser.metadata.creationTime || Date.now()),
     lastLogin: new Date(firebaseUser.metadata.lastSignInTime || Date.now()),
+    isEmailVerified: firebaseUser.emailVerified,
   };
 }
 
@@ -50,8 +52,9 @@ export async function signUpWithEmail({ profilePicture, referral, email, passwor
   try {
     // Create user account
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    // Email verification sent
+    await sendEmailVerification(userCredential.user);
     const firebaseUser = userCredential.user;
-
     // Update user profile with username
     await updateProfile(firebaseUser, {
       displayName: username,
@@ -83,6 +86,8 @@ export async function signInWithEmail({ email, password }: LoginData): Promise<U
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const firebaseUser = userCredential.user;
+
+    // const isEmailVerified = userCredential.user.emailVerified; //ayad
 
     // Update last login time
     await setDoc(doc(db, 'users', firebaseUser.uid), {

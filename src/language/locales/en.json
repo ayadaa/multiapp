@@ -7,6 +7,34 @@
     "doNotHaveAnAccount": "Don't have an account?",
     "signUp": "Sign Up",
 
+    "joinNumoStore": "Join Numo Store",
+    "createYourAccountToGetStarted": "Create your account to get started",
+    "placeAnReferralCode": "Place an referral code",
+    "confirmPassword": "Confirm Password",
+    "confirmYourPassword": "Confirm your password",
+    "createAccount": "Create Account",
+    "alreadyHaveAnAccount": "Already have an account?",
+    "byCreatingAnAccountPrivacyPolicy": "By creating an account, you agree to our Terms of Service and Privacy Policy",
+    "available": "Available",
+    "taken": "Taken",
+    "exist": "Exist",
+    "notExist": "Not exist",
+
+    "resetPassword": "Reset Password",
+    "enterYourEmailAddressAndWeWillYendYou": "Enter your email address and we'll send you",
+    "aLinkToResetYourPassword": "a link to reset your password",
+    "sendResetLink": "Send Reset Link",
+    "rememberYourPassword": "Remember your password?",
+    "checkYourEmail": "Check Your Email",
+    "weSentAPasswordResetLinkTo": "We've sent a password reset link to",
+    "backToSignIn": "Back to Sign In",
+    "resetEmailSent": "Reset Email Sent",
+    "pleaseCheckYourEmailAndFollowTheInstructionsToResetYourPassword": "Please check your email and follow the instructions to reset your password.",
+    "failedToSendResetEmail": "Failed to send reset email",
+
+    "verifyEmail": "Verify Email",
+    "pleaseVerifyYourEmail": "Please verify your email address by clicking on the link we sent to you in your email",
+    
     "greeting": "Hello",
     "welcomeMessage": "Welcome to our app!",
     "profile": "Profile",
@@ -258,7 +286,7 @@
     "username": "Username",
     "chooseAUsername": "Choose a username",
     "displayName": "Full Name",
-    "chooseADisplayName": "Choose a display name",
+    "chooseADisplayName": "Choose a full name",
     "password": "Password",
     "createAPassword": "Create a password",
     
@@ -279,5 +307,7 @@
     "pleaseConfirmYourPassword": "Please confirm your password",
     "currentPasswordIsRequired": "Current password is required",
     "newPasswordIsRequired": "New password is required",
-    "pleaseConfirmYourNewPassword": "Please confirm your new password"
+    "pleaseConfirmYourNewPassword": "Please confirm your new password",
+    "show": "Show",
+    "hide": "Hide"
 }

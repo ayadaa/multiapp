@@ -7,6 +7,7 @@ import { Button } from '../common/Button';
 import { useAuth } from '../../hooks/auth/use-auth';
 import { loginSchema, type LoginFormData } from '../../utils/validation/auth-schemas';
 import i18n from '../../language/i18n';
+import * as yup from 'yup';
 
 interface LoginFormProps {
   onSuccess?: () => void;
@@ -21,6 +22,17 @@ interface LoginFormProps {
  */
 export function LoginForm({ onSuccess, onForgotPassword, onNavigateToSignup }: LoginFormProps) {
   const { login, isLoading, error, clearAuthError } = useAuth();
+
+  const loginSchema = yup.object({
+    email: yup
+      .string()
+      .email(i18n.t('pleaseEnterAValidEmailAddress'))
+      .required(i18n.t('emailIsRequired')),
+    password: yup
+      .string()
+      .min(6, i18n.t('passwordMustBeAtLeast6Characters'))
+      .required(i18n.t('passwordIsRequired')),
+  });
 
   const {
     control,

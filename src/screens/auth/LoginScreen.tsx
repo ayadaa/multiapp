@@ -1,9 +1,8 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Screen } from '../../components/common/Screen';
 import { LoginForm } from '../../components/forms/LoginForm';
-import type { AuthStackParamList } from '../../types/navigation';
 import i18n from '../../language/i18n';
 
 /**
@@ -32,7 +31,7 @@ export function LoginScreen() {
       <View style={{ flex: 1, padding: 24, justifyContent: 'center' }}>
         {/* Header */}
         <View style={{ alignItems: 'center', marginBottom: 48 }}>
-          <Text
+          {/* <Text
             style={{
               fontSize: 32,
               fontWeight: 'bold',
@@ -41,7 +40,8 @@ export function LoginScreen() {
             }}
           >
             {i18n.t('numoStore')}
-          </Text>
+          </Text> */}
+          <Image source={require('../../../assets/splash-icon.png')} style={{ width: 150, height: 150 }} />
           <Text
             style={{
               fontSize: 16,

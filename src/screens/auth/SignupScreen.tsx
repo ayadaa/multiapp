@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Screen } from '../../components/common/Screen';
 import { SignupForm } from '../../components/forms/SignupForm';
+import i18n from '../../language/i18n';
 
 /**
  * Enhanced Signup screen component with form validation and username checking.
@@ -38,8 +39,9 @@ export function SignupScreen() {
                 marginBottom: 8,
               }}
             >
-              Join MultiApp
+              {i18n.t('joinNumoStore')}
             </Text>
+            {/* <Image source={require('../../../assets/splash-icon.png')} style={{ width: 150, height: 150 }} /> */}
             <Text
               style={{
                 fontSize: 16,
@@ -47,7 +49,7 @@ export function SignupScreen() {
                 textAlign: 'center',
               }}
             >
-              Create your account to get started
+              {i18n.t('createYourAccountToGetStarted')}
             </Text>
           </View>
 

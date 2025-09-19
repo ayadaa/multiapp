@@ -10,12 +10,15 @@ import { useAuth } from '../../hooks/auth/use-auth';
 import { forgotPasswordSchema, type ForgotPasswordFormData } from '../../utils/validation/auth-schemas';
 import i18n from '../../language/i18n';
 import * as yup from 'yup';
+import { useAppSelector } from '../../store/hooks';
+
 /**
  * Forgot Password screen for password reset functionality.
  * Allows users to request a password reset email from Firebase Auth.
  * Includes proper form validation and user feedback.
  */
-export function ForgotPasswordScreen() {
+export function EmailVerifiedScreen() {
+  const user = useAppSelector((state) => state.auth.user);
   const navigation = useNavigation<any>();
   const { forgotPassword, isLoading, clearAuthError } = useAuth();
   const [emailSent, setEmailSent] = useState(false);
@@ -66,43 +69,43 @@ export function ForgotPasswordScreen() {
     navigation.navigate('Login');
   };
 
-  if (emailSent) {
-    return (
-      <Screen>
-        <View style={{ flex: 1, padding: 24, justifyContent: 'center' }}>
-          <View style={{ alignItems: 'center', marginBottom: 48 }}>
-            <Text
-              style={{
-                fontSize: 32,
-                fontWeight: 'bold',
-                color: '#000000',
-                marginBottom: 8,
-              }}
-            >
-              {i18n.t('checkYourEmail')}
-            </Text>
-            <Text
-              style={{
-                fontSize: 16,
-                color: 'rgba(0, 0, 0, 0.75)',
-                textAlign: 'center',
-                lineHeight: 24,
-              }}
-            >
-              {i18n.t('weSentAPasswordResetLinkTo')}{'\n'}
-              {getValues('email')}
-            </Text>
-          </View>
+  // if (emailSent) {
+  //   return (
+  //     <Screen>
+  //       <View style={{ flex: 1, padding: 24, justifyContent: 'center' }}>
+  //         <View style={{ alignItems: 'center', marginBottom: 48 }}>
+  //           <Text
+  //             style={{
+  //               fontSize: 32,
+  //               fontWeight: 'bold',
+  //               color: '#000000',
+  //               marginBottom: 8,
+  //             }}
+  //           >
+  //             {i18n.t('checkYourEmail')}
+  //           </Text>
+  //           <Text
+  //             style={{
+  //               fontSize: 16,
+  //               color: 'rgba(0, 0, 0, 0.75)',
+  //               textAlign: 'center',
+  //               lineHeight: 24,
+  //             }}
+  //           >
+  //             {i18n.t('weSentAPasswordResetLinkTo')}{'\n'}
+  //             {getValues('email')}
+  //           </Text>
+  //         </View>
 
-          <Button
-            title={i18n.t('backToSignIn')}
-            onPress={navigateToLogin}
-            style={{ marginTop: 24 }}
-          />
-        </View>
-      </Screen>
-    );
-  }
+  //         <Button
+  //           title={i18n.t('backToSignIn')}
+  //           onPress={navigateToLogin}
+  //           style={{ marginTop: 24 }}
+  //         />
+  //       </View>
+  //     </Screen>
+  //   );
+  // }
 
   return (
     <Screen>
@@ -121,7 +124,7 @@ export function ForgotPasswordScreen() {
                 marginBottom: 8,
               }}
             >
-              {i18n.t('resetPassword')}
+              {i18n.t('verifyEmail')}
             </Text>
             <Text
               style={{
@@ -131,8 +134,8 @@ export function ForgotPasswordScreen() {
                 lineHeight: 24,
               }}
             >
-              {i18n.t('enterYourEmailAddressAndWeWillYendYou')}{'\n'}
-              {i18n.t('aLinkToResetYourPassword')}
+              {i18n.t('pleaseVerifyYourEmail')}{'\n'}
+              {user?.email}
             </Text>
           </View>
 

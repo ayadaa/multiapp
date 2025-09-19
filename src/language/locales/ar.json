@@ -3,10 +3,38 @@
     "signInToContinue": "سجل الدخول للاستمرار",
     "enterYourPassword": "ادخل كلمة المرور الخاصة بك",
     "signIn": "تسجيل الدخول",
-    "forgotPassword": "نسيت كلمة المرور?",
+    "forgotPassword": "نسيت كلمة المرور؟",
     "doNotHaveAnAccount": "ليس لديك اي حساب؟",
     "signUp": "تسجيل",
 
+    "joinNumoStore": "انضم إلى نمو ستور",
+    "createYourAccountToGetStarted": "أنشئ حسابك للبدء",
+    "placeAnReferralCode": "أدخل رمز الإحالة",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "confirmYourPassword": "أكّد كلمة المرور",
+    "createAccount": "أنشئ حسابًا",
+    "alreadyHaveAnAccount": "هل لديك حساب بالفعل؟",
+    "byCreatingAnAccountPrivacyPolicy": "بإنشاء حساب، فإنك توافق على شروط الخدمة وسياسة الخصوصية الخاصة بنا",
+    "available": "متاح",
+    "taken": "مأخوذ",
+    "exist": "موجود",
+    "notExist": "غير موجود",
+
+    "resetPassword": "إعادة تعيين كلمة المرور",
+    "enterYourEmailAddressAndWeWillYendYou": "أدخل بريدك الإلكتروني وسنرسله إليك",
+    "aLinkToResetYourPassword": "رابط لإعادة تعيين كلمة مرورك",
+    "sendResetLink": "إرسال رابط إعادة التعيين",
+    "rememberYourPassword": "هل تذكرت كلمة مرورك؟",
+    "checkYourEmail": "تحقق من بريدك الإلكتروني",
+    "weSentAPasswordResetLinkTo": "أرسلنا رابط إعادة تعيين كلمة المرور إلى",
+    "backToSignIn": "العودة إلى تسجيل الدخول",
+    "resetEmailSent": "تم إرسال إعادة تعيين البريد الإلكتروني",
+    "pleaseCheckYourEmailAndFollowTheInstructionsToResetYourPassword": "يرجى التحقق من بريدك الإلكتروني واتباع التعليمات لإعادة تعيين كلمة مرورك.",
+    "failedToSendResetEmail": "فشل إرسال بريد إعادة التعيين",
+    
+    "verifyEmail": "التحقق من البريد الإلكتروني",
+    "pleaseVerifyYourEmail": "يرجى التحقق من عنوان بريدك الإلكتروني بالضغط على الرابط الذي أرسلناه لك في بريدك الإلكتروني",
+    
     "greeting": "مرحبا",
     "welcomeMessage": "مرحبا بك في تطبيقنا!",
     "profile": "الملف الشخصي",
@@ -279,5 +307,7 @@
     "pleaseConfirmYourPassword": "يرجى تأكيد كلمة المرور.",
     "currentPasswordIsRequired": "كلمة المرور الحالية مطلوبة.",
     "newPasswordIsRequired": "كلمة مرور جديدة مطلوبة.",
-    "pleaseConfirmYourNewPassword": "يرجى تأكيد كلمة المرور الجديدة."
+    "pleaseConfirmYourNewPassword": "يرجى تأكيد كلمة المرور الجديدة.",
+    "show": "اظهار",
+    "hide": "اخفاء"
 }

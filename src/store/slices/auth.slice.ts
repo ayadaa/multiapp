@@ -7,6 +7,7 @@ export interface User {
   createdAt?: Date;
   lastLogin?: Date;
   balance?: number;
+  isEmailVerified: boolean;
 }
 
 interface AuthState {

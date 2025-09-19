@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextInput, View, Text, TouchableOpacity, TextInputProps, ViewStyle } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import i18n from '../../language/i18n';
 
 interface InputProps extends TextInputProps {
   label?: string;
@@ -93,7 +94,7 @@ export function Input({
 
         <TextInput
           style={[inputStyle, style]}
-          placeholderTextColor="rgba(255, 255, 255, 0.6)"
+          placeholderTextColor="rgba(0, 0, 0, 0.6)"
           secureTextEntry={isPassword && !isPasswordVisible}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
@@ -106,7 +107,7 @@ export function Input({
             style={{ marginLeft: 12 }}
           >
             <Text style={{ color: '#0084FF', fontSize: 14, fontWeight: '500' }}>
-              {isPasswordVisible ? 'Hide' : 'Show'}
+              {isPasswordVisible ? i18n.t('hide') : i18n.t('show')}
             </Text>
           </TouchableOpacity>
         )}

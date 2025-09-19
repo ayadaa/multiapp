@@ -13,6 +13,7 @@ import { launchImagePicker, openCamera, uploadImageAsync } from "../../screens/a
 // import { useAuth } from '../../hooks/auth/use-auth';
 import { UserProfile } from '../../services/firebase/firestore.service';
 import i18n from '../../language/i18n';
+import * as yup from 'yup';
 
 interface UpdateProfileProps {
   User: UserProfile;
@@ -30,6 +31,39 @@ export function UpdateProfileForm({ User, onSuccess }: UpdateProfileProps) {
   // const user = useSelector((state: RootState) => state.auth.user);
   // const { User } = useUser(user?.uid!);
   const { updateProfile, updateError, updateLoading, checkUsername, usernameCheckLoading, usernameAvailable } = useUser(User.uid);
+
+  const updateProfileSchema = yup.object({
+    password: yup
+      .string()
+      .min(8, i18n.t('passwordMustBeAtLeast8Characters'))
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+        i18n.t('passwordMustContainUppercaseLowercaseNumber')
+      )
+      .required(i18n.t('passwordIsRequired')),
+    uid: yup
+      .string()
+      .required('uid is required'),
+    profilePicture: yup
+      .string()
+      .required(i18n.t('profilePictureIsRequired')),
+    email: yup
+      .string()
+      .email(i18n.t('pleaseEnterAValidEmailAddress'))
+      .required(i18n.t('emailIsRequired')),
+    username: yup
+      .string()
+      .min(3, i18n.t('usernameMustBeAtLeast3Characters'))
+      .max(20, i18n.t('usernameCannotExceed20Characters'))
+      .matches(
+        /^[a-zA-Z0-9_]+$/,
+        i18n.t('usernameCanOnlyContainLettersnumbersAndUnderscores')
+      )
+      .required(i18n.t('usernameIsRequired')),
+    displayName: yup
+      .string()
+      .required(i18n.t('displayNameIsRequired')),
+  });
 
   const {
     control,
