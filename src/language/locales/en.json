@@ -34,7 +34,8 @@
 
     "verifyEmail": "Verify Email",
     "pleaseVerifyYourEmail": "Please verify your email address by clicking on the link we sent to you in your email",
-    
+    "resendVerificationLink": "Resend verification link",
+
     "greeting": "Hello",
     "welcomeMessage": "Welcome to our app!",
     "profile": "Profile",

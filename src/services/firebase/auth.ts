@@ -45,6 +45,20 @@ function firebaseUserToAppUser(firebaseUser: FirebaseUser): User {
   };
 }
 
+// Resend email verifiecation
+export async function resendEmailVerifiecation({ email, password }: LoginData): Promise<{ success: boolean }> {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const firebaseUser = userCredential.user;
+    // Email verification sent
+    await sendEmailVerification(firebaseUser);
+    return { success: true }
+  } catch (error: any) {
+    console.error('Resend email verifiecation error:', error);
+    throw new Error(error.message || 'Failed to resend email verifiecation');
+  }
+}
+
 /**
  * Sign up a new user with email and password
  */
