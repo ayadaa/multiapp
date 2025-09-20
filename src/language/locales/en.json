@@ -180,6 +180,13 @@
     "hasBeenCreatedSuccessfully": "has been created successfully.",
     "failedToCreateGroup": "Failed to create group. Please try again.",
 
+    "groupSettings": "Group Settings",
+    "save": "Save",
+    "allowNewMembers": "Allow new members",
+    "onlyAdminsCanMessage": "Only admins can message",
+    "leaveGroup": "Leave Group",
+    "admin": "Admin",
+
     "p2pAds": "P2P ads",
     "addNewP2PAd": "Add new P2P ad",
     "p2pRequests": "P2P Requests",
@@ -290,6 +297,9 @@
     "chooseADisplayName": "Choose a full name",
     "password": "Password",
     "createAPassword": "Create a password",
+
+    "userProfile": "User Profile",
+    "SendAMessage": "Send a message",
     
     "pleaseEnterAValidEmailAddress": "Please enter a valid email address",
     "emailIsRequired": "Email is required",

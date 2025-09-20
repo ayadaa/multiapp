@@ -9,7 +9,7 @@
 
     "joinNumoStore": "انضم إلى نمو ستور",
     "createYourAccountToGetStarted": "أنشئ حسابك للبدء",
-    "placeAnReferralCode": "أدخل رمز الإحالة",
+    "placeAnReferralCode": "ادخل رمز الإحالة",
     "confirmPassword": "تأكيد كلمة المرور",
     "confirmYourPassword": "أكّد كلمة المرور",
     "createAccount": "أنشئ حسابًا",
@@ -21,7 +21,7 @@
     "notExist": "غير موجود",
 
     "resetPassword": "إعادة تعيين كلمة المرور",
-    "enterYourEmailAddressAndWeWillYendYou": "أدخل بريدك الإلكتروني وسنرسله إليك",
+    "enterYourEmailAddressAndWeWillYendYou": "ادخل بريدك الإلكتروني وسنرسله إليك",
     "aLinkToResetYourPassword": "رابط لإعادة تعيين كلمة مرورك",
     "sendResetLink": "إرسال رابط إعادة التعيين",
     "rememberYourPassword": "هل تذكرت كلمة مرورك؟",
@@ -180,6 +180,13 @@
     "hasBeenCreatedSuccessfully": "تم أنشائها بنجاح.",
     "failedToCreateGroup": "فشل في أنشاء المجموعة. يرجى المحاولة مرة اخرى.",
 
+    "groupSettings": "إعدادات المجموعة",
+    "save": "حفظ",
+    "allowNewMembers": "السماح للأعضاء الجدد",
+    "onlyAdminsCanMessage": "المسؤولون فقط هم من يستطيعون إرسال الرسائل",
+    "leaveGroup": "مغادرة المجموعة",
+    "admin": "المسؤول",
+
     "p2pAds": "اعلانات P2P",
     "addNewP2PAd": "أضافة اعلان P2P جديد",
     "p2pRequests": "طلبات P2P",
@@ -288,8 +295,11 @@
     "chooseAUsername": "اختر اسم مستخدم",
     "displayName": "الاسم الكامل",
     "chooseADisplayName": "اختر اسم كامل",
-    "password": "الرمز السري",
-    "createAPassword": "انشأ رمز سري",
+    "password": "كلمة المرور",
+    "createAPassword": "انشأ كلمة مرور",
+
+    "userProfile": "ملف تعريف المستخدم",
+    "SendAMessage": "ارسل رسالة",
 
     "pleaseEnterAValidEmailAddress": "يرجى إدخال عنوان بريد إلكتروني صحيح.",
     "emailIsRequired": "البريد الإلكتروني مطلوب.",

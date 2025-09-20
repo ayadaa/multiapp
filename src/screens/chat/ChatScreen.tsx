@@ -56,7 +56,7 @@ export function ChatScreen() {
       otherUser: {
         uid: chat.otherUser.uid,
         email: chat.otherUser.email,
-        username: chat.otherUser?.username || i18n.t('unknownUser'),
+        username: chat.otherUser?.displayName || chat.otherUser?.username || i18n.t('unknownUser'),
         displayName: chat.otherUser.displayName,
         profilePicture: chat.otherUser.profilePicture,
         createdAt: chat.otherUser.createdAt,

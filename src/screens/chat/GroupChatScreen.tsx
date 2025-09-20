@@ -58,6 +58,10 @@ export default function GroupChatScreen() {
   // Find current group
   const currentGroup = groups.find(g => g.id === groupId);
 
+  const navigateToProfile = (uId: string) => {
+    navigation.navigate('UserProfile', { uId });
+  };
+
   const showBottomSheet = useCallback(() => {
     bottomSheetRef.current?.expand();
   }, []);
@@ -179,7 +183,13 @@ export default function GroupChatScreen() {
         isOwnMessage ? styles.ownMessageContainer : styles.otherMessageContainer
       ]}>
         {!isOwnMessage && (
-          <Text style={styles.senderName}>{senderName}</Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigateToProfile(item.senderId)
+            }}
+          >
+            <Text style={styles.senderName}>{senderName}</Text>
+          </TouchableOpacity>
         )}
         <MessageBubble
           message={{

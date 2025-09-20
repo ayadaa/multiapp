@@ -5,6 +5,8 @@ import type { AppStackParamList } from '../../types/navigation';
 import { P2PCreateRequestForm } from '../../components/forms/P2PCreateRequestForm';
 import { Screen } from '../../components/common/Screen2';
 import i18n from '../../language/i18n';
+import type { NavigationProp } from '../../types/navigation';
+import { UserProfile } from '../../services/firebase/firestore.service';
 
 type AdDetailsScreenRouteProp = RouteProp<AppStackParamList, 'P2PCreateRequest'>;
 
@@ -12,6 +14,20 @@ export default function P2PCreateRequestScreen() {
   const route = useRoute<AdDetailsScreenRouteProp>();
   // const navigation = useNavigation<AdDetailsScreenNavigationProp>();
   const ad = route.params;
+  const navigation = useNavigation<NavigationProp>();
+
+  // const navigateToProfile = () => {
+  //   navigation.navigate('UserProfile', { ad.uid });
+  // };
+
+  const navigateToProfile = (uId: string) => {
+    navigation.navigate('UserProfile', { uId });
+  };
+
+  // const navigateToProfile = (user: UserProfile) => {
+  //   navigation.navigate('UserProfile', user);
+  // };
+
   // const { user } = useAuth();
   // const {
   //   formatTimestamp
@@ -38,23 +54,29 @@ export default function P2PCreateRequestScreen() {
           // marginBottom: 24
         }}
       >
-        <View style={{
-          width: 50,
-          height: 50,
-          borderRadius: 25,
-          // backgroundColor: 'rgba(0, 200, 100, 0.8)',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginRight: 16,
-          overflow: "hidden",
-        }}>
-          {/* <Ionicons name="people" size={24} color="#FFFFFF" /> */}
-          <Image
-            source={{ uri: ad.profilePicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
-            style={styles.image}
-            resizeMode="cover"
-          />
-        </View>
+        <TouchableOpacity
+          onPress={() => {
+            navigateToProfile(ad.uid)
+          }}
+        >
+          <View style={{
+            width: 50,
+            height: 50,
+            borderRadius: 25,
+            // backgroundColor: 'rgba(0, 200, 100, 0.8)',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginRight: 16,
+            overflow: "hidden",
+          }}>
+            {/* <Ionicons name="people" size={24} color="#FFFFFF" /> */}
+            <Image
+              source={{ uri: ad.profilePicture || 'https://firebasestorage.googleapis.com/v0/b/snap-clone-2b5a1.firebasestorage.app/o/images%2F9k%3D?alt=media&token=bbd617c3-f983-44ce-b633-8562ae1cb9f0' }}
+              style={styles.image}
+              resizeMode="cover"
+            />
+          </View>
+        </TouchableOpacity>
 
         <View style={{ flex: 1 }}>
           <View style={{
@@ -63,16 +85,23 @@ export default function P2PCreateRequestScreen() {
             alignItems: 'center',
             marginBottom: 4,
           }}>
-            <Text style={{
-              color: '#000000',
-              fontSize: 16,
-              fontWeight: 'bold',
-            }}>
-              {/* {ad.creatorUsername} */}
-              {/* {ad.username} */}
-              {/* {ad.username}   {((ad.requests! - ad.completeRequests!) / ad.requests!) * 100} % */}
-              {ad.username}   {(Math.round(((ad.requests! - ad.approvedRequests!) / ad.requests!) * 100) / 100) * 100} %
-            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigateToProfile(ad.uid)
+              }}
+            >
+              <Text style={{
+                color: '#000000',
+                fontSize: 16,
+                fontWeight: 'bold',
+              }}>
+                {/* {ad.creatorUsername} */}
+                {/* {ad.username} */}
+                {/* {ad.username}   {((ad.requests! - ad.completeRequests!) / ad.requests!) * 100} % */}
+                {ad.username}   {(Math.round(((ad.requests! - ad.approvedRequests!) / ad.requests!) * 100) / 100) * 100} %
+              </Text>
+            </TouchableOpacity>
+
             <Text style={{
               color: 'rgba(0, 0, 0, 0.6)',
               fontSize: 12,

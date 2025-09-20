@@ -30,6 +30,7 @@ import { FriendsStackNavigator } from './FriendsStackNavigator';
 import SearchScreen from '../screens/search/SearchScreen';
 import { ProfileScreen } from '../screens/profile/ProfileScreen';
 import { UpdateProfileScreen } from '../screens/profile/UpdateProfileScreen';
+import { UserProfileScreen } from '../screens/profile/UserProfileScreen'
 import { ReferralScreen } from '../screens/referral/ReferralScreen';
 import i18n from '../language/i18n';
 
@@ -240,6 +241,18 @@ export default function AppStackNavigator() {
           presentation: 'modal',
           gestureEnabled: false,
           headerTitle: i18n.t('updateProfile'),
+        }}
+      />
+
+      {/* UserProfile */}
+      <Stack.Screen
+        name='UserProfile'
+        component={UserProfileScreen}
+        options={{
+          headerShown: false,
+          presentation: 'modal',
+          gestureEnabled: false,
+          headerTitle: i18n.t('userProfile'),
         }}
       />
 

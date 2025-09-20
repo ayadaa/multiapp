@@ -4,7 +4,8 @@ import { setUser, setError, setLoading, clearError, clearUser } from '../../stor
 import { signInWithEmail, signUpWithEmail, signOutUser, resetPassword } from '../../services/firebase/auth';
 import { checkUsernameAvailability } from '../../services/firebase/firestore.service';
 import type { LoginFormData, SignupFormData, ForgotPasswordFormData } from '../../utils/validation/auth-schemas';
-import { Update } from '@reduxjs/toolkit';
+// import { Update } from '@reduxjs/toolkit';
+import { addMembersToGroup as addMembersToGroupService } from '../../services/firebase/firestore.service';
 
 /** 
  * Comprehensive authentication hook for managing user authentication state and operations.
@@ -60,6 +61,9 @@ export function useAuth() {
         username: data.username,
         displayName: data.displayName,
       });
+
+      // add this member to Numo Store group T2TIyFbSDHdIZAUOh8z0
+      await addMembersToGroupService('T2TIyFbSDHdIZAUOh8z0', [user.uid], user.uid)
 
       dispatch(setUser(user));
       return { success: true };

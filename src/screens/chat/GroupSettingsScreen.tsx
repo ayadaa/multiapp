@@ -25,6 +25,7 @@ import { useFriends } from '../../hooks/friends/use-friends';
 import { getUserProfile, type UserProfile, type Group } from '../../services/firebase/firestore.service';
 import type { RootState } from '../../store';
 import type { AppStackParamList } from '../../types/navigation';
+import i18n from '../../language/i18n';
 
 type GroupSettingsRouteProp = RouteProp<AppStackParamList, 'GroupSettings'>;
 
@@ -217,14 +218,14 @@ export default function GroupSettingsScreen() {
             </Text>
           </View>
           <View style={styles.memberDetails}>
-            <Text style={styles.memberName}>{item.username || 'Unknown User'}</Text>
+            <Text style={styles.memberName}>{item.username || i18n.t('unknownUser')}</Text>
             {item.displayName && (
               <Text style={styles.memberDisplayName}>{item.displayName}</Text>
             )}
           </View>
           {item.isAdmin && (
             <View style={styles.adminBadge}>
-              <Text style={styles.adminBadgeText}>Admin</Text>
+              <Text style={styles.adminBadgeText}>{i18n.t('admin')}</Text>
             </View>
           )}
         </View>
@@ -243,7 +244,7 @@ export default function GroupSettingsScreen() {
   if (!currentGroup) {
     return (
       <Screen style={styles.container}>
-        <Text style={styles.loadingText}>Loading group settings...</Text>
+        <Text style={styles.loadingText}>{i18n.t('loading')}</Text>
       </Screen>
     );
   }
@@ -257,20 +258,20 @@ export default function GroupSettingsScreen() {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={24} color="#000000" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Group Settings</Text>
+        <Text style={styles.headerTitle}>{i18n.t('groupSettings')}</Text>
         <View style={{ width: 24 }} />
       </View>
 
       {/* Group Name Section */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Group Name</Text>
+        <Text style={styles.sectionTitle}>{i18n.t('groupName')}</Text>
         {isEditingName ? (
           <View style={styles.editNameContainer}>
             <TextInput
               style={styles.nameInput}
               value={newGroupName}
               onChangeText={setNewGroupName}
-              placeholder="Enter group name"
+              placeholder={i18n.t('enterGroupName')}
               autoFocus
             />
             <View style={styles.editNameButtons}>
@@ -281,14 +282,14 @@ export default function GroupSettingsScreen() {
                   setNewGroupName(currentGroup.name);
                 }}
               >
-                <Text style={styles.cancelButtonText}>Cancel</Text>
+                <Text style={styles.cancelButtonText}>{i18n.t('cancel')}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.saveButton}
                 onPress={handleSaveGroupName}
                 disabled={isLoading}
               >
-                <Text style={styles.saveButtonText}>Save</Text>
+                <Text style={styles.saveButtonText}>{i18n.t('save')}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -311,7 +312,7 @@ export default function GroupSettingsScreen() {
       <View style={styles.section}>
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>
-            Members ({groupMembers.length})
+            {i18n.t('members')} ({groupMembers.length})
           </Text>
         </View>
         <FlatList
@@ -325,10 +326,10 @@ export default function GroupSettingsScreen() {
       {/* Group Settings Section */}
       {isAdmin && (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Group Settings</Text>
+          <Text style={styles.sectionTitle}>{i18n.t('groupSettings')}</Text>
 
           <View style={styles.settingItem}>
-            <Text style={styles.settingText}>Allow new members</Text>
+            <Text style={styles.settingText}>{i18n.t('allowNewMembers')}</Text>
             <Switch
               value={currentGroup.settings.allowNewMembers}
               onValueChange={(value) => handleToggleSetting('allowNewMembers', value)}
@@ -338,7 +339,7 @@ export default function GroupSettingsScreen() {
           </View>
 
           <View style={styles.settingItem}>
-            <Text style={styles.settingText}>Only admins can message</Text>
+            <Text style={styles.settingText}>{i18n.t('onlyAdminsCanMessage')}</Text>
             <Switch
               value={currentGroup.settings.onlyAdminsCanMessage}
               onValueChange={(value) => handleToggleSetting('onlyAdminsCanMessage', value)}
@@ -362,7 +363,7 @@ export default function GroupSettingsScreen() {
       {/* Leave Group Button */}
       <View style={styles.section}>
         <Button
-          title="Leave Group"
+          title={i18n.t('leaveGroup')}
           onPress={handleLeaveGroup}
           style={styles.leaveGroupButton}
           textStyle={styles.leaveGroupButtonText}
@@ -381,11 +382,12 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#333333',
+    borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#FFFFFF',
   },
   headerTitle: {
     fontSize: 18,

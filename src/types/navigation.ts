@@ -81,6 +81,7 @@ export type AppStackParamList = {
   Friends: undefined;
   Profile: undefined;
   UpdateProfile: UserProfile;
+  UserProfile: { uId: string };
   Referral: undefined;
   IncomingCall: { caller: UserProfile, callType: string };
   Call: {

@@ -202,10 +202,10 @@ export function WalletScreen() {
 
         </View>
         {/* Transactions View */}
-        <View style={styles.transactionsContainer}>
+        {transactions.length > 0 && <View style={styles.transactionsContainer}>
           <View>
             <Text>{i18n.t('transactions')}: </Text>
-            {transactions.length > 0 && <View style={{ marginTop: 3 }}> {transactions.map((transaction) => (
+            <View style={{ marginTop: 3 }}> {transactions.map((transaction) => (
               <View
                 key={transaction.id}
                 style={styles.transactionItem}
@@ -249,12 +249,12 @@ export function WalletScreen() {
                   </View>
                 </View>
               </View>
-            ))}</View>}
+            ))}</View>
           </View>
           {isLoadingTransactions && <View>
             <Text>{i18n.t('loadingTransactions')}</Text>
           </View>}
-        </View>
+        </View>}
       </ScrollView>
       <FloatingAction
         actions={actions}
